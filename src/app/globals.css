@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+
+@layer utilities {
+  .main-section {
+    @apply min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center text-white px-4 ;
+    background-image: url("/Images/gettingStarted/background.png");
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Rajdhani", sans-serif;
+}
+
+  /*.main-section {*/
+
+  /*  background: url('public/Images/gettingStarted/background.png') no-repeat center;*/
+  /*}*/
+
+.custom-clip-path {
+  width: 958px;
+  height: 552px;
+  overflow: hidden;
+  clip-path: polygon(
+          2% 8%, 2% 85%, 10% 98%, 96% 98%, 98% 95%, 98% 18%, 90% 3%, 4% 3%, 2% 8%
+  );
+}
+
+
+.shadow-glow {
+  box-shadow: 0 0 10px 2px rgba(255,255,255,1);
+}
+
+.text-color {
+  color : rgba(255, 255, 255, 1);
+}
+
+
+
