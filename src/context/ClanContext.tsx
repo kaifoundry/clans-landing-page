@@ -2,27 +2,18 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
-interface CardData {
-  image: string;
-  hoverImage: string;
-  title: string;
-  description: string;
-  glowColor: string;
-  cardImage: string;
-}
-
 interface ClanContextType {
-  selectedCard: CardData | null;
-  setSelectedCard: (card: CardData) => void;
+  selectedCardId: number | null;
+  setSelectedCardId: (id: number) => void;
 }
 
 const ClanContext = createContext<ClanContextType | undefined>(undefined);
 
 export const ClanProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
   return (
-    <ClanContext.Provider value={{ selectedCard, setSelectedCard }}>
+    <ClanContext.Provider value={{ selectedCardId, setSelectedCardId }}>
       {children}
     </ClanContext.Provider>
   );
