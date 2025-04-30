@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "@/lib/firebase"; // Ensure firebase auth/db is correctly imported
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useRouter, useSearchParams } from "next/navigation"; // Correctly imported useSearchParams
+import { useRouter } from "next/navigation";
 
 const provider = new TwitterAuthProvider();
 
@@ -18,17 +18,10 @@ export default function MobileMainPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // State to manage loading
   const router = useRouter();
-  const searchParams = useSearchParams(); // Using useSearchParams to read query params
 
   const [redirectTo, setRedirectTo] = useState<string | null>("/startRoaring");
 
   // Update redirectTo based on query params
-  useEffect(() => {
-    const redirectParam = searchParams.get("redirect");
-    if (redirectParam) {
-      setRedirectTo(redirectParam);
-    }
-  }, [searchParams]);
 
   // Login function with Twitter
   async function loginWithTwitter() {

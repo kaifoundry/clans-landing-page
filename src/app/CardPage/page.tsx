@@ -1,12 +1,13 @@
 "use client";
 
-import { useSearchParams } from "next/navigation"; // Import from next/navigation
 import Button from "@/components/Button";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useClan } from "@/context/ClanContext";
 
 export default function CardPage() {
-  const searchParams = useSearchParams(); // Use searchParams to access query parameters
+  const { selectedCardId } = useClan();
+
   const [card, setCard] = useState<null | {
     id: number;
     title: string;
@@ -20,7 +21,7 @@ export default function CardPage() {
     title: string;
     description: string;
     image: string;
-    glowColor: string; // Add glowColor to the type
+    glowColor: string;
   };
 
   // Card data array (this should come from context or a global state)
@@ -55,16 +56,27 @@ export default function CardPage() {
     },
   ];
   // Effect to load the correct card based on the query parameter
-  useEffect(() => {
-    const selectedCardId = searchParams.get("selectedCardId"); // Extract the selectedCardId from the URL
+  // useEffect(() => {
+  //   console.log(selectedCardId)
+  //   const selectedCardId = searchParams.get("selectedCardId"); // Extract the selectedCardId from the URL
 
-    if (selectedCardId) {
-      const selectedCard = cardData.find(
-        (card) => card.id === parseInt(selectedCardId)
-      );
-      setCard(selectedCard || null); // Set the selected card details or null if not found
+  //   if (selectedCardId) {
+  //     const selectedCard = cardData.find(
+  //       (card) => card.id === parseInt(selectedCardId)
+  //     );
+  //     setCard(selectedCard || null); // Set the selected card details or null if not found
+  //   }
+  // }, [searchParams]); // Ensure the effect runs when searchParams change
+
+  useEffect(() => {
+    console.log(selectedCardId);
+    if (selectedCardId !== null) {
+      const card = cardData.find((card) => card.id === selectedCardId);
+      if (card) {
+        setCard(card);
+      }
     }
-  }, [searchParams]); // Ensure the effect runs when searchParams change
+  }, [selectedCardId]);
 
   if (!card) return <div>Loading...</div>; // Handle the case when card is not found
 

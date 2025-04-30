@@ -10,6 +10,7 @@ import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
 
 const SelectClan = () => {
+  //Dynamic Button Code
   const buttonSizeBreakpoints = [
     { breakpoint: 1536, size: { width: 280, height: 55 } },
     { breakpoint: 1280, size: { width: 300, height: 50 } },
@@ -18,9 +19,7 @@ const SelectClan = () => {
     { breakpoint: 640, size: { width: 180, height: 35 } },
     { breakpoint: 0, size: { width: 150, height: 30 } },
   ];
-
   const [buttonSize, setButtonSize] = useState({ width: 150, height: 30 });
-
   const calculateButtonSize = () => {
     if (typeof window === "undefined") return;
     const width = window.innerWidth;
@@ -32,7 +31,6 @@ const SelectClan = () => {
     }
     setButtonSize(buttonSizeBreakpoints[buttonSizeBreakpoints.length - 1].size);
   };
-
   useEffect(() => {
     calculateButtonSize();
     const debouncedCalculateSize = debounce(calculateButtonSize, 100);
@@ -43,6 +41,7 @@ const SelectClan = () => {
     };
   }, []);
 
+  //card Data
   const cardData = [
     {
       id: 1,
@@ -88,7 +87,7 @@ const SelectClan = () => {
   const [displayedTitle, setDisplayedTitle] = useState<string>("");
   const [displayedDescription, setDisplayedDescription] = useState<string>("");
 
-  const { selectedCardId } = useClan();
+  const { selectedCardId, setSelectedCardId } = useClan();
 
   const [selectedCard, setSelectedCard] = useState<null | (typeof cardData)[0]>(
     null
@@ -105,6 +104,11 @@ const SelectClan = () => {
       }
     }
   }, [selectedCardId]);
+
+  const handleSelectId = (id: number) => {
+    setSelectedCardId(id);
+    console.log(id);
+  };
 
   return (
     <section className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen">
@@ -202,12 +206,13 @@ const SelectClan = () => {
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
-                <Link href={`/CardPage?selectedCardId=${card.id}`}>
+                <Link href={`/CardPage`}>
                   <Button
                     ButtonText="Join Clan" // This is static, but you can make it dynamic if needed
                     width={buttonSize.width}
                     height={buttonSize.height}
                     className="md:text-[10px] lg:text-[16px]"
+                    onClick={() => handleSelectId(card.id)}
                   />
                 </Link>
               </div>

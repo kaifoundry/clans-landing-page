@@ -6,7 +6,7 @@ import Button from "./Button"; // Assuming your Button Component
 import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useRouter, useSearchParams } from "next/navigation"; // Correctly imported useSearchParams
+import { useRouter } from "next/navigation";
 
 const provider = new TwitterAuthProvider();
 
@@ -14,17 +14,6 @@ const MainPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // State to manage loading
   const router = useRouter();
-  const searchParams = useSearchParams(); // Using useSearchParams to read query params
-
-  const [redirectTo, setRedirectTo] = useState<string | null>("/startRoaring");
-
-  // Update redirectTo based on query params
-  useEffect(() => {
-    const redirectParam = searchParams.get("redirect");
-    if (redirectParam) {
-      setRedirectTo(redirectParam);
-    }
-  }, [searchParams]);
 
   // Login function with Twitter
   // Inside your loginWithTwitter function:
@@ -66,7 +55,7 @@ const MainPage = () => {
           console.log("User already exists in Firestore");
         }
 
-        router.push(redirectTo || "/startRoaring");
+        router.push("/startRoaring");
       }
     } catch (error) {
       console.error("Twitter login error:", error);
