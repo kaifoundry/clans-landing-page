@@ -32,7 +32,7 @@ const Card = ({
     >
       {/* Card Container */}
       <div
-        className="relative lg:h-[480px] lg:w-[268px] md:h-[300px] md:w-[200px] h-[280px] w-[158px]"
+        className="relative xl:h-[480px] xl:w-[268px]  lg:h-[400px] lg:w-[220px] md:h-[300px] md:w-[200px] h-[280px] w-[158px]"
         style={{
           transition: "border 0.3s ease, box-shadow 0.3s ease",
         }}
@@ -42,39 +42,41 @@ const Card = ({
           className="absolute inset-0"
           style={{
             clipPath: clipPathStyle,
-            backgroundColor: isHovered ? glowColor : "transparent", // Dynamically set background color
+            backgroundColor: isHovered ? glowColor : "white", // Dynamically set background color
             transition: "background-color 0.3s ease", // Smooth transition for background color
             boxShadow: isHovered ? `0 0 10px ${glowColor}` : "none", // Glow effect on hover
           }}
         />
 
-        {/* Image Layer */}
-        <div
-          className="absolute inset-[4px]"
-          style={{ clipPath: clipPathStyle }}
-        >
-          {/* Default Image */}
+        <div className="">
           <div
-            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-700 ease-in-out ${
-              isHovered ? "opacity-0" : "opacity-100"
-            }`}
-            style={{ backgroundImage: `url(${image})` }}
-          />
-          {/* Hover Image */}
-          {hoverImage && (
+            className="absolute inset-[3px]"
+            style={{ clipPath: clipPathStyle }}
+          >
+            {/* Default Image */}
             <div
-              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-700 ease-in-out ${
-                isHovered ? "opacity-100" : "opacity-0"
+              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-700 ease-in-out${
+                isHovered ? "opacity-0" : "opacity-100"
               }`}
-              style={{ backgroundImage: `url(${hoverImage})` }}
+              style={{ backgroundImage: `url(${image})` }}
             />
-          )}
+            {/* Hover Image */}
+            {hoverImage && (
+              <div
+                className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-700 ease-in-out ${
+                  isHovered ? "opacity-100" : "opacity-0"
+                }`}
+                style={{ backgroundImage: `url(${hoverImage})` }}
+              />
+            )}
+          </div>
         </div>
+        {/* Image Layer */}
       </div>
 
       {/* Title Below Card */}
       <h3
-        className="text-lg font-bold text-white text-center"
+        className="text-lg font-bold text-white text-center "
         style={{
           textShadow:
             "0 0 5px rgba(255,255,255,0.8), 0 0 10px rgba(255,255,255,0.8), 0 0 15px rgba(255,255,255,1)",

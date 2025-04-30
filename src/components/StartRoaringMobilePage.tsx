@@ -5,35 +5,29 @@ import Link from "next/link";
 
 const StartRoaringPage = () => {
   return (
-    <section className="relative w-screen h-screen overflow-hidden p-4 main-section">
+    <section className="relative w-screen h-screen overflow-hidden px-4 pt-16 pb-10  main-section">
       {/* Background Images */}
       <Image
-        src="/Images/startRoaring/Avtar2.png"
+        src="/Images/startRoaring/MobileAvtar1.png"
         alt="Avtar 2"
-        width={500}
+        width={400}
         height={400}
         objectFit="cover"
-        className="absolute left-[-120] top-20 w-[500px] h-full z-0" // optional opacity
+        className="absolute left-0 top-24 w-[400px] h-full z-0" // optional opacity
       />
       <Image
         src="/Images/startRoaring/Avtar3.png"
         alt="Avtar 3"
-        width={400}
-        height={400}
+        width={300}
+        height={300}
         objectFit="cover"
-        className="absolute right-0 top-20 w-[300px] h-full z-1" // optional opacity
+        className="absolute right-0 top-20 w-[300px] h-full  z-1" // optional opacity
       />
 
-      <h1 className="text-3xl text-center font-bold text-white absolute top-5">
-        Introducing
-        <br />
-        Roar Points
-      </h1>
-
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center gap-16 mt-50">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen gap-32 h-dvh">
         {/* Center Card */}
-        <div className="drop-shadow-[10px_10px_5px_rgba(255,255,255,1)] flex items-center justify-center">
+        {/* <div className="drop-shadow-[10px_10px_5px_rgba(255,255,255,1)] flex items-center justify-center">
           <div
             className="px-10 py-8 rounded relative bg-gradient-to-br from-black via-black/80 to-transparent w-[328px] h-[380px] flex flex-col gap-6"
             style={{
@@ -59,11 +53,33 @@ const StartRoaringPage = () => {
               Which clan will you fight for?
             </p>
           </div>
-        </div>
+        </div> */}
 
-        <Link href="/introducingClans" prefetch>
-          <Button />
-        </Link>
+        <h1 className="text-3xl text-center font-bold text-white leading-tight">
+          Introducing
+          <br />
+          Roar Points
+        </h1>
+
+        <div className="flex flex-col items-center gap-6 w-full max-w-xs">
+          <Image
+            src="/Images/startRoaring/MobileCard.png"
+            width={300}
+            height={380}
+            alt="mobilecard"
+            className="w-full h-auto"
+            priority
+          />
+
+          <Link href="/introducingClans" prefetch>
+            <Button
+              width={328}
+              height={60}
+              ButtonText="Get Started"
+              className="font-semibold w-full"
+            />
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -35,8 +35,8 @@ export default function Button({
         >
           <path
             d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-            className="fill-[#0E0E17] group-hover:fill-pink-500 opacity-50"
-            fillOpacity="0.8"
+            className="fill-[#000000] group-hover:fill-pink-500/20 opacity-75"
+            fillOpacity="1"
           />
           <path
             d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"

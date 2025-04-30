@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useClan } from "@/context/ClanContext";
 import { debounce } from "lodash";
-import { useRouter } from "next/navigation";
 
 const SelectClan = () => {
   //Dynamic Button Code
@@ -110,6 +109,8 @@ const SelectClan = () => {
     console.log(id);
   };
 
+  let clickTimeout: NodeJS.Timeout;
+
   return (
     <section className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen">
       <div className="flex 2xl:gap-x-12 md:gap-x-4 flex-col gap-20 px-8 py-20 flex-grow mx-auto w-full max-w-screen-2xl">
@@ -125,10 +126,10 @@ const SelectClan = () => {
           </p>
         </div>
 
-        <div className="flex gap-12 items-center w-3/4 mx-0">
+        <div className="flex gap-12 items-center w-3/4 mx-0 lg:flex-col-4 md:flex-col-2">
           {cardData.map((card, index) => (
             <div
-              key={index}
+              key={card.id}
               onClick={() => {
                 setActiveIndex(index);
                 setAvatarImage(card.hoverImage);
@@ -206,13 +207,15 @@ const SelectClan = () => {
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
-                <Link href={`/CardPage`}>
+                <Link
+                  href={`/CardPage`}
+                  onClick={() => handleSelectId(card.id)}
+                >
                   <Button
                     ButtonText="Join Clan" // This is static, but you can make it dynamic if needed
                     width={buttonSize.width}
                     height={buttonSize.height}
                     className="md:text-[10px] lg:text-[16px]"
-                    onClick={() => handleSelectId(card.id)}
                   />
                 </Link>
               </div>
@@ -221,19 +224,15 @@ const SelectClan = () => {
         </div>
 
         {avatarImage && (
-          <Image
-            src={avatarImage}
-            height={500}
-            width={400}
-            className="absolute bottom-0 transition-all duration-500 ease-in-out right-0
-               h-[200px] w-[160px]
-               sm:h-[250px] sm:w-[200px]
-               md:h-[600px] md:w-[340px]
-               lg:h-[700px] lg:w-[400px]
-               xl:h-[750px] xl:w-[420px]
-               2xl:h-[800px] 2xl:w-[500px]"
-            alt="Clan avatar"
-          />
+          <div className="absolute bottom-0 ease-in-out right-0">
+            <Image
+              src={avatarImage}
+              height={385}
+              width={385}
+              className="object-contain transition-all duration-500 ease-in-out"
+              alt="Clan avatar"
+            />
+          </div>
         )}
       </div>
     </section>

@@ -114,7 +114,7 @@ export default function CardPage() {
           <span className="text-purple-500">Clans Roarer!</span>
         </h1>
         <div
-          className="rounded-xl opacity-70 backdrop-blur-2xl 2xl:w-[1300px] xl:h-[542px] xl:w-[1200px] md:w-[700px] h-[400px] w-[400px] relative"
+          className="rounded-xl opacity-70 backdrop-blur-2xl 2xl:w-[1 xl:h-[542px] xl:w-[1200px] md:w-[700px] h-[400px] w-[400px] relative"
           style={{
             backgroundColor: card.glowColor,
           }}

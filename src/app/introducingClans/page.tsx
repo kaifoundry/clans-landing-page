@@ -1,7 +1,6 @@
 "use client";
 
 import Card from "@/components/Card";
-import Link from "next/link";
 import { useClan } from "@/context/ClanContext";
 import { useRouter } from "next/navigation";
 
@@ -49,8 +48,9 @@ const IntroducingClans = () => {
   ];
 
   return (
-    <section className="relative main-section flex flex-col items-center gap-5  px-5 overflow-hidden ">
-      <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mt-10 ">
+    <section className="relative main-section flex flex-col items-center gap-5 px-8 py-8 overflow-hidden ">
+      <div></div>
+      <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold ">
         Introducing Clans
       </h1>
       <p className="text-center">
@@ -58,10 +58,10 @@ const IntroducingClans = () => {
         <br />
         Now, they return — and they want you.
       </p>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 overflow-hidden">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-12 ">
         {cardData.map((card, index) => (
           <div
-            key={index}
+            key={card.id}
             onClick={() => {
               setSelectedCardId(card.id);
               router.push("/selectClan");
@@ -83,6 +83,8 @@ const IntroducingClans = () => {
         Choose your
         <span className="text-pink-600">&#34;CLAN&#34;</span>
       </p>
+
+      <div />
     </section>
   );
 };
