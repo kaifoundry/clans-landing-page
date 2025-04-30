@@ -79,7 +79,7 @@ const IntroducingClans = () => {
         ))}
       </div>
 
-      <p>
+      <p className="my-10">
         Choose your
         <span className="text-pink-600">&#34;CLAN&#34;</span>
       </p>

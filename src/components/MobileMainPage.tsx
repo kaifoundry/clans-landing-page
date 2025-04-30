@@ -108,15 +108,52 @@ export default function MobileMainPage() {
               width={500} // Adjust width/height as needed, ensure consistent aspect ratio
               height={550}
               alt="avtar1"
-              className="z-1 absolute bottom-0 w-[300px] h-[550px] object-contain" // Added object-contain for better image scaling
+              className="z-1 absolute bottom-0 w-[300px] h-[400px] object-cover" // Added object-contain for better image scaling
             />
             <div className="mx-auto z-10 absolute bottom-10 w-full flex items-center justify-center">
               {/* Removed Link wrapper */}
-              <Button
+              {/* <Button
                 ButtonText="Start Now"
                 className="text-xl"
-                onClick={openModal} // Only open modal on click
-              />
+                onClick={openModal}
+              /> */}
+                               <button
+  onClick={openModal}
+  className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white"
+>
+  <div
+    className="relative w-[160px] h-[45px] sm:w-[200px] sm:h-[55px] md:w-[240px] md:h-[65px] lg:w-[280px] lg:h-[75px] xl:w-[307px] xl:h-[80px]"
+  >
+    {/* Inline SVG */}
+    <svg
+      viewBox="0 0 309 81"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="absolute top-0 left-0 w-full h-full transition-colors duration-300"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <path
+        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
+        className="fill-[#0E0E17] group-hover:fill-pink-500 opacity-50"
+        fillOpacity="0.8"
+      />
+      <path
+        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
+        stroke="white"
+        strokeOpacity="0.24"
+        strokeWidth="2"
+      />
+    </svg>
+
+    {/* Button text */}
+    <span
+      className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 
+                 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium"
+    >
+    Start Now
+    </span>
+  </div>
+</button>
             </div>
 
             <Image
@@ -124,7 +161,7 @@ export default function MobileMainPage() {
               width={400} // Adjust width/height as needed, ensure consistent aspect ratio
               height={600}
               alt="avtar2"
-              className="absolute right-2 h-[600px] w-[250px] bottom-0 object-contain" // Added object-contain
+              className="absolute right-2 h-[400px] w-[250px] bottom-0 object-contain" // Added object-contain
             />
           </div>
         </div>
