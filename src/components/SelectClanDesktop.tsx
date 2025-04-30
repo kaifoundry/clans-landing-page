@@ -113,14 +113,14 @@ const SelectClan = () => {
   return (
     <section className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen">
       <div className="flex 2xl:gap-x-12 md:gap-x-4 flex-col gap-20 px-8 py-20 flex-grow mx-auto w-full max-w-screen-2xl">
-        <div>
+        <div className="text-white">
           <div className="flex gap-x-2 items-center">
             <div className="h-10 w-2 bg-purple-800"></div>
-            <h2 className="lg:text-4xl md:text-2xl font-bold">
+            <h2 className="lg:text-4xl md:text-2xl font-bold text-white">
               {displayedTitle}
             </h2>
           </div>
-          <p className="lg:text-3xl md:text-xl my-2">
+          <p className="lg:text-3xl md:text-xl my-2 text-white">
             “{displayedDescription}”
           </p>
         </div>

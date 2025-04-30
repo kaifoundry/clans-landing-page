@@ -93,7 +93,7 @@ export default function MobileMainPage() {
             playsInline
             className="absolute top-0 left-0 w-full h-full object-cover z-0 backdrop-blur-2xl bg-white/30 "
           >
-            <source src="/Videos/Main.mp4" type="video/mp4" />
+            <source src="/videos/Main.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>

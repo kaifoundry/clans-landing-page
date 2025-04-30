@@ -23,11 +23,11 @@ const JoinWaitlist = () => {
         />
       </div>
 
-      <h1 className="md:text-5xl text-3xl font-bold">
+      <h1 className="md:text-5xl text-3xl font-bold text-white">
         Early Roarers get the edge!
       </h1>
 
-      <p className="text-center">
+      <p className="text-center text-white">
         Get early access, exclusive rewards, and bragging rights.
         <br />
         The battle for the timeline starts soon

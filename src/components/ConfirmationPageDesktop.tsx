@@ -70,7 +70,7 @@ const ConfirmationPage = () => {
             className="w-6 sm:w-8"
           />
           <Image
-            src="/Images/confirmationPage/Exclude.png"
+            src="/Images/confirmationPage/whatsapp.png"
             alt="Whatsapp"
             width={32}
             height={32}
@@ -97,7 +97,7 @@ const ConfirmationPage = () => {
 
       {/* Bottom Right Avatar */}
       <Image
-        src="/Images/gettingStarted/avtar2.png"
+        src="/Images/gettingStarted/avtar2_.png"
         width={500}
         height={500}
         alt="Avatar Right"
