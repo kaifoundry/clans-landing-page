@@ -5,27 +5,35 @@ const IntroducingClans = () => {
   const cardData = [
     {
       image: "/Images/introducingClans/card_1.png",
+      hoverImage: "Images/introducingClans/hover1.jpg",
       title: "Clan McBuilder",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      glowColor: "red", // Glow color for this card
     },
     {
       image: "/Images/introducingClans/card_2.png",
+      hoverImage: "Images/introducingClans/hover2.png",
       title: "McHODLer",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      glowColor: "violet", // Glow color for this card
     },
     {
       image: "/Images/introducingClans/card_3.png",
+      hoverImage: "Images/introducingClans/hover3.png",
       title: "Clan McDegen",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      glowColor: "green", // Glow color for this card
     },
     {
       image: "/Images/introducingClans/card_4.png",
+      hoverImage: "Images/introducingClans/hover4.png",
       title: "Clan McPrivacy",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      glowColor: "blue", // Glow color for this card
     },
   ];
 
@@ -46,6 +54,8 @@ const IntroducingClans = () => {
             image={card.image}
             title={card.title}
             description={card.description}
+            hoverImage={card.hoverImage}
+            glowColor={card.glowColor}
           />
         ))}
       </div>

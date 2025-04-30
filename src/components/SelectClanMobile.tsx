@@ -6,27 +6,31 @@ const selectClan = () => {
   const cardData = [
     {
       image: "/Images/introducingClans/card_1.png",
+      hoverImage: "/Images/selectClan/hover1.jpg",
       title: "Clan McBuilder",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      description: "We create the future with passion and code.",
+      glowColor: "rgba(255, 0, 0, 0.8)", // 🔴 Red
     },
     {
       image: "/Images/introducingClans/card_2.png",
+      hoverImage: "/Images/selectClan/hover2.png",
       title: "McHODLer",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      description: "Diamond hands forever.",
+      glowColor: "rgba(138, 43, 226, 0.8)", // 🟣 Violet
     },
     {
       image: "/Images/introducingClans/card_3.png",
+      hoverImage: "/Images/selectClan/hover3.png",
       title: "Clan McDegen",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      description: "Risk is our middle name.",
+      glowColor: "rgba(0, 255, 0, 0.8)", // 🟢 Green
     },
     {
       image: "/Images/introducingClans/card_4.png",
+      hoverImage: "/Images/selectClan/hover4.png",
       title: "Clan McPrivacy",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      description: "Privacy is our birthright.",
+      glowColor: "rgba(0, 0, 255, 0.8)", // 🔵 Blue
     },
   ];
 

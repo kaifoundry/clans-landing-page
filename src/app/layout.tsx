@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MusicPlayer from "@/components/MusicPlayer";
 import { Rajdhani } from "next/font/google";
+import { ClanProvider } from "@/context/ClanContext";
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -35,7 +36,7 @@ export default function RootLayout({
       <body className={`{rajdhani.variable}  antialiased `}>
         <MusicPlayer />
         <div className="container max-w-[1920px] overflow-x-hidden mx-auto">
-          {children}
+          <ClanProvider>{children}</ClanProvider>
         </div>
       </body>
     </html>

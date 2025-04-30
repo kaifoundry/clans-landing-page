@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import StartRoaringDesktop from "@/components/startRoaringDesktop";
 import StartRoaringMobilePage from "@/components/StartRoaringMobilePage";
 
-export default function StartRoaring() {
+function StartRoaring() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -21,3 +21,5 @@ export default function StartRoaring() {
 
   return isMobile ? <StartRoaringMobilePage /> : <StartRoaringDesktop />;
 }
+
+export default StartRoaring;

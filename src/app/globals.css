@@ -3,7 +3,7 @@
 
 @layer utilities {
   .main-section {
-    @apply min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center text-white px-4 ;
+    @apply bg-cover bg-center bg-no-repeat flex items-center justify-center text-white px-4 min-h-screen;
     background-image: url("/Images/gettingStarted/background.png");
   }
 }
@@ -32,10 +32,9 @@ body {
   font-family: "Rajdhani", sans-serif;
 }
 
-  /*.main-section {*/
+  /* .main-section {
 
-  /*  background: url('public/Images/gettingStarted/background.png') no-repeat center;*/
-  /*}*/
+    background: url('public/Images/gettingStarted/background.png') no-repeat center;} */
 
 .custom-clip-path {
   width: 958px;
