@@ -52,6 +52,6 @@ async function getClanById(id: string) {
   return {
     name: "Clan McHODLer",
     description: "Diamond hands forever. Join the resistance.",
-    image: `https://yourdomain.com/images/clan-${id}.jpg`,
+    image: `https://yourdomain.com/Images/gettingStarted.`,
   };
 }
