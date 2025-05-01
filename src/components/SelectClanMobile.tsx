@@ -114,7 +114,7 @@ const SelectClan = () => {
                 }
               }}
               className={clsx(
-                "relative h-[130px] w-[75px] cursor-pointer",
+                "relative h-[130px] w-[70px] cursor-pointer",
                 activeIndex === index ? "scale-105" : "scale-100"
               )}
               style={{
@@ -167,7 +167,44 @@ const SelectClan = () => {
         <div className="w-full flex items-center justify-center z-1 mt-20">
           {selectedCard && (
             <Link href={`/CardPage?selectedCardId=${selectedCard.id}`}>
-              <Button ButtonText="Join Clan" width={250} height={50} />
+              {/* <Button ButtonText="Join Clan" width={250} height={50} /> */}
+              <button
+  
+  className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white"
+>
+  <div
+    className="relative w-[160px] h-[45px] sm:w-[200px] sm:h-[55px] md:w-[240px] md:h-[65px] lg:w-[280px] lg:h-[75px] xl:w-[307px] xl:h-[80px]"
+  >
+    {/* Inline SVG */}
+    <svg
+      viewBox="0 0 309 81"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="absolute top-0 left-0 w-full h-full transition-colors duration-300"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <path
+        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
+        className="fill-[#0E0E17] group-hover:fill-pink-500 opacity-50"
+        fillOpacity="0.8"
+      />
+      <path
+        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
+        stroke="white"
+        strokeOpacity="0.24"
+        strokeWidth="2"
+      />
+    </svg>
+
+    {/* Button text */}
+    <span
+      className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 
+                 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium"
+    >
+ Join Clan
+    </span>
+  </div>
+</button>
             </Link>
           )}
         </div>
@@ -176,8 +213,8 @@ const SelectClan = () => {
       {avatarImage && (
         <Image
           src={avatarImage}
-          height={280}
-          width={220}
+          height={100}
+          width={180}
           alt="bgAvatar"
           className="absolute bottom-0 right-0"
         />
@@ -186,4 +223,4 @@ const SelectClan = () => {
   );
 };
 
-export default SelectClan;
+export default SelectClan;
