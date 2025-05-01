@@ -8,39 +8,9 @@ import clsx from "clsx";
 import { useClan } from "@/context/ClanContext";
 import { debounce } from "lodash";
 import { gsap } from "gsap";
+import { joinClan } from "@/lib/api";
 
 const SelectClan = () => {
-  //Dynamic Button Code
-  const buttonSizeBreakpoints = [
-    { breakpoint: 1536, size: { width: 280, height: 55 } },
-    { breakpoint: 1280, size: { width: 300, height: 50 } },
-    { breakpoint: 1024, size: { width: 220, height: 45 } },
-    { breakpoint: 768, size: { width: 100, height: 40 } },
-    { breakpoint: 640, size: { width: 180, height: 35 } },
-    { breakpoint: 0, size: { width: 150, height: 30 } },
-  ];
-  const [buttonSize, setButtonSize] = useState({ width: 150, height: 30 });
-  const calculateButtonSize = () => {
-    if (typeof window === "undefined") return;
-    const width = window.innerWidth;
-    for (const bp of buttonSizeBreakpoints) {
-      if (width >= bp.breakpoint) {
-        setButtonSize(bp.size);
-        return;
-      }
-    }
-    setButtonSize(buttonSizeBreakpoints[buttonSizeBreakpoints.length - 1].size);
-  };
-  useEffect(() => {
-    calculateButtonSize();
-    const debouncedCalculateSize = debounce(calculateButtonSize, 100);
-    window.addEventListener("resize", debouncedCalculateSize);
-    return () => {
-      debouncedCalculateSize.cancel();
-      window.removeEventListener("resize", debouncedCalculateSize);
-    };
-  }, []);
-
   //card Data
   const cardData = [
     {
@@ -81,6 +51,16 @@ const SelectClan = () => {
     },
   ];
 
+  //Dynamic Button Code
+  const buttonSizeBreakpoints = [
+    { breakpoint: 1536, size: { width: 280, height: 55 } },
+    { breakpoint: 1280, size: { width: 300, height: 50 } },
+    { breakpoint: 1024, size: { width: 220, height: 45 } },
+    { breakpoint: 768, size: { width: 100, height: 40 } },
+    { breakpoint: 640, size: { width: 180, height: 35 } },
+    { breakpoint: 0, size: { width: 150, height: 30 } },
+  ];
+
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [avatarImage, setAvatarImage] = useState<string>("");
@@ -95,6 +75,33 @@ const SelectClan = () => {
 
   const sideImageRef = useRef<HTMLDivElement | null>(null);
 
+  // State to manage clans data, loading state, and errors using API
+  const [clans, setClans] = useState([]); // To store all clans
+  const [loading, setLoading] = useState(true); // For loading state
+  const [error, setError] = useState<string | null>(null); // Error management
+
+  const [buttonSize, setButtonSize] = useState({ width: 150, height: 30 });
+  // ✅ Fetch clans on component mount
+  useEffect(() => {
+    getAllClans();
+  }, []);
+
+  useEffect(() => {
+    if (clans && clans.length > 0) {
+      console.log("🔥 Current Clans State:", clans);
+    }
+  }, [clans]);
+
+  useEffect(() => {
+    calculateButtonSize();
+    const debouncedCalculateSize = debounce(calculateButtonSize, 100);
+    window.addEventListener("resize", debouncedCalculateSize);
+    return () => {
+      debouncedCalculateSize.cancel();
+      window.removeEventListener("resize", debouncedCalculateSize);
+    };
+  }, []);
+
   useEffect(() => {
     if (selectedCardId !== null) {
       const card = cardData.find((card) => card.id === selectedCardId);
@@ -107,18 +114,102 @@ const SelectClan = () => {
     }
   }, [selectedCardId]);
 
-  useEffect(() => {
-    // Slide in animation for the side image when the component loads
-    gsap.fromTo(
-      sideImageRef.current,
-      { x: "100%" },
-      { x: 0, duration: 1, ease: "power3.out" }
-    );
-  }, []);
+  const calculateButtonSize = () => {
+    if (typeof window === "undefined") return;
+    const width = window.innerWidth;
+    for (const bp of buttonSizeBreakpoints) {
+      if (width >= bp.breakpoint) {
+        setButtonSize(bp.size);
+        return;
+      }
+    }
+    setButtonSize(buttonSizeBreakpoints[buttonSizeBreakpoints.length - 1].size);
+  };
+
+  // ✅ Fetch clans & cache in localStorage
+  const getAllClans = async () => {
+    console.log("📢 getAllClans() called");
+
+    try {
+      // 🔍 Check localStorage for cached data
+      const stored = localStorage.getItem("clanData");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        console.log("📦 localStorage fetched:", parsed);
+
+        if (parsed.success && Array.isArray(parsed.data)) {
+          console.log("✅ Using cached clan data:", parsed);
+          setClans(parsed.data); // ✅ Corrected line
+          return parsed.data;
+        } else {
+          console.warn("⚠️ Cached data format invalid, fetching from API...");
+        }
+      }
+
+      // 🌐 Fetch from API if no cache or invalid data
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
+      );
+      if (!res.ok) throw new Error("Failed to fetch clans");
+
+      const data = await res.json();
+      console.log("🌐 Fetched from API:", data);
+
+      if (data.success && Array.isArray(data.data)) {
+        localStorage.setItem("clanData", JSON.stringify(data));
+        setClans(data.data); // ✅ Store array only
+        return data.data;
+      } else {
+        throw new Error("Invalid API response structure");
+      }
+    } catch (err: any) {
+      console.error("❌ Fetch error:", err);
+      setError(err.message || "Something went wrong while fetching clans");
+    } finally {
+      setLoading(false);
+      console.log("🏁 getAllClans() completed");
+    }
+  };
+
+  // ✅ Join clan using userId & clanId from localStorage
+  const handleJoinClan = async (selectedClanId: string) => {
+    // ✅ Get user data from localStorage
+    const userData = localStorage.getItem("userData");
+    const user = userData ? JSON.parse(userData) : null;
+
+    const storedUserId = user?.userId;
+
+    console.log("Stored User ID:", storedUserId);
+    console.log("Selected Clan ID:", selectedClanId);
+
+    // ❌ If any ID is missing, show alert and return
+    if (!storedUserId || !selectedClanId) {
+      alert("Missing user or clan ID.");
+      return;
+    }
+
+    // ✅ Prepare data to send to API
+    const joinData = {
+      userId: storedUserId,
+      clanId: selectedClanId,
+    };
+
+    try {
+      const response = await joinClan(joinData); // 👈 Call your backend API
+      console.log("Join response:", response);
+      alert("✅ Successfully joined the clan!");
+    } catch (error) {
+      console.error("Join error:", error);
+      alert("❌ Failed to join clan.");
+    }
+  };
+
+  if (loading) return <div>Loading clans...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   const handleSelectId = (id: number) => {
     setSelectedCardId(id);
-    console.log(id);
+    // console.log(id);
   };
 
   let clickTimeout: NodeJS.Timeout;
@@ -225,6 +316,7 @@ const SelectClan = () => {
                   onClick={() => handleSelectId(card.id)}
                 >
                   <Button
+                    onClick={() => handleJoinClan(card.id.toString())}
                     ButtonText="Join Clan"
                     width={buttonSize.width}
                     height={buttonSize.height}

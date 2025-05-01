@@ -12,27 +12,28 @@ export const getTwitterAuth = async () => {
 };
 
 
-export const createUser = async (userData: any) => {
-  const res = await fetch(`${BASE_URL}/api/user/create`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
-  return res.json();
-};
 
-export const updateUser = async (userId: string, updateData: any) => {
-  const res = await fetch(`${BASE_URL}/api/user/update/${userId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateData),
-  });
-  return res.json();
-};
+// export const createUser = async (userData: any) => {
+//   const res = await fetch(`${BASE_URL}/api/user/create`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(userData),
+//   });
+//   return res.json();
+// };
+
+// export const updateUser = async (userId: string, updateData: any) => {
+//   const res = await fetch(`${BASE_URL}/api/user/update/${userId}`, {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(updateData),
+//   });
+//   return res.json();
+// };
 
 export const getUser = async (userId: string) => {
   const res = await fetch(`${BASE_URL}/api/user/fetch/${userId}`);
@@ -40,7 +41,7 @@ export const getUser = async (userId: string) => {
 };
 
 export const getAllClans = async () => {
-  const res = await fetch(`${BASE_URL}/api/clans/fetch/all`);
+  const res = await fetch(`${BASE_URL}/clans/fetch/all`);
   return res.json();
 };
 
@@ -65,3 +66,15 @@ export const joinClan = async (joinData: any) => {
   });
   return res.json();
 };
+
+//create one for this api/user/:userId/early-user post request
+export const createEarlyUser = async (userId: string) => {
+  const res = await fetch(`${BASE_URL}/api/user/${userId}/early-user`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res.json();
+};  
+
