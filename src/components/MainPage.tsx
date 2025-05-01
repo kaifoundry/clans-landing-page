@@ -9,7 +9,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-
+import { getTwitterAuth } from "@/lib/api";
 const provider = new TwitterAuthProvider();
 
 const MainPage = () => {
@@ -26,41 +26,62 @@ const MainPage = () => {
 
   const router = useRouter();
 
-  async function loginWithTwitter() {
+  const getData = async () => {
     try {
       setIsLoading(true);
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const credential = TwitterAuthProvider.credentialFromResult(result);
-      const accessToken = credential?.accessToken;
-      const secret = credential?.secret;
-
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
-          await setDoc(userRef, {
-            name: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-            uid: user.uid,
-            provider: user.providerId,
-            createdAt: new Date(),
-            twitterAccessToken: accessToken,
-            twitterSecret: secret,
-          });
-        }
-
+      window.location.href = "https://clans.10on10studios.com/api/auth/twitter";
+      const response = await getTwitterAuth();
+      console.log("Response from API:", response);
+      if (response.success === true) {
         router.push("/startRoaring");
       }
     } catch (error) {
-      console.error("Twitter login error:", error);
-      alert("An error occurred during login. Please try again.");
+      console.error("Error during auth:", error);
+      // Optional: handle errors (toast, fallback UI, etc.)
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+  // const handleTwitterLogin = async () => {
+  //   const testData = (window.location.href =
+  //     "https://clans.10on10studios.com/api/auth/twitter");
+  // };
+
+  // async function loginWithTwitter() {
+  //   try {
+  //     setIsLoading(true);
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
+  //     const credential = TwitterAuthProvider.credentialFromResult(result);
+  //     const accessToken = credential?.accessToken;
+  //     const secret = credential?.secret;
+
+  //     if (user) {
+  //       const userRef = doc(db, "users", user.uid);
+  //       const userSnap = await getDoc(userRef);
+
+  //       if (!userSnap.exists()) {
+  //         await setDoc(userRef, {
+  //           name: user.displayName,
+  //           email: user.email,
+  //           photoURL: user.photoURL,
+  //           uid: user.uid,
+  //           provider: user.providerId,
+  //           createdAt: new Date(),
+  //           twitterAccessToken: accessToken,
+  //           twitterSecret: secret,
+  //         });
+  //       }
+
+  //       router.push("/startRoaring");
+  //     }
+  //   } catch (error) {
+  //     console.error("Twitter login error:", error);
+  //     alert("An error occurred during login. Please try again.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -233,7 +254,7 @@ const MainPage = () => {
 
             <div className="flex flex-col gap-3 mb-6">
               <button
-                onClick={loginWithTwitter}
+                onClick={getData}
                 className="bg-black text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300"
                 disabled={isLoading}
               >

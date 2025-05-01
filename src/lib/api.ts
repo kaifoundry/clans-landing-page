@@ -1,4 +1,16 @@
-const BASE_URL = "http://128.199.16.207";
+const BASE_URL = "https://clans.10on10studios.com";
+
+//add api/auth/twitter this is for the twitter auth get request
+export const getTwitterAuth = async () => {
+  const res = await fetch(`${BASE_URL}/api/auth/twitter`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res.json();
+};
+
 
 export const createUser = async (userData: any) => {
   const res = await fetch(`${BASE_URL}/api/user/create`, {
