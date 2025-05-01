@@ -2,8 +2,25 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import ClanLogo from "@/components/ClanLogo";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 const StartRoaringPage = () => {
+  const avatarLeftRef = useRef(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      avatarLeftRef.current,
+      { x: "-200", opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 1.5,
+        ease: "power3.out",
+      }
+    );
+  }, []);
   return (
     <section className="w-full overflow-y-hidden flex  flex-col  gap-y-8 items-center justify-center px-6 py-12 bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center relative min-h-screen">
       <span className="absolute top-5 left-5 ">
@@ -55,6 +72,7 @@ const StartRoaringPage = () => {
       </div>
 
       <Image
+        ref={avatarLeftRef}
         src="/Images/startRoaring/Avtar2.png"
         height={500}
         width={500}

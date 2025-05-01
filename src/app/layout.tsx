@@ -3,6 +3,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Rajdhani } from "next/font/google";
 import { ClanProvider } from "@/context/ClanContext";
+// import localFont from "next/font/local";
+
+// const similarGothic = localFont({
+//   src: "./fonts/SimilarGothic-Regular.woff2", // Path to your font file
+//   display: "swap",
+//   variable: "--font-similar-gothic", // Define the CSS variable
+// });
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],

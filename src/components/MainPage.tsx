@@ -136,7 +136,7 @@ const MainPage = () => {
       {/* Foreground Content */}
       <div className="mx-auto relative w-full h-full text-center flex items-center justify-center flex-col z-10">
         <div className="flex items-center justify-center gap-10 z-20 flex-col">
-          <div className="flex gap-4 items-center justify-center">
+          {/* <div className="flex gap-4 items-center justify-center">
             <Image
               src="/Images/gettingStarted/Object.png"
               width={80}
@@ -157,6 +157,29 @@ const MainPage = () => {
               height={60}
               alt="Clans"
               className="lg:w-90 2xl:h-50 md:w-50 object-contain"
+            />
+          </div> */}
+          <div className="flex gap-4 items-center justify-center">
+            <Image
+              src="/Images/gettingStarted/Object.png"
+              width={80}
+              height={80}
+              alt="Object1"
+              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-50 object-contain"
+            />
+            <Image
+              src="/Images/gettingStarted/Line.png"
+              width={1}
+              height={1}
+              alt="Line1"
+              className="w-1 h-10 sm:h-12 md:h-16 md:w-1 lg:h-24 xl:h-28 2xl:h-32 object-contain"
+            />
+            <Image
+              src="/Images/gettingStarted/Clans.png"
+              width={120}
+              height={60}
+              alt="Clans"
+              className="w-24 h-12 sm:w-32 sm:h-16 md:w-40 md:h-20 lg:w-48 lg:h-24 xl:w-56 xl:h-28 2xl:w-80 2xl:h-32 object-contain"
             />
           </div>
 
@@ -200,6 +223,7 @@ const MainPage = () => {
                 height={100}
                 className="w-24 h-20 object-contain text-xl"
                 alt="Logo"
+                priority
               />
             </div>
 
