@@ -19,6 +19,8 @@ export const ClanProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+
+
 export const useClan = () => {
   const context = useContext(ClanContext);
   if (context === undefined) {
