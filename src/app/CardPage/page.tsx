@@ -55,18 +55,6 @@ export default function CardPage() {
       glowColor: "rgba(0, 0, 255, 0.5)", // Blue with 50% transparency
     },
   ];
-  // Effect to load the correct card based on the query parameter
-  // useEffect(() => {
-  //   console.log(selectedCardId)
-  //   const selectedCardId = searchParams.get("selectedCardId"); // Extract the selectedCardId from the URL
-
-  //   if (selectedCardId) {
-  //     const selectedCard = cardData.find(
-  //       (card) => card.id === parseInt(selectedCardId)
-  //     );
-  //     setCard(selectedCard || null); // Set the selected card details or null if not found
-  //   }
-  // }, [searchParams]); // Ensure the effect runs when searchParams change
 
   useEffect(() => {
     console.log(selectedCardId);
@@ -82,7 +70,8 @@ export default function CardPage() {
 
   // Construct tweet content dynamically based on selectedCard title and description
   // Corrected tweet content with escaped apostrophe
-  const tweetContent = `I don’t tweet anymore.\n\nI Roar - with Clan ${card.title} ⚔ behind me.\n\nPrivacy is power. Roar wisely.\n\nChoose your Clan & join the waitlist 👉 ${card.description}\n\nCheck out my Clan's card: ${card.image};`;
+  const tweetContent = `Roar louder. Roar prouder.${card.title} Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegorunds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.
+${card.description}\n\nClaim your clan today👉${card.image};`;
 
   // Construct the absolute URL for the image
   const fullImageURL = `${window.location.origin}${card.image}`; // Create full URL for the image
@@ -92,19 +81,69 @@ export default function CardPage() {
     tweetContent
   )}&url=${encodeURIComponent(fullImageURL)}`;
 
-  // Function to handle Twitter share
-  const handleShareClick = () => {
-    window.open(twitterShareURL, "_blank", "width=600,height=400");
+  const handleContinue = () => {
+    handleStartRoaring(); // 1. Send data to API + open Twitter share
+    handleRedirect(); // 2. Navigate to JoinWaitlist
   };
 
+  // Function to handle Twitter share
+  // const handleShareClick = () => {
+  //   window.open(twitterShareURL, "_blank", "width=600,height=400");
+  // };
+
   // Function to handle Continue button click
-  const handleContinueClick = () => {
-    handleShareClick(); // Call the share function when "Continue" is clicked
-    // window.location.href = "/JoinWaitlist"; // Navigate to JoinWaitlist page after sharing
-  };
+  // const handleContinueClick = () => {
+  //   handleShareClick(); // Call the share function when "Continue" is clicked
+  //   // window.location.href = "/JoinWaitlist"; // Navigate to JoinWaitlist page after sharing
+  // };
 
   const handleRedirect = () => {
     window.location.href = "/JoinWaitlist";
+  };
+
+  const handleStartRoaring = async () => {
+    try {
+      // 1. Get user from localStorage
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+      // 2. Prepare payload
+      const payload = {
+        userName: user.name || "Anonymous",
+        email: user.email || "noemail@example.com",
+        selectedClan: {
+          id: card?.id,
+          title: card?.title,
+          description: card?.description,
+        },
+        timestamp: new Date().toISOString(),
+      };
+
+      // 3. Call your API
+      const response = await fetch("/api/start-roaring", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) throw new Error("API request failed");
+
+      // 4. Open Twitter share box
+      window.open(
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          tweetContent
+        )}`,
+        "_blank",
+        "width=600,height=400"
+      );
+
+      // 5. Navigate if needed
+      // window.location.href = "/JoinWaitlist";
+    } catch (error) {
+      console.error("Roaring failed:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -176,7 +215,7 @@ export default function CardPage() {
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">
-          <Button onClick={handleContinueClick} />
+          <Button onClick={handleContinue} />
           {/* Updated "Continue" button to trigger the share function and navigate */}
           <Button ButtonText="Continue" onClick={handleRedirect} />
         </div>

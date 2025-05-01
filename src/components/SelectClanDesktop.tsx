@@ -172,35 +172,90 @@ const SelectClan = () => {
   };
 
   // ✅ Join clan using userId & clanId from localStorage
-  const handleJoinClan = async (selectedClanId: string) => {
-    // ✅ Get user data from localStorage
-    const userData = localStorage.getItem("userData");
-    const user = userData ? JSON.parse(userData) : null;
+  // const handleJoinClan = async (selectedClanId: string) => {
+  //   const userData = localStorage.getItem("userData");
+  //   const user = userData ? JSON.parse(userData) : null;
 
-    const storedUserId = user?.userId;
+  //   const storedUserId = user?.userId;
 
-    console.log("Stored User ID:", storedUserId);
-    console.log("Selected Clan ID:", selectedClanId);
+  //   console.log("📥 Stored User ID:", storedUserId);
+  //   console.log("📥 Selected Clan ID:", selectedClanId);
 
-    // ❌ If any ID is missing, show alert and return
-    if (!storedUserId || !selectedClanId) {
+  //   if (!storedUserId || !selectedClanId) {
+  //     alert("❌ Missing user or clan ID.");
+  //     return;
+  //   }
+
+  //   const joinData = {
+  //     userId: storedUserId,
+  //     clanId: selectedClanId,
+  //   };
+
+  //   console.log("🚀 Sending this data to joinClan API:", joinData);
+
+  //   try {
+  //     const response = await joinClan(joinData); // Send to API
+
+  //     console.log("✅ API response:", response);
+
+  //     if (response?.success) {
+  //       // If API response is successful, show success message
+  //       alert("🎉 Successfully joined the clan!");
+  //     } else {
+  //       // If API response does not indicate success, show failure
+  //       alert("⚠️ Something went wrong while joining the clan.");
+  //     }
+  //   } catch (error) {
+  //     console.error("❌ Error while calling joinClan API:", error);
+  //     alert("Failed to join clan due to network or server error.");
+  //   }
+  // };
+
+  const handleJoinClan = async (clanId: number) => {
+    // Prepare dummy data to simulate the request
+    const dummyUserId = "12345"; // Dummy User ID
+    const dummyClanId = clanId; // Use the passed clan ID
+
+    console.log("Dummy User ID:", dummyUserId);
+    console.log("Dummy Clan ID:", dummyClanId);
+
+    if (!dummyUserId || !dummyClanId) {
       alert("Missing user or clan ID.");
       return;
     }
 
-    // ✅ Prepare data to send to API
     const joinData = {
-      userId: storedUserId,
-      clanId: selectedClanId,
+      userId: dummyUserId,
+      clanId: dummyClanId,
     };
 
+    console.log("🚀 Sending this data to joinClan API:", joinData);
+
     try {
-      const response = await joinClan(joinData); // 👈 Call your backend API
-      console.log("Join response:", response);
-      alert("✅ Successfully joined the clan!");
+      // Call the real API with dummy data
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/JoinClan`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(joinData),
+        }
+      );
+
+      const result = await response.json(); // Parse the response from the API
+      console.log("✅ API response:", result);
+
+      // Handle API response
+      if (result.success) {
+        alert("🎉 Successfully joined the clan!");
+      } else {
+        alert("⚠️ Failed to join the clan.");
+      }
     } catch (error) {
       console.error("Join error:", error);
-      alert("❌ Failed to join clan.");
+      alert("⚠️ Something went wrong while joining the clan.");
     }
   };
 
@@ -316,7 +371,7 @@ const SelectClan = () => {
                   onClick={() => handleSelectId(card.id)}
                 >
                   <Button
-                    onClick={() => handleJoinClan(card.id.toString())}
+                    onClick={() => handleJoinClan(card.id)}
                     ButtonText="Join Clan"
                     width={buttonSize.width}
                     height={buttonSize.height}
