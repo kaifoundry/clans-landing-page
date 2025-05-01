@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Button from "@/components/Button";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { useClan } from "@/context/ClanContext";
 import { debounce } from "lodash";
+import { gsap } from "gsap";
 
 const SelectClan = () => {
   //Dynamic Button Code
@@ -92,6 +93,8 @@ const SelectClan = () => {
     null
   );
 
+  const sideImageRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (selectedCardId !== null) {
       const card = cardData.find((card) => card.id === selectedCardId);
@@ -103,6 +106,15 @@ const SelectClan = () => {
       }
     }
   }, [selectedCardId]);
+
+  useEffect(() => {
+    // Slide in animation for the side image when the component loads
+    gsap.fromTo(
+      sideImageRef.current,
+      { x: "100%" },
+      { x: 0, duration: 1, ease: "power3.out" }
+    );
+  }, []);
 
   const handleSelectId = (id: number) => {
     setSelectedCardId(id);
@@ -142,6 +154,11 @@ const SelectClan = () => {
                 setAvatarImage(card.hoverImage);
                 setDisplayedTitle(card.title);
                 setDisplayedDescription(card.description);
+                // Add glow effect animation on hover
+                gsap.to(`#card-${card.id}`, {
+                  scale: 1.05,
+                  duration: 0.3,
+                });
               }}
               onMouseLeave={() => {
                 setHoveredIndex(null);
@@ -151,29 +168,25 @@ const SelectClan = () => {
                   setDisplayedTitle(active.title);
                   setDisplayedDescription(active.description);
                 }
+                // Reset glow effect animation
+                gsap.to(`#card-${card.id}`, {
+                  scale: 1,
+                  boxShadow: "none",
+                  duration: 0.3,
+                });
               }}
               className={clsx(
                 "relative group cursor-pointer transition-all duration-500",
                 "xl:h-[400px] xl:w-[220px] md:h-[200px] md:w-[100px] h-[280px] w-[158px] lg:w-[150px] lg:h-[300px]",
                 activeIndex === index ? "scale-105" : "scale-100"
               )}
-              style={{
-                filter:
-                  activeIndex === index || hoveredIndex === index
-                    ? `drop-shadow(0 0 1px ${card.glowColor}) drop-shadow(0 0 6px ${card.glowColor})`
-                    : "none",
-                transition: "filter 0.4s ease, transform 0.4s ease",
-              }}
+              id={`card-${card.id}`}
             >
               <div
                 className="absolute inset-0 rounded-xl transition-all duration-500"
                 style={{
                   clipPath:
                     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
-                  boxShadow:
-                    activeIndex === index || hoveredIndex === index
-                      ? `0 0 2px ${card.glowColor}, 0 0 10px ${card.glowColor}`
-                      : "none",
                   backgroundColor:
                     activeIndex === index || hoveredIndex === index
                       ? card.glowColor
@@ -212,7 +225,7 @@ const SelectClan = () => {
                   onClick={() => handleSelectId(card.id)}
                 >
                   <Button
-                    ButtonText="Join Clan" // This is static, but you can make it dynamic if needed
+                    ButtonText="Join Clan"
                     width={buttonSize.width}
                     height={buttonSize.height}
                     className="md:text-[10px] lg:text-[16px]"

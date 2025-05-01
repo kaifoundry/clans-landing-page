@@ -45,7 +45,7 @@ const StartRoaringPage = () => {
           }}
         >
           <div className="flex flex-col items-center justify-center  h-full">
-            <p className="text-center text-xl leading-10">
+            <p className="text-center text-xl leading-10 text-white">
               Ancient warriors had clans.
               <br /> You have social media. <br />
               <span className="font-bold">Post. Engage. Earn Roar Points.</span>

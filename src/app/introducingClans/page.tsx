@@ -1,12 +1,16 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Card from "@/components/Card";
 import { useClan } from "@/context/ClanContext";
 import { useRouter } from "next/navigation";
+import { gsap } from "gsap";
 
 const IntroducingClans = () => {
   const { setSelectedCardId } = useClan();
   const router = useRouter();
+
+  const cardRefs = useRef<HTMLDivElement[]>([]);
 
   const cardData = [
     {
@@ -14,43 +18,81 @@ const IntroducingClans = () => {
       image: "/Images/introducingClans/card_1.png",
       hoverImage: "/Images/introducingClans/hover1.jpg",
       title: "Clan McBuilder",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      glowColor: "red", // Glow color for this card
+      description: "Lorem ipsum dolor sit amet...",
+      glowColor: "red",
+      from: { x: -200, opacity: 0 },
     },
     {
       id: 2,
       image: "/Images/introducingClans/card_2.png",
       hoverImage: "/Images/introducingClans/hover2.png",
       title: "McHODLer",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      glowColor: "violet", // Glow color for this card
+      description: "Lorem ipsum dolor sit amet...",
+      glowColor: "violet",
+      from: { y: -200, opacity: 0 },
     },
     {
       id: 3,
       image: "/Images/introducingClans/card_3.png",
       hoverImage: "/Images/introducingClans/hover3.png",
       title: "Clan McDegen",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      glowColor: "green", // Glow color for this card
+      description: "Lorem ipsum dolor sit amet...",
+      glowColor: "green",
+      from: { x: 200, opacity: 0 },
     },
     {
       id: 4,
       image: "/Images/introducingClans/card_4.png",
       hoverImage: "/Images/introducingClans/hover4.png",
       title: "Clan McPrivacy",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      glowColor: "blue", // Glow color for this card
+      description: "Lorem ipsum dolor sit amet...",
+      glowColor: "blue",
+      from: { y: 200, opacity: 0 },
     },
   ];
 
+  useEffect(() => {
+    cardRefs.current.forEach((ref, index) => {
+      if (ref) {
+        gsap.fromTo(ref, cardData[index].from, {
+          x: 0,
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay: index * 0.2,
+        });
+
+        // Hover animation
+        const onEnter = () => {
+          gsap.to(ref, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: "power1.out",
+          });
+        };
+        const onLeave = () => {
+          gsap.to(ref, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power1.out",
+          });
+        };
+
+        ref.addEventListener("mouseenter", onEnter);
+        ref.addEventListener("mouseleave", onLeave);
+
+        return () => {
+          ref.removeEventListener("mouseenter", onEnter);
+          ref.removeEventListener("mouseleave", onLeave);
+        };
+      }
+    });
+  }, []);
+
   return (
-    <section className="relative main-section flex flex-col items-center gap-5 px-8 py-8 overflow-hidden ">
-      <div></div>
-      <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold ">
+    <section className="relative main-section flex flex-col items-center gap-5 px-8 py-8 overflow-hidden">
+      <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold">
         Introducing Clans
       </h1>
       <p className="text-center">
@@ -58,15 +100,19 @@ const IntroducingClans = () => {
         <br />
         Now, they return — and they want you.
       </p>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-12 ">
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-12">
         {cardData.map((card, index) => (
           <div
             key={card.id}
+            ref={(el) => {
+              if (el) cardRefs.current[index] = el;
+            }}
             onClick={() => {
               setSelectedCardId(card.id);
               router.push("/selectClan");
-              console.log(card.title);
             }}
+            className="cursor-pointer"
           >
             <Card
               image={card.image}
@@ -80,12 +126,10 @@ const IntroducingClans = () => {
       </div>
 
       <p>
-        Choose your
-        <span className="text-pink-600">&#34;CLAN&#34;</span>
+        Choose your <span className="text-pink-600">"CLAN"</span>
       </p>
-
-      <div />
     </section>
   );
 };
+
 export default IntroducingClans;

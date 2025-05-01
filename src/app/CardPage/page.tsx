@@ -81,7 +81,8 @@ export default function CardPage() {
   if (!card) return <div>Loading...</div>; // Handle the case when card is not found
 
   // Construct tweet content dynamically based on selectedCard title and description
-  const tweetContent = `I don’t tweet anymore.\n\nI Roar - with Clan ${card.title} ⚔ behind me.\n\nPrivacy is power. Roar wisely.\n\nChoose your Clan & join the waitlist 👉 ${card.description}\n\nCheck out my Clan's card: ${card.image}`;
+  // Corrected tweet content with escaped apostrophe
+  const tweetContent = `I don’t tweet anymore.\n\nI Roar - with Clan ${card.title} ⚔ behind me.\n\nPrivacy is power. Roar wisely.\n\nChoose your Clan & join the waitlist 👉 ${card.description}\n\nCheck out my Clan's card: ${card.image};`;
 
   // Construct the absolute URL for the image
   const fullImageURL = `${window.location.origin}${card.image}`; // Create full URL for the image
