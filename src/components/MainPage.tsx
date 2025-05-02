@@ -34,14 +34,16 @@ const MainPage = () => {
   // };
 
   const callTwitterAuthAPI = () => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Replace with your actual base URL or use process.env.NEXT_PUBLIC_API_BASE_URL
+    if (typeof window === "undefined") return; // Ensure this is running on the client
+
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     if (!baseUrl) {
       console.error("Missing NEXT_PUBLIC_API_BASE_URL");
       return;
     }
 
-    // Redirect the user directly to the backend route that handles Twitter auth
-    window.location.href = `${baseUrl}/api/auth/twitter`;
+    // Use location.assign to ensure full redirect (especially helpful on mobile)
+    window.location.assign(`${baseUrl}/api/auth/twitter`);
   };
 
   // const callTwitterAuthAPI = async () => {
