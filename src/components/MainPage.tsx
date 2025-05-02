@@ -35,6 +35,7 @@ const MainPage = () => {
 
   const callTwitterAuthAPI = () => {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Replace with your actual base URL or use process.env.NEXT_PUBLIC_API_BASE_URL
+    //hello
     if (!baseUrl) {
       console.error("Missing NEXT_PUBLIC_API_BASE_URL");
       return;
