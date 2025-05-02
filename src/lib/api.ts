@@ -1,4 +1,4 @@
-const BASE_URL = "https://clans.10on10studios.com";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 //add api/auth/twitter this is for the twitter auth get request
 export const getTwitterAuth = async () => {
@@ -13,27 +13,27 @@ export const getTwitterAuth = async () => {
 
 
 
-// export const createUser = async (userData: any) => {
-//   const res = await fetch(`${BASE_URL}/api/user/create`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(userData),
-//   });
-//   return res.json();
-// };
+export const createUser = async (userData: any) => {
+  const res = await fetch(`${BASE_URL}/api/user/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+  return res.json();
+};
 
-// export const updateUser = async (userId: string, updateData: any) => {
-//   const res = await fetch(`${BASE_URL}/api/user/update/${userId}`, {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(updateData),
-//   });
-//   return res.json();
-// };
+export const updateUser = async (userId: string, updateData: any) => {
+  const res = await fetch(`${BASE_URL}/api/user/update/${userId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  });
+  return res.json();
+};
 
 export const getUser = async (userId: string) => {
   const res = await fetch(`${BASE_URL}/api/user/fetch/${userId}`);

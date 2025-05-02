@@ -211,7 +211,7 @@ const SelectClan = () => {
   //   }
   // };
 
-  const handleJoinClan = async (clanId: number) => {
+  const handleJoinClan = async (clanId: String) => {
     // Prepare dummy data to simulate the request
     const dummyUserId = "12345"; // Dummy User ID
     const dummyClanId = clanId; // Use the passed clan ID
@@ -371,7 +371,7 @@ const SelectClan = () => {
                   onClick={() => handleSelectId(card.id)}
                 >
                   <Button
-                    onClick={() => handleJoinClan(card.id)}
+                    onClick={() => handleJoinClan(card.id.toString())}
                     ButtonText="Join Clan"
                     width={buttonSize.width}
                     height={buttonSize.height}

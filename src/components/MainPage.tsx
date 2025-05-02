@@ -20,68 +20,78 @@ const MainPage = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const iconRef = useRef(null);
-
   const avatarLeftRef = useRef(null);
   const avatarRightRef = useRef(null);
-
   const router = useRouter();
 
-  const getData = async () => {
+  // Dummy decrypt function (replace with real decryption if needed)
+  const decryptData = (encrypted: string) => {
+    const decryptedString = atob(encrypted); // base64 decode
+    return JSON.parse(decryptedString);
+  };
+
+  const handleTwitterLogin = async () => {
     try {
-      setIsLoading(true);
-      window.location.href = "https://clans.10on10studios.com/api/auth/twitter";
       const response = await getTwitterAuth();
-      console.log("Response from API:", response);
-      if (response.success === true) {
-        router.push("/startRoaring");
+      if (response.url) {
+        window.location.href = response.url;
+      } else {
+        console.error("Failed to get Twitter authorization URL");
       }
     } catch (error) {
-      console.error("Error during auth:", error);
-      // Optional: handle errors (toast, fallback UI, etc.)
-    } finally {
-      setIsLoading(false);
+      console.error("Twitter authentication error:", error);
     }
   };
-  // const handleTwitterLogin = async () => {
-  //   const testData = (window.location.href =
-  //     "https://clans.10on10studios.com/api/auth/twitter");
-  // };
 
-  // async function loginWithTwitter() {
-  //   try {
-  //     setIsLoading(true);
-  //     const result = await signInWithPopup(auth, provider);
-  //     const user = result.user;
-  //     const credential = TwitterAuthProvider.credentialFromResult(result);
-  //     const accessToken = credential?.accessToken;
-  //     const secret = credential?.secret;
+  const handleTwitterCallback = async () => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const data = urlParams.get("data");
+      const isEncrypted = urlParams.get("encrypted") === "true";
+      const errorMessage = urlParams.get("message");
 
-  //     if (user) {
-  //       const userRef = doc(db, "users", user.uid);
-  //       const userSnap = await getDoc(userRef);
+      if (errorMessage) {
+        console.error("Twitter Auth Error:", decodeURIComponent(errorMessage));
+        return { success: false, error: decodeURIComponent(errorMessage) };
+      }
 
-  //       if (!userSnap.exists()) {
-  //         await setDoc(userRef, {
-  //           name: user.displayName,
-  //           email: user.email,
-  //           photoURL: user.photoURL,
-  //           uid: user.uid,
-  //           provider: user.providerId,
-  //           createdAt: new Date(),
-  //           twitterAccessToken: accessToken,
-  //           twitterSecret: secret,
-  //         });
-  //       }
+      if (!data) {
+        console.error("No auth data found in callback.");
+        return { success: false, error: "No data in callback" };
+      }
 
-  //       router.push("/startRoaring");
-  //     }
-  //   } catch (error) {
-  //     console.error("Twitter login error:", error);
-  //     alert("An error occurred during login. Please try again.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }
+      let authData;
+      if (isEncrypted) {
+        authData = decryptData(data);
+      } else {
+        authData = JSON.parse(decodeURIComponent(data));
+      }
+
+      // Save tokens
+      localStorage.setItem("access_token", authData.access_token);
+      localStorage.setItem("refresh_token", authData.refresh_token);
+
+      if (authData.twitter_tokens) {
+        localStorage.setItem(
+          "twitter_access_token",
+          authData.twitter_tokens.access_token
+        );
+        if (authData.twitter_tokens.refresh_token) {
+          localStorage.setItem(
+            "twitter_refresh_token",
+            authData.twitter_tokens.refresh_token
+          );
+        }
+      }
+
+      localStorage.setItem("user", JSON.stringify(authData.user));
+
+      return { success: true, user: authData.user };
+    } catch (error) {
+      console.error("Error processing callback:", error);
+      return { success: false, error: "Invalid Twitter callback data" };
+    }
+  };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -103,6 +113,7 @@ const MainPage = () => {
     }
   };
 
+  // Play video on mount
   useEffect(() => {
     const video = videoRef.current;
     if (video && !isPlaying) {
@@ -115,27 +126,30 @@ const MainPage = () => {
     gsap.fromTo(
       avatarLeftRef.current,
       { x: "-100%", opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1.5,
-        ease: "power3.out",
-      }
+      { x: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
     );
-
     gsap.fromTo(
       avatarRightRef.current,
       { x: "100%", opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1.5,
-        ease: "power3.out",
-        delay: 0.2,
-      }
+      { x: 0, opacity: 1, duration: 1.5, ease: "power3.out", delay: 0.2 }
     );
   }, []);
 
+  // Handle Twitter callback if redirected
+  useEffect(() => {
+    const run = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("data")) {
+        const result = await handleTwitterCallback();
+        if (result.success) {
+          router.push("/dashboard");
+        } else {
+          console.error("Auth failed:", result.error);
+        }
+      }
+    };
+    run();
+  }, []);
   return (
     <section className="relative bg-black overflow-hidden flex items-center justify-center h-screen text-white">
       {/* Background Video */}
@@ -254,7 +268,7 @@ const MainPage = () => {
 
             <div className="flex flex-col gap-3 mb-6">
               <button
-                onClick={getData}
+                onClick={handleTwitterLogin}
                 className="bg-black text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300"
                 disabled={isLoading}
               >
