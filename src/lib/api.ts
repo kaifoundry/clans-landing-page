@@ -12,7 +12,6 @@ export const getTwitterAuth = async () => {
 };
 
 
-
 export const createUser = async (userData: any) => {
   const res = await fetch(`${BASE_URL}/api/user/create`, {
     method: "POST",

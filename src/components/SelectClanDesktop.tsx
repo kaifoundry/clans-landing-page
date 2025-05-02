@@ -10,6 +10,8 @@ import { debounce } from "lodash";
 import { gsap } from "gsap";
 import { joinClan } from "@/lib/api";
 
+
+
 const SelectClan = () => {
   //card Data
   const cardData = [

@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { getTwitterAuth } from "@/lib/api";
-import { sign } from "crypto";
+import { set } from "lodash";
 const provider = new TwitterAuthProvider();
 
 const MainPage = () => {
@@ -31,17 +31,28 @@ const MainPage = () => {
     return JSON.parse(decryptedString);
   };
 
-  const signInWithTwitter = async () => {
-    try {
-      const provider = new TwitterAuthProvider();
-      await signInWithPopup(auth, provider);
-
-      // ✅ Redirect to desired page after success
-      window.location.href = "/startRoaring"; // change to your route
-    } catch (error) {
-      console.error("Twitter login failed:", error);
+  const callTwitterAuthAPI = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter`
+    );
+    const data = await res.json();
+    if (data?.url) {
+      window.location.href = data.url;
     }
   };
+
+  // const handleTwitterLogin = async () => {
+  //   try {
+  //     const response = await getTwitterAuth();
+  //     if (response.url) {
+  //       window.location.href = response.url;
+  //     } else {
+  //       console.error("Failed to get Twitter authorization URL");
+  //     }
+  //   } catch (error) {
+  //     console.error("Twitter authentication error:", error);
+  //   }
+  // };
 
   // const handleTwitterCallback = async () => {
   //   try {
@@ -268,7 +279,7 @@ const MainPage = () => {
 
             <div className="flex flex-col gap-3 mb-6">
               <button
-                onClick={signInWithTwitter}
+                onClick={callTwitterAuthAPI}
                 className="bg-black text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300"
                 disabled={isLoading}
               >
