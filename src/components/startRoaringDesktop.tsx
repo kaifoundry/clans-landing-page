@@ -105,9 +105,9 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
       </span>
       {/* Display the userId (e.g., for debugging or personalization) */}
       {/* You might remove this h1 in the final version */}
-      <h1 className="text-white text-sm absolute top-5 right-5">
+      {/* <h1 className="text-white text-sm absolute top-5 right-5">
         User: {userId}
-      </h1>
+      </h1> */}
 
       {/* Page Title */}
       <div className="mb-10 z-10">
