@@ -34,7 +34,7 @@ const MainPage = () => {
   // };
 
   const callTwitterAuthAPI = () => {
-    const baseUrl = "localhost:3000"; // Replace with your actual base URL or use process.env.NEXT_PUBLIC_API_BASE_URL
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Replace with your actual base URL or use process.env.NEXT_PUBLIC_API_BASE_URL
     if (!baseUrl) {
       console.error("Missing NEXT_PUBLIC_API_BASE_URL");
       return;
