@@ -24,60 +24,72 @@ export default function MobileMainPage() {
   // Update redirectTo based on query params
 
   // Login function with Twitter
-  async function loginWithTwitter() {
-    try {
-      setIsLoading(true);
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+  // async function () {
+  //   try {
+  //     setIsLoading(true);
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
 
-      // ✅ Get credential from result
-      const credential = TwitterAuthProvider.credentialFromResult(result);
-      const accessToken = credential?.accessToken;
-      const secret = credential?.secret;
+  //     // ✅ Get credential from result
+  //     const credential = TwitterAuthProvider.credentialFromResult(result);
+  //     const accessToken = credential?.accessToken;
+  //     const secret = credential?.secret;
 
-      console.log("Twitter Access Token:", accessToken);
-      console.log(
-        "Twitter Secret (used as refresh token in OAuth 1.0a):",
-        secret
-      );
+  //     console.log("Twitter Access Token:", accessToken);
+  //     console.log(
+  //       "Twitter Secret (used as refresh token in OAuth 1.0a):",
+  //       secret
+  //     );
 
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
+  //     if (user) {
+  //       const userRef = doc(db, "users", user.uid);
+  //       const userSnap = await getDoc(userRef);
 
-        if (!userSnap.exists()) {
-          await setDoc(userRef, {
-            name: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-            uid: user.uid,
-            provider: user.providerId,
-            createdAt: new Date(),
-            twitterAccessToken: accessToken,
-            twitterSecret: secret,
-          });
+  //       if (!userSnap.exists()) {
+  //         await setDoc(userRef, {
+  //           name: user.displayName,
+  //           email: user.email,
+  //           photoURL: user.photoURL,
+  //           uid: user.uid,
+  //           provider: user.providerId,
+  //           createdAt: new Date(),
+  //           twitterAccessToken: accessToken,
+  //           twitterSecret: secret,
+  //         });
 
-          console.log("New user saved to Firestore with tokens");
-        } else {
-          console.log("User already exists in Firestore");
-          // Optionally update tokens if needed, but not strictly necessary for basic login
-          // await setDoc(userRef, { twitterAccessToken: accessToken, twitterSecret: secret }, { merge: true });
-        }
+  //         console.log("New user saved to Firestore with tokens");
+  //       } else {
+  //         console.log("User already exists in Firestore");
+  //         // Optionally update tokens if needed, but not strictly necessary for basic login
+  //         // await setDoc(userRef, { twitterAccessToken: accessToken, twitterSecret: secret }, { merge: true });
+  //       }
 
-        // Close modal and then navigate
-        closeModal();
-        router.push(redirectTo || "/startRoaring");
-      }
-    } catch (error) {
-      console.error("Twitter login error:", error);
-      alert("An error occurred during login. Please try again.");
-      // Ensure modal is closed and loading is set to false on error
-      closeModal();
-    } finally {
-      setIsLoading(false);
+  //       // Close modal and then navigate
+  //       closeModal();
+  //       router.push(redirectTo || "/startRoaring");
+  //     }
+  //   } catch (error) {
+  //     console.error("Twitter login error:", error);
+  //     alert("An error occurred during login. Please try again.");
+  //     // Ensure modal is closed and loading is set to false on error
+  //     closeModal();
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }
+
+  const loginWithTwitter = () => {
+    if (typeof window === "undefined") return; // Ensure this is running on the client
+
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    if (!baseUrl) {
+      console.error("Missing NEXT_PUBLIC_API_BASE_URL");
+      return;
     }
-  }
 
+    // Use location.assign to ensure full redirect (especially helpful on mobile)
+    window.location.assign(`${baseUrl}/api/auth/twitter`);
+  };
   // Modal handling
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

@@ -40,8 +40,8 @@ const MainPage = () => {
       return;
     }
 
-    // Redirect the user directly to the backend route that handles Twitter auth
-    window.location.href = `${baseUrl}/api/auth/twitter`;
+    // Use location.assign to ensure full redirect (especially helpful on mobile)
+    window.location.assign(`${baseUrl}/api/auth/twitter`);
   };
 
   // const callTwitterAuthAPI = async () => {
