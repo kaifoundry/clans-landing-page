@@ -120,12 +120,12 @@ export default function MobileMainPage() {
               width={500} // Adjust width/height as needed, ensure consistent aspect ratio
               height={550}
               alt="avtar1"
-              className="z-1 absolute bottom-0 w-[300px] h-[550px] object-contain" // Added object-contain for better image scaling
+              className="z-1 absolute bottom-0 w-[300px] h-[600px] object-contain  scale-105" // Added object-contain for better image scaling
             />
             <div className="mx-auto z-10 absolute bottom-10 w-full flex items-center justify-center">
               {/* Removed Link wrapper */}
               <Button
-                ButtonText="Start Now"
+                ButtonText="Start Now !"
                 className="text-xl"
                 onClick={openModal} // Only open modal on click
               />
@@ -136,7 +136,7 @@ export default function MobileMainPage() {
               width={400} // Adjust width/height as needed, ensure consistent aspect ratio
               height={600}
               alt="avtar2"
-              className="absolute right-2 h-[600px] w-[250px] bottom-0 object-contain" // Added object-contain
+              className="absolute right-0 h-[620px] w-[260px] bottom-0 object-contain scale-110" // Added object-contain
             />
           </div>
         </div>
