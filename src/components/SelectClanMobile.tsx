@@ -194,7 +194,7 @@ const SelectClan = () => {
                   {/* Button text */}
                   <span
                     className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 
-                 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium"
+                 xxs:text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium"
                   >
                     Join Clan
                   </span>

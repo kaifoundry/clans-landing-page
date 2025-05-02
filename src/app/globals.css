@@ -5,7 +5,11 @@
   padding: 0;
   box-sizing: border-box;
 } */
-
+@theme {
+  --breakpoint-xxs: 405px;
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
+}
 @layer utilities {
   .main-section {
     @apply bg-cover bg-center bg-no-repeat flex items-center justify-center text-white px-4 min-h-screen;

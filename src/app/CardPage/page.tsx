@@ -113,7 +113,7 @@ export default function CardPage() {
   return (
     <section className="main-section p-4">
       <div className="flex flex-col items-center justify-center py-5 px-5">
-        <h1 className="md:text-5xl font-bold mb-10 text-3xl">
+        <h1 className="md:text-5xl font-bold mb-10 text-3xl px-10 sm:px-0">
           You are now certified{" "}
           <span className="text-purple-500">Clans Roarer!</span>
         </h1>
