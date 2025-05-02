@@ -56,16 +56,20 @@ export default function CardPage() {
 
   if (!card) return <div>Loading...</div>;
 
-  const tweetContent = `Roar louder. Roar prouder.\n\nPick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clans today!`;
+  const tweetContent = `Roar louder. Roar prouder.\n\nPick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clan today!`;
 
   const handleStartRoaring = () => {
-    window.open(
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        tweetContent
-      )}`,
-      "_blank",
-      "width=600,height=400"
-    );
+    const tweetContent = `Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.
+
+Claim your clan today!`;
+
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      tweetContent
+    )}&url=${encodeURIComponent(
+      "https://clans-landing-page.vercel.app/share-card"
+    )}`;
+
+    window.open(tweetUrl, "_blank", "width=600,height=400");
   };
 
   const handleRedirect = () => {
