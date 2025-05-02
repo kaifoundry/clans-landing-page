@@ -303,7 +303,7 @@ const MainPage = () => {
 
             <p
               onClick={closeModal}
-              className="text-sm text-gray-500 cursor-pointer underline mb-4"
+              className="text-sm text-black font-bold cursor-pointer underline mb-4"
             >
               Cancel
             </p>

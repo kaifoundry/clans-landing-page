@@ -104,20 +104,19 @@ export default function MobileMainPage() {
             <ClanLogo />
           </div>
 
-          {/* Bottom Content */}
-          <div className="flex justify-between w-full absolute bottom-0 overflow-hidden h-full">
+          <div className="flex justify-between  w-full absolute bottom-0 overflow-hidden h-full">
             <Image
               src="/Images/gettingStarted/mobileavtar1.png"
               width={500}
               height={550}
               alt="avtar1"
-              className="z-1 absolute bottom-0 w-[300px] h-[600px] object-contain scale-105"
+              className="z-1 absolute -bottom-[61px] xxs:bottom-0 w-[220px] xxs:w-[300px] h-[600px] object-contain  scale-105" // Added object-contain for better image scaling
             />
             <div className="mx-auto z-10 absolute bottom-10 w-full flex items-center justify-center">
               <Button
                 ButtonText="Start Now !"
-                className="text-xl"
-                onClick={openModal}
+                className="text-xl "
+                onClick={openModal} // Only open modal on click
               />
             </div>
             <Image
@@ -125,7 +124,7 @@ export default function MobileMainPage() {
               width={400}
               height={600}
               alt="avtar2"
-              className="absolute right-0 h-[620px] w-[260px] bottom-0 object-contain scale-110"
+              className="absolute right-0 h-[620px] w-[200px] xxs:w-[260px] -bottom-[65px]  xxs:bottom-0 object-contain scale-110" // Added object-contain
             />
           </div>
         </div>
@@ -160,7 +159,7 @@ export default function MobileMainPage() {
 
               <p
                 onClick={closeModal}
-                className="text-sm text-gray-500 cursor-pointer underline mb-4"
+                className="text-sm text-black font-bold cursor-pointer underline mb-4"
               >
                 Cancel
               </p>
