@@ -8,37 +8,29 @@ import { gsap } from "gsap";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 
-const StartRoaringPage = () => {
+interface Props {
+  userId: string;
+}
+
+const StartRoaringPage: React.FC<Props> = ({ userId }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
   const avatarLeftRef = useRef(null); // Ref for the animation
 
   // Use useParams hook to get dynamic route parameters
-  const params = useParams();
 
-  // Effect to extract userId from params and handle window resizing
   useEffect(() => {
-    // Extract userId from the params object
-    const userIdFromParams = params.userId;
-    if (userIdFromParams) {
-      // Handle case where param might be an array (less common for simple routes)
-      const id = Array.isArray(userIdFromParams)
-        ? userIdFromParams[0]
-        : userIdFromParams;
-      setUserId(id);
-    }
-
-    // Handle responsive design state
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    handleResize(); // Set initial state based on window size
+    handleResize(); // ✅ Initial check
+
     window.addEventListener("resize", handleResize);
 
-    // Cleanup resize event listener when component unmounts
-    return () => window.removeEventListener("resize", handleResize);
-  }, [params.userId]); // Rerun effect if the userId param changes
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // Optional: Log the userId once it's set (for debugging)
   useEffect(() => {
