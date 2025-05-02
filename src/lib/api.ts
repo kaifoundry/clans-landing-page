@@ -66,6 +66,11 @@ export const joinClan = async (joinData: any) => {
   return res.json();
 };
 
+
+// api/user/:userId/early-user
+
+// patch api
+
 //create one for this api/user/:userId/early-user post request
 export const createEarlyUser = async (userId: string) => {
   const res = await fetch(`${BASE_URL}/api/user/${userId}/early-user`, {

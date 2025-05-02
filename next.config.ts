@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+   images: {
+    domains: ['pbs.twimg.com'], // ✅ Add this line
+  },
   productionBrowserSourceMaps: false, 
   webpack(config) {
     return config;

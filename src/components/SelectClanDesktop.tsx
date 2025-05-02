@@ -11,19 +11,19 @@ import { gsap } from "gsap";
 import { joinClan } from "@/lib/api";
 
 const SelectClan = () => {
-  const [clanId, setClanId] = useState<string | null>(null); // State to store the selected clan ID
+  // const [clanId, setClanId] = useState<string | null>(null); // State to store the selected clan ID
   //card Data
 
-  const clanIdKey = [
-    "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
-    "5e14624b-f312-4472-a7b7-5c631925ff79",
-    "6646714b-7aa2-4309-8aea-4b120f9719c3",
-    "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
-  ];
+  // const clanIdKey = [
+  //   "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
+  //   "5e14624b-f312-4472-a7b7-5c631925ff79",
+  //   "6646714b-7aa2-4309-8aea-4b120f9719c3",
+  //   "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
+  // ];
 
   const clanData = [
     {
-      id: "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
+      id: "225462e8-0077-45c7-a5f5-4474f2b84166",
       image: "/Images/introducingClans/card_1.png",
       hoverImage: "/Images/selectClan/sideImage2.png",
       cardImage: "/Images/selectClan/cardImg1.png",
@@ -32,7 +32,7 @@ const SelectClan = () => {
       glowColor: "rgba(255, 0, 0, 0.8)",
     },
     {
-      id: "5e14624b-f312-4472-a7b7-5c631925ff79",
+      id: "b2cb6389-65e4-4d2a-acc1-ce5b02b893a3",
       image: "/Images/introducingClans/card_2.png",
       hoverImage: "/Images/selectClan/sideImage1.png",
       cardImage: "/Images/selectClan/cardImg2.png",
@@ -41,7 +41,7 @@ const SelectClan = () => {
       glowColor: "rgba(138, 43, 226, 0.8)",
     },
     {
-      id: "6646714b-7aa2-4309-8aea-4b120f9719c3",
+      id: "98e347d1-b7b9-4c53-ba73-26ff6ac87052",
       image: "/Images/introducingClans/card_3.png",
       hoverImage: "/Images/selectClan/sideImage3.png",
       cardImage: "/Images/selectClan/cardImg3.png",
@@ -50,7 +50,7 @@ const SelectClan = () => {
       glowColor: "rgba(0, 255, 0, 0.8)",
     },
     {
-      id: "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
+      id: "9e37533c-164d-475b-8fb0-dc8f67ae7bec",
       image: "/Images/introducingClans/card_4.png",
       hoverImage: "/Images/selectClan/sideImage4.png",
       cardImage: "/Images/selectClan/cardImg4.png",
@@ -96,14 +96,14 @@ const SelectClan = () => {
   const [buttonSize, setButtonSize] = useState({ width: 150, height: 30 });
   // ✅ Fetch clans on component mount
 
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      const parseUserdata = JSON.parse(storedUserData);
-      setUserdata(parseUserdata);
-      console.log("User data from localStorage:", parseUserdata);
-    }
-  }, []); // Empty dependency array to run this effect only once when the component mounts.
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("userData");
+  //   if (storedUserData) {
+  //     const parseUserdata = JSON.parse(storedUserData);
+  //     setUserdata(parseUserdata);
+  //     console.log("User data from localStorage:", parseUserdata);
+  //   }
+  // }, []); // Empty dependency array to run this effect only once when the component mounts.
 
   useEffect(() => {
     if (clans && clans.length > 0) {
@@ -190,6 +190,7 @@ const SelectClan = () => {
   //   }
   // };
 
+  //Important code afterward use
   const getAllClans = async () => {
     console.log("📢 getAllClans() called");
 
@@ -225,7 +226,9 @@ const SelectClan = () => {
     // const userData = localStorage.getItem("userData");
     // const user = userData ? JSON.parse(userData) : null;
 
-    const storedUserId = userData?.userId;
+    // const storedUserId = userData?.userId;
+
+    const storedUserId = "0b98014b-7a22-4908-a487-8bfdd7d2d437"; // Dummy User ID for testing
 
     console.log("📥 Stored User ID:", storedUserId);
     console.log("📥 Selected Clan ID:", selectedClanId);
@@ -250,7 +253,7 @@ const SelectClan = () => {
       if (response?.success) {
         // If API response is successful, show success message
         alert("🎉 Successfully joined the clan!");
-      } else {
+        // } else {
         // If API response does not indicate success, show failure
         alert("⚠️ Something went wrong while joining the clan.");
       }

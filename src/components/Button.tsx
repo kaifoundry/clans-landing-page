@@ -6,6 +6,7 @@ interface ButtonProps {
   width?: number;
   height?: number;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export default function Button({
@@ -14,9 +15,11 @@ export default function Button({
   width = 307,
   height = 79,
   onClick,
+  disabled = false,
 }: ButtonProps) {
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
       className={clsx(
         "group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white",

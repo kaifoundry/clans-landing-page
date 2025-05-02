@@ -27,12 +27,6 @@ const MainPage = () => {
   const avatarRightRef = useRef(null);
   const router = useRouter();
 
-  // Dummy decrypt function (replace with real decryption if needed)
-  // const decryptData = (encrypted: string) => {
-  //   const decryptedString = atob(encrypted); // base64 decode
-  //   return JSON.parse(decryptedString);
-  // };
-
   const callTwitterAuthAPI = () => {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Replace with your actual base URL or use process.env.NEXT_PUBLIC_API_BASE_URL
     //hello
@@ -44,79 +38,6 @@ const MainPage = () => {
     // Use location.assign to ensure full redirect (especially helpful on mobile)
     window.location.assign(`${baseUrl}/api/auth/twitter`);
   };
-
-  // const callTwitterAuthAPI = async () => {
-  //   const res = await fetch(
-  //     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter`
-  //   );
-  //   const data = await res.json();
-  //   if (data?.url) {
-  //     window.location.href = data.url;
-  //   }
-  // };
-
-  // const handleTwitterLogin = async () => {
-  //   try {
-  //     const response = await getTwitterAuth();
-  //     if (response.url) {
-  //       window.location.href = response.url;
-  //     } else {
-  //       console.error("Failed to get Twitter authorization URL");
-  //     }
-  //   } catch (error) {
-  //     console.error("Twitter authentication error:", error);
-  //   }
-  // };
-
-  // const handleTwitterCallback = async () => {
-  //   try {
-  //     const urlParams = new URLSearchParams(window.location.search);
-  //     const data = urlParams.get("data");
-  //     const isEncrypted = urlParams.get("encrypted") === "true";
-  //     const errorMessage = urlParams.get("message");
-
-  //     if (errorMessage) {
-  //       console.error("Twitter Auth Error:", decodeURIComponent(errorMessage));
-  //       return { success: false, error: decodeURIComponent(errorMessage) };
-  //     }
-
-  //     if (!data) {
-  //       console.error("No auth data found in callback.");
-  //       return { success: false, error: "No data in callback" };
-  //     }
-
-  //     let authData;
-  //     if (isEncrypted) {
-  //       authData = decryptData(data);
-  //     } else {
-  //       authData = JSON.parse(decodeURIComponent(data));
-  //     }
-
-  //     // Save tokens
-  //     localStorage.setItem("access_token", authData.access_token);
-  //     localStorage.setItem("refresh_token", authData.refresh_token);
-
-  //     if (authData.twitter_tokens) {
-  //       localStorage.setItem(
-  //         "twitter_access_token",
-  //         authData.twitter_tokens.access_token
-  //       );
-  //       if (authData.twitter_tokens.refresh_token) {
-  //         localStorage.setItem(
-  //           "twitter_refresh_token",
-  //           authData.twitter_tokens.refresh_token
-  //         );
-  //       }
-  //     }
-
-  //     localStorage.setItem("user", JSON.stringify(authData.user));
-
-  //     return { success: true, user: authData.user };
-  //   } catch (error) {
-  //     console.error("Error processing callback:", error);
-  //     return { success: false, error: "Invalid Twitter callback data" };
-  //   }
-  // };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -160,21 +81,6 @@ const MainPage = () => {
     );
   }, []);
 
-  // Handle Twitter callback if redirected
-  // useEffect(() => {
-  //   const run = async () => {
-  //     const urlParams = new URLSearchParams(window.location.search);
-  //     if (urlParams.has("data")) {
-  //       const result = await handleTwitterCallback();
-  //       if (result.success) {
-  //         router.push("/dashboard");
-  //       } else {
-  //         console.error("Auth failed:", result.error);
-  //       }
-  //     }
-  //   };
-  //   run();
-  // }, []);
   return (
     <section className="relative bg-black overflow-hidden flex items-center justify-center h-screen text-white">
       {/* Background Video */}
@@ -196,29 +102,6 @@ const MainPage = () => {
       {/* Foreground Content */}
       <div className="mx-auto relative w-full h-full text-center flex items-center justify-center flex-col z-10">
         <div className="flex items-center justify-center gap-10 z-20 flex-col">
-          {/* <div className="flex gap-4 items-center justify-center">
-            <Image
-              src="/Images/gettingStarted/Object.png"
-              width={80}
-              height={80}
-              alt="Object1"
-              className="lg:w-40 lg:h-50 md:w-30 object-contain"
-            />
-            <Image
-              src="/Images/gettingStarted/Line.png"
-              width={1}
-              height={1}
-              alt="Line1"
-              className="lg:w-2 lg:h-35 md:h-20 md:w-2 object-contain"
-            />
-            <Image
-              src="/Images/gettingStarted/Clans.png"
-              width={120}
-              height={60}
-              alt="Clans"
-              className="lg:w-90 2xl:h-50 md:w-50 object-contain"
-            />
-          </div> */}
           <div className="flex gap-4 items-center justify-center">
             <Image
               src="/Images/gettingStarted/Object.png"

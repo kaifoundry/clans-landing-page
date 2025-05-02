@@ -36,6 +36,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
   useEffect(() => {
     if (userId) {
       console.log("User ID from params:", userId);
+      localStorage.setItem("userId", userId); // Store userId in local storage
     }
   }, [userId]);
 

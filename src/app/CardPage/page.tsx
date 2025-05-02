@@ -4,7 +4,6 @@ import Button from "@/components/Button";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useClan } from "@/context/ClanContext";
-import { postTweet } from "@/lib/api"; // Make sure this function returns a response or throws an error
 
 export default function CardPage() {
   const { selectedCardId } = useClan();
@@ -21,38 +20,53 @@ export default function CardPage() {
     message: string;
   } | null>(null);
 
+  const [loading, setLoading] = useState(false);
+
+  const [userData, setUserData] = useState<null | {
+    userId: string;
+    email: string;
+    referralCode?: string;
+    socialHandles?: {
+      username: string;
+      profilePicture: string;
+    }[];
+  }>(null);
+
+  const social = userData?.socialHandles?.[0];
+
+  const username = social?.username;
+  const profilePic = social?.profilePicture;
+
   const cardData = [
     {
-      id: "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
+      id: "225462e8-0077-45c7-a5f5-4474f2b84166",
       image: "/Images/selectClan/cardImg1.png",
       title: "Clan McBuilder",
       description: "We create the future with passion and code.",
       glowColor: "rgba(255, 0, 0, 0.5)",
     },
     {
-      id: "5e14624b-f312-4472-a7b7-5c631925ff79",
+      id: "b2cb6389-65e4-4d2a-acc1-ce5b02b893a3",
       image: "/Images/selectClan/cardImg2.png",
       title: "McHODLer",
       description: "Diamond hands forever.",
       glowColor: "rgba(128, 0, 128, 0.5)",
     },
     {
-      id: "6646714b-7aa2-4309-8aea-4b120f9719c3",
+      id: "98e347d1-b7b9-4c53-ba73-26ff6ac87052",
       image: "/Images/selectClan/cardImg3.png",
       title: "Clan McDegen",
       description: "Risk is our middle name.",
       glowColor: "rgba(0, 255, 0, 0.5)",
     },
     {
-      id: "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
+      id: "9e37533c-164d-475b-8fb0-dc8f67ae7bec",
       image: "/Images/selectClan/cardImg4.png",
       title: "Clan McPrivacy",
       description: "Privacy is our birthright.",
       glowColor: "rgba(0, 0, 255, 0.5)",
     },
   ];
-
-  const [userData, setUserdata] = useState<null | any>(null); // To store user data
 
   useEffect(() => {
     if (selectedCardId !== null) {
@@ -66,43 +80,100 @@ export default function CardPage() {
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {
-      const parseUserdata = JSON.parse(storedUserData);
-      setUserdata(parseUserdata);
-      console.log("User data from localStorage:", parseUserdata);
+      const parsedUserData = JSON.parse(storedUserData);
+      setUserData(parsedUserData);
+      console.log("User data from localStorage:", parsedUserData);
     }
   }, []);
 
   if (!card) return <div>Loading...</div>;
 
-  const tweetContent = `Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clan today!`;
+  // const tweetContent = `Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clan today! `;
+  const tweetContent = `Roar louder. Roar prouder!
 
-  const handleStartRoaring = async () => {
+Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.
+
+Claim your clan today! ${userData?.referralCode} `;
+
+  const postTweet = async (
+    text: string,
+    referralCode: string,
+    userId: string,
+    media: string
+  ) => {
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/twitter/Post-tweet`;
+
     try {
-      const mediaFile = new Blob(["image data here"], { type: "image/jpeg" });
-      const referralCode = "your-Referral-Code";
-      const userId = userData?.userId;
+      setLoading(true);
 
-      const response = await postTweet(
-        tweetContent,
-        referralCode,
-        userId,
-        mediaFile
-      );
+      // Instead of sending the full image blob, just send the image path/URL
+      const formData = new FormData();
+      formData.append("text", text);
+      formData.append("referralCode", referralCode);
+      formData.append("userId", userId);
+      formData.append("media", media); // Send image URL instead of blob
 
-      if (response?.success) {
-        setStatus({ type: "success", message: "Tweet posted successfully!" });
-      } else {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        console.error("Failed to parse response as JSON", e);
+        data = { message: "Server returned an invalid response" };
+      }
+
+      if (!response.ok) {
+        console.error("❌ Backend responded with error:", data);
         setStatus({
           type: "error",
-          message: "Failed to post tweet. Try again later.",
+          message:
+            data.message ||
+            `Error ${response.status}: Request too large or server error`,
         });
+        throw new Error(
+          data.message ||
+            `Error ${response.status}: Request too large or server error`
+        );
       }
-    } catch (error) {
-      console.error("Error posting tweet:", error);
+
+      console.log("✅ Tweet posted successfully:", data);
+      setStatus({
+        type: "success",
+        message: "Tweet posted successfully! Your Roar has been heard!",
+      });
+      return data;
+    } catch (error: any) {
+      console.error("❌ Error posting tweet:", error);
       setStatus({
         type: "error",
-        message: "Something went wrong while posting the tweet.",
+        message: error.message || "Failed to post tweet. Please try again.",
       });
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStartRoaring = async () => {
+    if (!userData || !userData.userId) {
+      setStatus({
+        type: "error",
+        message: "User data not found. Please log in again.",
+      });
+      return;
+    }
+
+    try {
+      // Use the card image path from the selected card
+      const referralCode = userData.referralCode || "default";
+      await postTweet(tweetContent, referralCode, userData.userId, card.image);
+    } catch (error) {
+      // Error is already handled in the postTweet function
+      console.error("Error in handleStartRoaring:", error);
     }
   };
 
@@ -126,20 +197,27 @@ export default function CardPage() {
             <div className="flex flex-col p-10 gap-y-10">
               <div className="flex flex-row">
                 <Image
-                  src="/Images/cardPage/avtar_1.png"
+                  src={profilePic || "/Images/gettingStarted/user.png"}
                   alt="userProfilePic"
                   height={100}
                   width={100}
                   className="rounded-full h-20 w-20 border-white border-2"
                 />
                 <div className="flex flex-col py-4 px-2">
-                  <p>Yashika</p>
-                  <p>yashika@gmail.com</p>
+                  <p>{username}</p>
+
+                  {userData?.email ? (
+                    <p className="text-sm text-gray-500">{userData.email}</p>
+                  ) : (
+                    <p className="text-sm text-gray-500">
+                      Email does not exists
+                    </p>
+                  )}
                 </div>
               </div>
 
               <p>
-                I don’t tweet anymore. I Roar - with Clan {card.title} behind
+                I don't tweet anymore. I Roar - with Clan {card.title} behind
                 me.
                 <br />
                 Privacy is power. Roar wisely.
@@ -179,6 +257,12 @@ export default function CardPage() {
             />
           </div>
         </div>
+
+        {loading && (
+          <div className="mt-6 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-purple-500 border-solid border-opacity-50" />
+          </div>
+        )}
 
         {status && (
           <div
