@@ -10,7 +10,7 @@ import { useClan } from "@/context/ClanContext";
 const SelectClan = () => {
   const cardData = [
     {
-      id: 1,
+      id: "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
       image: "/Images/introducingClans/card_1.png",
       hoverImage: "/Images/selectClan/sideImage2.png",
       cardImage: "/Images/selectClan/cardImg1.png",
@@ -19,7 +19,7 @@ const SelectClan = () => {
       glowColor: "rgba(255, 0, 0, 0.8)",
     },
     {
-      id: 2,
+      id: "5e14624b-f312-4472-a7b7-5c631925ff79",
       image: "/Images/introducingClans/card_2.png",
       hoverImage: "/Images/selectClan/sideImage1.png",
       cardImage: "/Images/selectClan/cardImg2.png",
@@ -28,7 +28,7 @@ const SelectClan = () => {
       glowColor: "rgba(138, 43, 226, 0.8)",
     },
     {
-      id: 3,
+      id: "6646714b-7aa2-4309-8aea-4b120f9719c3",
       image: "/Images/introducingClans/card_3.png",
       hoverImage: "/Images/selectClan/sideImage3.png",
       cardImage: "/Images/selectClan/cardImg3.png",
@@ -37,7 +37,7 @@ const SelectClan = () => {
       glowColor: "rgba(0, 255, 0, 0.8)",
     },
     {
-      id: 4,
+      id: "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
       image: "/Images/introducingClans/card_4.png",
       hoverImage: "/Images/selectClan/sideImage4.png",
       cardImage: "/Images/selectClan/cardImg4.png",
@@ -168,43 +168,38 @@ const SelectClan = () => {
           {selectedCard && (
             <Link href={`/CardPage?selectedCardId=${selectedCard.id}`}>
               {/* <Button ButtonText="Join Clan" width={250} height={50} /> */}
-              <button
-  
-  className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white"
->
-  <div
-    className="relative w-[160px] h-[45px] sm:w-[200px] sm:h-[55px] md:w-[240px] md:h-[65px] lg:w-[280px] lg:h-[75px] xl:w-[307px] xl:h-[80px]"
-  >
-    {/* Inline SVG */}
-    <svg
-      viewBox="0 0 309 81"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="absolute top-0 left-0 w-full h-full transition-colors duration-300"
-      preserveAspectRatio="xMidYMid meet"
-    >
-      <path
-        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-        className="fill-[#0E0E17] group-hover:fill-pink-500 opacity-50"
-        fillOpacity="0.8"
-      />
-      <path
-        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
-        stroke="white"
-        strokeOpacity="0.24"
-        strokeWidth="2"
-      />
-    </svg>
+              <button className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white">
+                <div className="relative w-[160px] h-[45px] sm:w-[200px] sm:h-[55px] md:w-[240px] md:h-[65px] lg:w-[280px] lg:h-[75px] xl:w-[307px] xl:h-[80px]">
+                  {/* Inline SVG */}
+                  <svg
+                    viewBox="0 0 309 81"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="absolute top-0 left-0 w-full h-full transition-colors duration-300"
+                    preserveAspectRatio="xMidYMid meet"
+                  >
+                    <path
+                      d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
+                      className="fill-[#0E0E17] group-hover:fill-pink-500 opacity-50"
+                      fillOpacity="0.8"
+                    />
+                    <path
+                      d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
+                      stroke="white"
+                      strokeOpacity="0.24"
+                      strokeWidth="2"
+                    />
+                  </svg>
 
-    {/* Button text */}
-    <span
-      className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 
+                  {/* Button text */}
+                  <span
+                    className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 
                  text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium"
-    >
- Join Clan
-    </span>
-  </div>
-</button>
+                  >
+                    Join Clan
+                  </span>
+                </div>
+              </button>
             </Link>
           )}
         </div>
@@ -223,4 +218,4 @@ const SelectClan = () => {
   );
 };
 
-export default SelectClan;
+export default SelectClan;

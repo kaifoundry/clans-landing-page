@@ -7,6 +7,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
+import { get } from "lodash";
 
 interface Props {
   userId: string;
@@ -14,9 +15,8 @@ interface Props {
 
 const StartRoaringPage: React.FC<Props> = ({ userId }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [userData, setUserData] = useState<any>(null); // State to hold user data
   const avatarLeftRef = useRef(null); // Ref for the animation
-
-  // Use useParams hook to get dynamic route parameters
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,6 +37,38 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
     if (userId) {
       console.log("User ID from params:", userId);
     }
+  }, [userId]);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      if (userId) {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/fetch/${userId}`
+          );
+          if (!res.ok) {
+            throw new Error("Error fetching user data");
+          }
+          const data = await res.json();
+
+          //storing yhe user data in local storage
+          if (data.success && data) {
+            localStorage.setItem("userData", JSON.stringify(data.data));
+            //check if it is in local storage
+            const userData = localStorage.getItem("userData");
+            if (userData) {
+              console.log("User data in local storage:", JSON.parse(userData));
+            }
+            setUserData(data.data); // Set the user data in state
+            console.log("Fetched user data:", data.data);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    getUserData(); // Call the function to fetch user data when userId is available
   }, [userId]);
 
   // GSAP animation effect for the left avatar
@@ -70,7 +102,6 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
       <span className="absolute top-5 left-5">
         <ClanLogo />
       </span>
-
       {/* Display the userId (e.g., for debugging or personalization) */}
       {/* You might remove this h1 in the final version */}
       <h1 className="text-white text-sm absolute top-5 right-5">
@@ -85,7 +116,6 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
           Introducing Roar Points
         </h2>
       </div>
-
       {/* Center Card Section */}
       <div className="z-10 drop-shadow-[10px_10px_5px_rgba(255,255,255,1)] flex items-center justify-center flex-col gap-6 w-full max-w-4xl px-4 md:px-0">
         <div
@@ -128,7 +158,6 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
           </Link>
         </div>
       </div>
-
       {/* Left Avatar Image (animated) */}
       <Image
         ref={avatarLeftRef} // Attach ref for GSAP animation

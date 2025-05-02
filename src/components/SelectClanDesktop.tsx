@@ -10,13 +10,20 @@ import { debounce } from "lodash";
 import { gsap } from "gsap";
 import { joinClan } from "@/lib/api";
 
-
-
 const SelectClan = () => {
+  const [clanId, setClanId] = useState<string | null>(null); // State to store the selected clan ID
   //card Data
-  const cardData = [
+
+  const clanIdKey = [
+    "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
+    "5e14624b-f312-4472-a7b7-5c631925ff79",
+    "6646714b-7aa2-4309-8aea-4b120f9719c3",
+    "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
+  ];
+
+  const clanData = [
     {
-      id: 1,
+      id: "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
       image: "/Images/introducingClans/card_1.png",
       hoverImage: "/Images/selectClan/sideImage2.png",
       cardImage: "/Images/selectClan/cardImg1.png",
@@ -25,7 +32,7 @@ const SelectClan = () => {
       glowColor: "rgba(255, 0, 0, 0.8)",
     },
     {
-      id: 2,
+      id: "5e14624b-f312-4472-a7b7-5c631925ff79",
       image: "/Images/introducingClans/card_2.png",
       hoverImage: "/Images/selectClan/sideImage1.png",
       cardImage: "/Images/selectClan/cardImg2.png",
@@ -34,7 +41,7 @@ const SelectClan = () => {
       glowColor: "rgba(138, 43, 226, 0.8)",
     },
     {
-      id: 3,
+      id: "6646714b-7aa2-4309-8aea-4b120f9719c3",
       image: "/Images/introducingClans/card_3.png",
       hoverImage: "/Images/selectClan/sideImage3.png",
       cardImage: "/Images/selectClan/cardImg3.png",
@@ -43,7 +50,7 @@ const SelectClan = () => {
       glowColor: "rgba(0, 255, 0, 0.8)",
     },
     {
-      id: 4,
+      id: "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
       image: "/Images/introducingClans/card_4.png",
       hoverImage: "/Images/selectClan/sideImage4.png",
       cardImage: "/Images/selectClan/cardImg4.png",
@@ -71,22 +78,32 @@ const SelectClan = () => {
 
   const { selectedCardId, setSelectedCardId } = useClan();
 
-  const [selectedCard, setSelectedCard] = useState<null | (typeof cardData)[0]>(
+  const [selectedCard, setSelectedCard] = useState<null | (typeof clanData)[0]>(
     null
   );
 
   const sideImageRef = useRef<HTMLDivElement | null>(null);
 
   // State to manage clans data, loading state, and errors using API
-  const [clans, setClans] = useState([]); // To store all clans
+  const [clans, setClans] = useState<{ clanId: string; [key: string]: any }[]>(
+    []
+  ); // To store all clans
   const [loading, setLoading] = useState(true); // For loading state
   const [error, setError] = useState<string | null>(null); // Error management
 
+  const [userData, setUserdata] = useState<null | any>(null); // To store user data
+
   const [buttonSize, setButtonSize] = useState({ width: 150, height: 30 });
   // ✅ Fetch clans on component mount
+
   useEffect(() => {
-    getAllClans();
-  }, []);
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      const parseUserdata = JSON.parse(storedUserData);
+      setUserdata(parseUserdata);
+      console.log("User data from localStorage:", parseUserdata);
+    }
+  }, []); // Empty dependency array to run this effect only once when the component mounts.
 
   useEffect(() => {
     if (clans && clans.length > 0) {
@@ -106,12 +123,12 @@ const SelectClan = () => {
 
   useEffect(() => {
     if (selectedCardId !== null) {
-      const card = cardData.find((card) => card.id === selectedCardId);
-      if (card) {
-        setSelectedCard(card);
-        setAvatarImage(card.hoverImage);
-        setDisplayedTitle(card.title);
-        setDisplayedDescription(card.description);
+      const clan = clanData.find((card) => card.id === String(selectedCardId));
+      if (clan) {
+        setSelectedCard(clan);
+        setAvatarImage(clan.hoverImage);
+        setDisplayedTitle(clan.title);
+        setDisplayedDescription(clan.description);
       }
     }
   }, [selectedCardId]);
@@ -129,26 +146,55 @@ const SelectClan = () => {
   };
 
   // ✅ Fetch clans & cache in localStorage
+  // const getAllClans = async () => {
+  //   console.log("📢 getAllClans() called");
+
+  //   try {
+  //     // 🔍 Check localStorage for cached data
+  //     const stored = localStorage.getItem("clanData");
+  //     if (stored) {
+  //       const parsed = JSON.parse(stored);
+  //       console.log("📦 localStorage fetched:", parsed);
+
+  //       if (parsed.success && Array.isArray(parsed.data)) {
+  //         console.log("✅ Using cached clan data:", parsed);
+  //         setClans(parsed.data); // ✅ Corrected line
+  //         return parsed.data;
+  //       } else {
+  //         console.warn("⚠️ Cached data format invalid, fetching from API...");
+  //       }
+  //     }
+
+  //     // 🌐 Fetch from API if no cache or invalid data
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
+  //     );
+  //     if (!res.ok) throw new Error("Failed to fetch clans");
+
+  //     const data = await res.json();
+  //     console.log("🌐 Fetched from API:", data);
+
+  //     if (data.success && Array.isArray(data.data)) {
+  //       localStorage.setItem("clanData", JSON.stringify(data));
+  //       setClans(data.data); // ✅ Store array only
+  //       return data.data;
+  //     } else {
+  //       throw new Error("Invalid API response structure");
+  //     }
+  //   } catch (err: any) {
+  //     console.error("❌ Fetch error:", err);
+  //     setError(err.message || "Something went wrong while fetching clans");
+  //   } finally {
+  //     setLoading(false);
+  //     console.log("🏁 getAllClans() completed");
+  //   }
+  // };
+
   const getAllClans = async () => {
     console.log("📢 getAllClans() called");
 
     try {
-      // 🔍 Check localStorage for cached data
-      const stored = localStorage.getItem("clanData");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        console.log("📦 localStorage fetched:", parsed);
-
-        if (parsed.success && Array.isArray(parsed.data)) {
-          console.log("✅ Using cached clan data:", parsed);
-          setClans(parsed.data); // ✅ Corrected line
-          return parsed.data;
-        } else {
-          console.warn("⚠️ Cached data format invalid, fetching from API...");
-        }
-      }
-
-      // 🌐 Fetch from API if no cache or invalid data
+      setLoading(true); // Start loading
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
       );
@@ -158,9 +204,7 @@ const SelectClan = () => {
       console.log("🌐 Fetched from API:", data);
 
       if (data.success && Array.isArray(data.data)) {
-        localStorage.setItem("clanData", JSON.stringify(data));
-        setClans(data.data); // ✅ Store array only
-        return data.data;
+        setClans(data.data); // Set fetched data to state
       } else {
         throw new Error("Invalid API response structure");
       }
@@ -168,103 +212,106 @@ const SelectClan = () => {
       console.error("❌ Fetch error:", err);
       setError(err.message || "Something went wrong while fetching clans");
     } finally {
-      setLoading(false);
+      setLoading(false); // End loading
       console.log("🏁 getAllClans() completed");
     }
   };
 
-  // ✅ Join clan using userId & clanId from localStorage
-  // const handleJoinClan = async (selectedClanId: string) => {
-  //   const userData = localStorage.getItem("userData");
-  //   const user = userData ? JSON.parse(userData) : null;
+  useEffect(() => {
+    getAllClans();
+  }, []);
 
-  //   const storedUserId = user?.userId;
+  const handleJoinClan = async (selectedClanId: string) => {
+    // const userData = localStorage.getItem("userData");
+    // const user = userData ? JSON.parse(userData) : null;
 
-  //   console.log("📥 Stored User ID:", storedUserId);
-  //   console.log("📥 Selected Clan ID:", selectedClanId);
+    const storedUserId = userData?.userId;
 
-  //   if (!storedUserId || !selectedClanId) {
-  //     alert("❌ Missing user or clan ID.");
-  //     return;
-  //   }
+    console.log("📥 Stored User ID:", storedUserId);
+    console.log("📥 Selected Clan ID:", selectedClanId);
 
-  //   const joinData = {
-  //     userId: storedUserId,
-  //     clanId: selectedClanId,
-  //   };
-
-  //   console.log("🚀 Sending this data to joinClan API:", joinData);
-
-  //   try {
-  //     const response = await joinClan(joinData); // Send to API
-
-  //     console.log("✅ API response:", response);
-
-  //     if (response?.success) {
-  //       // If API response is successful, show success message
-  //       alert("🎉 Successfully joined the clan!");
-  //     } else {
-  //       // If API response does not indicate success, show failure
-  //       alert("⚠️ Something went wrong while joining the clan.");
-  //     }
-  //   } catch (error) {
-  //     console.error("❌ Error while calling joinClan API:", error);
-  //     alert("Failed to join clan due to network or server error.");
-  //   }
-  // };
-
-  const handleJoinClan = async (clanId: String) => {
-    // Prepare dummy data to simulate the request
-    const dummyUserId = "12345"; // Dummy User ID
-    const dummyClanId = clanId; // Use the passed clan ID
-
-    console.log("Dummy User ID:", dummyUserId);
-    console.log("Dummy Clan ID:", dummyClanId);
-
-    if (!dummyUserId || !dummyClanId) {
-      alert("Missing user or clan ID.");
+    if (!storedUserId || !selectedClanId) {
+      alert("❌ Missing user or clan ID.");
       return;
     }
 
     const joinData = {
-      userId: dummyUserId,
-      clanId: dummyClanId,
+      userId: storedUserId,
+      clanId: selectedClanId,
     };
 
     console.log("🚀 Sending this data to joinClan API:", joinData);
 
     try {
-      // Call the real API with dummy data
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/JoinClan`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(joinData),
-        }
-      );
+      const response = await joinClan(joinData); // Send to API
 
-      const result = await response.json(); // Parse the response from the API
-      console.log("✅ API response:", result);
+      console.log("✅ API response:", response);
 
-      // Handle API response
-      // if (result.success) {
-      //   alert("🎉 Successfully joined the clan!");
-      // } else {
-      //   alert("⚠️ Failed to join the clan.");
-      // }
+      if (response?.success) {
+        // If API response is successful, show success message
+        alert("🎉 Successfully joined the clan!");
+      } else {
+        // If API response does not indicate success, show failure
+        alert("⚠️ Something went wrong while joining the clan.");
+      }
     } catch (error) {
-      console.error("Join error:", error);
-      alert("⚠️ Something went wrong while joining the clan.");
+      console.error("❌ Error while calling joinClan API:", error);
+      alert("Failed to join clan due to network or server error.");
     }
   };
+
+  // const handleJoinClan = async (clanId: String) => {
+  //   // Prepare dummy data to simulate the request
+  //   const dummyUserId = "12345"; // Dummy User ID
+  //   const dummyClanId = clanId; // Use the passed clan ID
+
+  //   console.log("Dummy User ID:", dummyUserId);
+  //   console.log("Dummy Clan ID:", dummyClanId);
+
+  //   if (!dummyUserId || !dummyClanId) {
+  //     alert("Missing user or clan ID.");
+  //     return;
+  //   }
+
+  //   const joinData = {
+  //     userId: dummyUserId,
+  //     clanId: dummyClanId,
+  //   };
+
+  //   console.log("🚀 Sending this data to joinClan API:", joinData);
+
+  //   try {
+  //     // Call the real API with dummy data
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/JoinClan`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(joinData),
+  //       }
+  //     );
+
+  //     const result = await response.json(); // Parse the response from the API
+  //     console.log("✅ API response:", result);
+
+  //     // Handle API response
+  //     // if (result.success) {
+  //     //   alert("🎉 Successfully joined the clan!");
+  //     // } else {
+  //     //   alert("⚠️ Failed to join the clan.");
+  //     // }
+  //   } catch (error) {
+  //     console.error("Join error:", error);
+  //     alert("⚠️ Something went wrong while joining the clan.");
+  //   }
+  // };
 
   if (loading) return <div>Loading clans...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const handleSelectId = (id: number) => {
+  const handleSelectId = (id: string) => {
     setSelectedCardId(id);
     // console.log(id);
   };
@@ -287,23 +334,23 @@ const SelectClan = () => {
         </div>
 
         <div className="flex gap-12 items-center w-3/4 mx-0 lg:flex-col-4 md:flex-col-2">
-          {cardData.map((card, index) => (
+          {clanData.map((clan, index) => (
             <div
-              key={card.id}
+              key={clan.id}
               onClick={() => {
                 setActiveIndex(index);
-                setAvatarImage(card.hoverImage);
-                setSelectedCard(card);
-                setDisplayedTitle(card.title);
-                setDisplayedDescription(card.description);
+                setAvatarImage(clan.hoverImage);
+                setSelectedCard(clan);
+                setDisplayedTitle(clan.title);
+                setDisplayedDescription(clan.description);
               }}
               onMouseEnter={() => {
                 setHoveredIndex(index);
-                setAvatarImage(card.hoverImage);
-                setDisplayedTitle(card.title);
-                setDisplayedDescription(card.description);
+                setAvatarImage(clan.hoverImage);
+                setDisplayedTitle(clan.title);
+                setDisplayedDescription(clan.description);
                 // Add glow effect animation on hover
-                gsap.to(`#card-${card.id}`, {
+                gsap.to(`#card-${clan.id}`, {
                   scale: 1.05,
                   duration: 0.3,
                 });
@@ -311,13 +358,13 @@ const SelectClan = () => {
               onMouseLeave={() => {
                 setHoveredIndex(null);
                 if (activeIndex !== null) {
-                  const active = cardData[activeIndex];
+                  const active = clanData[activeIndex];
                   setAvatarImage(active.hoverImage);
                   setDisplayedTitle(active.title);
                   setDisplayedDescription(active.description);
                 }
                 // Reset glow effect animation
-                gsap.to(`#card-${card.id}`, {
+                gsap.to(`#card-${clan.id}`, {
                   scale: 1,
                   boxShadow: "none",
                   duration: 0.3,
@@ -328,7 +375,7 @@ const SelectClan = () => {
                 "xl:h-[400px] xl:w-[220px] md:h-[200px] md:w-[100px] h-[280px] w-[158px] lg:w-[150px] lg:h-[300px]",
                 activeIndex === index ? "scale-105" : "scale-100"
               )}
-              id={`card-${card.id}`}
+              id={`card-${clan.id}`}
             >
               <div
                 className="absolute inset-0 rounded-xl transition-all duration-500"
@@ -337,7 +384,7 @@ const SelectClan = () => {
                     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
                   backgroundColor:
                     activeIndex === index || hoveredIndex === index
-                      ? card.glowColor
+                      ? clan.glowColor
                       : "white",
                 }}
               ></div>
@@ -347,7 +394,7 @@ const SelectClan = () => {
                 style={{
                   clipPath:
                     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
-                  backgroundImage: `url(${card.image})`,
+                  backgroundImage: `url(${clan.image})`,
                   transition: "background-image 0.4s ease",
                 }}
               >
@@ -358,7 +405,7 @@ const SelectClan = () => {
                       "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)",
                   }}
                 >
-                  {card.title}
+                  {clan.title}
                 </h3>
               </div>
 
@@ -369,11 +416,12 @@ const SelectClan = () => {
                 )}
               >
                 <Link
+                  key={clan.id}
                   href={`/CardPage`}
-                  onClick={() => handleSelectId(card.id)}
+                  onClick={() => handleSelectId(clan.id)}
                 >
                   <Button
-                    onClick={() => handleJoinClan(card.id.toString())}
+                    onClick={() => handleJoinClan(clan.id)} // Pass the first clanId
                     ButtonText="Join Clan"
                     width={buttonSize.width}
                     height={buttonSize.height}

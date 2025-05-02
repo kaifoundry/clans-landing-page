@@ -4,42 +4,47 @@ import Button from "@/components/Button";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useClan } from "@/context/ClanContext";
+import { postTweet } from "@/lib/api"; // Make sure this function returns a response or throws an error
 
 export default function CardPage() {
   const { selectedCardId } = useClan();
-
   const [card, setCard] = useState<null | {
-    id: number;
+    id: string;
     title: string;
     description: string;
     image: string;
     glowColor: string;
   }>(null);
 
+  const [status, setStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
   const cardData = [
     {
-      id: 1,
+      id: "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
       image: "/Images/selectClan/cardImg1.png",
       title: "Clan McBuilder",
       description: "We create the future with passion and code.",
       glowColor: "rgba(255, 0, 0, 0.5)",
     },
     {
-      id: 2,
+      id: "5e14624b-f312-4472-a7b7-5c631925ff79",
       image: "/Images/selectClan/cardImg2.png",
       title: "McHODLer",
       description: "Diamond hands forever.",
       glowColor: "rgba(128, 0, 128, 0.5)",
     },
     {
-      id: 3,
+      id: "6646714b-7aa2-4309-8aea-4b120f9719c3",
       image: "/Images/selectClan/cardImg3.png",
       title: "Clan McDegen",
       description: "Risk is our middle name.",
       glowColor: "rgba(0, 255, 0, 0.5)",
     },
     {
-      id: 4,
+      id: "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
       image: "/Images/selectClan/cardImg4.png",
       title: "Clan McPrivacy",
       description: "Privacy is our birthright.",
@@ -47,33 +52,62 @@ export default function CardPage() {
     },
   ];
 
+  const [userData, setUserdata] = useState<null | any>(null); // To store user data
+
   useEffect(() => {
     if (selectedCardId !== null) {
-      const selected = cardData.find((card) => card.id === selectedCardId);
+      const selected = cardData.find(
+        (card) => card.id === selectedCardId.toString()
+      );
       if (selected) setCard(selected);
     }
   }, [selectedCardId]);
 
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      const parseUserdata = JSON.parse(storedUserData);
+      setUserdata(parseUserdata);
+      console.log("User data from localStorage:", parseUserdata);
+    }
+  }, []);
+
   if (!card) return <div>Loading...</div>;
 
-  const tweetContent = `Roar louder. Roar prouder.\n\nPick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clan today!`;
+  const tweetContent = `Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clan today!`;
 
-  const handleStartRoaring = () => {
-    const tweetContent = `Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.
+  const handleStartRoaring = async () => {
+    try {
+      const mediaFile = new Blob(["image data here"], { type: "image/jpeg" });
+      const referralCode = "your-Referral-Code";
+      const userId = userData?.userId;
 
-Claim your clan today!`;
+      const response = await postTweet(
+        tweetContent,
+        referralCode,
+        userId,
+        mediaFile
+      );
 
-    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      tweetContent
-    )}&url=${encodeURIComponent(
-      "https://clans-landing-page.vercel.app/share-card"
-    )}`;
-
-    window.open(tweetUrl, "_blank", "width=600,height=400");
+      if (response?.success) {
+        setStatus({ type: "success", message: "Tweet posted successfully!" });
+      } else {
+        setStatus({
+          type: "error",
+          message: "Failed to post tweet. Try again later.",
+        });
+      }
+    } catch (error) {
+      console.error("Error posting tweet:", error);
+      setStatus({
+        type: "error",
+        message: "Something went wrong while posting the tweet.",
+      });
+    }
   };
 
   const handleRedirect = () => {
-    window.location.href = "/JoinWaitlist";
+    window.location.href = "/cardPage";
   };
 
   return (
@@ -145,6 +179,16 @@ Claim your clan today!`;
             />
           </div>
         </div>
+
+        {status && (
+          <div
+            className={`mt-4 px-4 py-2 rounded-lg text-center text-white ${
+              status.type === "success" ? "bg-green-600" : "bg-red-600"
+            }`}
+          >
+            {status.message}
+          </div>
+        )}
 
         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">
           <Button ButtonText="Start Roaring" onClick={handleStartRoaring} />

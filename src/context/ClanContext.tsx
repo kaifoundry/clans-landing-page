@@ -2,15 +2,17 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
+// ✅ 1. Update types to use `string` instead of `number`
 interface ClanContextType {
-  selectedCardId: number | null;
-  setSelectedCardId: (id: number) => void;
+  selectedCardId: string | null;
+  setSelectedCardId: (id: string) => void;
 }
 
+// ✅ 2. Initialize with `string | null`
 const ClanContext = createContext<ClanContextType | undefined>(undefined);
 
 export const ClanProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
   return (
     <ClanContext.Provider value={{ selectedCardId, setSelectedCardId }}>
@@ -19,8 +21,7 @@ export const ClanProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-
-
+// ✅ 3. Hook remains the same
 export const useClan = () => {
   const context = useContext(ClanContext);
   if (context === undefined) {
