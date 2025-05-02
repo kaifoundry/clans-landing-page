@@ -56,7 +56,7 @@ export const createClan = async (clanData: any) => {
 };
 
 export const joinClan = async (joinData: any) => {
-  const res = await fetch(`${BASE_URL}/api/clans/JoinClan`, {
+  const res = await fetch(`${BASE_URL}/clans/JoinClan`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -77,3 +77,54 @@ export const createEarlyUser = async (userId: string) => {
   return res.json();
 };  
 
+// const handleTweet = async () => {
+//   try {
+//     const result = await postTweet(
+//       "Check out this cool referral!", 
+//       "ABC123", 
+//       "user-xyz-id", 
+//       selectedMediaFile // a File object from an <input type="file" />
+//     );
+//     console.log("✅ Tweet posted:", result);
+//   } catch (error) {
+//     alert("Failed to post tweet.");
+//   }
+// };
+
+
+// This function posts a tweet with media to the server
+// It uses FormData to send the tweet text, referral code, user ID, and media file
+
+export const postTweet = async (
+  text: string,
+  referralCode: string,
+  userId: string,
+  media: File | Blob
+) => {
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/twitter/Post-tweet`;
+
+  const formData = new FormData();
+  formData.append("text", text);
+  formData.append("referralCode", referralCode);
+  formData.append("userId", userId);
+  formData.append("media", media); // Assuming media is a file or blob
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      body: formData,
+      // No headers needed; browser automatically sets 'Content-Type' to multipart/form-data
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong while posting the tweet.");
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error("❌ Error posting tweet:", error);
+    throw error;
+  }
+};
