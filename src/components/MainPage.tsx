@@ -14,6 +14,8 @@ import { set } from "lodash";
 const provider = new TwitterAuthProvider();
 
 const MainPage = () => {
+  const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -26,20 +28,31 @@ const MainPage = () => {
   const router = useRouter();
 
   // Dummy decrypt function (replace with real decryption if needed)
-  const decryptData = (encrypted: string) => {
-    const decryptedString = atob(encrypted); // base64 decode
-    return JSON.parse(decryptedString);
+  // const decryptData = (encrypted: string) => {
+  //   const decryptedString = atob(encrypted); // base64 decode
+  //   return JSON.parse(decryptedString);
+  // };
+
+  const callTwitterAuthAPI = () => {
+    const baseUrl = "localhost:3000"; // Replace with your actual base URL or use process.env.NEXT_PUBLIC_API_BASE_URL
+    if (!baseUrl) {
+      console.error("Missing NEXT_PUBLIC_API_BASE_URL");
+      return;
+    }
+
+    // Redirect the user directly to the backend route that handles Twitter auth
+    window.location.href = `${baseUrl}/api/auth/twitter`;
   };
 
-  const callTwitterAuthAPI = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter`
-    );
-    const data = await res.json();
-    if (data?.url) {
-      window.location.href = data.url;
-    }
-  };
+  // const callTwitterAuthAPI = async () => {
+  //   const res = await fetch(
+  //     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter`
+  //   );
+  //   const data = await res.json();
+  //   if (data?.url) {
+  //     window.location.href = data.url;
+  //   }
+  // };
 
   // const handleTwitterLogin = async () => {
   //   try {
