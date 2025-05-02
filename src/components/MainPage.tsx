@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { getTwitterAuth } from "@/lib/api";
+import { sign } from "crypto";
 const provider = new TwitterAuthProvider();
 
 const MainPage = () => {
@@ -30,68 +31,67 @@ const MainPage = () => {
     return JSON.parse(decryptedString);
   };
 
-  const handleTwitterLogin = async () => {
+  const signInWithTwitter = async () => {
     try {
-      const response = await getTwitterAuth();
-      if (response.url) {
-        window.location.href = response.url;
-      } else {
-        console.error("Failed to get Twitter authorization URL");
-      }
+      const provider = new TwitterAuthProvider();
+      await signInWithPopup(auth, provider);
+
+      // ✅ Redirect to desired page after success
+      window.location.href = "/startRoaring"; // change to your route
     } catch (error) {
-      console.error("Twitter authentication error:", error);
+      console.error("Twitter login failed:", error);
     }
   };
 
-  const handleTwitterCallback = async () => {
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const data = urlParams.get("data");
-      const isEncrypted = urlParams.get("encrypted") === "true";
-      const errorMessage = urlParams.get("message");
+  // const handleTwitterCallback = async () => {
+  //   try {
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     const data = urlParams.get("data");
+  //     const isEncrypted = urlParams.get("encrypted") === "true";
+  //     const errorMessage = urlParams.get("message");
 
-      if (errorMessage) {
-        console.error("Twitter Auth Error:", decodeURIComponent(errorMessage));
-        return { success: false, error: decodeURIComponent(errorMessage) };
-      }
+  //     if (errorMessage) {
+  //       console.error("Twitter Auth Error:", decodeURIComponent(errorMessage));
+  //       return { success: false, error: decodeURIComponent(errorMessage) };
+  //     }
 
-      if (!data) {
-        console.error("No auth data found in callback.");
-        return { success: false, error: "No data in callback" };
-      }
+  //     if (!data) {
+  //       console.error("No auth data found in callback.");
+  //       return { success: false, error: "No data in callback" };
+  //     }
 
-      let authData;
-      if (isEncrypted) {
-        authData = decryptData(data);
-      } else {
-        authData = JSON.parse(decodeURIComponent(data));
-      }
+  //     let authData;
+  //     if (isEncrypted) {
+  //       authData = decryptData(data);
+  //     } else {
+  //       authData = JSON.parse(decodeURIComponent(data));
+  //     }
 
-      // Save tokens
-      localStorage.setItem("access_token", authData.access_token);
-      localStorage.setItem("refresh_token", authData.refresh_token);
+  //     // Save tokens
+  //     localStorage.setItem("access_token", authData.access_token);
+  //     localStorage.setItem("refresh_token", authData.refresh_token);
 
-      if (authData.twitter_tokens) {
-        localStorage.setItem(
-          "twitter_access_token",
-          authData.twitter_tokens.access_token
-        );
-        if (authData.twitter_tokens.refresh_token) {
-          localStorage.setItem(
-            "twitter_refresh_token",
-            authData.twitter_tokens.refresh_token
-          );
-        }
-      }
+  //     if (authData.twitter_tokens) {
+  //       localStorage.setItem(
+  //         "twitter_access_token",
+  //         authData.twitter_tokens.access_token
+  //       );
+  //       if (authData.twitter_tokens.refresh_token) {
+  //         localStorage.setItem(
+  //           "twitter_refresh_token",
+  //           authData.twitter_tokens.refresh_token
+  //         );
+  //       }
+  //     }
 
-      localStorage.setItem("user", JSON.stringify(authData.user));
+  //     localStorage.setItem("user", JSON.stringify(authData.user));
 
-      return { success: true, user: authData.user };
-    } catch (error) {
-      console.error("Error processing callback:", error);
-      return { success: false, error: "Invalid Twitter callback data" };
-    }
-  };
+  //     return { success: true, user: authData.user };
+  //   } catch (error) {
+  //     console.error("Error processing callback:", error);
+  //     return { success: false, error: "Invalid Twitter callback data" };
+  //   }
+  // };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -136,20 +136,20 @@ const MainPage = () => {
   }, []);
 
   // Handle Twitter callback if redirected
-  useEffect(() => {
-    const run = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has("data")) {
-        const result = await handleTwitterCallback();
-        if (result.success) {
-          router.push("/dashboard");
-        } else {
-          console.error("Auth failed:", result.error);
-        }
-      }
-    };
-    run();
-  }, []);
+  // useEffect(() => {
+  //   const run = async () => {
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     if (urlParams.has("data")) {
+  //       const result = await handleTwitterCallback();
+  //       if (result.success) {
+  //         router.push("/dashboard");
+  //       } else {
+  //         console.error("Auth failed:", result.error);
+  //       }
+  //     }
+  //   };
+  //   run();
+  // }, []);
   return (
     <section className="relative bg-black overflow-hidden flex items-center justify-center h-screen text-white">
       {/* Background Video */}
@@ -268,7 +268,7 @@ const MainPage = () => {
 
             <div className="flex flex-col gap-3 mb-6">
               <button
-                onClick={handleTwitterLogin}
+                onClick={signInWithTwitter}
                 className="bg-black text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300"
                 disabled={isLoading}
               >

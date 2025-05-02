@@ -16,134 +16,60 @@ export default function CardPage() {
     glowColor: string;
   }>(null);
 
-  type Card = {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-    glowColor: string;
-  };
-
-  // Card data array (this should come from context or a global state)
-  const cardData: Card[] = [
+  const cardData = [
     {
       id: 1,
       image: "/Images/selectClan/cardImg1.png",
       title: "Clan McBuilder",
       description: "We create the future with passion and code.",
-      glowColor: "rgba(255, 0, 0, 0.5)", // Red with 50% transparency
+      glowColor: "rgba(255, 0, 0, 0.5)",
     },
     {
       id: 2,
       image: "/Images/selectClan/cardImg2.png",
       title: "McHODLer",
       description: "Diamond hands forever.",
-      glowColor: "rgba(128, 0, 128, 0.5)", // Purple with 50% transparency
+      glowColor: "rgba(128, 0, 128, 0.5)",
     },
     {
       id: 3,
       image: "/Images/selectClan/cardImg3.png",
       title: "Clan McDegen",
       description: "Risk is our middle name.",
-      glowColor: "rgba(0, 255, 0, 0.5)", // Green with 50% transparency
+      glowColor: "rgba(0, 255, 0, 0.5)",
     },
     {
       id: 4,
       image: "/Images/selectClan/cardImg4.png",
       title: "Clan McPrivacy",
       description: "Privacy is our birthright.",
-      glowColor: "rgba(0, 0, 255, 0.5)", // Blue with 50% transparency
+      glowColor: "rgba(0, 0, 255, 0.5)",
     },
   ];
 
   useEffect(() => {
-    console.log(selectedCardId);
     if (selectedCardId !== null) {
-      const card = cardData.find((card) => card.id === selectedCardId);
-      if (card) {
-        setCard(card);
-      }
+      const selected = cardData.find((card) => card.id === selectedCardId);
+      if (selected) setCard(selected);
     }
   }, [selectedCardId]);
 
-  if (!card) return <div>Loading...</div>; // Handle the case when card is not found
+  if (!card) return <div>Loading...</div>;
 
-  // Construct tweet content dynamically based on selectedCard title and description
-  // Corrected tweet content with escaped apostrophe
-  const tweetContent = `Roar louder. Roar prouder.${card.title} Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegorunds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.
-${card.description}\n\nClaim your clan today👉${card.image};`;
+  const tweetContent = `Roar louder. Roar prouder.\n\nPick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clans today!`;
 
-  // Construct the absolute URL for the image
-  const fullImageURL = `${window.location.origin}${card.image}`; // Create full URL for the image
-
-  // Construct Twitter URL with the encoded tweet content and absolute image URL
-  const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    tweetContent
-  )}&url=${encodeURIComponent(fullImageURL)}`;
-
-  const handleContinue = () => {
-    handleStartRoaring(); // 1. Send data to API + open Twitter share
-    handleRedirect(); // 2. Navigate to JoinWaitlist
+  const handleStartRoaring = () => {
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        tweetContent
+      )}`,
+      "_blank",
+      "width=600,height=400"
+    );
   };
-
-  // Function to handle Twitter share
-  // const handleShareClick = () => {
-  //   window.open(twitterShareURL, "_blank", "width=600,height=400");
-  // };
-
-  // Function to handle Continue button click
-  // const handleContinueClick = () => {
-  //   handleShareClick(); // Call the share function when "Continue" is clicked
-  //   // window.location.href = "/JoinWaitlist"; // Navigate to JoinWaitlist page after sharing
-  // };
 
   const handleRedirect = () => {
     window.location.href = "/JoinWaitlist";
-  };
-
-  const handleStartRoaring = async () => {
-    try {
-      // 1. Get user from localStorage
-      const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-      // 2. Prepare payload
-      const payload = {
-        userName: user.name || "Anonymous",
-        email: user.email || "noemail@example.com",
-        selectedClan: {
-          id: card?.id,
-          title: card?.title,
-          description: card?.description,
-        },
-        timestamp: new Date().toISOString(),
-      };
-
-      // 3. Call your API
-      const response = await fetch("/api/start-roaring", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) throw new Error("API request failed");
-
-      // 4. Open Twitter share box
-      window.open(
-        `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-          tweetContent
-        )}`,
-        "_blank",
-        "width=600,height=400"
-      );
-
-      // 5. Navigate if needed
-      // window.location.href = "/JoinWaitlist";
-    } catch (error) {
-      console.error("Roaring failed:", error);
-      alert("Something went wrong. Please try again.");
-    }
   };
 
   return (
@@ -153,11 +79,10 @@ ${card.description}\n\nClaim your clan today👉${card.image};`;
           You are now certified{" "}
           <span className="text-purple-500">Clans Roarer!</span>
         </h1>
+
         <div
           className="rounded-xl opacity-70 backdrop-blur-2xl 2xl:w-[1 xl:h-[542px] xl:w-[1200px] md:w-[700px] h-[400px] w-[400px] relative"
-          style={{
-            backgroundColor: card.glowColor,
-          }}
+          style={{ backgroundColor: card.glowColor }}
         >
           <div className="absolute inset-[20px] rounded-xl bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center">
             <div className="flex flex-col p-10 gap-y-10">
@@ -182,12 +107,13 @@ ${card.description}\n\nClaim your clan today👉${card.image};`;
                 Privacy is power. Roar wisely.
               </p>
 
-              <div className="">
+              <div>
                 <h1 className="text-purple-500 text-4xl font-semibold">
                   {card.title}
                 </h1>
                 <p className="text-lg">{card.description}</p>
               </div>
+
               <div className="hidden lg:flex items-center mt-10 gap-2">
                 <Image
                   src="/Images/gettingStarted/Object.png"
@@ -205,18 +131,19 @@ ${card.description}\n\nClaim your clan today👉${card.image};`;
                 />
               </div>
             </div>
+
             <Image
-              src={card.image} // Changed from card.cardImage to card.image
-              alt="Avatar_1"
+              src={card.image}
+              alt="Card Image"
               width={450}
               height={300}
               className="absolute bottom-0 right-0 h-[250px] w-[220px] xl:w-1/3 xl:h-[90%]"
             />
           </div>
         </div>
+
         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">
-          <Button onClick={handleContinue} />
-          {/* Updated "Continue" button to trigger the share function and navigate */}
+          <Button ButtonText="Start Roaring" onClick={handleStartRoaring} />
           <Button ButtonText="Continue" onClick={handleRedirect} />
         </div>
       </div>

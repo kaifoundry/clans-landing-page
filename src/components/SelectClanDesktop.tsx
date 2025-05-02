@@ -248,11 +248,11 @@ const SelectClan = () => {
       console.log("✅ API response:", result);
 
       // Handle API response
-      if (result.success) {
-        alert("🎉 Successfully joined the clan!");
-      } else {
-        alert("⚠️ Failed to join the clan.");
-      }
+      // if (result.success) {
+      //   alert("🎉 Successfully joined the clan!");
+      // } else {
+      //   alert("⚠️ Failed to join the clan.");
+      // }
     } catch (error) {
       console.error("Join error:", error);
       alert("⚠️ Something went wrong while joining the clan.");
