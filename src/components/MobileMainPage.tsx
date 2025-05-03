@@ -8,6 +8,7 @@ import { TwitterAuthProvider } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import gsap from "gsap";
+import ClanLogoMobile from "./ClanLogoMobile";
 
 export default function MobileMainPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -100,31 +101,38 @@ export default function MobileMainPage() {
 
         {/* Main Content Section */}
         <div className="relative flex flex-col h-screen">
-          <div className="mt-20">
-            <ClanLogo />
+          {/* Centered Logo with more margin and larger size for mobile only */}
+          <div className="flex flex-col items-center justify-center mt-28 pb-4 md:hidden">
+            <div className="w-64 h-24 xxs:w-72 xxs:h-28 sm:w-80 sm:h-32 flex items-center justify-center">
+              <ClanLogoMobile />
+            </div>
           </div>
 
-          <div className="flex justify-between  w-full absolute bottom-0 overflow-hidden h-full">
+          {/* Avatars and Button Section */}
+          <div className="flex justify-between w-full absolute -bottom-[40px] left-0 right-0 h-full pointer-events-none">
             <Image
               src="/Images/gettingStarted/mobileavtar1.png"
               width={500}
               height={550}
               alt="avtar1"
-              className="z-1 absolute -bottom-[61px] xxs:bottom-0 w-[220px] xxs:w-[300px] h-[600px] object-contain  scale-105" // Added object-contain for better image scaling
+              className="z-1 absolute left-0 bottom-0 xs:-bottom-[40px] w-[220px] xxs:w-[300px] h-[600px] object-contain scale-105"
             />
-            <div className="mx-auto z-10 absolute bottom-10 w-full flex items-center justify-center">
-              <Button
-                ButtonText="Start Now !"
-                className="text-xl "
-                onClick={openModal} // Only open modal on click
-              />
-            </div>
             <Image
               src="/Images/gettingStarted/mobileavtar2.png"
               width={400}
               height={600}
               alt="avtar2"
-              className="absolute right-0 h-[620px] w-[200px] xxs:w-[260px] -bottom-[65px]  xxs:bottom-0 object-contain scale-110" // Added object-contain
+              className="absolute right-0 -bottom-10 h-[620px] w-[200px] xxs:w-[260px] object-contain scale-110"
+            />
+          </div>
+
+          {/* Start Now Button in semi-transparent box, centered at bottom */}
+          <div className="absolute bottom-8 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
+            <Button
+              ButtonText="Start Now!"
+              className="text-xl text-white font-semibold tracking-wide drop-shadow-lg bg-black/70 border border-white/20 rounded-xl px-8 py-4 mx-12 flex items-center justify-center shadow-lg"
+              aria-label="Start Now"
+              onClick={openModal}
             />
           </div>
         </div>
