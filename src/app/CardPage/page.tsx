@@ -178,7 +178,7 @@ Claim your clan today! ${userData?.referralCode} `;
   };
 
   const handleRedirect = () => {
-    window.location.href = "/joinWaitlist";
+    window.location.href = "/JoinWaitlist";
   };
 
   return (

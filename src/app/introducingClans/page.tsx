@@ -14,7 +14,7 @@ const IntroducingClans = () => {
 
   const cardData = [
     {
-      id: "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
+      id: "225462e8-0077-45c7-a5f5-4474f2b84166",
       image: "/Images/introducingClans/card_1.png",
       hoverImage: "/Images/introducingClans/hover1.jpg",
       title: "Clan McBuilder",
@@ -23,7 +23,7 @@ const IntroducingClans = () => {
       from: { x: -200, opacity: 0 },
     },
     {
-      id: "5e14624b-f312-4472-a7b7-5c631925ff79",
+      id: "b2cb6389-65e4-4d2a-acc1-ce5b02b893a3",
       image: "/Images/introducingClans/card_2.png",
       hoverImage: "/Images/introducingClans/hover2.png",
       title: "McHODLer",
@@ -32,7 +32,7 @@ const IntroducingClans = () => {
       from: { y: -200, opacity: 0 },
     },
     {
-      id: "6646714b-7aa2-4309-8aea-4b120f9719c3",
+      id: "98e347d1-b7b9-4c53-ba73-26ff6ac87052",
       image: "/Images/introducingClans/card_3.png",
       hoverImage: "/Images/introducingClans/hover3.png",
       title: "Clan McDegen",
@@ -41,7 +41,7 @@ const IntroducingClans = () => {
       from: { x: 200, opacity: 0 },
     },
     {
-      id: "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
+      id: "9e37533c-164d-475b-8fb0-dc8f67ae7bec",
       image: "/Images/introducingClans/card_4.png",
       hoverImage: "/Images/introducingClans/hover4.png",
       title: "Clan McPrivacy",

@@ -60,7 +60,7 @@ export default function StartRoaring() {
   // Render the appropriate component based on screen size, passing userId if needed
   return isMobile ? (
     // Assuming the Mobile component doesn't need userId directly passed as a prop
-    <StartRoaringMobile />
+    <StartRoaringMobile userId={userId} />
   ) : (
     // Pass the determined userId to the Desktop component
     <StartRoaringDesktop userId={userId} />

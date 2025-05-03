@@ -1,6 +1,6 @@
 "use client";
-import MainPage from "@/components/MainPage";
-import MobileMainPage from "@/components/MobileMainPage";
+import MainPage from "../components/MainPage";
+import MobileMainPage from "../components/MobileMainPage";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-      // console.log("Window size resized", window.innerWidth);
+      // console.log("Window size resized", window.innerWidth);clear
     };
 
     handleResize();

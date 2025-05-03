@@ -58,3 +58,16 @@ body {
 .text-color {
   color: rgba(255, 255, 255, 1);
 }
+
+@media screen and (max-width: 375px) {
+  .xxsClass {
+    transform: scale(0.9);
+  }
+  
+}
+
+@media (max-width: 375px) {
+  .scale-xs {
+    transform: scale(0.5); /* or any value you want */
+  }
+}

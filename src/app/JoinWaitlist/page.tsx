@@ -101,7 +101,7 @@ const JoinWaitlist = () => {
           className="w-20 h-20 object-contain"
           alt="Object1"
         />
-
+  
         <Image
           src="/Images/gettingStarted/Clans.png"
           width={100}

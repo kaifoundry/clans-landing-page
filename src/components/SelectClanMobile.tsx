@@ -6,11 +6,12 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useClan } from "@/context/ClanContext";
+import { joinClan } from "@/lib/api";
 
 const SelectClan = () => {
-  const cardData = [
+  const clanData = [
     {
-      id: "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
+      id: "225462e8-0077-45c7-a5f5-4474f2b84166",
       image: "/Images/introducingClans/card_1.png",
       hoverImage: "/Images/selectClan/sideImage2.png",
       cardImage: "/Images/selectClan/cardImg1.png",
@@ -19,7 +20,7 @@ const SelectClan = () => {
       glowColor: "rgba(255, 0, 0, 0.8)",
     },
     {
-      id: "5e14624b-f312-4472-a7b7-5c631925ff79",
+      id: "b2cb6389-65e4-4d2a-acc1-ce5b02b893a3",
       image: "/Images/introducingClans/card_2.png",
       hoverImage: "/Images/selectClan/sideImage1.png",
       cardImage: "/Images/selectClan/cardImg2.png",
@@ -28,7 +29,7 @@ const SelectClan = () => {
       glowColor: "rgba(138, 43, 226, 0.8)",
     },
     {
-      id: "6646714b-7aa2-4309-8aea-4b120f9719c3",
+      id: "98e347d1-b7b9-4c53-ba73-26ff6ac87052",
       image: "/Images/introducingClans/card_3.png",
       hoverImage: "/Images/selectClan/sideImage3.png",
       cardImage: "/Images/selectClan/cardImg3.png",
@@ -37,7 +38,7 @@ const SelectClan = () => {
       glowColor: "rgba(0, 255, 0, 0.8)",
     },
     {
-      id: "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
+      id: "9e37533c-164d-475b-8fb0-dc8f67ae7bec",
       image: "/Images/introducingClans/card_4.png",
       hoverImage: "/Images/selectClan/sideImage4.png",
       cardImage: "/Images/selectClan/cardImg4.png",
@@ -47,29 +48,121 @@ const SelectClan = () => {
     },
   ];
 
-  const { selectedCardId } = useClan();
+  const { selectedCardId, setSelectedCardId } = useClan();
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [avatarImage, setAvatarImage] = useState<string>("");
   const [displayedTitle, setDisplayedTitle] = useState<string>("");
   const [displayedDescription, setDisplayedDescription] = useState<string>("");
-  const [selectedCard, setSelectedCard] = useState<null | (typeof cardData)[0]>(
+  const [selectedCard, setSelectedCard] = useState<null | (typeof clanData)[0]>(
     null
   );
 
+  const [clans, setClans] = useState<{ clanId: string; [key: string]: any }[]>(
+    []
+  );
+  const [loading, setLoading] = useState(true); // For loading state
+  const [error, setError] = useState<string | null>(null); // Error management
+
+  useEffect(() => {
+    if (clans && clans.length > 0) {
+      console.log("🔥 Current Clans State:", clans);
+    }
+  }, [clans]);
+
   useEffect(() => {
     if (selectedCardId !== null) {
-      const card = cardData.find((card) => card.id === selectedCardId);
-      if (card) {
-        setSelectedCard(card);
-        setAvatarImage(card.hoverImage);
-        setDisplayedTitle(card.title);
-        setDisplayedDescription(card.description);
-        setActiveIndex(cardData.findIndex((c) => c.id === selectedCardId));
+      const clan = clanData.find((card) => card.id === String(selectedCardId));
+      if (clan) {
+        setSelectedCard(clan);
+        setAvatarImage(clan.hoverImage);
+        setDisplayedTitle(clan.title);
+        setDisplayedDescription(clan.description);
       }
     }
   }, [selectedCardId]);
+
+  //Important code afterward use
+  const getAllClans = async () => {
+    console.log("📢 getAllClans() called");
+
+    try {
+      setLoading(true); // Start loading
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
+      );
+      if (!res.ok) throw new Error("Failed to fetch clans");
+
+      const data = await res.json();
+      console.log("🌐 Fetched from API:", data);
+
+      if (data.success && Array.isArray(data.data)) {
+        setClans(data.data); // Set fetched data to state
+      } else {
+        throw new Error("Invalid API response structure");
+      }
+    } catch (err: any) {
+      console.error("❌ Fetch error:", err);
+      setError(err.message || "Something went wrong while fetching clans");
+    } finally {
+      setLoading(false); // End loading
+      console.log("🏁 getAllClans() completed");
+    }
+  };
+
+  useEffect(() => {
+    getAllClans();
+  }, []);
+
+  const handleJoinClan = async (selectedClanId: string) => {
+    // const userData = localStorage.getItem("userData");
+    // const user = userData ? JSON.parse(userData) : null;
+
+    // const storedUserId = userData?.userId;
+
+    const storedUserId = "0b98014b-7a22-4908-a487-8bfdd7d2d437"; // Dummy User ID for testing
+
+    console.log("📥 Stored User ID:", storedUserId);
+    console.log("📥 Selected Clan ID:", selectedClanId);
+
+    if (!storedUserId || !selectedClanId) {
+      alert("❌ Missing user or clan ID.");
+      return;
+    }
+
+    const joinData = {
+      userId: storedUserId,
+      clanId: selectedClanId,
+    };
+
+    console.log("🚀 Sending this data to joinClan API:", joinData);
+
+    try {
+      const response = await joinClan(joinData); // Send to API
+
+      console.log("✅ API response:", response);
+
+      if (response?.success) {
+        // If API response is successful, show success message
+        alert("🎉 Successfully joined the clan!");
+        // } else {
+        // If API response does not indicate success, show failure
+        alert("⚠️ Something went wrong while joining the clan.");
+      }
+    } catch (error) {
+      console.error("❌ Error while calling joinClan API:", error);
+      alert("Failed to join clan due to network or server error.");
+    }
+  };
+
+  if (loading) return <div>Loading clans...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  const handleSelectId = (id: string) => {
+    setSelectedCardId(id);
+    console.log(id);
+  };
 
   return (
     <section className="main-section p-4 overflow-hidden">
@@ -88,26 +181,26 @@ const SelectClan = () => {
         <p className="text-xl">{displayedDescription}</p>
 
         <div className="w-1/2 grid grid-cols-2 gap-6 justify-items-center">
-          {cardData.map((card, index) => (
+          {clanData.map((clan, index) => (
             <div
-              key={card.id}
+              key={clan.id}
               onClick={() => {
                 setActiveIndex(index);
-                setAvatarImage(card.hoverImage);
-                setSelectedCard(card);
-                setDisplayedTitle(card.title);
-                setDisplayedDescription(card.description);
+                setAvatarImage(clan.hoverImage);
+                setSelectedCard(clan);
+                setDisplayedTitle(clan.title);
+                setDisplayedDescription(clan.description);
               }}
               onMouseEnter={() => {
                 setHoveredIndex(index);
-                setAvatarImage(card.hoverImage);
-                setDisplayedTitle(card.title);
-                setDisplayedDescription(card.description);
+                setAvatarImage(clan.hoverImage);
+                setDisplayedTitle(clan.title);
+                setDisplayedDescription(clan.description);
               }}
               onMouseLeave={() => {
                 setHoveredIndex(null);
                 if (activeIndex !== null) {
-                  const active = cardData[activeIndex];
+                  const active = clanData[activeIndex];
                   setAvatarImage(active.hoverImage);
                   setDisplayedTitle(active.title);
                   setDisplayedDescription(active.description);
@@ -120,7 +213,7 @@ const SelectClan = () => {
               style={{
                 filter:
                   activeIndex === index || hoveredIndex === index
-                    ? `drop-shadow(0 0 1px ${card.glowColor}) drop-shadow(0 0 6px ${card.glowColor})`
+                    ? `drop-shadow(0 0 1px ${clan.glowColor}) drop-shadow(0 0 6px ${clan.glowColor})`
                     : "none",
                 transition: "filter 0.4s ease, transform 0.4s ease",
               }}
@@ -132,11 +225,11 @@ const SelectClan = () => {
                     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
                   boxShadow:
                     activeIndex === index || hoveredIndex === index
-                      ? `0 0 2px ${card.glowColor}, 0 0 10px ${card.glowColor}`
+                      ? `0 0 2px ${clan.glowColor}, 0 0 10px ${clan.glowColor}`
                       : "none",
                   backgroundColor:
                     activeIndex === index || hoveredIndex === index
-                      ? card.glowColor
+                      ? clan.glowColor
                       : "white",
                 }}
               ></div>
@@ -146,7 +239,7 @@ const SelectClan = () => {
                 style={{
                   clipPath:
                     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
-                  backgroundImage: `url(${card.image})`,
+                  backgroundImage: `url(${clan.image})`,
                   transition: "background-image 0.4s ease",
                 }}
               >
@@ -157,7 +250,7 @@ const SelectClan = () => {
                       "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)",
                   }}
                 >
-                  {card.title}
+                  {clan.title}
                 </h3>
               </div>
             </div>
@@ -166,9 +259,16 @@ const SelectClan = () => {
 
         <div className="w-full flex items-center justify-center z-1 mt-20">
           {selectedCard && (
-            <Link href={`/CardPage?selectedCardId=${selectedCard.id}`}>
+            <Link
+              key={selectedCard.id}
+              href={`/CardPage`}
+              onClick={() => handleSelectId(selectedCard.id)}
+            >
               {/* <Button ButtonText="Join Clan" width={250} height={50} /> */}
-              <button className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white">
+              <button
+                className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white"
+                onClick={() => handleJoinClan(selectedCard.id)}
+              >
                 <div className="relative w-[160px] h-[45px] sm:w-[200px] sm:h-[55px] md:w-[240px] md:h-[65px] lg:w-[280px] lg:h-[75px] xl:w-[307px] xl:h-[80px]">
                   {/* Inline SVG */}
                   <svg

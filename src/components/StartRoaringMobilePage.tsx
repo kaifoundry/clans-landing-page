@@ -2,18 +2,97 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import ClanLogo from "@/components/ClanLogo";
 import Link from "next/link";
+import React from "react";
+import { useState, useRef, useEffect } from "react";
+import { gsap } from "gsap";
 
-const StartRoaringPage = () => {
+interface Props {
+  userId: string;
+}
+
+interface UserData {
+  userId: string;
+}
+
+const StartRoaringPage: React.FC<Props> = ({ userId }) => {
+  const avatarLeftRef = useRef(null);
+
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    if (userId) {
+      console.log("Mobile User ID from params:", userId);
+      localStorage.setItem("userId", userId);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      if (userId) {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/fetch/${userId}`
+          );
+          if (!res.ok) {
+            throw new Error("Error fetching user data");
+          }
+          const data = await res.json();
+
+          //storing yhe user data in local storage
+          if (data.success && data) {
+            localStorage.setItem("userData", JSON.stringify(data.data));
+            //check if it is in local storage
+            const userData = localStorage.getItem("userData");
+            if (userData) {
+              console.log("User data in local storage:", JSON.parse(userData));
+            }
+            setUserData(data.data); // Set the user data in state
+            console.log("Fetched user data:", data.data);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    getUserData(); // Call the function to fetch user data when userId is available
+  }, [userId]);
+
+  // GSAP animation effect for the left avatar
+  useEffect(() => {
+    // Ensure the ref is attached before animating
+    if (avatarLeftRef.current) {
+      gsap.fromTo(
+        avatarLeftRef.current,
+        { x: "-200", opacity: 0 }, // Start position (off-screen left, invisible)
+        {
+          x: 0, // End position (original position)
+          opacity: 1, // End opacity (fully visible)
+          duration: 1.5,
+          ease: "power3.out",
+        }
+      );
+    }
+    // Empty dependency array ensures this runs only once after initial mount
+  }, []);
+
+  // Show loading state until the userId has been processed and set
+  if (!userId) {
+    // Replace with a more sophisticated loading component if desired
+    return <div>Loading...</div>;
+  }
+
   return (
     <section className="relative w-screen h-screen overflow-hidden px-4 pt-16 pb-10  main-section">
       {/* Background Images */}
       <Image
+        ref={avatarLeftRef}
         src="/Images/startRoaring/MobileAvtar1.png"
         alt="Avtar 2"
         width={400}
         height={400}
         objectFit="cover"
-        className="absolute left-0 top-24 w-[400px] h-full z-0" // optional opacity
+        className="absolute left-0 top-24 w-[400px] h-full z-0"
       />
       <Image
         src="/Images/startRoaring/Avtar3.png"
@@ -21,7 +100,7 @@ const StartRoaringPage = () => {
         width={300}
         height={300}
         objectFit="cover"
-        className="absolute right-0 top-20 w-[300px] h-full  z-1" // optional opacity
+        className="absolute right-0 top-20 w-[300px] h-full  z-1"
       />
 
       {/* Main Content */}

@@ -57,12 +57,12 @@ export default function MobileMainPage() {
         {/* Mute/Unmute Button */}
         <button
           onClick={handleMuteUnmute}
-          className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black/50 px-4 py-2 rounded-full text-white flex items-center justify-center z-20 border-2 border-white/50 hover:bg-white/20 transition duration-300"
+          className="absolute top-4 left-12 transform -translate-x-1/2 bg-black/50 px-4 py-2 rounded-full text-white flex items-center justify-center z-20 border-2 border-white/50 hover:bg-white/20 transition duration-300"
         >
           <span className="text-xl p-1" ref={iconRef}>
             {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
           </span>
-          {isMuted ? "Unmute" : "Mute"}
+          {/* {isMuted ? "Unmute" : "Mute"} */}
         </button>
 
         {/* Video Section */}
@@ -80,7 +80,7 @@ export default function MobileMainPage() {
             Your browser does not support the video tag.
           </video>
 
-          {/* Avatars */}
+          {/* Avatars
           <Image
             src="/Images/gettingStarted/avtar1.png"
             width={550}
@@ -95,7 +95,7 @@ export default function MobileMainPage() {
             height={580}
             alt="Avatar Right"
             className="absolute bottom-0 right-0 w-[300px] md:w-[320px] xl:w-[500px] 2xl:w-[550px] object-contain z-10"
-          />
+          /> */}
         </div>
 
         {/* Main Content Section */}

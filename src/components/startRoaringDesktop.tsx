@@ -6,16 +6,18 @@ import ClanLogo from "@/components/ClanLogo"; // Assuming ClanLogo component exi
 import Link from "next/link";
 import { gsap } from "gsap";
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "next/navigation";
-import { get } from "lodash";
 
 interface Props {
   userId: string;
 }
 
+interface UserData {
+  userId: string;
+}
+
 const StartRoaringPage: React.FC<Props> = ({ userId }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [userData, setUserData] = useState<any>(null); // State to hold user data
+  const [userData, setUserData] = useState<UserData | null>(null); // State to hold user data
   const avatarLeftRef = useRef(null); // Ref for the animation
 
   useEffect(() => {

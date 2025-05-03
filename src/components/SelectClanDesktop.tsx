@@ -9,18 +9,10 @@ import { useClan } from "@/context/ClanContext";
 import { debounce } from "lodash";
 import { gsap } from "gsap";
 import { joinClan } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const SelectClan = () => {
-  // const [clanId, setClanId] = useState<string | null>(null); // State to store the selected clan ID
-  //card Data
-
-  // const clanIdKey = [
-  //   "24c467df-c8dd-4115-87ac-e22fcdcb55aa",
-  //   "5e14624b-f312-4472-a7b7-5c631925ff79",
-  //   "6646714b-7aa2-4309-8aea-4b120f9719c3",
-  //   "1bf650c9-c84d-4dc4-b3b2-31929963e4e1",
-  // ];
-
+  const router = useRouter();
   const clanData = [
     {
       id: "225462e8-0077-45c7-a5f5-4474f2b84166",
@@ -72,38 +64,30 @@ const SelectClan = () => {
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [avatarImage, setAvatarImage] = useState<string>("");
-  const [displayedTitle, setDisplayedTitle] = useState<string>("");
-  const [displayedDescription, setDisplayedDescription] = useState<string>("");
+  const [avatarImage, setAvatarImage] = useState("");
+  const [displayedTitle, setDisplayedTitle] = useState("");
+  const [displayedDescription, setDisplayedDescription] = useState("");
 
   const { selectedCardId, setSelectedCardId } = useClan();
 
-  const [selectedCard, setSelectedCard] = useState<null | (typeof clanData)[0]>(
-    null
-  );
-
-  const sideImageRef = useRef<HTMLDivElement | null>(null);
+  const [selectedCard, setSelectedCard] = useState<{
+    id: string;
+    image: string;
+    hoverImage: string;
+    cardImage: string;
+    title: string;
+    description: string;
+    glowColor: string;
+  } | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pendingClanId, setPendingClanId] = useState<string | null>(null);
 
   // State to manage clans data, loading state, and errors using API
-  const [clans, setClans] = useState<{ clanId: string; [key: string]: any }[]>(
-    []
-  ); // To store all clans
-  const [loading, setLoading] = useState(true); // For loading state
-  const [error, setError] = useState<string | null>(null); // Error management
-
-  const [userData, setUserdata] = useState<null | any>(null); // To store user data
+  const [clans, setClans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [buttonSize, setButtonSize] = useState({ width: 150, height: 30 });
-  // ✅ Fetch clans on component mount
-
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("userData");
-  //   if (storedUserData) {
-  //     const parseUserdata = JSON.parse(storedUserData);
-  //     setUserdata(parseUserdata);
-  //     console.log("User data from localStorage:", parseUserdata);
-  //   }
-  // }, []); // Empty dependency array to run this effect only once when the component mounts.
 
   useEffect(() => {
     if (clans && clans.length > 0) {
@@ -145,57 +129,11 @@ const SelectClan = () => {
     setButtonSize(buttonSizeBreakpoints[buttonSizeBreakpoints.length - 1].size);
   };
 
-  // ✅ Fetch clans & cache in localStorage
-  // const getAllClans = async () => {
-  //   console.log("📢 getAllClans() called");
-
-  //   try {
-  //     // 🔍 Check localStorage for cached data
-  //     const stored = localStorage.getItem("clanData");
-  //     if (stored) {
-  //       const parsed = JSON.parse(stored);
-  //       console.log("📦 localStorage fetched:", parsed);
-
-  //       if (parsed.success && Array.isArray(parsed.data)) {
-  //         console.log("✅ Using cached clan data:", parsed);
-  //         setClans(parsed.data); // ✅ Corrected line
-  //         return parsed.data;
-  //       } else {
-  //         console.warn("⚠️ Cached data format invalid, fetching from API...");
-  //       }
-  //     }
-
-  //     // 🌐 Fetch from API if no cache or invalid data
-  //     const res = await fetch(
-  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
-  //     );
-  //     if (!res.ok) throw new Error("Failed to fetch clans");
-
-  //     const data = await res.json();
-  //     console.log("🌐 Fetched from API:", data);
-
-  //     if (data.success && Array.isArray(data.data)) {
-  //       localStorage.setItem("clanData", JSON.stringify(data));
-  //       setClans(data.data); // ✅ Store array only
-  //       return data.data;
-  //     } else {
-  //       throw new Error("Invalid API response structure");
-  //     }
-  //   } catch (err: any) {
-  //     console.error("❌ Fetch error:", err);
-  //     setError(err.message || "Something went wrong while fetching clans");
-  //   } finally {
-  //     setLoading(false);
-  //     console.log("🏁 getAllClans() completed");
-  //   }
-  // };
-
-  //Important code afterward use
   const getAllClans = async () => {
     console.log("📢 getAllClans() called");
 
     try {
-      setLoading(true); // Start loading
+      setLoading(true);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
       );
@@ -205,15 +143,19 @@ const SelectClan = () => {
       console.log("🌐 Fetched from API:", data);
 
       if (data.success && Array.isArray(data.data)) {
-        setClans(data.data); // Set fetched data to state
+        setClans(data.data);
       } else {
         throw new Error("Invalid API response structure");
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("❌ Fetch error:", err);
-      setError(err.message || "Something went wrong while fetching clans");
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        // setError("Something went wrong while fetching clans");
+      }
     } finally {
-      setLoading(false); // End loading
+      setLoading(false);
       console.log("🏁 getAllClans() completed");
     }
   };
@@ -222,39 +164,55 @@ const SelectClan = () => {
     getAllClans();
   }, []);
 
-  const handleJoinClan = async (selectedClanId: string) => {
-    // const userData = localStorage.getItem("userData");
-    // const user = userData ? JSON.parse(userData) : null;
+  const handleJoinClanClick = (clanId: string) => {
+    // Store the clan ID for later use
+    setPendingClanId(clanId);
 
-    // const storedUserId = userData?.userId;
+    // Find the selected clan object to display in modal
+    const selectedClan = clanData.find((clan) => clan.id === clanId) || null;
+    setSelectedCard(selectedClan);
 
-    const storedUserId = "0b98014b-7a22-4908-a487-8bfdd7d2d437"; // Dummy User ID for testing
+    // Open the confirmation modal
+    setModalOpen(true);
+  };
+
+  const handleConfirmJoin = async () => {
+    // Close the modal first
+    setModalOpen(false);
+
+    // Proceed with joining the clan
+    const userData = localStorage.getItem("userData");
+    const user = userData ? JSON.parse(userData) : null;
+    const storedUserId = user?.userId;
 
     console.log("📥 Stored User ID:", storedUserId);
-    console.log("📥 Selected Clan ID:", selectedClanId);
+    console.log("📥 Selected Clan ID:", pendingClanId);
 
-    if (!storedUserId || !selectedClanId) {
+    if (!storedUserId || !pendingClanId) {
       alert("❌ Missing user or clan ID.");
       return;
     }
 
     const joinData = {
       userId: storedUserId,
-      clanId: selectedClanId,
+      clanId: pendingClanId,
     };
 
     console.log("🚀 Sending this data to joinClan API:", joinData);
 
     try {
-      const response = await joinClan(joinData); // Send to API
-
+      const response = await joinClan(joinData);
       console.log("✅ API response:", response);
 
       if (response?.success) {
-        // If API response is successful, show success message
         alert("🎉 Successfully joined the clan!");
-        // } else {
-        // If API response does not indicate success, show failure
+        // Now select the card ID for navigation
+        setSelectedCardId(pendingClanId);
+        router.push(`/card/${pendingClanId}`);
+
+        // Navigate to CardPage (this will be triggered by the Link component)
+        // The navigation happens automatically because we're inside a Link component
+      } else {
         alert("⚠️ Something went wrong while joining the clan.");
       }
     } catch (error) {
@@ -263,63 +221,13 @@ const SelectClan = () => {
     }
   };
 
-  // const handleJoinClan = async (clanId: String) => {
-  //   // Prepare dummy data to simulate the request
-  //   const dummyUserId = "12345"; // Dummy User ID
-  //   const dummyClanId = clanId; // Use the passed clan ID
-
-  //   console.log("Dummy User ID:", dummyUserId);
-  //   console.log("Dummy Clan ID:", dummyClanId);
-
-  //   if (!dummyUserId || !dummyClanId) {
-  //     alert("Missing user or clan ID.");
-  //     return;
-  //   }
-
-  //   const joinData = {
-  //     userId: dummyUserId,
-  //     clanId: dummyClanId,
-  //   };
-
-  //   console.log("🚀 Sending this data to joinClan API:", joinData);
-
-  //   try {
-  //     // Call the real API with dummy data
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/JoinClan`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(joinData),
-  //       }
-  //     );
-
-  //     const result = await response.json(); // Parse the response from the API
-  //     console.log("✅ API response:", result);
-
-  //     // Handle API response
-  //     // if (result.success) {
-  //     //   alert("🎉 Successfully joined the clan!");
-  //     // } else {
-  //     //   alert("⚠️ Failed to join the clan.");
-  //     // }
-  //   } catch (error) {
-  //     console.error("Join error:", error);
-  //     alert("⚠️ Something went wrong while joining the clan.");
-  //   }
-  // };
+  const handleSelectId = (id: string): void => {
+    setSelectedCardId(id);
+    console.log(id);
+  };
 
   if (loading) return <div>Loading clans...</div>;
   if (error) return <div>Error: {error}</div>;
-
-  const handleSelectId = (id: string) => {
-    setSelectedCardId(id);
-    // console.log(id);
-  };
-
-  let clickTimeout: NodeJS.Timeout;
 
   return (
     <section className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen">
@@ -332,7 +240,7 @@ const SelectClan = () => {
             </h2>
           </div>
           <p className="lg:text-3xl md:text-xl my-2 text-white">
-            “{displayedDescription}”
+            "{displayedDescription}"
           </p>
         </div>
 
@@ -414,23 +322,17 @@ const SelectClan = () => {
 
               <div
                 className={clsx(
-                  "absolute xl:bottom-[-100px] lg:bottom-[-80px] md:bottom-[-60px] left-0 w-full flex justify-center transition-opacity duration-300 ",
+                  "absolute xl:bottom-[-100px] lg:bottom-[-80px] md:bottom-[-60px] left-0 w-full flex justify-center transition-opacity duration-300  ",
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
-                <Link
-                  key={clan.id}
-                  href={`/CardPage`}
-                  onClick={() => handleSelectId(clan.id)}
-                >
-                  <Button
-                    onClick={() => handleJoinClan(clan.id)} // Pass the first clanId
-                    ButtonText="Join Clan"
-                    width={buttonSize.width}
-                    height={buttonSize.height}
-                    className="md:text-[10px] lg:text-[16px]"
-                  />
-                </Link>
+                <Button
+                  onClick={() => handleJoinClanClick(clan.id)}
+                  ButtonText="Join Clan"
+                  width={buttonSize.width}
+                  height={buttonSize.height}
+                  className="md:text-[10px] lg:text-[16px]"
+                />
               </div>
             </div>
           ))}
@@ -448,6 +350,54 @@ const SelectClan = () => {
           </div>
         )}
       </div>
+
+      {/* Confirmation Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop with blur effect */}
+          <div
+            className="absolute inset-0 bg-black/50  bg-opacity-50 backdrop-blur-xs"
+            onClick={() => setModalOpen(false)}
+          />
+
+          {/* Modal Content */}
+          <div
+            className="relative bg-gray-900 border border-purple-600 text-white p-6 rounded-lg w-full max-w-md mx-4 z-10"
+            // style={{
+            //   clipPath:
+            //     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
+            // }}
+          >
+            <h3 className="text-xl font-bold mb-4 text-center">
+              Clan Confirmation
+            </h3>
+
+            <div className="mb-6 text-center">
+              <p className="mb-4">Are you confirm you want to choose</p>
+              <p className="text-xl font-bold text-purple-400">
+                {selectedCard?.title}
+              </p>
+              <p className="mt-2 italic">"{selectedCard?.description}"</p>
+            </div>
+
+            <div className="flex justify-center gap-4">
+              <Button
+                ButtonText="No, go back"
+                onClick={() => setModalOpen(false)}
+                width={130}
+                height={40}
+                className="bg-gray-700 hover:bg-gray-600"
+              />
+              <Button
+                ButtonText="Yes"
+                onClick={handleConfirmJoin}
+                width={130}
+                height={40}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
