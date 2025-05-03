@@ -154,7 +154,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
         </div>
 
         {/* Navigation Button */}
-        <div className="w-full flex justify-center md:justify-end mt-6 md:mt-18">
+        <div className="w-full flex justify-center lg:justify-end mt-6 md:mt-0 ">
           <Link href="/introducingClans" prefetch>
             <Button />{" "}
             {/* Ensure Button component renders a clickable element */}
