@@ -2,8 +2,9 @@
 
 import Button from "@/components/Button";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useClan } from "@/context/ClanContext";
+import html2canvas from "html2canvas";
 
 export default function CardPage() {
   const { selectedCardId } = useClan();
@@ -21,6 +22,8 @@ export default function CardPage() {
   } | null>(null);
 
   const [loading, setLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState<string>("idle");
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const [userData, setUserData] = useState<null | {
     userId: string;
@@ -88,30 +91,50 @@ export default function CardPage() {
 
   if (!card) return <div>Loading...</div>;
 
-  // const tweetContent = `Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clan today! `;
   const tweetContent = `Roar louder. Roar prouder!
 
 Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.
 
 Claim your clan today! ${userData?.referralCode} `;
 
-  const postTweet = async (
-    text: string,
-    referralCode: string,
-    userId: string,
-    media: string
-  ) => {
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/twitter/Post-tweet`;
+  // Step 1: Upload media to Twitter
+  const uploadMedia = async (userId: string) => {
+    setCurrentStep("capturing_card");
 
     try {
-      setLoading(true);
+      // First capture the card as an image using html2canvas
+      if (!cardRef.current) {
+        throw new Error("Card component reference is not available");
+      }
 
-      // Instead of sending the full image blob, just send the image path/URL
+      console.log("📸 Capturing card component as image...");
+      const canvas = await html2canvas(cardRef.current, {
+        scale: 2, // Higher scale for better quality
+        backgroundColor: null,
+        logging: true,
+        useCORS: true,
+      });
+
+      setCurrentStep("uploading_media");
+
+      // Convert canvas to base64
+      const base64Data = canvas.toDataURL("image/png").split(",")[1];
+
+      const apiUrl = `https://clans-landing.10on10studios.com/twitter/upload-media/${userId}`;
+
+      // Create form data with the base64 image
       const formData = new FormData();
-      formData.append("text", text);
-      formData.append("referralCode", referralCode);
-      formData.append("userId", userId);
-      formData.append("media", media); // Send image URL instead of blob
+      formData.append("media", base64Data);
+      formData.append(
+        "fileName",
+        `card-${card?.title.replace(/\s+/g, "-").toLowerCase()}.png`
+      );
+
+      console.log("📤 Uploading card image to Twitter as base64...", {
+        userId,
+        imageType: "card-capture",
+        base64Length: base64Data.length,
+      });
 
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -122,39 +145,75 @@ Claim your clan today! ${userData?.referralCode} `;
       try {
         data = await response.json();
       } catch (e) {
-        console.error("Failed to parse response as JSON", e);
-        data = { message: "Server returned an invalid response" };
+        console.error("Failed to parse media upload response as JSON", e);
+        throw new Error("Server returned an invalid response for media upload");
       }
 
       if (!response.ok) {
-        console.error("❌ Backend responded with error:", data);
-        setStatus({
-          type: "error",
-          message:
-            data.message ||
-            `Error ${response.status}: Request too large or server error`,
-        });
+        console.error("❌ Media upload failed:", data);
         throw new Error(
-          data.message ||
-            `Error ${response.status}: Request too large or server error`
+          data.message || `Error ${response.status}: Media upload failed`
+        );
+      }
+
+      console.log("✅ Media uploaded successfully:", data);
+      return data.mediaId; // Return the mediaId for the tweet step
+    } catch (error: any) {
+      console.error("❌ Error uploading media:", error);
+      throw error;
+    }
+  };
+
+  // Step 2: Post tweet with media
+  const postTweet = async (
+    text: string,
+    referralCode: string,
+    userId: string,
+    mediaId: string
+  ) => {
+    setCurrentStep("posting_tweet");
+    const apiUrl = `https://clans-landing.10on10studios.com/twitter/tweet`;
+
+    try {
+      // Create form data for the tweet
+      const formData = new FormData();
+      formData.append("text", text);
+      formData.append("referralCode", referralCode);
+      formData.append("userId", userId);
+      formData.append("mediaId", mediaId);
+
+      console.log("🐦 Posting tweet with media...", {
+        text,
+        referralCode,
+        userId,
+        mediaId,
+      });
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        console.error("Failed to parse tweet response as JSON", e);
+        throw new Error("Server returned an invalid response for tweet");
+      }
+
+      if (!response.ok) {
+        console.error("❌ Tweet posting failed:", data);
+        throw new Error(
+          data.message || `Error ${response.status}: Tweet posting failed`
         );
       }
 
       console.log("✅ Tweet posted successfully:", data);
-      setStatus({
-        type: "success",
-        message: "Tweet posted successfully! Your Roar has been heard!",
-      });
       return data;
     } catch (error: any) {
       console.error("❌ Error posting tweet:", error);
-      setStatus({
-        type: "error",
-        message: error.message || "Failed to post tweet. Please try again.",
-      });
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -168,12 +227,44 @@ Claim your clan today! ${userData?.referralCode} `;
     }
 
     try {
-      // Use the card image path from the selected card
+      setLoading(true);
+      setStatus(null);
+
+      console.log("🚀 Starting the Roaring process with card capture");
+
+      // 1. First capture card as image and upload the media
+      const mediaId = await uploadMedia(userData.userId);
+      console.log("✅ Received mediaId after upload:", mediaId);
+
+      // Small delay to ensure media is processed before tweeting
+      console.log("⏱️ Waiting for media processing...");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // 2. Then post the tweet with the media ID
       const referralCode = userData.referralCode || "default";
-      await postTweet(tweetContent, referralCode, userData.userId, card.image);
-    } catch (error) {
-      // Error is already handled in the postTweet function
-      console.error("Error in handleStartRoaring:", error);
+      const tweetResult = await postTweet(
+        tweetContent,
+        referralCode,
+        userData.userId,
+        mediaId
+      );
+      console.log(
+        "🎉 Tweet posted successfully with full details:",
+        tweetResult
+      );
+
+      setStatus({
+        type: "success",
+        message: "Tweet posted successfully! Your Roar has been heard!",
+      });
+    } catch (error: any) {
+      setStatus({
+        type: "error",
+        message: error.message || "Failed to post tweet. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+      setCurrentStep("idle");
     }
   };
 
@@ -182,16 +273,25 @@ Claim your clan today! ${userData?.referralCode} `;
   };
 
   return (
-    <section className="h-screen flex flex-col items-center justify-center bg-black p-4 overflow-hidden relative" style={{ backgroundImage: "url('/Images/cardPage/cardBg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <section
+      className="h-screen flex flex-col items-center justify-center bg-black p-4 overflow-hidden relative"
+      style={{
+        backgroundImage: "url('/Images/cardPage/cardBg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Overlay for dark/blur effect */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-md z-0" />
       <div className="flex flex-col items-center justify-center w-full max-w-5xl mx-auto py-5 px-5 relative z-10">
         <h1 className="md:text-5xl font-bold mb-10 text-3xl px-10 sm:px-0 text-center">
-          You are now a Certified <span className="text-purple-500">Clans Roarer!</span>
+          You are now a Certified{" "}
+          <span className="text-purple-500">Clans Roarer!</span>
         </h1>
 
         <div
           className="rounded-3xl shadow-2xl flex items-center justify-center relative"
+          ref={cardRef}
           style={{
             backgroundColor: card.glowColor,
             width: "950px",
@@ -216,13 +316,17 @@ Claim your clan today! ${userData?.referralCode} `;
                   {userData?.email ? (
                     <p className="text-sm text-gray-400">{userData.email}</p>
                   ) : (
-                    <p className="text-sm text-gray-400">Email does not exists</p>
+                    <p className="text-sm text-gray-400">
+                      Email does not exists
+                    </p>
                   )}
                 </div>
               </div>
 
               <p className="text-base text-white/80 leading-snug">
-                I don't tweet anymore. I Roar - with Clan {card.title} behind me.<br />
+                I don't tweet anymore. I Roar - with Clan {card.title} behind
+                me.
+                <br />
                 Privacy is power. Roar wisely.
               </p>
 
@@ -261,8 +365,17 @@ Claim your clan today! ${userData?.referralCode} `;
         </div>
 
         {loading && (
-          <div className="mt-6 flex items-center justify-center">
+          <div className="mt-6 flex flex-col items-center justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-purple-500 border-solid border-opacity-50" />
+            <p className="mt-2 text-sm text-gray-300">
+              {currentStep === "capturing_card"
+                ? "Capturing your card as image..."
+                : currentStep === "uploading_media"
+                ? "Uploading your card to Twitter..."
+                : currentStep === "posting_tweet"
+                ? "Posting your Roar..."
+                : "Processing..."}
+            </p>
           </div>
         )}
 
@@ -277,8 +390,17 @@ Claim your clan today! ${userData?.referralCode} `;
         )}
 
         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">
-          <Button ButtonText="Start Roaring" onClick={handleStartRoaring} className="px-2 py-1 text-xs" />
-          <Button ButtonText="Continue" onClick={handleRedirect} className="px-2 py-1 text-xs" />
+          <Button
+            ButtonText={loading ? "Processing..." : "Start Roaring"}
+            onClick={handleStartRoaring}
+            className="px-2 py-1 text-xs"
+            disabled={loading}
+          />
+          <Button
+            ButtonText="Continue"
+            onClick={handleRedirect}
+            className="px-2 py-1 text-xs"
+          />
         </div>
       </div>
     </section>

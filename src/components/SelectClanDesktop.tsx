@@ -9,10 +9,8 @@ import { useClan } from "@/context/ClanContext";
 import { debounce } from "lodash";
 import { gsap } from "gsap";
 import { joinClan } from "@/lib/api";
-import { useRouter } from "next/navigation";
 
 const SelectClan = () => {
-  const router = useRouter();
   const clanData = [
     {
       id: "225462e8-0077-45c7-a5f5-4474f2b84166",
@@ -54,41 +52,46 @@ const SelectClan = () => {
 
   //Dynamic Button Code
   const buttonSizeBreakpoints = [
-    { breakpoint: 1920, size: { width: 280, height: 55 } },
-    { breakpoint: 1536, size: { width: 260, height: 50 } },
-    { breakpoint: 1280, size: { width: 230, height: 45 } },
-    { breakpoint: 1024, size: { width:160, height: 40 } },
-    { breakpoint: 768, size: { width: 190, height: 35 } },
-    { breakpoint: 640, size: { width: 170, height: 35 } },
+    { breakpoint: 1536, size: { width: 280, height: 55 } },
+    { breakpoint: 1280, size: { width: 300, height: 50 } },
+    { breakpoint: 1024, size: { width: 220, height: 45 } },
+    { breakpoint: 768, size: { width: 100, height: 40 } },
+    { breakpoint: 640, size: { width: 180, height: 35 } },
     { breakpoint: 0, size: { width: 150, height: 30 } },
   ];
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [avatarImage, setAvatarImage] = useState("");
-  const [displayedTitle, setDisplayedTitle] = useState("");
-  const [displayedDescription, setDisplayedDescription] = useState("");
+  const [avatarImage, setAvatarImage] = useState<string>("");
+  const [displayedTitle, setDisplayedTitle] = useState<string>("");
+  const [displayedDescription, setDisplayedDescription] = useState<string>("");
 
   const { selectedCardId, setSelectedCardId } = useClan();
 
-  const [selectedCard, setSelectedCard] = useState<{
-    id: string;
-    image: string;
-    hoverImage: string;
-    cardImage: string;
-    title: string;
-    description: string;
-    glowColor: string;
-  } | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [pendingClanId, setPendingClanId] = useState<string | null>(null);
+  const [selectedCard, setSelectedCard] = useState<null | (typeof clanData)[0]>(
+    null
+  );
 
   // State to manage clans data, loading state, and errors using API
-  const [clans, setClans] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [clans, setClans] = useState<{ clanId: string; [key: string]: any }[]>(
+    []
+  ); // To store all clans
+  const [loading, setLoading] = useState(true); // For loading state
+  const [error, setError] = useState<string | null>(null); // Error management
+
+  // const [userData, setUserdata] = useState<null | any>(null); // To store user data
 
   const [buttonSize, setButtonSize] = useState({ width: 150, height: 30 });
+  // ✅ Fetch clans on component mount
+
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("userData");
+  //   if (storedUserData) {
+  //     const parseUserdata = JSON.parse(storedUserData);
+  //     setUserdata(parseUserdata);
+  //     console.log("User data from localStorage:", parseUserdata);
+  //   }
+  // }, []); // Empty dependency array to run this effect only once when the component mounts.
 
   useEffect(() => {
     if (clans && clans.length > 0) {
@@ -130,11 +133,57 @@ const SelectClan = () => {
     setButtonSize(buttonSizeBreakpoints[buttonSizeBreakpoints.length - 1].size);
   };
 
+  // ✅ Fetch clans & cache in localStorage
+  // const getAllClans = async () => {
+  //   console.log("📢 getAllClans() called");
+
+  //   try {
+  //     // 🔍 Check localStorage for cached data
+  //     const stored = localStorage.getItem("clanData");
+  //     if (stored) {
+  //       const parsed = JSON.parse(stored);
+  //       console.log("📦 localStorage fetched:", parsed);
+
+  //       if (parsed.success && Array.isArray(parsed.data)) {
+  //         console.log("✅ Using cached clan data:", parsed);
+  //         setClans(parsed.data); // ✅ Corrected line
+  //         return parsed.data;
+  //       } else {
+  //         console.warn("⚠️ Cached data format invalid, fetching from API...");
+  //       }
+  //     }
+
+  //     // 🌐 Fetch from API if no cache or invalid data
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
+  //     );
+  //     if (!res.ok) throw new Error("Failed to fetch clans");
+
+  //     const data = await res.json();
+  //     console.log("🌐 Fetched from API:", data);
+
+  //     if (data.success && Array.isArray(data.data)) {
+  //       localStorage.setItem("clanData", JSON.stringify(data));
+  //       setClans(data.data); // ✅ Store array only
+  //       return data.data;
+  //     } else {
+  //       throw new Error("Invalid API response structure");
+  //     }
+  //   } catch (err: any) {
+  //     console.error("❌ Fetch error:", err);
+  //     setError(err.message || "Something went wrong while fetching clans");
+  //   } finally {
+  //     setLoading(false);
+  //     console.log("🏁 getAllClans() completed");
+  //   }
+  // };
+
+  //Important code afterward use
   const getAllClans = async () => {
     console.log("📢 getAllClans() called");
 
     try {
-      setLoading(true);
+      setLoading(true); // Start loading
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
       );
@@ -144,19 +193,15 @@ const SelectClan = () => {
       console.log("🌐 Fetched from API:", data);
 
       if (data.success && Array.isArray(data.data)) {
-        setClans(data.data);
+        setClans(data.data); // Set fetched data to state
       } else {
         throw new Error("Invalid API response structure");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("❌ Fetch error:", err);
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        // setError("Something went wrong while fetching clans");
-      }
+      setError(err.message || "Something went wrong while fetching clans");
     } finally {
-      setLoading(false);
+      setLoading(false); // End loading
       console.log("🏁 getAllClans() completed");
     }
   };
@@ -165,53 +210,40 @@ const SelectClan = () => {
     getAllClans();
   }, []);
 
-  const handleJoinClanClick = (clanId: string) => {
-    // Store the clan ID for later use
-    setPendingClanId(clanId);
-
-    // Find the selected clan object to display in modal
-    const selectedClan = clanData.find((clan) => clan.id === clanId) || null;
-    setSelectedCard(selectedClan);
-
-    // Open the confirmation modal
-    setModalOpen(true);
-  };
-
-  const handleConfirmJoin = async () => {
-    // Close the modal first
-    setModalOpen(false);
-
-    // Proceed with joining the clan
+  const handleJoinClan = async (selectedClanId: string) => {
     const userData = localStorage.getItem("userData");
     const user = userData ? JSON.parse(userData) : null;
+
     const storedUserId = user?.userId;
 
-    console.log("📥 Stored User ID:", storedUserId);
-    console.log("📥 Selected Clan ID:", pendingClanId);
+    // const storedUserId = "0b98014b-7a22-4908-a487-8bfdd7d2d437"; // Testing User ID for testing
 
-    if (!storedUserId || !pendingClanId) {
+    console.log("📥 Stored User ID:", storedUserId);
+    console.log("📥 Selected Clan ID:", selectedClanId);
+
+    if (!storedUserId || !selectedClanId) {
       alert("❌ Missing user or clan ID.");
       return;
     }
 
     const joinData = {
       userId: storedUserId,
-      clanId: pendingClanId,
+      clanId: selectedClanId,
     };
 
     console.log("🚀 Sending this data to joinClan API:", joinData);
 
     try {
-      const response = await joinClan(joinData);
+      const response = await joinClan(joinData); // Send to API
+
       console.log("✅ API response:", response);
 
       if (response?.success) {
+        // If API response is successful, show success message
         alert("🎉 Successfully joined the clan!");
-        // Now select the card ID for navigation
-        setSelectedCardId(pendingClanId);
-      } else {
+        // } else {
+        // If API response does not indicate success, show failure
         alert("⚠️ Something went wrong while joining the clan.");
-        setSelectedCardId(pendingClanId);
       }
     } catch (error) {
       console.error("❌ Error while calling joinClan API:", error);
@@ -219,13 +251,13 @@ const SelectClan = () => {
     }
   };
 
-  const handleSelectId = (id: string): void => {
+  if (loading) return <div>Loading clans...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  const handleSelectId = (id: string) => {
     setSelectedCardId(id);
     console.log(id);
   };
-
-  if (loading) return <div>Loading clans...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <section className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen">
@@ -238,7 +270,7 @@ const SelectClan = () => {
             </h2>
           </div>
           <p className="lg:text-3xl md:text-xl my-2 text-white">
-            "{displayedDescription}"
+            “{displayedDescription}”
           </p>
         </div>
 
@@ -320,7 +352,7 @@ const SelectClan = () => {
 
               <div
                 className={clsx(
-                  "absolute xl:bottom-[-100px] lg:bottom-[-80px] md:bottom-[-60px] left-0 w-full flex justify-center transition-opacity duration-300  ",
+                  "absolute xl:bottom-[-100px] lg:bottom-[-80px] md:bottom-[-60px] left-0 w-full flex justify-center transition-opacity duration-300 ",
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
@@ -330,18 +362,11 @@ const SelectClan = () => {
                   onClick={() => handleSelectId(clan.id)}
                 >
                   <Button
-                    onClick={() => handleJoinClanClick(clan.id)}
+                    onClick={() => handleJoinClan(clan.id)} // Pass the first clanId
                     ButtonText="Join Clan"
                     width={buttonSize.width}
                     height={buttonSize.height}
-                    className={clsx(
-                      "transition-all duration-300",
-                      buttonSize.width >= 280 ? "text-base" :
-                      buttonSize.width >= 260 ? "text-sm" :
-                      buttonSize.width >= 230 ? "text-xs" :
-                      buttonSize.width >= 160 ? "text-[10px]" :
-                      "text-[8px]"
-                    )}
+                    className="md:text-[10px] lg:text-[16px]"
                   />
                 </Link>
               </div>
@@ -361,54 +386,6 @@ const SelectClan = () => {
           </div>
         )}
       </div>
-
-      {/* Confirmation Modal */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Backdrop with blur effect */}
-          <div
-            className="absolute inset-0 bg-black/50  bg-opacity-50 backdrop-blur-xs"
-            onClick={() => setModalOpen(false)}
-          />
-
-          {/* Modal Content */}
-          <div
-            className={`relative bg-black  border border- text-white p-6 rounded-lg w-full max-w-md mx-4 z-10`}
-            // style={{
-            //   clipPath:
-            //     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
-            // }}
-          >
-            <h3 className="text-xl font-bold mb-4 text-center">
-              Clan Confirmation
-            </h3>
-
-            <div className="mb-6 text-center">
-              <p className="mb-4">Are you confirm you want to choose</p>
-              <p className="text-xl font-bold text-purple-400">
-                {selectedCard?.title}
-              </p>
-              <p className="mt-2 italic">"{selectedCard?.description}"</p>
-            </div>
-
-            <div className="flex justify-center gap-4">
-              <Button
-                ButtonText="No, go back"
-                onClick={() => setModalOpen(false)}
-                width={130}
-                height={40}
-                className="bg-gray-700 hover:bg-gray-600"
-              />
-              <Button
-                ButtonText="Yes"
-                onClick={handleConfirmJoin}
-                width={130}
-                height={40}
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

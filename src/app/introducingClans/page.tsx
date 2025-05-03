@@ -101,7 +101,7 @@ const IntroducingClans = () => {
         Now, they return — and they want you.
       </p>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-25 gap-y-6 xxs:gap-6 p-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-25 gap-y-6 xxs:gap-6 p-12">
         {cardData.map((card, index) => (
           <div
             key={card.id}
