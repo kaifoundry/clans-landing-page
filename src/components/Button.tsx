@@ -3,8 +3,8 @@ import clsx from "clsx";
 interface ButtonProps {
   className?: string;
   ButtonText?: string;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   onClick?: () => void;
   disabled?: boolean;
 }
@@ -12,28 +12,39 @@ interface ButtonProps {
 export default function Button({
   className = "",
   ButtonText = "Start Now!",
-  width = 309,
-  height = 81,
+  width,
+  height,
   onClick,
   disabled = false,
 }: ButtonProps) {
+  // Responsive style: fallback to 100% width, but allow custom width/height
+  const style: React.CSSProperties = {
+    width: width ? (typeof width === "number" ? `${width}px` : width) : "100%",
+    height: height ? (typeof height === "number" ? `${height}px` : height) : "auto",
+    minWidth: 200,
+    maxWidth: 400,
+    minHeight: 60,
+    ...((width || height) && { minWidth: undefined, maxWidth: undefined, minHeight: undefined }),
+  };
+
   return (
     <button
       disabled={disabled}
       onClick={onClick}
       className={clsx(
-        "group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95",
+        "group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full max-w-[309px] min-w-[120px] min-h-[40px]",
         className
       )}
-      style={{ width, height }}
+      style={style}
     >
       <svg
-        width={width}
-        height={height}
+        width="100%"
+        height="100%"
         viewBox="0 0 309 81"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="absolute top-0 left-0"
+        className="absolute top-0 left-0 w-full h-full"
+        preserveAspectRatio="none"
       >
         <path
           d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
@@ -47,7 +58,7 @@ export default function Button({
         />
       </svg>
 
-      <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10">
+      <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg md:text-xl">
         {ButtonText}
       </span>
     </button>

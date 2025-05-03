@@ -83,79 +83,69 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
   }
 
   return (
-    <section className="relative w-screen h-screen overflow-hidden px-4 pt-16 pb-10  main-section">
-      {/* Background Images */}
+    <section className="relative w-screen h-screen overflow-hidden bg-black flex flex-col justify-between">
+      {/* Background Avatars */}
       <Image
         ref={avatarLeftRef}
         src="/Images/startRoaring/MobileAvtar1.png"
-        alt="Avtar 2"
+        alt="Avatar 1"
         width={400}
         height={400}
         objectFit="cover"
-        className="absolute left-0 top-24 w-[400px] h-full z-0"
+        className="absolute left-0 bottom-0 w-[260px] h-[90%] z-0 select-none pointer-events-none"
       />
       <Image
         src="/Images/startRoaring/Avtar3.png"
-        alt="Avtar 3"
+        alt="Avatar 2"
         width={300}
         height={300}
         objectFit="cover"
-        className="absolute right-0 top-20 w-[300px] h-full  z-1"
+        className="absolute right-0 bottom-0 w-[220px] h-[90%] z-0 select-none pointer-events-none"
       />
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen gap-32 h-dvh">
-        {/* Center Card */}
-        {/* <div className="drop-shadow-[10px_10px_5px_rgba(255,255,255,1)] flex items-center justify-center">
+      <div className="relative z-10 flex flex-col items-center w-full  mx-auto px-2 min-h-screen">
+        {/* Header */}
+        <h1 className="text-3xl text-center font-bold text-white leading-tight mt-10 mb-8 drop-shadow-lg">
+          Introducing<br />Roar Points
+        </h1>
+
+        {/* Center Card - vertically centered */}
+        <div className="flex-1 flex flex-col justify-center w-full">
           <div
-            className="px-10 py-8 rounded relative bg-gradient-to-br from-black via-black/80 to-transparent w-[328px] h-[380px] flex flex-col gap-6"
+            className="px-6 py-10 rounded relative bg-black/80 border border-gray-400 w-full max-w-[370px] flex flex-col gap-4 drop-shadow-xl flex-shrink-0 mx-auto"
             style={{
               overflow: "hidden",
               clipPath:
                 "polygon(2% 8%, 2% 85%, 10% 98%, 96% 98%, 98% 95%, 98% 18%, 90% 3%, 4% 3%, 2% 8%)",
+              boxShadow: "0 0 32px 0 rgba(0,0,0,0.9)",
+              backdropFilter: "blur(2px)",
             }}
           >
-            <p className="text-center text-xl text-white">
-              In the age of myth,
-              <br />
-              Warriors chose their clan.
+            <p className="text-center text-lg text-white mb-2">
+              Ancient warriors had clans.<br />
+              You have social media.
             </p>
-            <p className="text-center  text-sm leading-8 text-white">
-              In the age of Twitter, they choose again,
-              <br />
-              <span>Post. Engage. Earn Roar Points.</span>
-              <br />
-              Only those who join the waitlist will get
-              <br />
-              early access to the battlegrounds.
-              <br />
-              Which clan will you fight for?
+            <p className="text-center text-lg text-white font-bold mb-2">
+              Post. Engage. Earn Roar Points.
+            </p>
+            <p className="text-center text-lg text-white mb-2">
+              Only those who join the waitlist<br />will enter the battleground.
+            </p>
+            <p className="text-center text-lg text-white">
+              Which clan will you join?
             </p>
           </div>
-        </div> */}
+        </div>
 
-        <h1 className="text-3xl text-center font-bold text-white leading-tight">
-          Introducing
-          <br />
-          Roar Points
-        </h1>
-
-        <div className="flex flex-col items-center gap-6 w-full max-w-xs">
-          <Image
-            src="/Images/startRoaring/MobileCard.png"
-            width={300}
-            height={380}
-            alt="mobilecard"
-            className="w-full h-auto"
-            priority
-          />
-
+        {/* Button */}
+        <div className="w-full flex justify-center mb-8">
           <Link href="/introducingClans" prefetch>
             <Button
-              width={328}
+              width={260}
               height={60}
-              ButtonText="Get Started"
-              className="font-semibold w-full"
+              ButtonText="Start Roaring"
+              className="font-semibold w-full max-w-[260px] drop-shadow-lg text-lg"
             />
           </Link>
         </div>
