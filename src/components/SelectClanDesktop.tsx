@@ -208,12 +208,9 @@ const SelectClan = () => {
         alert("🎉 Successfully joined the clan!");
         // Now select the card ID for navigation
         setSelectedCardId(pendingClanId);
-        router.push(`/card/${pendingClanId}`);
-
-        // Navigate to CardPage (this will be triggered by the Link component)
-        // The navigation happens automatically because we're inside a Link component
       } else {
         alert("⚠️ Something went wrong while joining the clan.");
+        setSelectedCardId(pendingClanId);
       }
     } catch (error) {
       console.error("❌ Error while calling joinClan API:", error);
@@ -326,13 +323,19 @@ const SelectClan = () => {
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
-                <Button
-                  onClick={() => handleJoinClanClick(clan.id)}
-                  ButtonText="Join Clan"
-                  width={buttonSize.width}
-                  height={buttonSize.height}
-                  className="md:text-[10px] lg:text-[16px]"
-                />
+                <Link
+                  key={clan.id}
+                  href={`/CardPage`}
+                  onClick={() => handleSelectId(clan.id)}
+                >
+                  <Button
+                    onClick={() => handleJoinClanClick(clan.id)}
+                    ButtonText="Join Clan"
+                    width={buttonSize.width}
+                    height={buttonSize.height}
+                    className="md:text-[10px] lg:text-[16px]"
+                  />
+                </Link>
               </div>
             </div>
           ))}
@@ -362,7 +365,7 @@ const SelectClan = () => {
 
           {/* Modal Content */}
           <div
-            className="relative bg-gray-900 border border-purple-600 text-white p-6 rounded-lg w-full max-w-md mx-4 z-10"
+            className={`relative bg-black  border border- text-white p-6 rounded-lg w-full max-w-md mx-4 z-10`}
             // style={{
             //   clipPath:
             //     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
