@@ -165,22 +165,22 @@ const SelectClan = () => {
   };
 
   return (
-    <section className="main-section p-4 overflow-hidden">
-      <div className="relative w-full overflow-hidden flex justify-start flex-col gap-4">
-        <h1 className="text-2xl text-center font-bold">Claim your Clan</h1>
-        <p className="text-center">
-          Long ago, clans rose from code and chaos.
-          <br />
-          Now, they return — and they want you.
+    <section className="relative min-h-screen flex flex-col justify-center items-center bg-black p-0 overflow-hidden">
+      <div className="relative w-full max-w-md flex flex-col items-center justify-center gap-6 px-4 pt-8 pb-32 mx-auto">
+        <h1 className="text-3xl md:text-4xl font-bold text-center mt-4 mb-2 text-white">Claim your Clan</h1>
+        <p className="text-lg md:text-xl text-center mb-6 text-white opacity-80">
+          Long ago, clans rose from code and chaos.<br />Now, they return — and they want you.
         </p>
 
-        <div className="flex gap-x-2 items-center mt-10">
-          <div className="h-10 w-1 bg-[#9747FF]"></div>
-          <h2 className="text-2xl font-bold">{displayedTitle}</h2>
+        <div className="flex flex-col items-center mb-4 w-full">
+          <div className="flex gap-x-2 items-center justify-center w-full mb-2">
+            <div className="h-10 w-1 bg-[#9747FF]"></div>
+            <h2 className="text-2xl md:text-3xl font-bold text-[#B18CFF] ml-2">{displayedTitle}</h2>
+          </div>
+          <p className="text-lg md:text-xl text-white text-center mt-2">"{displayedDescription}"</p>
         </div>
-        <p className="text-xl">{displayedDescription}</p>
 
-        <div className="w-1/2 grid grid-cols-2 gap-6 justify-items-center">
+        <div className="grid grid-cols-2 gap-6 justify-items-center w-full max-w-xs mx-auto mb-8 mt-2">
           {clanData.map((clan, index) => (
             <div
               key={clan.id}
@@ -207,13 +207,13 @@ const SelectClan = () => {
                 }
               }}
               className={clsx(
-                "relative h-[130px] w-[70px] cursor-pointer",
-                activeIndex === index ? "scale-105" : "scale-100"
+                "relative h-[130px] w-[70px] cursor-pointer transition-transform duration-300",
+                activeIndex === index ? "scale-110 z-10" : "scale-100 z-0"
               )}
               style={{
                 filter:
                   activeIndex === index || hoveredIndex === index
-                    ? `drop-shadow(0 0 1px ${clan.glowColor}) drop-shadow(0 0 6px ${clan.glowColor})`
+                    ? `drop-shadow(0 0 8px ${clan.glowColor}) drop-shadow(0 0 16px ${clan.glowColor})`
                     : "none",
                 transition: "filter 0.4s ease, transform 0.4s ease",
               }}
@@ -225,7 +225,7 @@ const SelectClan = () => {
                     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
                   boxShadow:
                     activeIndex === index || hoveredIndex === index
-                      ? `0 0 2px ${clan.glowColor}, 0 0 10px ${clan.glowColor}`
+                      ? `0 0 8px ${clan.glowColor}, 0 0 20px ${clan.glowColor}`
                       : "none",
                   backgroundColor:
                     activeIndex === index || hoveredIndex === index
@@ -257,20 +257,18 @@ const SelectClan = () => {
           ))}
         </div>
 
-        <div className="w-full flex items-center justify-center z-1 mt-20">
+        <div className="flex justify-center w-full mt-8 mb-2 z-10">
           {selectedCard && (
             <Link
               key={selectedCard.id}
               href={`/CardPage`}
               onClick={() => handleSelectId(selectedCard.id)}
             >
-              {/* <Button ButtonText="Join Clan" width={250} height={50} /> */}
               <button
                 className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white"
                 onClick={() => handleJoinClan(selectedCard.id)}
               >
-                <div className="relative w-[160px] h-[45px] sm:w-[200px] sm:h-[55px] md:w-[240px] md:h-[65px] lg:w-[280px] lg:h-[75px] xl:w-[307px] xl:h-[80px]">
-                  {/* Inline SVG */}
+                <div className="relative w-[200px] h-[55px] sm:w-[240px] sm:h-[65px] md:w-[280px] md:h-[75px] lg:w-[307px] lg:h-[80px]">
                   <svg
                     viewBox="0 0 309 81"
                     fill="none"
@@ -290,11 +288,8 @@ const SelectClan = () => {
                       strokeWidth="2"
                     />
                   </svg>
-
-                  {/* Button text */}
                   <span
-                    className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 
-                 xxs:text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium"
+                    className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 text-lg md:text-xl font-semibold"
                   >
                     Join Clan
                   </span>
@@ -308,10 +303,11 @@ const SelectClan = () => {
       {avatarImage && (
         <Image
           src={avatarImage}
-          height={100}
-          width={180}
+          height={400}
+          width={300}
           alt="bgAvatar"
-          className="absolute bottom-0 right-0"
+          className="absolute bottom-0 right-0 z-0 pointer-events-none"
+          style={{ objectFit: "contain" }}
         />
       )}
     </section>
