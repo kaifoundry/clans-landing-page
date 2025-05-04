@@ -85,7 +85,6 @@ export default function CardPage() {
 
   if (!card) return <div>Loading...</div>;
 
-  // const tweetContent = `Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.\nClaim your clan today! `;
   const tweetContent = `Roar louder. Roar prouder!
 
 Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.
@@ -159,32 +158,40 @@ Claim your clan today! ${userData?.referralCode} `;
         throw new Error("Media upload failed or media ID not found in response");
       }
 
-      // Get Twitter OAuth URL
-      const oauthResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/oauth-url`,
+      // Post tweet
+      const tweetData = {
+        userId: userData.userId,
+        text: tweetContent,
+        mediaId: uploadResult.mediaId,
+        referralCode: userData.referralCode || ""
+      };
+
+      console.log('Sending tweet data:', tweetData);
+
+      const tweetResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet`,
         {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            userId: userData.userId,
-            text: tweetContent,
-            mediaId: uploadResult.mediaId,
-            referralCode: userData.referralCode || ""
-          }),
+          body: JSON.stringify(tweetData),
         }
-      );
+      ).catch(error => {
+        console.error('Tweet fetch error:', error);
+        throw new Error(`Network error during tweet: ${error.message}`);
+      });
 
-      if (!oauthResponse.ok) {
-        throw new Error("Failed to get Twitter OAuth URL");
+      if (!tweetResponse.ok) {
+        const errorData = await tweetResponse.json().catch(() => ({}));
+        console.error('Tweet response error:', errorData);
+        throw new Error(`Failed to post tweet: ${errorData.message || tweetResponse.statusText}`);
       }
 
-      const { oauthUrl } = await oauthResponse.json();
-      
-      // Redirect to Twitter OAuth
-      window.location.href = oauthUrl;
-
+      setStatus({
+        type: "success",
+        message: "Tweet posted successfully! Your Roar has been heard!",
+      });
     } catch (error: any) {
       console.error("Error in handleStartRoaring:", error);
       setStatus({
@@ -239,7 +246,8 @@ Claim your clan today! ${userData?.referralCode} `;
       <div className="absolute inset-0 bg-black/40 backdrop-blur-md z-0" />
       <div className="flex flex-col items-center justify-center w-full max-w-5xl mx-auto py-5 px-5 relative z-10">
         <h1 className="md:text-5xl font-bold mb-10 text-3xl px-10 sm:px-0 text-center">
-          You are now a Certified <span className="text-purple-500">Clans Roarer!</span>
+          You are now a Certified{" "}
+          <span className="text-purple-500">Clans Roarer!</span>
         </h1>
 
         <ClanCard
@@ -255,7 +263,7 @@ Claim your clan today! ${userData?.referralCode} `;
         />
 
         {loading && (
-          <div className="mt-6 flex items-center justify-center">
+          <div className="mt-6 flex flex-col items-center justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-purple-500 border-solid border-opacity-50" />
             <p className="mt-2 text-sm text-gray-300">Processing...</p>
           </div>
@@ -272,8 +280,17 @@ Claim your clan today! ${userData?.referralCode} `;
         )}
 
         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">
-          <Button ButtonText="Start Roaring" onClick={handleStartRoaring} className="px-2 py-1 text-xs" />
-          <Button ButtonText="Continue" onClick={handleRedirect} className="px-2 py-1 text-xs" />
+          <Button
+            ButtonText={loading ? "Processing..." : "Start Roaring"}
+            onClick={handleStartRoaring}
+            className="px-2 py-1 text-xs"
+            disabled={loading}
+          />
+          <Button
+            ButtonText="Continue"
+            onClick={handleRedirect}
+            className="px-2 py-1 text-xs"
+          />
         </div>
       </div>
     </section>
