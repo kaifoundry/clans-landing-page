@@ -5,7 +5,9 @@ import { useEffect, useState, useRef } from "react";
 import { useClan } from "@/context/ClanContext";
 import { toPng } from "html-to-image";
 import ClanCard from "@/components/ClanCard";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
+import Loader from "@/components/Features/Loader";
+import { cardData } from "@/data/cardPage_Data";
 
 export default function CardPage() {
   const { selectedCardId } = useClan();
@@ -33,37 +35,6 @@ export default function CardPage() {
 
   const profilePic = userData?.socialHandles?.[0]?.profilePicture;
 
-  const cardData = [
-    {
-      id: "225462e8-0077-45c7-a5f5-4474f2b84166",
-      image: "/Images/selectClan/cardImg1.png",
-      title: "Clan McBuilder",
-      description: "We create the future with passion and code.",
-      glowColor: "rgba(255, 0, 0, 0.5)",
-    },
-    {
-      id: "b2cb6389-65e4-4d2a-acc1-ce5b02b893a3",
-      image: "/Images/selectClan/cardImg2.png",
-      title: "McHODLer",
-      description: "Diamond hands forever.",
-      glowColor: "rgba(128, 0, 128, 0.5)",
-    },
-    {
-      id: "98e347d1-b7b9-4c53-ba73-26ff6ac87052",
-      image: "/Images/selectClan/cardImg3.png",
-      title: "Clan McDegen",
-      description: "Risk is our middle name.",
-      glowColor: "rgba(0, 255, 0, 0.5)",
-    },
-    {
-      id: "9e37533c-164d-475b-8fb0-dc8f67ae7bec",
-      image: "/Images/selectClan/cardImg4.png",
-      title: "Clan McPrivacy",
-      description: "Privacy is our birthright.",
-      glowColor: "rgba(0, 0, 255, 0.5)",
-    },
-  ];
-
   useEffect(() => {
     if (selectedCardId !== null) {
       const selected = cardData.find(
@@ -80,7 +51,8 @@ export default function CardPage() {
     }
   }, []);
 
-  if (!card) return <div>Loading...</div>;
+  if (!card)
+    return <Loader message="Loading your selected Clan please wait..." />;
 
   const tweetContent = `Roar louder. Roar prouder.
 
@@ -178,8 +150,8 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
           },
           body: JSON.stringify(tweetData),
         }
-      ).catch(error => {
-        console.error('Tweet fetch error:', error);
+      ).catch((error) => {
+        console.error("Tweet fetch error:", error);
         toast.error(`Network error: ${error.message}`);
         return null;
       });
@@ -189,16 +161,23 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
       const tweetResult = await tweetResponse.json().catch(() => ({}));
 
       if (!tweetResponse.ok || !tweetResult.success) {
-        toast.error(`Failed to post tweet: ${tweetResult?.message || tweetResponse.statusText}`);
+        toast.error(
+          `Failed to post tweet: ${
+            tweetResult?.message || tweetResponse.statusText
+          }`
+        );
         return;
       }
 
       // Save tweet data to localStorage
       if (tweetResult.tweetId && tweetResult.userId) {
-        localStorage.setItem('tweetData', JSON.stringify({
-          tweetId: tweetResult.tweetId,
-          userId: tweetResult.userId
-        }));
+        localStorage.setItem(
+          "tweetData",
+          JSON.stringify({
+            tweetId: tweetResult.tweetId,
+            userId: tweetResult.userId,
+          })
+        );
       }
 
       // Success: use redirectUrl from response

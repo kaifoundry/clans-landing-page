@@ -54,11 +54,11 @@ export default function MobileMainPage() {
 
   return (
     <>
-      <section className="w-full min-h-screen overflow-hidden">
+      <section className="w-full h-screen overflow-hidden">
         {/* Mute/Unmute Button */}
         <button
           onClick={handleMuteUnmute}
-          className="absolute top-4 left-12 transform -translate-x-1/2 bg-black/50 px-4 py-2 rounded-full text-white flex items-center justify-center z-20 border-2 border-white/50 hover:bg-white/20 transition duration-300"
+          className="absolute top-4 left-12 transform -translate-x-1/2  px-4 py-2 rounded-full text-white flex items-center justify-center z-20  hover:bg-white/20 transition duration-300"
         >
           <span className="text-xl p-1" ref={iconRef}>
             {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
@@ -145,7 +145,7 @@ export default function MobileMainPage() {
             <div className="bg-white rounded-2xl shadow-lg w-[308px] p-6 text-center relative">
               <div className="w-full flex items-center justify-center">
                 <Image
-                  src="/Images/gettingStarted/logo.png"
+                  src="/logo.svg"
                   width={100}
                   height={100}
                   className="w-24 h-20 object-contain text-xl"

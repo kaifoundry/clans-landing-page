@@ -193,7 +193,7 @@ const MainPage = () => {
           <div className="bg-white rounded-2xl shadow-lg w-[308px] p-6 text-center relative">
             <div className="w-full flex items-center justify-center">
               <Image
-                src="/Images/gettingStarted/logo.png"
+                src="/logo.svg"
                 width={100}
                 height={100}
                 className="w-24 h-20 object-contain text-xl"

@@ -1,0 +1,62 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+
+const Loader = ({
+  message = "Loading Clans, please wait...",
+  logoSrc = "/Images/gettingStarted/Object.png",
+}) => {
+  const loaderRef = useRef(null);
+  const textRef = useRef(null);
+  const logoRef = useRef(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline();
+
+    // Animate loader container in
+    tl.fromTo(
+      loaderRef.current,
+      { opacity: 0, scale: 0.95 },
+      { opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" }
+    );
+
+    // Animate text in
+    tl.fromTo(
+      textRef.current,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+      "-=0.4"
+    );
+
+    // Spin logo infinitely
+    gsap.to(logoRef.current, {
+      rotation: 360,
+      repeat: -1,
+      ease: "linear",
+      duration: 0.8,
+    });
+  }, []);
+
+  return (
+    <div
+      ref={loaderRef}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover bg-no-repeat bg-opacity-90"
+    >
+      <img
+        ref={logoRef}
+        src={logoSrc}
+        alt="Loading Logo"
+        className="w-32 h-32 object-contain mb-6"
+      />
+      <p
+        ref={textRef}
+        className="text-white text-xl font-semibold tracking-wide text-center"
+      >
+        {message}
+      </p>
+    </div>
+  );
+};
+
+export default Loader;
