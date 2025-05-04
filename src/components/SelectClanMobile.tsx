@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useClan } from "@/context/ClanContext";
 import { joinClan } from "@/lib/api";
+import toast from 'react-hot-toast';
 
 const SelectClan = () => {
   const clanData = [
@@ -116,18 +117,13 @@ const SelectClan = () => {
   }, []);
 
   const handleJoinClan = async (selectedClanId: string) => {
-    // const userData = localStorage.getItem("userData");
-    // const user = userData ? JSON.parse(userData) : null;
-
-    // const storedUserId = userData?.userId;
-
     const storedUserId = "0b98014b-7a22-4908-a487-8bfdd7d2d437"; // Dummy User ID for testing
 
     console.log("📥 Stored User ID:", storedUserId);
     console.log("📥 Selected Clan ID:", selectedClanId);
 
     if (!storedUserId || !selectedClanId) {
-      alert("❌ Missing user or clan ID.");
+      toast.error("Missing user or clan ID.");
       return;
     }
 
@@ -144,15 +140,13 @@ const SelectClan = () => {
       console.log("✅ API response:", response);
 
       if (response?.success) {
-        // If API response is successful, show success message
-        alert("🎉 Successfully joined the clan!");
-        // } else {
-        // If API response does not indicate success, show failure
-        alert("⚠️ Something went wrong while joining the clan.");
+        toast.success("Successfully joined the clan!");
+      } else {
+        toast.error("Something went wrong while joining the clan.");
       }
     } catch (error) {
       console.error("❌ Error while calling joinClan API:", error);
-      alert("Failed to join clan due to network or server error.");
+      toast.error("Failed to join clan due to network or server error.");
     }
   };
 

@@ -8,7 +8,8 @@ import clsx from "clsx";
 import { useClan } from "@/context/ClanContext";
 import { gsap } from "gsap";
 import { joinClan } from "@/lib/api";
-import { clanData } from "@/data/selectClan_Data";
+import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
 
 const SelectClan = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -114,7 +115,7 @@ const SelectClan = () => {
     console.log("📥 Selected Clan ID:", pendingClanId);
 
     if (!storedUserId || !pendingClanId) {
-      alert("❌ Missing user or clan ID.");
+      toast.error("Missing user or clan ID.");
       return;
     }
 
@@ -130,16 +131,16 @@ const SelectClan = () => {
       console.log("✅ API response:", response);
 
       if (response?.success) {
-        alert("🎉 Successfully joined the clan!");
+        toast.success("Successfully joined the clan!");
         // Now select the card ID for navigation
         setSelectedCardId(pendingClanId);
       } else {
-        alert("⚠️ Something went wrong while joining the clan.");
+        toast.error("Something went wrong while joining the clan.");
         setSelectedCardId(pendingClanId);
       }
     } catch (error) {
       console.error("❌ Error while calling joinClan API:", error);
-      alert("Failed to join clan due to network or server error.");
+      toast.error("Failed to join clan due to network or server error.");
     }
   };
 
@@ -148,7 +149,6 @@ const SelectClan = () => {
     console.log(id);
   };
 
-  if (loading) return <div>Loading clans...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -253,7 +253,7 @@ const SelectClan = () => {
                   href={`/CardPage`}
                   onClick={() => handleSelectId(clan.id)}
                 >
-                  {/* <Button
+                  <Button
                     onClick={() => handleJoinClanClick(clan.id)}
                     ButtonText="Join Clan"
                     width={buttonSize.width}
@@ -270,36 +270,7 @@ const SelectClan = () => {
                         ? "text-[10px]"
                         : "text-[8px]"
                     )}
-                  /> */}
-                  <button
-                    onClick={() => handleJoinClanClick(clan.id)}
-                    className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full  min-h-[40px] xl:w-[220px] xl:h-[60px] lg:w-[150px] lg:h-[30px] md:w-[100px] md:h-[20px]"
-                  >
-                    <svg
-                      width="100%"
-                      height="100%"
-                      viewBox="0 0 309 81"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="absolute top-0 left-0 w-full h-full"
-                      preserveAspectRatio="none"
-                    >
-                      <path
-                        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-                        className="fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300"
-                      />
-                      <path
-                        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
-                        stroke="white"
-                        strokeOpacity="0.4"
-                        strokeWidth="1.5"
-                      />
-                    </svg>
-
-                    <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg lg:text-sm md:text-xs xl:text-xl">
-                      Start Now
-                    </span>
-                  </button>
+                  />
                 </Link>
               </div>
             </div>
@@ -366,6 +337,8 @@ const SelectClan = () => {
           </div>
         </div>
       )}
+
+      {loading && <Loader message="Loading Clans Please wait..." />}
     </section>
   );
 };
