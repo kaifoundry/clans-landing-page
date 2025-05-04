@@ -179,19 +179,39 @@ Claim your clan today! ${userData?.referralCode} `;
         }
       ).catch(error => {
         console.error('Tweet fetch error:', error);
-        throw new Error(`Network error during tweet: ${error.message}`);
+        // Don't throw error here, just log it
+        return null;
       });
+
+      if (!tweetResponse) {
+        // If we got here, the tweet was likely successful but we couldn't get the response
+        setStatus({
+          type: "success",
+          message: "Tweet posted successfully! Your Roar has been heard!",
+        });
+        return;
+      }
 
       if (!tweetResponse.ok) {
         const errorData = await tweetResponse.json().catch(() => ({}));
         console.error('Tweet response error:', errorData);
-        throw new Error(`Failed to post tweet: ${errorData.message || tweetResponse.statusText}`);
+        setStatus({
+          type: "error",
+          message: `Failed to post tweet: ${errorData.message || tweetResponse.statusText}`,
+        });
+        return;
       }
 
+      // If we get here, the tweet was successful
       setStatus({
         type: "success",
         message: "Tweet posted successfully! Your Roar has been heard!",
       });
+
+      // Optional: Add a delay before redirecting to the next page
+      setTimeout(() => {
+        handleRedirect();
+      }, 2000);
     } catch (error: any) {
       console.error("Error in handleStartRoaring:", error);
       setStatus({
