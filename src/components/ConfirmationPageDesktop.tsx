@@ -104,6 +104,13 @@ const ConfirmationPage = () => {
             className="w-12 sm:w-16 md:w-20"
           />
           <Image
+            src="/Images/gettingStarted/Line.png"
+            width={1}
+            height={1}
+            alt="Line1"
+            className="w-1 h-10 sm:h-12 md:h-20 md:w-1 lg:h-18 xl:h-18 object-contain"
+          />
+          <Image
             src="/Images/gettingStarted/Clans.png"
             width={140}
             height={70}
@@ -114,8 +121,7 @@ const ConfirmationPage = () => {
 
         {/* Heading */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-snug mb-4">
-          You’re officially <br />
-          on the list! 🎉
+          You’re officially <br />a Roarer!🎉
         </h1>
 
         {/* Subtext */}

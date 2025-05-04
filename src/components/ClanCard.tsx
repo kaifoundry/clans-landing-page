@@ -39,7 +39,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(({
     }
   };
 
-  const safeGlowColor = getSafeColor();
+    const safeGlowColor = getSafeColor();
 
   return (
     <div
@@ -123,6 +123,6 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(({
   );
 });
 
-ClanCard.displayName = 'ClanCard';
+ClanCard.displayName = "ClanCard";
 
-export default ClanCard; 
+export default ClanCard;

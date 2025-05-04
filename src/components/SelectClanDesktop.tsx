@@ -55,9 +55,9 @@ const SelectClan = () => {
   //Dynamic Button Code
   const buttonSizeBreakpoints = [
     { breakpoint: 1920, size: { width: 280, height: 55 } },
-    { breakpoint: 1536, size: { width: 260, height: 50 } },
+    { breakpoint: 1536, size: { width: 250, height: 50 } },
     { breakpoint: 1280, size: { width: 230, height: 45 } },
-    { breakpoint: 1024, size: { width:160, height: 40 } },
+    { breakpoint: 1024, size: { width: 160, height: 40 } },
     { breakpoint: 768, size: { width: 190, height: 35 } },
     { breakpoint: 640, size: { width: 170, height: 35 } },
     { breakpoint: 0, size: { width: 150, height: 30 } },
@@ -336,11 +336,15 @@ const SelectClan = () => {
                     height={buttonSize.height}
                     className={clsx(
                       "transition-all duration-300",
-                      buttonSize.width >= 280 ? "text-base" :
-                      buttonSize.width >= 260 ? "text-sm" :
-                      buttonSize.width >= 230 ? "text-xs" :
-                      buttonSize.width >= 160 ? "text-[10px]" :
-                      "text-[8px]"
+                      buttonSize.width >= 280
+                        ? "text-base"
+                        : buttonSize.width >= 260
+                        ? "text-sm"
+                        : buttonSize.width >= 230
+                        ? "text-xs"
+                        : buttonSize.width >= 160
+                        ? "text-[10px]"
+                        : "text-[8px]"
                     )}
                   />
                 </Link>

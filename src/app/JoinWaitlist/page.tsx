@@ -92,34 +92,38 @@ const JoinWaitlist = () => {
   }
 
   return (
-    <section className="bg-[url('/Images/joinWaitlist/background.png')] bg-cover bg-center bg-no-repeat min-h-screen w-full flex flex-col items-center justify-center p-10 gap-10">
-      <div className="flex items-center mt-10 gap-2">
+    <section className="bg-[url('/Images/joinWaitlist/background.png')] bg-cover bg-center bg-no-repeat min-h-screen w-full flex flex-col items-center justify-center p-10 md:gap-16 gap-16">
+      <div className="flex items-center mt-10 md:gap-6 gap-4">
         <Image
           src="/Images/gettingStarted/Object.png"
           width={100}
           height={100}
-          className="w-20 h-20 object-contain"
+          className="md:w-20 h-30 object-contain w-15"
           alt="Object1"
         />
-  
+
         <Image
           src="/Images/gettingStarted/Clans.png"
           width={100}
           height={100}
-          className="w-30 h-15 object-contain"
+          className="md:w-40 h-25 object-contain"
           alt="Clans"
         />
       </div>
 
-      <h1 className="md:text-5xl text-3xl font-bold text-white">
-        Early Roarers get the edge!
-      </h1>
+      <div className="flex flex-col items-center md:gap-6 gap-4">
+        <h1 className="lg:text-7xl text-2xl font-bold text-white  md:text-5xl">
+          Early Roarers get the edge!
+        </h1>
 
-      <p className="text-center text-white">
-        Get early access, exclusive rewards, and bragging rights.
-        <br />
-        The battle for the timeline starts soon
-      </p>
+        <p className="text-center text-white md:text-2xl">
+          Get early access, exclusive rewards,
+          <br />
+          and bragging rights.
+          <br />
+          The battle for the timeline starts soon.
+        </p>
+      </div>
 
       {errorMessage && (
         <div className="bg-red-600 text-white px-4 py-2 rounded-lg">
@@ -131,6 +135,8 @@ const JoinWaitlist = () => {
         ButtonText={isLoading ? "Processing..." : "Join Waitlist"}
         onClick={handleJoinWaitlist}
         disabled={isLoading || !userData}
+        width={280}
+        height={60}
       />
 
       {!userData && (

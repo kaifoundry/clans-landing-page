@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import { useEffect, useState, useRef } from "react";
 import { useClan } from "@/context/ClanContext";
-import { toPng } from 'html-to-image';
+import { toPng } from "html-to-image";
 import ClanCard from "@/components/ClanCard";
 
 export default function CardPage() {
@@ -110,15 +110,17 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
         quality: 0.6,
         pixelRatio: 1,
         style: {
-          transform: 'scale(1)',
-          transformOrigin: 'top left',
-        }
+          transform: "scale(1)",
+          transformOrigin: "top left",
+        },
       });
 
       // Download the image
       const link = document.createElement("a");
       link.href = dataUrl;
-      link.download = `clan-card-${card.title.toLowerCase().replace(/\s+/g, '-')}.png`;
+      link.download = `clan-card-${card.title
+        .toLowerCase()
+        .replace(/\s+/g, "-")}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -142,21 +144,27 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
           method: "POST",
           body: formData,
         }
-      ).catch(error => {
-        console.error('Upload media fetch error:', error);
+      ).catch((error) => {
+        console.error("Upload media fetch error:", error);
         throw new Error(`Network error during media upload: ${error.message}`);
       });
 
       if (!uploadResponse.ok) {
         const errorData = await uploadResponse.json().catch(() => ({}));
-        console.error('Upload media response error:', errorData);
-        throw new Error(`Failed to upload image: ${errorData.message || uploadResponse.statusText}`);
+        console.error("Upload media response error:", errorData);
+        throw new Error(
+          `Failed to upload image: ${
+            errorData.message || uploadResponse.statusText
+          }`
+        );
       }
 
       const uploadResult = await uploadResponse.json();
       if (!uploadResult.success || !uploadResult.mediaId) {
-        console.error('Upload result error:', uploadResult);
-        throw new Error("Media upload failed or media ID not found in response");
+        console.error("Upload result error:", uploadResult);
+        throw new Error(
+          "Media upload failed or media ID not found in response"
+        );
       }
 
       // Post tweet
@@ -164,17 +172,17 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
         userId: userData.userId,
         text: tweetContent,
         mediaId: uploadResult.mediaId,
-        referralCode: userData.referralCode || ""
+        referralCode: userData.referralCode || "",
       };
 
-      console.log('Sending tweet data:', tweetData);
+      console.log("Sending tweet data:", tweetData);
 
       const tweetResponse = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet?noRedirect=true`,
         {
           method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(tweetData),
         }
@@ -248,7 +256,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
       }}
     >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-md z-0" />
-      <div className="flex flex-col items-center justify-center w-full max-w-5xl mx-auto px-2 py-3 sm:px-5 sm:py-5 relative z-10">
+      <div className="flex flex-col items-center justify-center  max-w-5xl mx-auto px-2 py-3 sm:px-5 sm:py-5 relative z-10 w-full ">
         <h1 className="md:text-5xl font-bold mb-10 text-3xl px-10 sm:px-0 text-center">
           You are now a Certified{" "}
           <span className="text-purple-500">Clans Roarer!</span>
@@ -289,11 +297,15 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
             onClick={handleStartRoaring}
             className="px-2 py-1 text-xs"
             disabled={loading}
+            width={280}
+            height={60}
           />
           <Button
             ButtonText="Continue"
             onClick={handleRedirect}
             className="px-2 py-1 text-xs"
+            width={280}
+            height={60}
           />
         </div>
       </div>
