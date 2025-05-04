@@ -26,11 +26,12 @@ export default function CardPage() {
 
   const [userData, setUserData] = useState<null | {
     userId: string;
-    email: string;
+    displayName: string;
     referralCode?: string;
     socialHandles?: {
       username: string;
       profilePicture: string;
+      displayName: string;
     }[];
   }>(null);
 
@@ -85,11 +86,11 @@ export default function CardPage() {
 
   if (!card) return <div>Loading...</div>;
 
-  const tweetContent = `Roar louder. Roar prouder!
+  const tweetContent = `Roar louder. Roar prouder.
 
-Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened.⚔️ I've claimed my clan and started stacking my Roar Points.
+Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
 
-Claim your clan today! ${userData?.referralCode} `;
+Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
 
   const handleStartRoaring = async () => {
     if (!cardRef.current || !userData?.userId) {
@@ -169,7 +170,7 @@ Claim your clan today! ${userData?.referralCode} `;
       console.log('Sending tweet data:', tweetData);
 
       const tweetResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet?noRedirect=true`,
         {
           method: "POST",
           headers: {
@@ -179,38 +180,45 @@ Claim your clan today! ${userData?.referralCode} `;
         }
       ).catch(error => {
         console.error('Tweet fetch error:', error);
-        // Don't throw error here, just log it
+        setStatus({
+          type: "error",
+          message: `Network error: ${error.message}`,
+        });
         return null;
       });
 
-      if (!tweetResponse) {
-        // If we got here, the tweet was likely successful but we couldn't get the response
-        setStatus({
-          type: "success",
-          message: "Tweet posted successfully! Your Roar has been heard!",
-        });
-        return;
-      }
+      if (!tweetResponse) return;
 
-      if (!tweetResponse.ok) {
-        const errorData = await tweetResponse.json().catch(() => ({}));
-        console.error('Tweet response error:', errorData);
+      const tweetResult = await tweetResponse.json().catch(() => ({}));
+
+      if (!tweetResponse.ok || !tweetResult.success) {
         setStatus({
           type: "error",
-          message: `Failed to post tweet: ${errorData.message || tweetResponse.statusText}`,
+          message: `Failed to post tweet: ${tweetResult?.message || tweetResponse.statusText}`,
         });
         return;
       }
 
-      // If we get here, the tweet was successful
+      // Save tweet data to localStorage
+      if (tweetResult.tweetId && tweetResult.userId) {
+        localStorage.setItem('tweetData', JSON.stringify({
+          tweetId: tweetResult.tweetId,
+          userId: tweetResult.userId
+        }));
+      }
+
+      // Success: use redirectUrl from response
       setStatus({
         type: "success",
-        message: "Tweet posted successfully! Your Roar has been heard!",
+        message: "Tweet posted successfully! Redirecting...",
       });
 
-      // Optional: Add a delay before redirecting to the next page
       setTimeout(() => {
-        handleRedirect();
+        if (tweetResult.redirectUrl) {
+          window.location.href = tweetResult.redirectUrl;
+        } else {
+          handleRedirect();
+        }
       }, 2000);
     } catch (error: any) {
       console.error("Error in handleStartRoaring:", error);
@@ -227,36 +235,12 @@ Claim your clan today! ${userData?.referralCode} `;
     window.location.href = "/JoinWaitlist";
   };
 
-  const handleDownloadCardImage = async () => {
-    if (!cardRef.current) return;
-    try {
-      const dataUrl = await toPng(cardRef.current, {
-        quality: 1.0,
-        pixelRatio: 2,
-        backgroundColor: '#1a1a1a',
-        style: {
-          transform: 'scale(1)',
-          transformOrigin: 'top left',
-        }
-      });
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = `clan-card-${card.title.toLowerCase().replace(/\s+/g, '-')}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Error downloading image:', error);
-      setStatus({
-        type: "error",
-        message: "Failed to download image",
-      });
-    }
-  };
+  
+  
 
   return (
     <section
-      className="h-screen flex flex-col items-center justify-center bg-black p-4 overflow-hidden relative"
+      className="h-screen flex flex-col items-center justify-center bg-black p-2 sm:p-4 overflow-hidden relative"
       style={{
         backgroundImage: "url('/Images/cardPage/cardBg.png')",
         backgroundSize: "cover",
@@ -264,7 +248,7 @@ Claim your clan today! ${userData?.referralCode} `;
       }}
     >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-md z-0" />
-      <div className="flex flex-col items-center justify-center w-full max-w-5xl mx-auto py-5 px-5 relative z-10">
+      <div className="flex flex-col items-center justify-center w-full max-w-5xl mx-auto px-2 py-3 sm:px-5 sm:py-5 relative z-10">
         <h1 className="md:text-5xl font-bold mb-10 text-3xl px-10 sm:px-0 text-center">
           You are now a Certified{" "}
           <span className="text-purple-500">Clans Roarer!</span>
@@ -278,7 +262,7 @@ Claim your clan today! ${userData?.referralCode} `;
           image={card.image}
           userId={userData?.userId || ""}
           profilePic={profilePic}
-          email={userData?.email}
+          displayName={userData?.socialHandles?.[0]?.displayName}
           username={userData?.socialHandles?.[0]?.username}
         />
 
