@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useClan } from "@/context/ClanContext";
 import { joinClan } from "@/lib/api";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const SelectClan = () => {
   const clanData = [
@@ -171,7 +171,7 @@ const SelectClan = () => {
           <p className="text-xl">{displayedDescription}</p>
         </div>
 
-        <div className="w-[40%] grid grid-cols-2 gap-4 z-10">
+        <div className="w-[50%] grid grid-cols-2 gap-6 z-10 border-1 p-4">
           {clanData.map((clan, index) => (
             <div
               key={clan.id}

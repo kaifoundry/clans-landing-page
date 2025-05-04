@@ -1,47 +1,68 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 const Loader = ({
   message = "Loading Clans, please wait...",
   logoSrc = "/Images/gettingStarted/Object.png",
+  visible = true,
+  onHide = () => {},
 }) => {
   const loaderRef = useRef(null);
   const textRef = useRef(null);
   const logoRef = useRef(null);
+  const [showLoader, setShowLoader] = useState(true);
 
+  // Entrance animation
   useEffect(() => {
-    const tl = gsap.timeline();
+    if (visible) {
+      const tl = gsap.timeline();
 
-    // Animate loader container in
-    tl.fromTo(
-      loaderRef.current,
-      { opacity: 0, scale: 0.95 },
-      { opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" }
-    );
+      tl.fromTo(
+        loaderRef.current,
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }
+      );
 
-    // Animate text in
-    tl.fromTo(
-      textRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
-      "-=0.4"
-    );
+      tl.fromTo(
+        textRef.current,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        "-=0.3"
+      );
 
-    // Spin logo infinitely
-    gsap.to(logoRef.current, {
-      rotation: 360,
-      repeat: -1,
-      ease: "linear",
-      duration: 0.8,
-    });
-  }, []);
+      gsap.to(logoRef.current, {
+        rotation: 360,
+        repeat: -1,
+        ease: "linear",
+        duration: 1.2, // Faster spin
+      });
+    }
+  }, [visible]);
+
+  // Exit animation
+  useEffect(() => {
+    if (!visible) {
+      gsap.to(loaderRef.current, {
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.6,
+        ease: "power3.inOut",
+        onComplete: () => {
+          setShowLoader(false);
+          onHide(); // optional callback
+        },
+      });
+    }
+  }, [visible]);
+
+  if (!showLoader) return null;
 
   return (
     <div
       ref={loaderRef}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover bg-no-repeat bg-opacity-90"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover bg-no-repeat bg-black/80"
     >
       <img
         ref={logoRef}

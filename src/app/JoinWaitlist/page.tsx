@@ -4,7 +4,7 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 
 const JoinWaitlist = () => {
   const router = useRouter();
@@ -89,7 +89,7 @@ const JoinWaitlist = () => {
   }
 
   return (
-    <section className="bg-[url('/Images/joinWaitlist/background.png')] bg-cover bg-center bg-no-repeat min-h-screen w-full flex flex-col items-center justify-center p-10 md:gap-16 gap-16">
+    <section className="md:bg-[url('/Images/joinWaitlist/background.png')] bg-[url('/Images/joinWaitlist/MobileBackground.png')] bg-cover bg-center bg-no-repeat min-h-screen w-full flex flex-col items-center justify-center p-10 md:gap-16 gap-16">
       <div className="flex items-center mt-10 md:gap-6 gap-4">
         <Image
           src="/Images/gettingStarted/Object.png"
@@ -97,6 +97,8 @@ const JoinWaitlist = () => {
           height={100}
           className="md:w-20 h-30 object-contain w-15"
           alt="Object1"
+          draggable={false}
+          priority
         />
 
         <Image
@@ -105,6 +107,8 @@ const JoinWaitlist = () => {
           height={100}
           className="md:w-40 h-25 object-contain"
           alt="Clans"
+          draggable={false}
+          priority
         />
       </div>
 
@@ -126,7 +130,7 @@ const JoinWaitlist = () => {
         ButtonText={isLoading ? "Processing..." : "Join Waitlist"}
         onClick={handleJoinWaitlist}
         disabled={isLoading || !userData}
-        width={280}
+        width={250}
         height={60}
       />
 

@@ -57,6 +57,10 @@ const SelectClan = () => {
     }
   }, [selectedCardId]);
 
+  useEffect(() => {
+    getAllClans();
+  }, []);
+
   const getAllClans = async () => {
     console.log("📢 getAllClans() called");
 
@@ -87,10 +91,6 @@ const SelectClan = () => {
       console.log("🏁 getAllClans() completed");
     }
   };
-
-  useEffect(() => {
-    getAllClans();
-  }, []);
 
   const handleJoinClanClick = (clanId: string) => {
     // Store the clan ID for later use
