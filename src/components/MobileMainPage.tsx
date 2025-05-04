@@ -102,7 +102,7 @@ export default function MobileMainPage() {
         {/* Main Content Section */}
         <div className="relative flex flex-col h-screen">
           {/* Centered Logo with more margin and larger size for mobile only */}
-          <div className="flex flex-col items-center justify-center mt-28 pb-4 md:hidden">
+          <div className="flex flex-col items-center justify-center mt-18 pb-4 md:hidden">
             <div className="w-64 h-24 xxs:w-72 xxs:h-28 sm:w-80 sm:h-32 flex items-center justify-center">
               <ClanLogoMobile />
             </div>
@@ -129,8 +129,10 @@ export default function MobileMainPage() {
           {/* Start Now Button in semi-transparent box, centered at bottom */}
           <div className="absolute bottom-8 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
             <Button
+              width={250}
+              height={60}
               ButtonText="Start Now!"
-              className="text-xl text-white font-semibold tracking-wide drop-shadow-lg bg-black/70 border border-white/20 rounded-xl px-8 py-4 mx-12 flex items-center justify-center shadow-lg"
+              className="text-xl text-white font-semibold tracking-wide  px-8 py-4 mx-12 flex items-center justify-center "
               aria-label="Start Now"
               onClick={openModal}
             />

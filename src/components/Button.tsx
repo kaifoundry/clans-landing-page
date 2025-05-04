@@ -20,11 +20,19 @@ export default function Button({
   // Responsive style: fallback to 100% width, but allow custom width/height
   const style: React.CSSProperties = {
     width: width ? (typeof width === "number" ? `${width}px` : width) : "100%",
-    height: height ? (typeof height === "number" ? `${height}px` : height) : "auto",
+    height: height
+      ? typeof height === "number"
+        ? `${height}px`
+        : height
+      : "auto",
     minWidth: 200,
     maxWidth: 400,
     minHeight: 60,
-    ...((width || height) && { minWidth: undefined, maxWidth: undefined, minHeight: undefined }),
+    ...((width || height) && {
+      minWidth: undefined,
+      maxWidth: undefined,
+      minHeight: undefined,
+    }),
   };
 
   return (
@@ -48,7 +56,7 @@ export default function Button({
       >
         <path
           d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-          className="fill-black group-hover:fill-white/10 opacity-80 transition-colors duration-300"
+          className="fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300"
         />
         <path
           d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"

@@ -128,6 +128,8 @@ const MainPage = () => {
 
           <div className="mx-auto z-10 flex items-center justify-center">
             <Button
+              width={300}
+              height={80}
               ButtonText="Start Now"
               onClick={openModal}
               className="text-white text-2xl"

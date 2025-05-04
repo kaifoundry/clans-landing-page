@@ -83,7 +83,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
   }
 
   return (
-    <section className="relative w-screen h-screen overflow-hidden bg-black flex flex-col justify-between">
+    <section className="relative w-screen h-screen overflow-hidden bg-black flex flex-col justify-between bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center ">
       {/* Background Avatars */}
       <Image
         ref={avatarLeftRef}
@@ -107,11 +107,13 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
       <div className="relative z-10 flex flex-col items-center w-full  mx-auto px-2 min-h-screen">
         {/* Header */}
         <h1 className="text-3xl text-center font-bold text-white leading-tight mt-10 mb-8 drop-shadow-lg">
-          Introducing<br />Roar Points
+          Introducing
+          <br />
+          Roar Points
         </h1>
 
         {/* Center Card - vertically centered */}
-        <div className="flex-1 flex flex-col justify-center w-full">
+        <div className="flex-1 flex flex-col justify-center w-full ">
           <div
             className="px-6 py-10 rounded relative bg-black/80 border border-gray-400 w-full max-w-[370px] flex flex-col gap-4 drop-shadow-xl flex-shrink-0 mx-auto"
             style={{
@@ -123,14 +125,17 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
             }}
           >
             <p className="text-center text-lg text-white mb-2">
-              Ancient warriors had clans.<br />
+              Ancient warriors had clans.
+              <br />
               You have social media.
             </p>
             <p className="text-center text-lg text-white font-bold mb-2">
               Post. Engage. Earn Roar Points.
             </p>
             <p className="text-center text-lg text-white mb-2">
-              Only those who join the waitlist<br />will enter the battleground.
+              Only those who join the waitlist
+              <br />
+              will enter the battleground.
             </p>
             <p className="text-center text-lg text-white">
               Which clan will you join?

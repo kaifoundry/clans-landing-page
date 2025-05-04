@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const ConfirmationPage = () => {
   return (
-    <section className="relative h-dvh overflow-hidden bg-black text-white">
+    <section className="relative h-dvh overflow-hidden bg-black text-white ">
       <video
         autoPlay
         loop
@@ -19,21 +19,22 @@ const ConfirmationPage = () => {
       <div className="absolute inset-0 bg-black/60 z-10"></div>
 
       <Image
-        src="/Images/gettingStarted/mobileavtar1.png"
+        src="/Images/confirmationPage/mobileavtar1.png"
         width={300}
         height={400}
         alt="Avatar Left"
-        className="absolute bottom-0 left-0 w-[180px] h-auto md:w-[250px] z-20 pointer-events-none"
+        className="absolute bottom-0 left-0 w-[280px] h-auto md:w-[250px] z-20 pointer-events-none "
       />
+
       <Image
-        src="/Images/gettingStarted/mobileavtar2.png"
+        src="/Images/confirmationPage/mobileavtar2.png"
         width={300}
         height={400}
         alt="Avatar Right"
-        className="absolute bottom-0 right-0 w-[180px] h-auto md:w-[250px] z-20 pointer-events-none"
+        className="absolute bottom-0 right-0 w-[280px] h-auto md:w-[250px] z-10 pointer-events-none"
       />
 
-      <div className="relative z-30 h-full flex flex-col items-center justify-center text-center px-4 pt-16 pb-32">
+      <div className="relative  h-full flex flex-col items-center justify-center text-center px-4 pt-16 pb-32 z-30">
         <div className="flex items-center justify-center mb-8">
           <Image
             src="/Images/gettingStarted/Object.png"
@@ -52,12 +53,11 @@ const ConfirmationPage = () => {
           />
         </div>
 
-        <h1 className="text-2xl font-bold leading-tight mb-6">
-          You’re officially <br />
-          on the list! 🎉
+        <h1 className="text-3xl  leading-tight mb-6">
+          You’re officially on the list! 🎉
         </h1>
 
-        <p className="text-base leading-normal mb-8 text-gray-300">
+        <p className="text-lg leading-normal mb-8 text-gray-300">
           The Clans have heard your Roar.
           <br />
           You’ll be among the 1ST to know <br />
@@ -72,28 +72,28 @@ const ConfirmationPage = () => {
             alt="Twitter"
             width={28}
             height={28}
-            className="w-7 h-7"
+            className="w-10 h-10"
           />
           <Image
             src="/Images/confirmationPage/discord.png"
             alt="Discord"
             width={28}
             height={28}
-            className="w-7 h-7"
+            className="w-10 h-10"
           />
           <Image
             src="/Images/confirmationPage/whatsapp.png"
             alt="Whatsapp"
             width={28}
             height={28}
-            className="w-7 h-7"
+            className="w-10 h-10"
           />
           <Image
             src="/Images/confirmationPage/telegram.png"
             alt="Telegram"
             width={28}
             height={28}
-            className="w-7 h-7"
+            className="w-10 h-10"
           />
         </div>
       </div>

@@ -100,7 +100,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
 
   // Render the main page content once userId is available
   return (
-    <section className="w-full flex flex-col gap-y-8 items-center justify-center px-6 py-12 h-screen bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center relative overflow-hidden">
+    <section className="w-full flex flex-col gap-y-8 items-center justify-center px-6 py-12 h-screen bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center relative overflow-hidden ">
       {/* Clan Logo */}
       <span className="absolute top-3 left-3 w-14 h-14 xs:w-16 xs:h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 2xl:w-48 2xl:h-48 transition-all duration-300 ease-in-out">
         <ClanLogo />
@@ -156,7 +156,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
         {/* Navigation Button */}
         <div className="w-full flex justify-center lg:justify-end mt-6 md:mt-0 ">
           <Link href="/introducingClans" prefetch>
-            <Button />{" "}
+            <Button ButtonText="Start Roaring" width={300} height={80} />{" "}
             {/* Ensure Button component renders a clickable element */}
           </Link>
         </div>
