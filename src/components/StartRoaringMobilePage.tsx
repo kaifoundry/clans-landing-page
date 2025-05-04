@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import toast from 'react-hot-toast';
 
 interface Props {
   userId: string;
@@ -38,7 +39,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
           }
           const data = await res.json();
 
-          //storing yhe user data in local storage
+          //storing the user data in local storage
           if (data.success && data) {
             localStorage.setItem("userData", JSON.stringify(data.data));
             //check if it is in local storage
@@ -51,6 +52,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
+          toast.error("Failed to fetch user data. Please try again.");
         }
       }
     };

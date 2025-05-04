@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { useClan } from "@/context/ClanContext";
 import { toPng } from "html-to-image";
 import ClanCard from "@/components/ClanCard";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function CardPage() {
   const { selectedCardId } = useClan();
@@ -15,11 +16,6 @@ export default function CardPage() {
     image: string;
     glowColor: string;
   }>(null);
-
-  const [status, setStatus] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
 
   const [loading, setLoading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -94,16 +90,12 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
 
   const handleStartRoaring = async () => {
     if (!cardRef.current || !userData?.userId) {
-      setStatus({
-        type: "error",
-        message: "Card reference or user data not available",
-      });
+      toast.error("Card reference or user data not available");
       return;
     }
 
     try {
       setLoading(true);
-      setStatus(null);
 
       // Generate image using html-to-image
       const dataUrl = await toPng(cardRef.current, {
@@ -188,10 +180,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
         }
       ).catch(error => {
         console.error('Tweet fetch error:', error);
-        setStatus({
-          type: "error",
-          message: `Network error: ${error.message}`,
-        });
+        toast.error(`Network error: ${error.message}`);
         return null;
       });
 
@@ -200,10 +189,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
       const tweetResult = await tweetResponse.json().catch(() => ({}));
 
       if (!tweetResponse.ok || !tweetResult.success) {
-        setStatus({
-          type: "error",
-          message: `Failed to post tweet: ${tweetResult?.message || tweetResponse.statusText}`,
-        });
+        toast.error(`Failed to post tweet: ${tweetResult?.message || tweetResponse.statusText}`);
         return;
       }
 
@@ -216,10 +202,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
       }
 
       // Success: use redirectUrl from response
-      setStatus({
-        type: "success",
-        message: "Tweet posted successfully! Redirecting...",
-      });
+      toast.success("Tweet posted successfully! Redirecting...");
 
       setTimeout(() => {
         if (tweetResult.redirectUrl) {
@@ -230,10 +213,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
       }, 2000);
     } catch (error: any) {
       console.error("Error in handleStartRoaring:", error);
-      setStatus({
-        type: "error",
-        message: error.message || "Failed to complete the process",
-      });
+      toast.error(error.message || "Failed to complete the process");
     } finally {
       setLoading(false);
     }
@@ -242,9 +222,6 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
   const handleRedirect = () => {
     window.location.href = "/JoinWaitlist";
   };
-
-  
-  
 
   return (
     <section
@@ -255,6 +232,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
         backgroundPosition: "center",
       }}
     >
+      <Toaster position="top-center" />
       <div className="absolute inset-0 bg-black/40 backdrop-blur-md z-0" />
       <div className="flex flex-col items-center justify-center  max-w-5xl mx-auto px-2 py-3 sm:px-5 sm:py-5 relative z-10 w-full ">
         <h1 className="md:text-5xl font-bold mb-10 text-3xl px-10 sm:px-0 text-center">
@@ -273,23 +251,6 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
           displayName={userData?.socialHandles?.[0]?.displayName}
           username={userData?.socialHandles?.[0]?.username}
         />
-
-        {loading && (
-          <div className="mt-6 flex flex-col items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-purple-500 border-solid border-opacity-50" />
-            <p className="mt-2 text-sm text-gray-300">Processing...</p>
-          </div>
-        )}
-
-        {status && (
-          <div
-            className={`mt-4 px-4 py-2 rounded-lg text-center text-white ${
-              status.type === "success" ? "bg-green-600" : "bg-red-600"
-            }`}
-          >
-            {status.message}
-          </div>
-        )}
 
         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">
           <Button

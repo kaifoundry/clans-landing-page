@@ -10,6 +10,7 @@ import { debounce } from "lodash";
 import { gsap } from "gsap";
 import { joinClan } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
 
 const SelectClan = () => {
   const router = useRouter();
@@ -190,7 +191,7 @@ const SelectClan = () => {
     console.log("📥 Selected Clan ID:", pendingClanId);
 
     if (!storedUserId || !pendingClanId) {
-      alert("❌ Missing user or clan ID.");
+      toast.error("Missing user or clan ID.");
       return;
     }
 
@@ -206,16 +207,16 @@ const SelectClan = () => {
       console.log("✅ API response:", response);
 
       if (response?.success) {
-        alert("🎉 Successfully joined the clan!");
+        toast.success("Successfully joined the clan!");
         // Now select the card ID for navigation
         setSelectedCardId(pendingClanId);
       } else {
-        alert("⚠️ Something went wrong while joining the clan.");
+        toast.error("Something went wrong while joining the clan.");
         setSelectedCardId(pendingClanId);
       }
     } catch (error) {
       console.error("❌ Error while calling joinClan API:", error);
-      alert("Failed to join clan due to network or server error.");
+      toast.error("Failed to join clan due to network or server error.");
     }
   };
 

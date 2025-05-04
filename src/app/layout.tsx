@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Rajdhani } from "next/font/google";
 import { ClanProvider } from "@/context/ClanContext";
+import { Toaster } from 'react-hot-toast';
 // import localFont from "next/font/local";
 
 // const similarGothic = localFont({
@@ -71,7 +72,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`{rajdhani.variable} antialiased`}>
         <div className="container max-w-[1920px] overflow-x-hidden mx-auto">
-          <ClanProvider>{children}</ClanProvider>
+          <ClanProvider>
+            {children}
+            <Toaster position="top-center" />
+          </ClanProvider>
         </div>
       </body>
     </html>
