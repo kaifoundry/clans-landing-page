@@ -14,6 +14,7 @@ import { clanData } from "@/data/selectClan_Data";
 import Loader from "./Features/Loader";
 
 const SelectClan = () => {
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [avatarImage, setAvatarImage] = useState("");
@@ -92,32 +93,102 @@ const SelectClan = () => {
     }
   };
 
-  const handleJoinClanClick = (clanId: string) => {
-    // Store the clan ID for later use
+  //Old logic reomve afterwards
+  // const handleJoinClanClick = (clanId: string) => {
+  //   // Store the clan ID for later use
+  //   setPendingClanId(clanId);
+
+  //   // Find the selected clan object to display in modal
+  //   const selectedClan = clanData.find((clan) => clan.id === clanId) || null;
+  //   setSelectedCard(selectedClan);
+
+  //   // Open the confirmation modal
+  //   setModalOpen(true);
+  // };
+
+  // const handleConfirmJoin = async () => {
+  //   // Close the modal first
+  //   setModalOpen(false);
+
+  //   // Proceed with joining the clan
+  //   const userData = localStorage.getItem("userData");
+  //   const user = userData ? JSON.parse(userData) : null;
+  //   const storedUserId = user?.userId;
+
+  //   console.log("📥 Stored User ID:", storedUserId);
+  //   console.log("📥 Selected Clan ID:", pendingClanId);
+
+  //   if (!storedUserId || !pendingClanId) {
+  //     toast.error("Missing user or clan ID.");
+  //     return;
+  //   }
+
+  //   const joinData = {
+  //     userId: storedUserId,
+  //     clanId: pendingClanId,
+  //   };
+
+  //   console.log("🚀 Sending this data to joinClan API:", joinData);
+
+  //   try {
+  //     const response = await joinClan(joinData);
+  //     console.log("✅ API response:", response);
+
+  //     if (response?.success) {
+  //       toast.success("Successfully joined the clan!");
+  //       // Now select the card ID for navigation
+  //       setSelectedCardId(pendingClanId);
+  //     } else {
+  //       toast.error("Something went wrong while joining the clan.");
+  //       setSelectedCardId(pendingClanId);
+  //     }
+  //   } catch (error) {
+  //     console.error("❌ Error while calling joinClan API:", error);
+  //     toast.error("Failed to join clan due to network or server error.");
+  //   }
+  // };
+
+  const handleSelectId = (id: string): void => {
+    setSelectedCardId(id);
+    console.log(id);
+  };
+
+  //This function is for when we click on the join button 05-05-2025
+  const handleJoinClan = (clanId: string) => {
+    //storing the clan Id here, for afterwards use we will send in link or something its just temporary
     setPendingClanId(clanId);
 
-    // Find the selected clan object to display in modal
-    const selectedClan = clanData.find((clan) => clan.id === clanId) || null;
-    setSelectedCard(selectedClan);
+    //displaying the selected clan data like title and description on the modal by finding it in clanData array of object
+    const selectedClanModal =
+      clanData.find((clan) => clan.id === clanId) || null;
+    setSelectedCard(selectedClanModal);
 
-    // Open the confirmation modal
+    //then we will open the confirmation modal
     setModalOpen(true);
   };
 
+  // 05-05-2025 This function is for handling the logic after the user presses the option "yes" or "no" so that we can call the API and send the data
   const handleConfirmJoin = async () => {
-    // Close the modal first
+    //first we will close the modal
     setModalOpen(false);
 
-    // Proceed with joining the clan
+    //show loader until API is called succesfully
+    setLoading(true);
+
+    //we have to show Loader here, have to uncomment afterwards
+    // <Loader message="Joining the Clan"/>
+
+    //The main Logic
     const userData = localStorage.getItem("userData");
     const user = userData ? JSON.parse(userData) : null;
     const storedUserId = user?.userId;
 
-    console.log("📥 Stored User ID:", storedUserId);
-    console.log("📥 Selected Clan ID:", pendingClanId);
+    console.log("Stored User ID from the Local Storage:", storedUserId);
+    console.log("Selected Clan ID:", pendingClanId);
 
     if (!storedUserId || !pendingClanId) {
       toast.error("Missing user or clan ID.");
+      setLoading(false);
       return;
     }
 
@@ -126,29 +197,36 @@ const SelectClan = () => {
       clanId: pendingClanId,
     };
 
-    console.log("🚀 Sending this data to joinClan API:", joinData);
+    console.log("sending this data to joinClan API:", joinData);
 
     try {
       const response = await joinClan(joinData);
-      console.log("✅ API response:", response);
+      console.log("API Response from (joinClan) ", response);
 
       if (response?.success) {
-        toast.success("Successfully joined the clan!");
-        // Now select the card ID for navigation
+        toast.success("successfully Joined the clan!");
+        //if get success from API response, set the selectedCardId
         setSelectedCardId(pendingClanId);
+        router.push("/CardPage");
       } else {
-        toast.error("Something went wrong while joining the clan.");
-        setSelectedCardId(pendingClanId);
+        //Already User joined clan error handling code snippet
+
+        const errorMsg =
+          response?.message || "Something went wrong while joining the clan.";
+        console.warn("⚠️ API returned error message:", errorMsg);
+
+        if (errorMsg.toLowercase().includes("already")) {
+          toast.error("You have already joined the clan.");
+        } else {
+          toast.error(errorMsg);
+        }
       }
     } catch (error) {
-      console.error("❌ Error while calling joinClan API:", error);
+      console.error("❌ Error while calling joinClan API: ", error);
       toast.error("Failed to join clan due to network or server error.");
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const handleSelectId = (id: string): void => {
-    setSelectedCardId(id);
-    console.log(id);
   };
 
   if (error) return <div>Error: {error}</div>;
@@ -250,41 +328,41 @@ const SelectClan = () => {
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
-                <Link
+                {/* <Link
                   key={clan.id}
                   href={`/CardPage`}
                   onClick={() => handleSelectId(clan.id)}
+                > */}
+                <button
+                  onClick={() => handleJoinClan(clan.id)}
+                  className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full  min-h-[40px] xl:w-[220px] xl:h-[60px] lg:w-[150px] lg:h-[30px] md:w-[100px] md:h-[20px]"
                 >
-                  <button
-                    onClick={() => handleJoinClanClick(clan.id)}
-                    className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full  min-h-[40px] xl:w-[220px] xl:h-[60px] lg:w-[150px] lg:h-[30px] md:w-[100px] md:h-[20px]"
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 309 81"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="absolute top-0 left-0 w-full h-full"
+                    preserveAspectRatio="none"
                   >
-                    <svg
-                      width="100%"
-                      height="100%"
-                      viewBox="0 0 309 81"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="absolute top-0 left-0 w-full h-full"
-                      preserveAspectRatio="none"
-                    >
-                      <path
-                        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-                        className="fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300"
-                      />
-                      <path
-                        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
-                        stroke="white"
-                        strokeOpacity="0.4"
-                        strokeWidth="1.5"
-                      />
-                    </svg>
+                    <path
+                      d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
+                      className="fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300"
+                    />
+                    <path
+                      d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
+                      stroke="white"
+                      strokeOpacity="0.4"
+                      strokeWidth="1.5"
+                    />
+                  </svg>
 
-                    <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg lg:text-sm md:text-xs xl:text-xl">
-                      Join Clan
-                    </span>
-                  </button>
-                </Link>
+                  <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg lg:text-sm md:text-xs xl:text-xl">
+                    Join Clan
+                  </span>
+                </button>
+                {/* </Link> */}
               </div>
             </div>
           ))}

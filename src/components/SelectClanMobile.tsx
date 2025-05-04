@@ -163,12 +163,12 @@ const SelectClan = () => {
       <div className="relative w-full overflow-hidden flex justify-start flex-col gap-y-16">
         <h1 className="text-2xl text-center font-bold">Claim your Clan</h1>
 
-        <div>
+        <div className="z-10">
           <div className="flex  gap-x-2 items-center mt-10">
             <div className="h-10 w-1 bg-[#9747FF]"></div>
             <h2 className="text-2xl font-bold">{displayedTitle}</h2>
           </div>
-          <p className="text-xl">{displayedDescription}</p>
+          <p className="text-xl z-1">{displayedDescription}</p>
         </div>
 
         <div className="w-[50%] grid grid-cols-2 gap-6 z-10 border-1 p-4">
@@ -235,7 +235,7 @@ const SelectClan = () => {
                 }}
               >
                 <h3
-                  className="text-[12px] font-medium text-center px-2 absolute bottom-0"
+                  className="text-[12px] font-medium text-center px-2 absolute bottom-0 "
                   style={{
                     textShadow:
                       "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)",

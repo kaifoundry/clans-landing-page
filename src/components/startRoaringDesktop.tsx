@@ -6,7 +6,8 @@ import ClanLogo from "@/components/ClanLogo"; // Assuming ClanLogo component exi
 import Link from "next/link";
 import { gsap } from "gsap";
 import { useState, useEffect, useRef } from "react";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import Loader from "./Features/Loader";
 
 interface Props {
   userId: string;
@@ -20,6 +21,14 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null); // State to hold user data
   const avatarLeftRef = useRef(null); // Ref for the animation
+  const [isLoading, setIsLoading] = useState(true); // <-- for intentional delay
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Hide loader after 2 seconds
+    }, 500);
+    return () => clearTimeout(timer); // Clean up on unmount
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,6 +66,8 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
 
           //storing the user data in local storage
           if (data.success && data) {
+            const { isActiveUser } = data.data;
+            console.log("User active status", isActiveUser);
             localStorage.setItem("userData", JSON.stringify(data.data));
             //check if it is in local storage
             const userData = localStorage.getItem("userData");
@@ -95,9 +106,9 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
   }, []);
 
   // Show loading state until the userId has been processed and set
-  if (!userId) {
+  if (!userId || isLoading) {
     // Replace with a more sophisticated loading component if desired
-    return <div>Loading...</div>;
+    return <Loader message={"Loading please wait..."} />;
   }
 
   // Render the main page content once userId is available
