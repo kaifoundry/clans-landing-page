@@ -3,66 +3,14 @@
 import Image from "next/image";
 import Button from "@/components/Button";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useClan } from "@/context/ClanContext";
-import { debounce } from "lodash";
 import { gsap } from "gsap";
 import { joinClan } from "@/lib/api";
-import { useRouter } from "next/navigation";
+import { clanData } from "@/data/selectClan_Data";
 
 const SelectClan = () => {
-  const router = useRouter();
-  const clanData = [
-    {
-      id: "225462e8-0077-45c7-a5f5-4474f2b84166",
-      image: "/Images/introducingClans/card_1.png",
-      hoverImage: "/Images/selectClan/sideImage2.png",
-      cardImage: "/Images/selectClan/cardImg1.png",
-      title: "Clan McBuilder",
-      description: "We create the future with passion and code.",
-      glowColor: "rgba(255, 0, 0, 0.8)",
-    },
-    {
-      id: "b2cb6389-65e4-4d2a-acc1-ce5b02b893a3",
-      image: "/Images/introducingClans/card_2.png",
-      hoverImage: "/Images/selectClan/sideImage1.png",
-      cardImage: "/Images/selectClan/cardImg2.png",
-      title: "McHODLer",
-      description: "Diamond hands forever.",
-      glowColor: "rgba(138, 43, 226, 0.8)",
-    },
-    {
-      id: "98e347d1-b7b9-4c53-ba73-26ff6ac87052",
-      image: "/Images/introducingClans/card_3.png",
-      hoverImage: "/Images/selectClan/sideImage3.png",
-      cardImage: "/Images/selectClan/cardImg3.png",
-      title: "Clan McDegen",
-      description: "Risk is our middle name.",
-      glowColor: "rgba(0, 255, 0, 0.8)",
-    },
-    {
-      id: "9e37533c-164d-475b-8fb0-dc8f67ae7bec",
-      image: "/Images/introducingClans/card_4.png",
-      hoverImage: "/Images/selectClan/sideImage4.png",
-      cardImage: "/Images/selectClan/cardImg4.png",
-      title: "Clan McPrivacy",
-      description: "Privacy is our birthright.",
-      glowColor: "rgba(0, 0, 255, 0.8)",
-    },
-  ];
-
-  //Dynamic Button Code
-  const buttonSizeBreakpoints = [
-    { breakpoint: 1920, size: { width: 280, height: 55 } },
-    { breakpoint: 1536, size: { width: 250, height: 50 } },
-    { breakpoint: 1280, size: { width: 230, height: 45 } },
-    { breakpoint: 1024, size: { width: 160, height: 40 } },
-    { breakpoint: 768, size: { width: 190, height: 35 } },
-    { breakpoint: 640, size: { width: 170, height: 35 } },
-    { breakpoint: 0, size: { width: 150, height: 30 } },
-  ];
-
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [avatarImage, setAvatarImage] = useState("");
@@ -88,23 +36,11 @@ const SelectClan = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [buttonSize, setButtonSize] = useState({ width: 150, height: 30 });
-
   useEffect(() => {
     if (clans && clans.length > 0) {
       console.log("🔥 Current Clans State:", clans);
     }
   }, [clans]);
-
-  useEffect(() => {
-    calculateButtonSize();
-    const debouncedCalculateSize = debounce(calculateButtonSize, 100);
-    window.addEventListener("resize", debouncedCalculateSize);
-    return () => {
-      debouncedCalculateSize.cancel();
-      window.removeEventListener("resize", debouncedCalculateSize);
-    };
-  }, []);
 
   useEffect(() => {
     if (selectedCardId !== null) {
@@ -117,18 +53,6 @@ const SelectClan = () => {
       }
     }
   }, [selectedCardId]);
-
-  const calculateButtonSize = () => {
-    if (typeof window === "undefined") return;
-    const width = window.innerWidth;
-    for (const bp of buttonSizeBreakpoints) {
-      if (width >= bp.breakpoint) {
-        setButtonSize(bp.size);
-        return;
-      }
-    }
-    setButtonSize(buttonSizeBreakpoints[buttonSizeBreakpoints.length - 1].size);
-  };
 
   const getAllClans = async () => {
     console.log("📢 getAllClans() called");
@@ -242,7 +166,7 @@ const SelectClan = () => {
           </p>
         </div>
 
-        <div className="flex gap-12 items-center w-3/4 mx-0 lg:flex-col-4 md:flex-col-2">
+        <div className="flex gap-12 items-center w-3/4 mx-0 lg:flex-col-4 md:flex-col-2 z-1">
           {clanData.map((clan, index) => (
             <div
               key={clan.id}
@@ -329,7 +253,7 @@ const SelectClan = () => {
                   href={`/CardPage`}
                   onClick={() => handleSelectId(clan.id)}
                 >
-                  <Button
+                  {/* <Button
                     onClick={() => handleJoinClanClick(clan.id)}
                     ButtonText="Join Clan"
                     width={buttonSize.width}
@@ -346,7 +270,36 @@ const SelectClan = () => {
                         ? "text-[10px]"
                         : "text-[8px]"
                     )}
-                  />
+                  /> */}
+                  <button
+                    onClick={() => handleJoinClanClick(clan.id)}
+                    className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full  min-h-[40px] xl:w-[220px] xl:h-[60px] lg:w-[150px] lg:h-[30px] md:w-[100px] md:h-[20px]"
+                  >
+                    <svg
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 309 81"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="absolute top-0 left-0 w-full h-full"
+                      preserveAspectRatio="none"
+                    >
+                      <path
+                        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
+                        className="fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300"
+                      />
+                      <path
+                        d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
+                        stroke="white"
+                        strokeOpacity="0.4"
+                        strokeWidth="1.5"
+                      />
+                    </svg>
+
+                    <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg lg:text-sm md:text-xs xl:text-xl">
+                      Start Now
+                    </span>
+                  </button>
                 </Link>
               </div>
             </div>
@@ -354,7 +307,7 @@ const SelectClan = () => {
         </div>
 
         {avatarImage && (
-          <div className="absolute bottom-0 ease-in-out right-0">
+          <div className="absolute bottom-0 ease-in-out right-0 z-0">
             <Image
               src={avatarImage}
               height={385}

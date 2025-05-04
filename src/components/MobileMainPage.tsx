@@ -169,7 +169,7 @@ export default function MobileMainPage() {
 
               <p
                 onClick={closeModal}
-                className="text-sm text-black font-bold cursor-pointer underline mb-4"
+                className="text-lg text-black font-bold cursor-pointer underline mb-4"
               >
                 Cancel
               </p>
