@@ -41,16 +41,22 @@ const JoinWaitlist = () => {
 
     try {
       const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/${userData.userId}/early-user`;
+      console.log("Making API call to:", apiUrl);
 
       const response = await fetch(apiUrl, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json"
         },
+        credentials: "include",
         body: JSON.stringify({
           userId: userData.userId,
-        }),
+        })
       });
+
+      console.log("Response status:", response.status);
+      console.log("Response headers:", Object.fromEntries(response.headers.entries()));
 
       if (!response.ok) {
         let errorData;
@@ -73,12 +79,12 @@ const JoinWaitlist = () => {
       router.push("/ConfirmationPage");
     } catch (error) {
       console.error("❌ Error joining waitlist:", error);
-      toast.error(
-        (error instanceof Error
-          ? error.message
-          : "An unknown error occurred") ||
-          "Failed to join waitlist. Please try again."
-      );
+        toast.error(
+          (error instanceof Error
+            ? error.message
+            : "An unknown error occurred") ||
+            "Failed to join waitlist. Please try again."
+        );
     } finally {
       setIsLoading(false);
     }

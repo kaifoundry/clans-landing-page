@@ -58,7 +58,7 @@ export default function CardPage() {
 
 Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
 
-Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
+Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${userData?.referralCode}`;
 
   const handleStartRoaring = async () => {
     if (!cardRef.current || !userData?.userId) {
@@ -79,15 +79,15 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}`;
         },
       });
 
-      // Download the image
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = `clan-card-${card.title
-        .toLowerCase()
-        .replace(/\s+/g, "-")}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // // Download the image
+      // const link = document.createElement("a");
+      // link.href = dataUrl;
+      // link.download = `clan-card-${card.title
+      //   .toLowerCase()
+      //   .replace(/\s+/g, "-")}.png`;
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
 
       // Convert dataUrl to Blob and File for upload
       const res = await fetch(dataUrl);
