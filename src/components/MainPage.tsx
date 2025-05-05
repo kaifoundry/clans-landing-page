@@ -102,13 +102,17 @@ const MainPage = () => {
       {/* Foreground Content */}
       <div className="mx-auto relative w-full h-full text-center flex items-center justify-center flex-col z-10">
         <div className="flex items-center justify-center gap-10 z-20 flex-col">
-          <div className="flex gap-4 items-center justify-center">
+          <div
+            className="flex gap-4 items-center justify-center"
+           
+          >
             <Image
               src="/Images/gettingStarted/Object.png"
               width={80}
               height={80}
               alt="Object1"
               className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-50 object-contain"
+              draggable={false}
             />
             <Image
               src="/Images/gettingStarted/Line.png"
@@ -116,6 +120,7 @@ const MainPage = () => {
               height={1}
               alt="Line1"
               className="w-1 h-10 sm:h-12 md:h-16 md:w-1 lg:h-24 xl:h-28 2xl:h-32 object-contain"
+              draggable={false}
             />
             <Image
               src="/Images/gettingStarted/Clans.png"
@@ -123,18 +128,11 @@ const MainPage = () => {
               height={60}
               alt="Clans"
               className="w-24 h-12 sm:w-32 sm:h-16 md:w-40 md:h-20 lg:w-48 lg:h-24 xl:w-56 xl:h-28 2xl:w-80 2xl:h-32 object-contain"
+              draggable={false}
             />
           </div>
 
           <div className="mx-auto z-10 flex items-center justify-center">
-            {/* <Button
-              width={300}
-              height={80}
-              ButtonText="Start Now"
-              onClick={openModal}
-              className="text-white text-2xl"
-            /> */}
-
             <button
               onClick={openModal}
               className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full  min-h-[40px] lg:w-[280px] lg:h-[70px] md:w-[200px] md:h-[50px]"
@@ -175,6 +173,7 @@ const MainPage = () => {
           height={550}
           alt="Avatar Left"
           className="absolute bottom-0 left-0 w-[300px] md:w-[350px] xl:w-[500px] 2xl:w-[540px] object-contain z-10"
+          draggable={false}
         />
 
         <Image
@@ -184,6 +183,7 @@ const MainPage = () => {
           height={580}
           alt="Avatar Right"
           className="absolute bottom-0 right-0 w-[300px] md:w-[320px] xl:w-[500px] 2xl:w-[550px] object-contain z-10"
+          draggable={false}
         />
       </div>
 
@@ -198,6 +198,7 @@ const MainPage = () => {
                 height={100}
                 className="w-24 h-20 object-contain text-xl"
                 alt="Logo"
+                draggable={false}
                 priority
               />
             </div>

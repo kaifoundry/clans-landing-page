@@ -10,6 +10,7 @@ const ClanLogo = () => {
           fill
           className="object-contain"
           sizes="(max-width: 640px) 25vw, (max-width: 1024px) 15vw, 10vw"
+          draggable={false}
         />
       </div>
       <div className="relative h-[70%] w-1/12 mx-0">
@@ -19,6 +20,7 @@ const ClanLogo = () => {
           fill
           className="object-contain"
           sizes="(max-width: 640px) 5vw, (max-width: 1024px) 3vw, 2vw"
+          draggable={false}
         />
       </div>
       <div className="relative h-full w-2/4">
@@ -28,6 +30,7 @@ const ClanLogo = () => {
           fill
           className="object-contain"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 20vw"
+          draggable={false}
         />
       </div>
     </div>

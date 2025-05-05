@@ -171,7 +171,7 @@ const SelectClan = () => {
           <p className="text-xl z-1">{displayedDescription}</p>
         </div>
 
-        <div className="w-[50%] grid grid-cols-2 gap-6 z-10 border-1 p-4">
+        <div className="w-[50%] grid grid-cols-2 gap-6 z-10  p-4">
           {clanData.map((clan, index) => (
             <div
               key={clan.id}
@@ -303,6 +303,7 @@ const SelectClan = () => {
           width={280}
           alt="bgAvatar"
           className="absolute bottom-0 right-0 z-0"
+          draggable={false}
         />
       )}
     </section>

@@ -113,6 +113,7 @@ const IntroducingClans = () => {
               router.push("/selectClan");
             }}
             className="cursor-pointer"
+            draggable={false}
           >
             <Card
               image={card.image}

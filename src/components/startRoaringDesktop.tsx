@@ -163,6 +163,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
             height={200} // Base height, adjust className for responsiveness
             className="absolute bottom-0 right-0 w-[120px] h-auto md:w-[150px] lg:w-[280px] 2xl:w-[350px] max-w-full" // Responsive sizing
             priority // Prioritize loading if it's visible early
+            draggable={false}
           />
         </div>
 
@@ -183,6 +184,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
         alt="Stylized avatar character 2"
         className="absolute bottom-0 left-0 z-0 md:z-10 w-[250px] h-auto md:w-[300px] lg:w-[400px] xl:w-[500px] md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:left-20 xl:left-10 md:left-0 max-w-full" // Responsive sizing and positioning
         priority // Prioritize loading if it's important LCP
+        draggable={false}
       />
     </section>
   );

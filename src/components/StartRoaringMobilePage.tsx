@@ -95,6 +95,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
         height={400}
         objectFit="cover"
         className="absolute left-0 bottom-0 w-[260px] h-[90%] z-0 select-none pointer-events-none"
+        draggable={false}
       />
       <Image
         src="/Images/startRoaring/Avtar3.png"
@@ -103,6 +104,7 @@ const StartRoaringPage: React.FC<Props> = ({ userId }) => {
         height={300}
         objectFit="cover"
         className="absolute right-0 bottom-0 w-[220px] h-[90%] z-0 select-none pointer-events-none"
+        draggable={false}
       />
 
       {/* Main Content */}
