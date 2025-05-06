@@ -6,9 +6,15 @@
   box-sizing: border-box;
 } */
 @theme {
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 390px;
   --breakpoint-xxs: 405px;
+  --breakpoint-mdd: 425px;
+  --breakpoint-lg: 768px;
   --breakpoint-2xl: 100rem;
   --breakpoint-3xl: 120rem;
+  --font-display: "Edu QLD Beginner",
+    cursive;;
 }
 @layer utilities {
   .main-section {
@@ -72,3 +78,12 @@ body {
   }
 }
 
+.card-container {
+  height: 80%;
+}
+
+@media (min-width: 390px) {
+  .card-container {
+    height: 70%;
+  }
+}

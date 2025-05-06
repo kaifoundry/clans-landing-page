@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import toast from 'react-hot-toast';
 import { useUser } from '@/context/UserContext';
 import Loader from "./Features/Loader";
+import Button1 from "./Button1";
 
 interface Props {
   userId: string;
@@ -65,7 +66,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
         width={400}
         height={400}
         objectFit="cover"
-        className="absolute left-0 bottom-0 w-[260px] h-[90%] z-0 select-none pointer-events-none"
+        className="absolute left-0 bottom-0 sm:bottom-12  w-[325px] h-[90%] sm:w-[400px] sm:h-[84%] z-0 select-none pointer-events-none object-cover object-center"
         draggable={false}
       />
       <Image
@@ -74,64 +75,75 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
         width={300}
         height={300}
         objectFit="cover"
-        className="absolute right-0 bottom-0 w-[220px] h-[90%] z-0 select-none pointer-events-none"
+        className="absolute right-0 bottom-0 w-[220px] h-[94%] sm:w-[280px] z-1 select-none pointer-events-none"
         draggable={false}
       />
 
-        {/* Main Content */}
-        <div className="relative z-10 flex flex-col items-center w-full mx-auto px-2 min-h-screen">
-          {/* Header */}
-          <h1 className="text-3xl text-center font-bold text-white leading-tight mt-10 mb-8 drop-shadow-lg">
-            Introducing
-            <br />
-            Roar Points
-          </h1>
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col items-center w-full mx-auto px-2 min-h-screen">
+        {/* Header */}
+        <h1 className="text-3xl text-center font-semibold text-white leading-tight mt-10 mb-8 drop-shadow-lg">
+          Introducing
+          <br />
+          Roar Points
+        </h1>
 
-          {/* Center Card - vertically centered */}
-          <div className="flex-1 flex flex-col justify-center w-full">
-            <div
-              className="px-6 py-10 rounded relative bg-black/80 border border-gray-400 w-full max-w-[370px] flex flex-col gap-4 drop-shadow-xl flex-shrink-0 mx-auto"
-              style={{
-                overflow: "hidden",
-                clipPath:
-                  "polygon(2% 8%, 2% 85%, 10% 98%, 96% 98%, 98% 95%, 98% 18%, 90% 3%, 4% 3%, 2% 8%)",
-                boxShadow: "0 0 32px 0 rgba(0,0,0,0.9)",
-                backdropFilter: "blur(2px)",
-              }}
-            >
-              <p className="text-center text-lg text-white mb-2">
+        {/* Center Card - vertically centered */}
+        <div className="flex-1 flex flex-col justify-center w-full">
+          <div
+            className="card-container  relative text-white   w-full max-w-[370px] flex flex-col gap-4   mx-auto"
+            style={{
+              backgroundImage: "url('/Images/cardPage/cardVecor.svg')",
+              backgroundSize: "contain",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              marginTop: "45px",
+            }}
+          >
+            {/* Centered Content */}
+            <div className="absolute inset-0 flex flex-col justify-center items-center px-2">
+              <p
+                className="text-center text-lg sm:text-xl font-normal
+               text-white mb-2"
+              >
                 Ancient warriors had clans.
-                <br />
+              </p>
+              <p
+                className="text-center text-lg sm:text-xl font-normal
+               text-white mb-2"
+              >
+                {" "}
                 You have social media.
               </p>
-              <p className="text-center text-lg text-white font-bold mb-2">
+              <p className="text-center text-lg sm:text-xl text-white font-semibold mb-2">
                 Post. Engage. Earn Roar Points.
               </p>
-              <p className="text-center text-lg text-white mb-2">
+              <p className="text-center text-lg sm:text-xl font-normal text-white mb-2">
                 Only those who join the waitlist
                 <br />
                 will enter the battleground.
               </p>
-              <p className="text-center text-lg text-white">
+              <p className="text-center text-lg sm:text-xl font-normal text-white">
                 Which clan will you join?
               </p>
             </div>
           </div>
-
-          {/* Button */}
-          <div className="w-full flex justify-center mb-8">
-            <Link href="/introducingClans" prefetch>
-              <Button
-                width={260}
-                height={60}
-                ButtonText="Start Roaring"
-                className="font-semibold w-full max-w-[260px] drop-shadow-lg text-lg"
-              />
-            </Link>
-          </div>
         </div>
-      </section>
-    );
+
+        {/* Button */}
+        <div className="w-full flex justify-center mb-8 sm:mb-16">
+          <Link href="/introducingClans" prefetch>
+            <Button1
+              width={270}
+              height={75}
+              ButtonText="Start Roaring"
+              className="text-3xl text-white  font-semibold w-full max-w-[260px] drop-shadow-lg text-[21px]"
+            />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
   }, [userId, isLoading]);
 
   return mainContent;

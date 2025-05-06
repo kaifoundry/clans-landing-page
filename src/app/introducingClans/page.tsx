@@ -73,16 +73,16 @@ const IntroducingClans = () => {
 
   return (
     <section className="relative main-section flex flex-col items-center gap-2 px-8 py-8 overflow-hidden">
-      <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold">
+      <h1 className="text-[28px] md:text-4xl lg:text-5xl font-semibold">
         Introducing Clans
       </h1>
-      <p className="text-center">
+      {/* <p className="text-center">
         Long ago, clans rose from code and chaos.
         <br />
         Now, they return — and they want you.
-      </p>
+      </p> */}
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-25 gap-y-6 xxs:gap-6 p-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-25 gap-y-6  p-8">
         {cardData.map((card, index) => (
           <div
             key={card.id}
@@ -107,7 +107,7 @@ const IntroducingClans = () => {
         ))}
       </div>
 
-      <p>
+      <p className="hidden md:block">
         Choose your <span className="text-pink-600">"CLAN"</span>
       </p>
     </section>
