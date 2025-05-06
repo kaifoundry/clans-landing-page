@@ -90,11 +90,10 @@ function CardPageContent() {
     return <Loader message="Loading your selected Clan please wait..." />;
   }
 
-  const tweetContent = `Roar louder. Roar prouder.
+  const tweetContent = `Roar louder. Roar prouder. Pick your clan!
+  @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
 
-Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
-
-Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${userData?.referralCode}`;
+  Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${userData?.referralCode}`;
 
   const handleStartRoaring = async () => {
     if (!cardRef.current || !userData?.userId) {
@@ -192,11 +191,27 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
         return null;
       });
 
-      if (!tweetResponse) return;
+      console.log('Tweet Response Status:', tweetResponse?.status);
+      console.log('Tweet Response OK:', tweetResponse?.ok);
+      
+      if (!tweetResponse) {
+        console.log('No tweet response received');
+        return;
+      }
 
-      const tweetResult = await tweetResponse.json().catch(() => ({}));
+      const tweetResult = await tweetResponse.json().catch((error) => {
+        console.error('Error parsing tweet response:', error);
+        return {};
+      });
+
+      console.log('Tweet Result:', tweetResult);
 
       if (!tweetResponse.ok || !tweetResult.success) {
+        console.error('Tweet failed:', {
+          status: tweetResponse.status,
+          statusText: tweetResponse.statusText,
+          result: tweetResult
+        });
         toast.error(
           `Failed to post tweet: ${
             tweetResult?.message || tweetResponse.statusText
@@ -206,16 +221,23 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
       }
 
       // Save tweet data to localStorage
-      if (tweetResult.tweetId && tweetResult.userId) {
+      if (tweetResult.tweetId || tweetResult.tweetData?.tweetId) {
+        const tweetId = tweetResult.tweetId || tweetResult.tweetData?.tweetId;
+        console.log('Tweet successful, saving data:', {
+          tweetId: tweetId,
+          userId: userData.userId
+        });
         localStorage.setItem(
           "tweetData",
           JSON.stringify({
-            tweetId: tweetResult.tweetId,
-            userId: tweetResult.userId,
+            tweetId: tweetId,
+            userId: userData.userId,
           })
         );
         setTweetPosted(true);
         toast.success("Tweet posted successfully!");
+      } else {
+        console.error('Tweet response missing required data:', tweetResult);
       }
     } catch (error: any) {
       console.error("Error in handleStartRoaring:", error);
@@ -227,7 +249,9 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
 
   const handleRedirect = () => {
     const tweetData = JSON.parse(localStorage.getItem("tweetData") || "{}");
-    window.location.href = `/JoinWaitlist/${userData?.userId || ""}&${tweetData.tweetId || ""}`;
+    const userId = userData?.userId || "";
+    const tweetId = tweetData.tweetId || "";
+    window.location.href = `/JoinWaitlist/${userId}/${tweetId}`;
   };
 
   return (

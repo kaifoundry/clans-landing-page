@@ -16,8 +16,9 @@ import { UserProvider } from '@/context/UserContext';
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"], // Choose the font weights you need
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
+  variable: "--font-rajdhani",
 });
 
 const geistSans = Geist({
@@ -72,7 +73,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`{rajdhani.variable} antialiased`}>
+      <body className={`${rajdhani.variable} antialiased`}>
         <div className="container max-w-[1920px] overflow-x-hidden mx-auto">
           <UserProvider>
             <ReferralProvider>
