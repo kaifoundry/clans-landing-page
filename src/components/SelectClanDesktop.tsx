@@ -108,17 +108,7 @@ const SelectClan = () => {
         setSelectedCardId(pendingClanId);
         router.push("/CardPage");
       } else {
-        //Already User joined clan error handling code snippet
-
-        const errorMsg =
-          response?.message || "Something went wrong while joining the clan.";
-        console.warn("⚠️ API returned error message:", errorMsg);
-
-        if (errorMsg.toLowerCase().includes("already")) {
-          toast.error("You have already joined the clan.");
-        } else {
-          toast.error(errorMsg);
-        }
+        toast.error("You have already joined the clan.");
       }
     } catch (error) {
       console.error("❌ Error while calling joinClan API: ", error);
