@@ -70,7 +70,7 @@ export default function Button({
         />
       </svg>
 
-      <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg md:text-xl">
+      <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-[21px] sm:text-lg md:text-2xl">
         {ButtonText}
       </span>
     </button>

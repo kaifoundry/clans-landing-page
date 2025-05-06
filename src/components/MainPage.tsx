@@ -117,10 +117,7 @@ const MainPage = () => {
       {/* Foreground Content */}
       <div className="mx-auto relative w-full h-full text-center flex items-center justify-center flex-col z-10">
         <div className="flex items-center justify-center gap-10 z-20 flex-col">
-          <div
-            className="flex gap-4 items-center justify-center"
-           
-          >
+          <div className="flex gap-4 items-center justify-center">
             <Image
               src="/Images/gettingStarted/Object.png"
               width={80}
@@ -225,7 +222,7 @@ const MainPage = () => {
             <div className="flex flex-col gap-3 mb-6">
               <button
                 onClick={callTwitterAuthAPI}
-                className="bg-black text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300"
+                className="bg-black text-white py-3 rounded-full text-base font-bold hover:bg-gray-800 transition duration-300 cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? "Authenticating..." : "Authenticate"}
@@ -234,18 +231,32 @@ const MainPage = () => {
 
             <p
               onClick={closeModal}
-              className="text-lg text-black cursor-pointer underline mb-4 font-bold"
+              className="text-base text-[#141414] font-bold cursor-pointer  mb-4 "
             >
               Cancel
             </p>
 
-            <div className="text-left text-gray-600 text-sm border-t pt-4">
+            {/* <div className="text-left text-gray-600 text-sm border-t pt-4">
               <h3 className="font-semibold mb-2">
                 Things this App can view...
               </h3>
               <ul className="list-disc list-inside space-y-1">
-                <li>All the posts you can view, including protected posts.</li>
+                <li>All the posts you can view, including  protected posts.</li>
                 <li>Any account you can view, including protected accounts.</li>
+              </ul>
+            </div> */}
+            <div className="text-left   border-t border-[#EBEBEB]  pt-4">
+              <h3 className="font-semibold mb-2 text-sm text-[#141414] ">
+                Things this App can view...
+              </h3>
+              <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed ">
+                <li className="font-[500] text-sm text-[#525252]">
+                  All the posts you can view, including posts from protected
+                  accounts.
+                </li>
+                <li className="font-[500] text-sm text-[#525252]">
+                  Any account you can view, including protected accounts.
+                </li>
               </ul>
             </div>
           </div>

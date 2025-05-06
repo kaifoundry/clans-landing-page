@@ -19,6 +19,8 @@ const SelectClan = () => {
   const [avatarImage, setAvatarImage] = useState<string>("");
   const [displayedTitle, setDisplayedTitle] = useState<string>("");
   const [displayedDescription, setDisplayedDescription] = useState<string>("");
+  const [clanColor, setClanColor] = useState<string>("#ffffff");
+  console.log("clanColor", clanColor);
   const [selectedCard, setSelectedCard] = useState<{
     id: string;
     image: string;
@@ -123,18 +125,22 @@ const SelectClan = () => {
 
   return (
     <section className="main-section p-4 overflow-hidden">
-      <div className="relative w-full overflow-hidden flex justify-start flex-col gap-y-16">
-        <h1 className="text-2xl text-center font-bold">Claim your Clan</h1>
+      <div className="relative w-full overflow-hidden flex justify-start flex-col gap-y-8">
+        <h1 className="text-3xl text-center font-semibold">Claim your Clan</h1>
 
         <div className="z-10">
-          <div className="flex gap-x-2 items-center mt-10">
-            <div className="h-10 w-1 bg-[#9747FF]"></div>
-            <h2 className="text-2xl font-bold">{displayedTitle}</h2>
+          <div className="flex gap-x-2 items-center ">
+            <div
+              className="h-7 w-[2px]"
+              style={{ backgroundColor: clanColor }}
+            ></div>
+
+            <h2 className="text-[26px] font-bold">{displayedTitle}</h2>
           </div>
-          <p className="text-xl z-1">{displayedDescription}</p>
+          <p className="text-lg font-semibold z-1">{displayedDescription}</p>
         </div>
 
-        <div className="w-[50%] grid grid-cols-2 gap-6 z-10 p-4">
+        <div className="w-[50%] grid grid-cols-2 gap-x-10 gap-y-5 z-10 p-2">
           {cardData.map((clan, index) => (
             <div
               key={clan.id}
@@ -154,6 +160,7 @@ const SelectClan = () => {
                   setAvatarImage(clan.cardImage);
                   setDisplayedTitle(clan.title);
                   setDisplayedDescription(clan.description);
+                  setClanColor(clan.glowColor);
                 }
               }}
               onMouseLeave={() => {
@@ -168,7 +175,7 @@ const SelectClan = () => {
                 }
               }}
               className={clsx(
-                "relative h-[130px] w-[70px] cursor-pointer",
+                "relative h-[145px] w-[85px] cursor-pointer",
                 activeIndex === index ? "scale-105" : "scale-100"
               )}
               style={{
@@ -196,7 +203,7 @@ const SelectClan = () => {
               ></div>
 
               <div
-                className="absolute inset-[1px] text-white bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center"
+                className="absolute inset-[2px] text-white bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center "
                 style={{
                   clipPath:
                     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
@@ -204,7 +211,7 @@ const SelectClan = () => {
                   transition: "background-image 0.4s ease",
                 }}
               >
-                <h3
+                {/* <h3
                   className="text-[12px] font-medium text-center px-2 absolute bottom-0"
                   style={{
                     textShadow:
@@ -212,19 +219,19 @@ const SelectClan = () => {
                   }}
                 >
                   {clan.title}
-                </h3>
+                </h3> */}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="w-full flex items-center justify-center z-1">
+        <div className="w-full flex items-center justify-center z-1 mt-8 sm:mt-[100px]">
           {selectedCard && (
             <button
               className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white"
               onClick={() => handleJoinClan(selectedCard.id)}
             >
-              <div className="relative w-[160px] h-[45px] sm:w-[200px] sm:h-[55px] md:w-[240px] md:h-[65px] lg:w-[280px] lg:h-[75px] xl:w-[307px] xl:h-[80px]">
+              <div className="relative w-[270px] h-[75px] ">
                 <svg
                   viewBox="0 0 309 81"
                   fill="none"
@@ -245,7 +252,7 @@ const SelectClan = () => {
                   />
                 </svg>
 
-                <span className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 xxs:text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-medium">
+                <span className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 text-[21px] sm:text-2xl md:text-2xl font-medium">
                   Join Clan
                 </span>
               </div>
@@ -260,7 +267,7 @@ const SelectClan = () => {
           height={300}
           width={280}
           alt="bgAvatar"
-          className="absolute bottom-0 right-0 z-0"
+          className="absolute bottom-0 right-0 z-0 "
           draggable={false}
         />
       )}
@@ -299,6 +306,53 @@ const SelectClan = () => {
                 onClick={handleConfirmJoin}
                 width={130}
                 height={40}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/50 bg-opacity-50 backdrop-blur-xs"
+            onClick={() => setModalOpen(false)}
+          />
+
+          <div className="relative bg-black border border-gray-200 p-6 rounded-2xl w-full max-w-md mx-4 z-10">
+            <h3 className="text-xl font-bold mb-4 text-center">
+              Clan Confirmation
+            </h3>
+
+            <div className="mb-6 text-center">
+              <p className="mb-4 text-sm font-semibold">
+                Are you sure you want to choose
+              </p>
+              <p
+                className="text-xl font-bold text-white"
+                // style={{ color: clanColor }}
+              >
+                {selectedCard?.title}
+              </p>
+              <p className="mt-2 font-display font-semibold">
+                {selectedCard?.description}
+              </p>
+            </div>
+
+            <div className="flex justify-center gap-4">
+              <Button
+                ButtonText="Yes"
+                onClick={handleConfirmJoin}
+                width={130}
+                height={40}
+              />
+              <Button
+                ButtonText="No"
+                onClick={() => setModalOpen(false)}
+                width={130}
+                height={40}
+                className="bg-red-500 hover:bg-gray-600"
               />
             </div>
           </div>

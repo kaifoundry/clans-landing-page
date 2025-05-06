@@ -2,7 +2,6 @@
 
 import ClanLogo from "./ClanLogo";
 import Image from "next/image";
-import Button from "./Button";
 import { useState, useRef, useEffect } from "react";
 import { TwitterAuthProvider } from "firebase/auth";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -10,6 +9,8 @@ import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import gsap from "gsap";
 import ClanLogoMobile from "./ClanLogoMobile";
 import { useReferral } from "@/context/ReferralContext";
+import Button1 from "./Button1";
+import { LuLoaderCircle } from "react-icons/lu";
 
 export default function MobileMainPage() {
   const { getAuthUrl, handleReferralCode, isLoading, setIsLoading } = useReferral();
@@ -92,7 +93,7 @@ export default function MobileMainPage() {
         </button>
 
         {/* Video Section */}
-        <div className="opacity-60">
+        <div className="opacity-100">
           <video
             ref={videoRef}
             preload="auto"
@@ -112,7 +113,7 @@ export default function MobileMainPage() {
         <div className="relative flex flex-col h-screen">
           {/* Centered Logo with more margin and larger size for mobile only */}
           <div className="flex flex-col items-center justify-center mt-18 pb-4 md:hidden">
-            <div className="w-64 h-24 xxs:w-72 xxs:h-28 sm:w-80 sm:h-32 flex items-center justify-center">
+            <div className="mt-0 sm:mt-16 lg:mt-0 w-64 h-24 sm:w-80 sm:h-[86px] flex items-center justify-center">
               <ClanLogoMobile />
             </div>
           </div>
@@ -120,30 +121,30 @@ export default function MobileMainPage() {
           {/* Avatars and Button Section */}
           <div className="flex justify-between w-full absolute -bottom-[40px] left-0 right-0 h-full pointer-events-none">
             <Image
-              src="/Images/gettingStarted/mobileavtar1.png"
+              src="/Images/gettingStarted/homeleft.svg"
               width={500}
               height={550}
               alt="avtar1"
-              className="z-1 absolute left-0 bottom-0 xs:-bottom-[40px] w-[220px] xxs:w-[300px] h-[600px] object-contain scale-105"
+              className="z-1 absolute left-0 sm:left-1 lg:left-0   -bottom-10 xs:-bottom-[40px] w-[220px] h-[600px] sm:w-[270px] xxs:w-[300px] sm:h-[730px] object-contain scale-105"
               draggable={false}
             />
             <Image
-              src="/Images/gettingStarted/mobileavtar2.png"
+              src="/Images/gettingStarted/homeright.svg"
               width={400}
               height={600}
               alt="avtar2"
-              className="absolute right-0 -bottom-10 h-[620px] w-[200px] xxs:w-[260px] object-contain scale-110"
+              className="absolute right-0 -bottom-13 sm:-bottom-10 h-[700px] w-[200px] sm:h-[790px] sm:w-[260px]  xxs:w-[260px] object-contain scale-110"
               draggable={false}
             />
           </div>
 
           {/* Start Now Button in semi-transparent box, centered at bottom */}
-          <div className="absolute bottom-8 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
-            <Button
-              width={250}
-              height={60}
+          <div className="absolute bottom-14 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
+            <Button1
+              width={270}
+              height={75}
               ButtonText="Start Now!"
-              className="text-xl text-white font-semibold tracking-wide  px-8 py-4 mx-12 flex items-center justify-center "
+              className="text-3xl text-white font-semibold tracking-wide  px-8 py-4 mx-12 flex items-center justify-center "
               aria-label="Start Now"
               onClick={openModal}
             />
@@ -169,33 +170,40 @@ export default function MobileMainPage() {
                 Clans wants to access your X account
               </h2>
 
-              <div className="flex flex-col gap-3 mb-6">
+              <div className="flex flex-col gap-3 mb-4">
                 <button
                   onClick={loginWithTwitter}
-                  className="bg-black text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300"
+                  className="bg-black text-base text-white py-3 rounded-full font-bold hover:bg-gray-800 transition duration-300 cursor-pointer"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Authenticating..." : "Authenticate"}
+                  {isLoading ? (
+                    <span  className="flex items-center justify-center">
+                      <span className="pr-1">Authenticating</span>
+                      <LuLoaderCircle className="animate-spin" />
+                    </span>
+                  ) : (
+                    "Authenticate"
+                  )}
                 </button>
               </div>
 
               <p
                 onClick={closeModal}
-                className="text-lg text-black font-bold cursor-pointer underline mb-4"
+                className="text-base text-[#141414] font-bold cursor-pointer  mb-4"
               >
                 Cancel
               </p>
 
-              <div className="text-left text-gray-600 text-sm border-t pt-4">
-                <h3 className="font-semibold mb-2">
+              <div className="text-left   border-t border-[#EBEBEB]  pt-4">
+                <h3 className="font-semibold mb-2 text-sm text-[#141414] ">
                   Things this App can view...
                 </h3>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>
+                <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed ">
+                  <li className="font-[500] text-sm text-[#525252]">
                     All the posts you can view, including posts from protected
                     accounts.
                   </li>
-                  <li>
+                  <li className="font-[500] text-sm text-[#525252]">
                     Any account you can view, including protected accounts.
                   </li>
                 </ul>

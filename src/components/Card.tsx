@@ -44,13 +44,13 @@ const Card = ({
             clipPath: clipPathStyle,
             backgroundColor: isHovered ? glowColor : "white", // Dynamically set background color
             transition: "background-color 0.3s ease", // Smooth transition for background color
-            boxShadow: isHovered ? `0 0 10px ${glowColor}` : "none", // Glow effect on hover
+            boxShadow: isHovered ? `0 0 1px ${glowColor}` : "none", // Glow effect on hover
           }}
         />
 
         <div className="">
           <div
-            className="absolute inset-[3px]"
+            className="absolute inset-[1.7px]"
             style={{ clipPath: clipPathStyle }}
           >
             {/* Default Image */}
@@ -76,10 +76,16 @@ const Card = ({
 
       {/* Title Below Card */}
       <h3
-        className="text-lg font-bold text-white text-center "
+        className="text-sm font-semibold text-nowrap text-white text-center"
         style={{
-          textShadow:
-            "0 0 5px rgba(255,255,255,0.8), 0 0 10px rgba(255,255,255,0.8), 0 0 15px rgba(255,255,255,1)",
+          textShadow: `
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,  /* black border effect */
+     0 0 3px rgba(255,255,255,0.3),
+     0 0 6px rgba(255,255,255,0.3)
+  `,
         }}
       >
         {title}

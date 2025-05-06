@@ -4,7 +4,7 @@ export const clansData = [
       hoverImage: "/Images/introducingClans/hover1.jpg",
       glowColor: "red",
       from: { x: -200, opacity: 0 },
-    cardImage: "/Images/selectClan/sideImage2.png",
+    cardImage: "/Images/selectClan/avtar1.svg",
 
     },
     {
