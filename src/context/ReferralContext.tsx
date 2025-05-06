@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode, Suspense } f
 import { useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
+import ClanLogo from '@/components/ClanLogo';
 
 interface ReferralContextType {
   handleReferralCode: (userId: string) => Promise<void>;
@@ -16,25 +17,45 @@ const ReferralContext = createContext<ReferralContextType | undefined>(undefined
 
 function ReferralProviderContent({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [referralLoading, setReferralLoading] = useState(false);
+  const [referralError, setReferralError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   // Handle referral code from URL
   useEffect(() => {
     const referralCode = searchParams.get('referralCode');
+    console.log(referralCode);
     if (referralCode) {
-      // Store referral code in cookie for 7 days
-      Cookies.set('referral_code', referralCode, { expires: 7 });
+      fetchReferCode(referralCode);
     }
   }, [searchParams]);
 
+  const fetchReferCode = async (referralCode: string) => {
+    try {
+      setReferralLoading(true);
+      setReferralError(null);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/referral/redirect/${referralCode}`);
+      const response = await res.json();
+      if (response.success && Array.isArray(response.data)) {
+        setReferralCode(response.data);
+      } else {
+        setReferralError('Invalid response format from API'); 
+      }
+    } catch (err) {
+      setReferralError(err instanceof Error ? err.message : 'Failed to fetch clans');
+    } finally {
+      setReferralLoading(false);
+    }
+  };
   // Handle referral code usage after authentication
   const handleReferralCode = async (userId: string) => {
     try {
       const referralCode = Cookies.get('referral_code');
       if (!referralCode) return;
 
-      const response = await fetch(`${BASE_URL}/api/auth/join_referral`, {
+      const response = await fetch(`${BASE_URL}/api/referral/join_referral`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
