@@ -1,25 +1,27 @@
 "use client";
 
 import Button from "@/components/Button";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useClan } from "@/context/ClanContext";
 import { toPng } from "html-to-image";
 import ClanCard from "@/components/ClanCard";
 import toast, { Toaster } from "react-hot-toast";
 import Loader from "@/components/Features/Loader";
-import { cardData } from "@/data/cardPage_Data";
+import { clansData } from "@/data/selectClanData";
 
 export default function CardPage() {
-  const { selectedCardId } = useClan();
+  const { clans, loading: clansLoading, error, selectedCardId, setSelectedCardId, joinClan } = useClan();
+  const [loading, setLoading] = useState(false);
+  const [tweetPosted, setTweetPosted] = useState(false);
   const [card, setCard] = useState<null | {
     id: string;
     title: string;
     description: string;
     image: string;
+    sideImage: string;
     glowColor: string;
   }>(null);
 
-  const [loading, setLoading] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const [userData, setUserData] = useState<null | {
@@ -35,14 +37,39 @@ export default function CardPage() {
 
   const profilePic = userData?.socialHandles?.[0]?.profilePicture;
 
+  const cardData = useMemo(() => {
+    console.log("Clans data:", clans);
+    const mappedData = Array.isArray(clans) ? clans.map((clan, index) => ({
+      id: clan.clanId,
+      title: clan.title,
+      description: clan.description,
+      image: clan.banner || "",
+      sideImage: clansData[index]?.hoverImage || "",
+      glowColor: clansData[index]?.glowColor || "#6366f1"
+    })) : [];
+    console.log("Mapped card data:", mappedData);
+    return mappedData;
+  }, [clans]);
+
   useEffect(() => {
+    console.log("Selected card ID:", selectedCardId);
+    console.log("Available card data:", cardData);
     if (selectedCardId !== null) {
       const selected = cardData.find(
         (card) => card.id === selectedCardId.toString()
       );
-      if (selected) setCard(selected);
+      console.log("Selected card:", selected);
+      if (selected) {
+        setCard(selected);
+      } else {
+        // If no card is found, set the first card as default
+        setCard(cardData[0]);
+      }
+    } else if (cardData.length > 0) {
+      // If no card is selected but we have card data, set the first card
+      setCard(cardData[0]);
     }
-  }, [selectedCardId]);
+  }, [selectedCardId, cardData]);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -51,8 +78,9 @@ export default function CardPage() {
     }
   }, []);
 
-  if (!card)
+  if (!card || !cardData.length) {
     return <Loader message="Loading your selected Clan please wait..." />;
+  }
 
   const tweetContent = `Roar louder. Roar prouder.
 
@@ -94,7 +122,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
       const blob = await res.blob();
       const file = new File(
         [blob],
-        `card-${card.title.replace(/\s+/g, "-").toLowerCase()}.png`,
+        `card-${card?.title?.replace(/\s+/g, "-").toLowerCase()}.png`,
         { type: "image/png" }
       );
 
@@ -142,7 +170,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
       console.log("Sending tweet data:", tweetData);
 
       const tweetResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet?noRedirect=true`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet`,
         {
           method: "POST",
           headers: {
@@ -178,18 +206,9 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
             userId: tweetResult.userId,
           })
         );
+        setTweetPosted(true);
+        toast.success("Tweet posted successfully!");
       }
-
-      // Success: use redirectUrl from response
-      toast.success("Tweet posted successfully! Redirecting...");
-
-      setTimeout(() => {
-        if (tweetResult.redirectUrl) {
-          window.location.href = tweetResult.redirectUrl;
-        } else {
-          handleRedirect();
-        }
-      }, 2000);
     } catch (error: any) {
       console.error("Error in handleStartRoaring:", error);
       toast.error(error.message || "Failed to complete the process");
@@ -199,7 +218,8 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
   };
 
   const handleRedirect = () => {
-    window.location.href = "/JoinWaitlist";
+    const tweetData = JSON.parse(localStorage.getItem("tweetData") || "{}");
+    window.location.href = `/JoinWaitlist/${userData?.userId || ""}&${tweetData.tweetId || ""}`;
   };
 
   return (
@@ -224,7 +244,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
           glowColor={card.glowColor}
           title={card.title}
           description={card.description}
-          image={card.image}
+          sideImage={card.sideImage}
           userId={userData?.userId || ""}
           profilePic={profilePic}
           displayName={userData?.socialHandles?.[0]?.displayName}
@@ -236,7 +256,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
             ButtonText={loading ? "Processing..." : "Start Roaring"}
             onClick={handleStartRoaring}
             className="px-2 py-1 text-xs"
-            disabled={loading}
+            disabled={loading || tweetPosted}
             width={280}
             height={60}
           />
@@ -246,6 +266,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${us
             className="px-2 py-1 text-xs"
             width={280}
             height={60}
+            disabled={!tweetPosted}
           />
         </div>
       </div>

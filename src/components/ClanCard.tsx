@@ -4,7 +4,8 @@ interface ClanCardProps {
   glowColor: string;
   title: string;
   description: string;
-  image: string;
+  image?: string;
+  sideImage?: string;
   userId: string;
   profilePic?: string;
   email?: string;
@@ -16,7 +17,8 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(({
   glowColor,
   title,
   description,
-  image,
+
+  sideImage,
   userId,
   profilePic,
   email,
@@ -109,14 +111,24 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(({
         </div>
         {/* Right side: main image */}
         <div className="flex items-end justify-end w-full md:w-1/3 relative mt-4 md:mt-0">
-          <img
+          {sideImage && (
+            <img
+              src={sideImage}
+              alt="Side Image"
+              width={340}
+              height={520}
+              className="h-[280px] w-[200px] md:h-[440px] md:w-[320px] xl:w-[360px] xl:h-[450px] object-contain drop-shadow-lg absolute bottom-0 -right-6 md:mx-auto md:absolute md:bottom-0 md:-right-7"
+              loading="eager"
+            />
+          )}
+          {/* <img
             src={image}
             alt="Card Image"
             width={340}
             height={520}
             className="h-[280px] w-[200px] md:h-[440px] md:w-[320px] xl:w-[360px] xl:h-[450px] object-contain drop-shadow-lg absolute bottom-0 -right-6 md:mx-auto md:absolute md:bottom-0 md:-right-7"
             loading="eager"
-          />
+          /> */}
         </div>
       </div>
     </div>

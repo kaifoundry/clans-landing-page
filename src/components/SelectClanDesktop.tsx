@@ -2,27 +2,24 @@
 
 import Image from "next/image";
 import Button from "@/components/Button";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import clsx from "clsx";
-import { useClan } from "@/context/ClanContext";
 import { gsap } from "gsap";
-import { joinClan } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { clanData } from "@/data/selectClan_Data";
+import { clansData } from "@/data/selectClanData";
 import Loader from "./Features/Loader";
+import { useClan } from "@/context/ClanContext";
 
 const SelectClan = () => {
   const router = useRouter();
+  const { clans, loading, error, selectedCardId, setSelectedCardId, joinClan } = useClan();
+
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [avatarImage, setAvatarImage] = useState("");
   const [displayedTitle, setDisplayedTitle] = useState("");
   const [displayedDescription, setDisplayedDescription] = useState("");
-
-  const { selectedCardId, setSelectedCardId } = useClan();
-
   const [selectedCard, setSelectedCard] = useState<{
     id: string;
     image: string;
@@ -35,10 +32,20 @@ const SelectClan = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingClanId, setPendingClanId] = useState<string | null>(null);
 
-  // State to manage clans data, loading state, and errors using API
-  const [clans, setClans] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const cardData = useMemo(() => {
+    return Array.isArray(clans) ? clans.map((clan, index) => {
+      const clanData = clansData[index] || {};
+      return {
+        id: clan.clanId,
+        title: clan.title,
+        description: clan.description,
+        image: clanData.image || "",
+        hoverImage: clanData.hoverImage || "",
+        cardImage: clanData.image || "",
+        glowColor: clanData.glowColor || ""
+      };
+    }) : [];
+  }, [clans]);
 
   useEffect(() => {
     if (clans && clans.length > 0) {
@@ -48,7 +55,7 @@ const SelectClan = () => {
 
   useEffect(() => {
     if (selectedCardId !== null) {
-      const clan = clanData.find((card) => card.id === String(selectedCardId));
+      const clan = cardData.find((card) => card.id === String(selectedCardId));
       if (clan) {
         setSelectedCard(clan);
         setAvatarImage(clan.hoverImage);
@@ -56,129 +63,25 @@ const SelectClan = () => {
         setDisplayedDescription(clan.description);
       }
     }
-  }, [selectedCardId]);
-
-  useEffect(() => {
-    getAllClans();
-  }, []);
-
-  const getAllClans = async () => {
-    console.log("📢 getAllClans() called");
-
-    try {
-      setLoading(true);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/clans/fetch/all`
-      );
-      if (!res.ok) throw new Error("Failed to fetch clans");
-
-      const data = await res.json();
-      console.log("🌐 Fetched from API:", data);
-
-      if (data.success && Array.isArray(data.data)) {
-        setClans(data.data);
-      } else {
-        throw new Error("Invalid API response structure");
-      }
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        // setError("Something went wrong while fetching clans");
-      }
-    } finally {
-      setLoading(false);
-      console.log("🏁 getAllClans() completed");
-    }
-  };
-
-  //Old logic reomve afterwards
-  // const handleJoinClanClick = (clanId: string) => {
-  //   // Store the clan ID for later use
-  //   setPendingClanId(clanId);
-
-  //   // Find the selected clan object to display in modal
-  //   const selectedClan = clanData.find((clan) => clan.id === clanId) || null;
-  //   setSelectedCard(selectedClan);
-
-  //   // Open the confirmation modal
-  //   setModalOpen(true);
-  // };
-
-  // const handleConfirmJoin = async () => {
-  //   // Close the modal first
-  //   setModalOpen(false);
-
-  //   // Proceed with joining the clan
-  //   const userData = localStorage.getItem("userData");
-  //   const user = userData ? JSON.parse(userData) : null;
-  //   const storedUserId = user?.userId;
-
-  //   console.log("📥 Stored User ID:", storedUserId);
-  //   console.log("📥 Selected Clan ID:", pendingClanId);
-
-  //   if (!storedUserId || !pendingClanId) {
-  //     toast.error("Missing user or clan ID.");
-  //     return;
-  //   }
-
-  //   const joinData = {
-  //     userId: storedUserId,
-  //     clanId: pendingClanId,
-  //   };
-
-  //   console.log("🚀 Sending this data to joinClan API:", joinData);
-
-  //   try {
-  //     const response = await joinClan(joinData);
-  //     console.log("✅ API response:", response);
-
-  //     if (response?.success) {
-  //       toast.success("Successfully joined the clan!");
-  //       // Now select the card ID for navigation
-  //       setSelectedCardId(pendingClanId);
-  //     } else {
-  //       toast.error("Something went wrong while joining the clan.");
-  //       setSelectedCardId(pendingClanId);
-  //     }
-  //   } catch (error) {
-  //     console.error("❌ Error while calling joinClan API:", error);
-  //     toast.error("Failed to join clan due to network or server error.");
-  //   }
-  // };
+  }, [selectedCardId, cardData]);
 
   const handleSelectId = (id: string): void => {
     setSelectedCardId(id);
     console.log(id);
   };
 
-  //This function is for when we click on the join button 05-05-2025
   const handleJoinClan = (clanId: string) => {
-    //storing the clan Id here, for afterwards use we will send in link or something its just temporary
     setPendingClanId(clanId);
-
-    //displaying the selected clan data like title and description on the modal by finding it in clanData array of object
-    const selectedClanModal =
-      clanData.find((clan) => clan.id === clanId) || null;
-    setSelectedCard(selectedClanModal);
-
-    //then we will open the confirmation modal
+    const clan = cardData.find((card) => card.id === clanId);
+    if (clan) {
+      setSelectedCard(clan);
+    }
     setModalOpen(true);
   };
 
-  // 05-05-2025 This function is for handling the logic after the user presses the option "yes" or "no" so that we can call the API and send the data
   const handleConfirmJoin = async () => {
-    //first we will close the modal
     setModalOpen(false);
 
-    //show loader until API is called succesfully
-    setLoading(true);
-
-    //we have to show Loader here, have to uncomment afterwards
-    // <Loader message="Joining the Clan"/>
-
-    //The main Logic
     const userData = localStorage.getItem("userData");
     const user = userData ? JSON.parse(userData) : null;
     const storedUserId = user?.userId;
@@ -188,7 +91,6 @@ const SelectClan = () => {
 
     if (!storedUserId || !pendingClanId) {
       toast.error("Missing user or clan ID.");
-      setLoading(false);
       return;
     }
 
@@ -200,35 +102,21 @@ const SelectClan = () => {
     console.log("sending this data to joinClan API:", joinData);
 
     try {
-      const response = await joinClan(joinData);
-      console.log("API Response from (joinClan) ", response);
-
-      if (response?.success) {
-        toast.success("successfully Joined the clan!");
-        //if get success from API response, set the selectedCardId
+      const success = await joinClan(joinData);
+      if (success) {
+        toast.success("Successfully joined the clan!");
         setSelectedCardId(pendingClanId);
         router.push("/CardPage");
       } else {
-        //Already User joined clan error handling code snippet
-
-        const errorMsg =
-          response?.message || "Something went wrong while joining the clan.";
-        console.warn("⚠️ API returned error message:", errorMsg);
-
-        if (errorMsg.toLowercase().includes("already")) {
-          toast.error("You have already joined the clan.");
-        } else {
-          toast.error(errorMsg);
-        }
+        toast.error("Failed to join clan. Please try again.");
       }
     } catch (error) {
       console.error("❌ Error while calling joinClan API: ", error);
       toast.error("Failed to join clan due to network or server error.");
-    } finally {
-      setLoading(false);
     }
   };
 
+  if (loading) return <div>Loading clans...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -247,41 +135,47 @@ const SelectClan = () => {
         </div>
 
         <div className="flex gap-12 items-center w-3/4 mx-0 lg:flex-col-4 md:flex-col-2 z-1">
-          {clanData.map((clan, index) => (
+          {cardData.map((clan, index) => (
             <div
               key={clan.id}
               onClick={() => {
-                setActiveIndex(index);
-                setAvatarImage(clan.hoverImage);
-                setSelectedCard(clan);
-                setDisplayedTitle(clan.title);
-                setDisplayedDescription(clan.description);
+                if (activeIndex !== index) {
+                  setActiveIndex(index);
+                  setAvatarImage(clan.hoverImage);
+                  setSelectedCard(clan);
+                  setDisplayedTitle(clan.title);
+                  setDisplayedDescription(clan.description);
+                }
               }}
               onMouseEnter={() => {
-                setHoveredIndex(index);
-                setAvatarImage(clan.hoverImage);
-                setDisplayedTitle(clan.title);
-                setDisplayedDescription(clan.description);
-                // Add glow effect animation on hover
-                gsap.to(`#card-${clan.id}`, {
-                  scale: 1.05,
-                  duration: 0.3,
-                });
+                if (hoveredIndex !== index) {
+                  setHoveredIndex(index);
+                  setAvatarImage(clan.hoverImage);
+                  setDisplayedTitle(clan.title);
+                  setDisplayedDescription(clan.description);
+                  // Add glow effect animation on hover
+                  gsap.to(`#card-${clan.id}`, {
+                    scale: 1.05,
+                    duration: 0.3,
+                  });
+                }
               }}
               onMouseLeave={() => {
-                setHoveredIndex(null);
-                if (activeIndex !== null) {
-                  const active = clanData[activeIndex];
-                  setAvatarImage(active.hoverImage);
-                  setDisplayedTitle(active.title);
-                  setDisplayedDescription(active.description);
+                if (hoveredIndex !== null) {
+                  setHoveredIndex(null);
+                  if (activeIndex !== null) {
+                    const active = cardData[activeIndex];
+                    setAvatarImage(active.hoverImage);
+                    setDisplayedTitle(active.title);
+                    setDisplayedDescription(active.description);
+                  }
+                  // Reset glow effect animation
+                  gsap.to(`#card-${clan.id}`, {
+                    scale: 1,
+                    boxShadow: "none",
+                    duration: 0.3,
+                  });
                 }
-                // Reset glow effect animation
-                gsap.to(`#card-${clan.id}`, {
-                  scale: 1,
-                  boxShadow: "none",
-                  duration: 0.3,
-                });
               }}
               className={clsx(
                 "relative group cursor-pointer transition-all duration-500",
@@ -328,11 +222,6 @@ const SelectClan = () => {
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
-                {/* <Link
-                  key={clan.id}
-                  href={`/CardPage`}
-                  onClick={() => handleSelectId(clan.id)}
-                > */}
                 <button
                   onClick={() => handleJoinClan(clan.id)}
                   className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full  min-h-[40px] xl:w-[220px] xl:h-[60px] lg:w-[150px] lg:h-[30px] md:w-[100px] md:h-[20px]"
@@ -362,7 +251,6 @@ const SelectClan = () => {
                     Join Clan
                   </span>
                 </button>
-                {/* </Link> */}
               </div>
             </div>
           ))}
@@ -393,10 +281,6 @@ const SelectClan = () => {
           {/* Modal Content */}
           <div
             className={`relative bg-black  border border- text-white p-6 rounded-lg w-full max-w-md mx-4 z-10`}
-            // style={{
-            //   clipPath:
-            //     "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
-            // }}
           >
             <h3 className="text-xl font-bold mb-4 text-center">
               Clan Confirmation

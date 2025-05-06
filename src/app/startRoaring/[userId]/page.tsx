@@ -1,10 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams } from "next/navigation";
 
 import StartRoaringMobile from "@/components/StartRoaringMobilePage"; // Ensure this path is correct
 import StartRoaringDesktop from "@/components/startRoaringDesktop"; // Ensure this path is correct
+
+// Debounce function to limit how often a function can be called
+const debounce = (func: Function, wait: number) => {
+  let timeout: NodeJS.Timeout;
+  return function executedFunction(...args: any[]) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
 
 export default function StartRoaring() {
   // State for mobile/desktop view and the user ID
@@ -14,55 +27,58 @@ export default function StartRoaring() {
   // Get route parameters
   const params = useParams();
 
-  // Effect to extract and set the userId from route parameters
-  useEffect(() => {
-    const userIdFromParams = params?.userId; // Safely access userId from params
-
+  // Memoize the userId update function
+  const updateUserId = useCallback(() => {
+    const userIdFromParams = params?.userId;
     if (userIdFromParams) {
-      // Determine the ID (handle potential array, though less likely for simple routes)
-      const id = Array.isArray(userIdFromParams)
-        ? userIdFromParams[0]
-        : userIdFromParams;
-
-      // Set the userId state *only if it's different* from the current value
-      // Note: React's useState setter already optimizes for this, but being explicit can help clarity.
+      const id = Array.isArray(userIdFromParams) ? userIdFromParams[0] : userIdFromParams;
       setUserId((currentUserId) => (currentUserId !== id ? id : currentUserId));
     }
-    // --- CORRECTED DEPENDENCY ---
-    // Only re-run this effect if the actual 'userId' value from params changes.
   }, [params?.userId]);
+
+  // Effect to extract and set the userId from route parameters
+  useEffect(() => {
+    updateUserId();
+  }, [updateUserId]);
+
+  // Memoize the resize handler with debounce
+  const handleResize = useCallback(
+    debounce(() => {
+      setIsMobile(window.innerWidth <= 768);
+    }, 100),
+    []
+  );
 
   // Effect to handle window resizing for mobile/desktop view
   useEffect(() => {
-    const handleResize = () => {
-      // Update state based on window width
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    // Run on initial load to set the correct view
-    handleResize();
-
-    // Add event listener for window resize
+    handleResize(); // Initial check
     window.addEventListener("resize", handleResize);
-
-    // Cleanup function to remove the event listener when the component unmounts
     return () => window.removeEventListener("resize", handleResize);
+  }, [handleResize]);
 
-    // Empty dependency array ensures this effect runs only once on mount and cleans up on unmount
-  }, []);
+  // Memoize the loading state
+  const loadingContent = useMemo(() => {
+    if (userId === null) {
+      return <p>Loading...</p>;
+    }
+    return null;
+  }, [userId]);
 
-  // Render a loading state until the userId has been determined
-  // Use explicit null check for clarity
-  if (userId === null) {
-    return <p>Loading...</p>; // Or replace with a proper loading spinner component
-  }
+  // Memoize the main content
+  const mainContent = useMemo(() => {
+    if (userId === null) return null;
+    
+    return isMobile ? (
+      <StartRoaringMobile userId={userId} />
+    ) : (
+      <StartRoaringDesktop userId={userId} />
+    );
+  }, [isMobile, userId]);
 
-  // Render the appropriate component based on screen size, passing userId if needed
-  return isMobile ? (
-    // Assuming the Mobile component doesn't need userId directly passed as a prop
-    <StartRoaringMobile userId={userId} />
-  ) : (
-    // Pass the determined userId to the Desktop component
-    <StartRoaringDesktop userId={userId} />
+  return (
+    <>
+      {loadingContent}
+      {mainContent}
+    </>
   );
 }

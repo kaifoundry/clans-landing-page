@@ -3,16 +3,18 @@
 import ClanLogo from "./ClanLogo";
 import Image from "next/image";
 import Button from "./Button";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { TwitterAuthProvider } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import gsap from "gsap";
 import ClanLogoMobile from "./ClanLogoMobile";
+import { useReferral } from "@/context/ReferralContext";
 
 export default function MobileMainPage() {
+  const { getAuthUrl, handleReferralCode, isLoading, setIsLoading } = useReferral();
+  const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [redirectTo, setRedirectTo] = useState<string | null>("/startRoaring");
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -20,6 +22,23 @@ export default function MobileMainPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const iconRef = useRef(null);
   const provider = new TwitterAuthProvider();
+
+  // Check for authentication callback
+  useEffect(() => {
+    const checkAuthCallback = async () => {
+      const userId = searchParams.get('userId');
+      if (userId) {
+        // Handle the referral code if it exists
+        await handleReferralCode(userId);
+        
+        // Clear the URL parameters
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+      }
+    };
+
+    checkAuthCallback();
+  }, [searchParams, handleReferralCode]);
 
   const handleMuteUnmute = () => {
     const video = videoRef.current;
@@ -37,16 +56,22 @@ export default function MobileMainPage() {
     }
   };
 
-  const loginWithTwitter = () => {
+  const loginWithTwitter = async () => {
     if (typeof window === "undefined") return;
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    if (!baseUrl) {
-      console.error("Missing NEXT_PUBLIC_API_BASE_URL");
-      return;
-    }
+    try {
+      setIsLoading(true);
+      const authUrl = getAuthUrl();
+      
+      // Store the current URL to handle the redirect back
+      const currentUrl = window.location.href;
+      sessionStorage.setItem('redirectUrl', currentUrl);
 
-    window.location.assign(`${baseUrl}/api/auth/twitter`);
+      window.location.assign(authUrl);
+    } catch (error) {
+      console.error("Error during Twitter auth:", error);
+      setIsLoading(false);
+    }
   };
 
   const openModal = () => setIsModalOpen(true);

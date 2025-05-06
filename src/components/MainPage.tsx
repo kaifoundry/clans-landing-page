@@ -3,21 +3,15 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Button from "./Button";
-import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth, db } from "@/lib/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import { getTwitterAuth } from "@/lib/api";
-import { set } from "lodash";
-const provider = new TwitterAuthProvider();
+import { useReferral } from "@/context/ReferralContext";
 
 const MainPage = () => {
-  const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
+  const { getAuthUrl, handleReferralCode, isLoading, setIsLoading } = useReferral();
+  const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -27,16 +21,37 @@ const MainPage = () => {
   const avatarRightRef = useRef(null);
   const router = useRouter();
 
-  const callTwitterAuthAPI = () => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Replace with your actual base URL or use process.env.NEXT_PUBLIC_API_BASE_URL
-    //hello
-    if (!baseUrl) {
-      console.error("Missing NEXT_PUBLIC_API_BASE_URL");
-      return;
-    }
+  // Check for authentication callback
+  useEffect(() => {
+    const checkAuthCallback = async () => {
+      const userId = searchParams.get('userId');
+      if (userId) {
+        // Handle the referral code if it exists
+        await handleReferralCode(userId);
+        
+        // Clear the URL parameters
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+      }
+    };
 
-    // Use location.assign to ensure full redirect (especially helpful on mobile)
-    window.location.assign(`${baseUrl}/api/auth/twitter`);
+    checkAuthCallback();
+  }, [searchParams, handleReferralCode]);
+
+  const callTwitterAuthAPI = async () => {
+    try {
+      setIsLoading(true);
+      const authUrl = getAuthUrl();
+      
+      // Store the current URL to handle the redirect back
+      const currentUrl = window.location.href;
+      sessionStorage.setItem('redirectUrl', currentUrl);
+
+      window.location.assign(authUrl);
+    } catch (error) {
+      console.error("Error during Twitter auth:", error);
+      setIsLoading(false);
+    }
   };
 
   const openModal = () => setIsModalOpen(true);

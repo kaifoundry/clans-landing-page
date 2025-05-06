@@ -41,6 +41,7 @@ export default function Button({
       onClick={onClick}
       className={clsx(
         "group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full max-w-[309px] min-w-[120px] min-h-[40px]",
+        disabled && "opacity-50 cursor-not-allowed hover:scale-100 active:scale-100",
         className
       )}
       style={style}
@@ -56,7 +57,10 @@ export default function Button({
       >
         <path
           d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-          className="fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300"
+          className={clsx(
+            "fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300",
+            disabled && "group-hover:fill-black"
+          )}
         />
         <path
           d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"

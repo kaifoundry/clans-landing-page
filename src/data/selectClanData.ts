@@ -1,38 +1,30 @@
-export const clanData = [
+export const clansData = [
     {
-    id: "225462e8-0077-45c7-a5f5-4474f2b84166",
     image: "/Images/introducingClans/card_1.png",
     hoverImage: "/Images/selectClan/sideImage2.png",
     cardImage: "/Images/selectClan/cardImg1.png",
-    title: "Clan McBuilder",
-    description: "We create the future with passion and code.",
     glowColor: "rgba(255, 0, 0, 0.8)",
   },
   {
-    id: "b2cb6389-65e4-4d2a-acc1-ce5b02b893a3",
+
     image: "/Images/introducingClans/card_2.png",
     hoverImage: "/Images/selectClan/sideImage1.png",
     cardImage: "/Images/selectClan/cardImg2.png",
-    title: "McHODLer",
-    description: "Diamond hands forever.",
+
+
     glowColor: "rgba(138, 43, 226, 0.8)",
   },
   {
-    id: "98e347d1-b7b9-4c53-ba73-26ff6ac87052",
+
     image: "/Images/introducingClans/card_3.png",
     hoverImage: "/Images/selectClan/sideImage3.png",
     cardImage: "/Images/selectClan/cardImg3.png",
-    title: "Clan McDegen",
-    description: "Risk is our middle name.",
     glowColor: "rgba(0, 255, 0, 0.8)",
   },
   {
-    id: "9e37533c-164d-475b-8fb0-dc8f67ae7bec",
     image: "/Images/introducingClans/card_4.png",
     hoverImage: "/Images/selectClan/sideImage4.png",
     cardImage: "/Images/selectClan/cardImg4.png",
-    title: "Clan McPrivacy",
-    description: "Privacy is our birthright.",
     glowColor: "rgba(0, 0, 255, 0.8)",
   },
 ]

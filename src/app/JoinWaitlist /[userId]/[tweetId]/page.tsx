@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 const JoinWaitlist = () => {
   const router = useRouter();
+  const params = useParams();
   const [userData, setUserData] = useState<{ userId: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
@@ -40,7 +41,7 @@ const JoinWaitlist = () => {
     setIsLoading(true);
 
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/${userData.userId}/early-user`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
       console.log("Making API call to:", apiUrl);
 
       const response = await fetch(apiUrl, {

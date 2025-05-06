@@ -1,55 +1,36 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Card from "@/components/Card";
 import { useClan } from "@/context/ClanContext";
 import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
-
+import ClanLogo from "@/components/ClanLogo";
+import { clansData } from "@/data/clansData";
 const IntroducingClans = () => {
-  const { setSelectedCardId } = useClan();
+  const { clans, loading, error ,setSelectedCardId} = useClan();
+
+  console.log('clans', clans);
   const router = useRouter();
 
   const cardRefs = useRef<HTMLDivElement[]>([]);
 
-  const cardData = [
-    {
-      id: "225462e8-0077-45c7-a5f5-4474f2b84166",
-      image: "/Images/introducingClans/card_1.png",
-      hoverImage: "/Images/introducingClans/hover1.jpg",
-      title: "Clan McBuilder",
-      description: "Lorem ipsum dolor sit amet...",
-      glowColor: "red",
-      from: { x: -200, opacity: 0 },
-    },
-    {
-      id: "b2cb6389-65e4-4d2a-acc1-ce5b02b893a3",
-      image: "/Images/introducingClans/card_2.png",
-      hoverImage: "/Images/introducingClans/hover2.png",
-      title: "McHODLer",
-      description: "Lorem ipsum dolor sit amet...",
-      glowColor: "violet",
-      from: { y: -200, opacity: 0 },
-    },
-    {
-      id: "98e347d1-b7b9-4c53-ba73-26ff6ac87052",
-      image: "/Images/introducingClans/card_3.png",
-      hoverImage: "/Images/introducingClans/hover3.png",
-      title: "Clan McDegen",
-      description: "Lorem ipsum dolor sit amet...",
-      glowColor: "green",
-      from: { x: 200, opacity: 0 },
-    },
-    {
-      id: "9e37533c-164d-475b-8fb0-dc8f67ae7bec",
-      image: "/Images/introducingClans/card_4.png",
-      hoverImage: "/Images/introducingClans/hover4.png",
-      title: "Clan McPrivacy",
-      description: "Lorem ipsum dolor sit amet...",
-      glowColor: "blue",
-      from: { y: 200, opacity: 0 },
-    },
-  ];
+  
+
+  const cardData = Array.isArray(clans) ? clans.map((clan, index) => ({
+    id: clan.clanId,
+    title: clan.title,
+    description: clan.description,
+    ...clansData[index]
+  })) : [];
+
+  if (loading) {
+    return <div>Loading clans...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   useEffect(() => {
     cardRefs.current.forEach((ref, index) => {
