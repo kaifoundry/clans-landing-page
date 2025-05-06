@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useMemo, Suspense } from "react";
 import { useClan } from "@/context/ClanContext";
 import { toPng } from "html-to-image";
 import ClanCard from "@/components/ClanCard";
@@ -10,6 +10,14 @@ import Loader from "@/components/Features/Loader";
 import { clansData } from "@/data/selectClanData";
 
 export default function CardPage() {
+  return (
+    <Suspense fallback={<Loader message="Loading your selected Clan please wait..." />}>
+      <CardPageContent />
+    </Suspense>
+  );
+}
+
+function CardPageContent() {
   const { clans, loading: clansLoading, error, selectedCardId, setSelectedCardId, joinClan } = useClan();
   const [loading, setLoading] = useState(false);
   const [tweetPosted, setTweetPosted] = useState(false);
