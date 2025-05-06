@@ -101,27 +101,11 @@ export default function MobileMainPage() {
             muted={isMuted}
             playsInline
             className="absolute top-0 left-0 w-full h-full object-cover z-0 backdrop-blur-2xl bg-white/30"
+            draggable={false}
           >
             <source src="/videos/Main.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-
-          {/* Avatars
-          <Image
-            src="/Images/gettingStarted/avtar1.png"
-            width={550}
-            height={550}
-            alt="Avatar Left"
-            className="absolute bottom-0 left-0 w-[300px] md:w-[350px] xl:w-[500px] 2xl:w-[540px] object-contain z-10"
-          />
-
-          <Image
-            src="/Images/gettingStarted/avtar2_.png"
-            width={580}
-            height={580}
-            alt="Avatar Right"
-            className="absolute bottom-0 right-0 w-[300px] md:w-[320px] xl:w-[500px] 2xl:w-[550px] object-contain z-10"
-          /> */}
         </div>
 
         {/* Main Content Section */}
@@ -141,6 +125,7 @@ export default function MobileMainPage() {
               height={550}
               alt="avtar1"
               className="z-1 absolute left-0 bottom-0 xs:-bottom-[40px] w-[220px] xxs:w-[300px] h-[600px] object-contain scale-105"
+              draggable={false}
             />
             <Image
               src="/Images/gettingStarted/mobileavtar2.png"
@@ -148,6 +133,7 @@ export default function MobileMainPage() {
               height={600}
               alt="avtar2"
               className="absolute right-0 -bottom-10 h-[620px] w-[200px] xxs:w-[260px] object-contain scale-110"
+              draggable={false}
             />
           </div>
 
@@ -175,6 +161,7 @@ export default function MobileMainPage() {
                   height={100}
                   className="w-24 h-20 object-contain text-xl"
                   alt="Clans Logo"
+                  draggable={false}
                 />
               </div>
 

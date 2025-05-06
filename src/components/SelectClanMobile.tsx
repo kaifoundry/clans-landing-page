@@ -257,7 +257,48 @@ const SelectClan = () => {
           width={280}
           alt="bgAvatar"
           className="absolute bottom-0 right-0 z-0"
+          draggable={false}
         />
+      )}
+
+      {/* Confirmation Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/50 bg-opacity-50 backdrop-blur-xs"
+            onClick={() => setModalOpen(false)}
+          />
+
+          <div className="relative bg-black border border- text-white p-6 rounded-lg w-full max-w-md mx-4 z-10">
+            <h3 className="text-xl font-bold mb-4 text-center">
+              Clan Confirmation
+            </h3>
+
+            <div className="mb-6 text-center">
+              <p className="mb-4">Are you confirm you want to choose</p>
+              <p className="text-xl font-bold text-purple-400">
+                {selectedCard?.title}
+              </p>
+              <p className="mt-2 italic">"{selectedCard?.description}"</p>
+            </div>
+
+            <div className="flex justify-center gap-4">
+              <Button
+                ButtonText="No, go back"
+                onClick={() => setModalOpen(false)}
+                width={130}
+                height={40}
+                className="bg-gray-700 hover:bg-gray-600"
+              />
+              <Button
+                ButtonText="Yes"
+                onClick={handleConfirmJoin}
+                width={130}
+                height={40}
+              />
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Confirmation Modal */}

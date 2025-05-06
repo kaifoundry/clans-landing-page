@@ -136,16 +136,17 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
               </p>
             </div>
 
-            {/* Right Avatar Image (decorative) */}
-            <Image
-              src="/Images/startRoaring/Avtar1.png"
-              alt="Stylized avatar character 1"
-              width={200} // Base width, adjust className for responsiveness
-              height={200} // Base height, adjust className for responsiveness
-              className="absolute bottom-0 right-0 w-[120px] h-auto md:w-[150px] lg:w-[280px] 2xl:w-[350px] max-w-full" // Responsive sizing
-              priority // Prioritize loading if it's visible early
-            />
-          </div>
+          {/* Right Avatar Image (decorative) */}
+          <Image
+            src="/Images/startRoaring/Avtar1.png"
+            alt="Stylized avatar character 1"
+            width={200} // Base width, adjust className for responsiveness
+            height={200} // Base height, adjust className for responsiveness
+            className="absolute bottom-0 right-0 w-[120px] h-auto md:w-[150px] lg:w-[280px] 2xl:w-[350px] max-w-full" // Responsive sizing
+            priority // Prioritize loading if it's visible early
+            draggable={false}
+          />
+        </div>
 
           {/* Navigation Button */}
           <div className="w-full flex justify-center lg:justify-end mt-6 md:mt-0 ">
@@ -164,6 +165,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
           alt="Stylized avatar character 2"
           className="absolute bottom-0 left-0 z-0 md:z-10 w-[250px] h-auto md:w-[300px] lg:w-[400px] xl:w-[500px] md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:left-20 xl:left-10 md:left-0 max-w-full" // Responsive sizing and positioning
           priority // Prioritize loading if it's important LCP
+        draggable={false}
         />
       </section>
     );

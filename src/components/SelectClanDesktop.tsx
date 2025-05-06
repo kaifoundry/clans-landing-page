@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Button from "@/components/Button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import clsx from "clsx";
 import { gsap } from "gsap";
 import { useRouter } from "next/navigation";
@@ -108,7 +108,17 @@ const SelectClan = () => {
         setSelectedCardId(pendingClanId);
         router.push("/CardPage");
       } else {
-        toast.error("Failed to join clan. Please try again.");
+        //Already User joined clan error handling code snippet
+
+        const errorMsg =
+          response?.message || "Something went wrong while joining the clan.";
+        console.warn("⚠️ API returned error message:", errorMsg);
+
+        if (errorMsg.toLowerCase().includes("already")) {
+          toast.error("You have already joined the clan.");
+        } else {
+          toast.error(errorMsg);
+        }
       }
     } catch (error) {
       console.error("❌ Error while calling joinClan API: ", error);
@@ -120,7 +130,10 @@ const SelectClan = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <section className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen">
+    <section
+      className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen"
+      draggable={false}
+    >
       <div className="flex 2xl:gap-x-12 md:gap-x-4 flex-col gap-20 px-8 py-20 flex-grow mx-auto w-full max-w-screen-2xl">
         <div className="text-white">
           <div className="flex gap-x-2 items-center">
@@ -264,6 +277,7 @@ const SelectClan = () => {
               width={385}
               className="object-contain transition-all duration-500 ease-in-out"
               alt="Clan avatar"
+              draggable={false}
             />
           </div>
         )}

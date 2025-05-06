@@ -55,26 +55,28 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
       return <Loader message="Loading please wait..." />;
     }
 
-    return (
-      <section className="relative w-screen h-screen overflow-hidden bg-black flex flex-col justify-between bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center ">
-        {/* Background Avatars */}
-        <Image
-          ref={avatarLeftRef}
-          src="/Images/startRoaring/MobileAvtar1.png"
-          alt="Avatar 1"
-          width={400}
-          height={400}
-          objectFit="cover"
-          className="absolute left-0 bottom-0 w-[260px] h-[90%] z-0 select-none pointer-events-none"
-        />
-        <Image
-          src="/Images/startRoaring/Avtar3.png"
-          alt="Avatar 2"
-          width={300}
-          height={300}
-          objectFit="cover"
-          className="absolute right-0 bottom-0 w-[220px] h-[90%] z-0 select-none pointer-events-none"
-        />
+  return (
+    <section className="relative w-screen h-screen overflow-hidden bg-black flex flex-col justify-between bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center ">
+      {/* Background Avatars */}
+      <Image
+        ref={avatarLeftRef}
+        src="/Images/startRoaring/MobileAvtar1.png"
+        alt="Avatar 1"
+        width={400}
+        height={400}
+        objectFit="cover"
+        className="absolute left-0 bottom-0 w-[260px] h-[90%] z-0 select-none pointer-events-none"
+        draggable={false}
+      />
+      <Image
+        src="/Images/startRoaring/Avtar3.png"
+        alt="Avatar 2"
+        width={300}
+        height={300}
+        objectFit="cover"
+        className="absolute right-0 bottom-0 w-[220px] h-[90%] z-0 select-none pointer-events-none"
+        draggable={false}
+      />
 
         {/* Main Content */}
         <div className="relative z-10 flex flex-col items-center w-full mx-auto px-2 min-h-screen">
