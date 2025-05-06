@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
@@ -14,7 +14,7 @@ interface ReferralContextType {
 
 const ReferralContext = createContext<ReferralContextType | undefined>(undefined);
 
-export function ReferralProvider({ children }: { children: ReactNode }) {
+function ReferralProviderContent({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -78,6 +78,16 @@ export function ReferralProvider({ children }: { children: ReactNode }) {
     <ReferralContext.Provider value={{ handleReferralCode, getAuthUrl, isLoading, setIsLoading }}>
       {children}
     </ReferralContext.Provider>
+  );
+}
+
+export function ReferralProvider({ children }: { children: ReactNode }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReferralProviderContent>
+        {children}
+      </ReferralProviderContent>
+    </Suspense>
   );
 }
 
