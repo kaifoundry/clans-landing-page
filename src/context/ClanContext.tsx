@@ -38,6 +38,32 @@ export function ClanProvider({ children }: { children: ReactNode }) {
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const router = useRouter();
 
+  // Initialize selectedCardId from localStorage
+  useEffect(() => {
+    try {
+      const storedCardId = localStorage.getItem('selectedCardId');
+      if (storedCardId) {
+        setSelectedCardId(storedCardId);
+      }
+    } catch (err) {
+      console.error('Error reading from localStorage:', err);
+    }
+  }, []);
+
+  // Custom setter function to update both state and localStorage
+  const handleSetSelectedCardId = (id: string | null) => {
+    setSelectedCardId(id);
+    try {
+      if (id) {
+        localStorage.setItem('selectedCardId', id);
+      } else {
+        localStorage.removeItem('selectedCardId');
+      }
+    } catch (err) {
+      console.error('Error saving to localStorage:', err);
+    }
+  };
+
   const fetchClans = async () => {
     try {
       setLoading(true);
@@ -72,7 +98,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       console.log('data',data)
       if (!res.ok) {
         if (data.message?.toLowerCase().includes('already a participant')) {
-          setSelectedCardId(joinData.clanId);
+          handleSetSelectedCardId(joinData.clanId);
           router.push('/cardPage');
           return true;
         }
@@ -103,7 +129,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         fetchClans,
         joinClan: handleJoinClan,
         selectedCardId,
-        setSelectedCardId,
+        setSelectedCardId: handleSetSelectedCardId,
       }}
     >
       {children}

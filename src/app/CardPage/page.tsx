@@ -62,6 +62,21 @@ function CardPageContent() {
   useEffect(() => {
     console.log("Selected card ID:", selectedCardId);
     console.log("Available card data:", cardData);
+    
+    // If we have card data but no selected card ID, try to get it from localStorage
+    if (!selectedCardId && cardData.length > 0) {
+      try {
+        const storedCardId = localStorage.getItem('selectedCardId');
+        if (storedCardId) {
+          console.log("Found stored card ID in localStorage:", storedCardId);
+          setSelectedCardId(storedCardId);
+          return; // Exit early as the state update will trigger this effect again
+        }
+      } catch (err) {
+        console.error('Error reading from localStorage:', err);
+      }
+    }
+    
     if (selectedCardId !== null) {
       const selected = cardData.find(
         (card) => card.id === selectedCardId.toString()
@@ -77,7 +92,7 @@ function CardPageContent() {
       // If no card is selected but we have card data, set the first card
       setCard(cardData[0]);
     }
-  }, [selectedCardId, cardData]);
+  }, [selectedCardId, cardData, setSelectedCardId]);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");

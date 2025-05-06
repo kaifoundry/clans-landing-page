@@ -57,6 +57,8 @@ const SelectClan = () => {
     if (selectedCardId !== null) {
       const clan = cardData.find((card) => card.id === String(selectedCardId));
       if (clan) {
+        const index = cardData.findIndex(c => c.id === clan.id);
+        setActiveIndex(index !== -1 ? index : null);
         setSelectedCard(clan);
         setAvatarImage(clan.hoverImage);
         setDisplayedTitle(clan.title);
@@ -72,6 +74,7 @@ const SelectClan = () => {
 
   const handleJoinClan = (clanId: string) => {
     setPendingClanId(clanId);
+    setSelectedCardId(clanId);
     const clan = cardData.find((card) => card.id === clanId);
     if (clan) {
       setSelectedCard(clan);
@@ -146,6 +149,7 @@ const SelectClan = () => {
                   setActiveIndex(index);
                   setAvatarImage(clan.hoverImage);
                   setSelectedCard(clan);
+                  setSelectedCardId(clan.id);
                   setDisplayedTitle(clan.title);
                   setDisplayedDescription(clan.description);
                 }
