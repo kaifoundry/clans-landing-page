@@ -38,6 +38,7 @@ function CardPageContent() {
     image: string;
     sideImage: string;
     glowColor: string;
+    // cardCharacter:string;
   }>(null);
 
   const cardRef = useRef<HTMLDivElement>(null);
@@ -65,6 +66,7 @@ function CardPageContent() {
           image: clan.banner || "",
           sideImage: clansData[index]?.hoverImage || "",
           glowColor: clansData[index]?.glowColor || "#6366f1",
+          // cardCharacter: clansData[index]?.cardCharacter || "",
         }))
       : [];
     console.log("Mapped card data:", mappedData);
@@ -320,6 +322,7 @@ function CardPageContent() {
             profilePic={profilePic}
             displayName={userData?.socialHandles?.[0]?.displayName}
             username={userData?.socialHandles?.[0]?.username}
+            // cardCharacter={card.cardCharacter}
           />
         </div>
         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">

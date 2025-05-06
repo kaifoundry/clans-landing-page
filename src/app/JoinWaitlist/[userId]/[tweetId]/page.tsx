@@ -5,6 +5,8 @@ import Button from "@/components/Button";
 import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import ClanLogo from "@/components/ClanLogoMobile";
+import Button1 from "@/components/Button1";
 
 const JoinWaitlist = () => {
   const router = useRouter();
@@ -98,8 +100,8 @@ const JoinWaitlist = () => {
 
   return (
     <section className="md:bg-[url('/Images/joinWaitlist/background.png')] bg-[url('/Images/joinWaitlist/MobileBackground.png')] bg-cover bg-center bg-no-repeat min-h-screen w-full flex flex-col items-center justify-center p-10 md:gap-16 gap-16">
-      <div className="flex items-center mt-10 md:gap-6 gap-4">
-        <Image
+      <div className="flex w-64 h-24 items-center mt-10 md:gap-6 gap-4">
+        {/* <Image
           src="/Images/gettingStarted/Object.png"
           width={100}
           height={100}
@@ -117,7 +119,8 @@ const JoinWaitlist = () => {
           alt="Clans"
           draggable={false}
           priority
-        />
+        /> */}
+        <ClanLogo />
       </div>
 
       <div className="flex flex-col items-center md:gap-6 gap-4">
@@ -125,10 +128,11 @@ const JoinWaitlist = () => {
           Early Roarers get the edge!
         </h1>
 
-        <p className="text-center text-white md:text-2xl">
+        <p className="text-center text-white text-[18px] md:text-2xl font-medium">
           Get early access, exclusive rewards,
           <br />
           and bragging rights.
+          <br />
           <br />
           The battle for the timeline starts soon.
         </p>
@@ -138,8 +142,8 @@ const JoinWaitlist = () => {
         ButtonText={isLoading ? "Processing..." : "Join Waitlist"}
         onClick={handleJoinWaitlist}
         disabled={isLoading || !userData}
-        width={250}
-        height={60}
+        width={270}
+        height={75}
       />
 
       {!userData && (
