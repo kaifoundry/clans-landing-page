@@ -139,7 +139,7 @@ const MainPage = () => {
               width={120}
               height={60}
               alt="Clans"
-              className="w-24 h-12 sm:w-32 sm:h-16 md:w-40 md:h-20 lg:w-48 lg:h-24 xl:w-56 xl:h-28 2xl:w-80 2xl:h-32 object-contain"
+              className="w-24 h-12 sm:w-32 sm:h-16 md:w-40 md:h-20 lg:w-48 lg:h-24 xl:w-66 xl:h-28 2xl:w-80 2xl:h-32 object-contain"
               draggable={false}
             />
           </div>
@@ -194,7 +194,7 @@ const MainPage = () => {
           width={580}
           height={580}
           alt="Avatar Right"
-          className="absolute bottom-0 right-0 w-[300px] md:w-[320px] xl:w-[500px] 2xl:w-[550px] object-contain z-10"
+          className="absolute bottom-0 right-0 w-[300px] md:w-[320px] xl:w-[550px] 2xl:w-[550px] object-contain z-10"
           draggable={false}
         />
       </div>

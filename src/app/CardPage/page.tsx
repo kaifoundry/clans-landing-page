@@ -9,6 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "@/components/Features/Loader";
 import { clansData } from "@/data/selectClanData";
 import ClanCardMobile from "@/components/ClanCardMobile";
+import ClanLogo from "@/components/ClanLogo";
 
 export default function CardPage() {
   return (
@@ -64,10 +65,8 @@ function CardPageContent() {
           title: clan.title,
           description: clan.description,
           image: clan.banner || "",
-          sideImage: clansData[index]?.hoverImage || "",
+          sideImage: clansData[index]?.selectImage || "",
           glowColor: clansData[index]?.glowColor || "#6366f1",
-          cardImage: clansData[index]?.cardImage || "",
-          // cardCharacter: clansData[index]?.cardCharacter || "",
         }))
       : [];
     console.log("Mapped card data:", mappedData);
@@ -125,6 +124,7 @@ function CardPageContent() {
 
   Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/api/referral/redirect/${userData?.referralCode}`;
 
+  console.log("userData:", userData);
   const handleStartRoaring = async () => {
     if (!cardRef.current || !userData?.userId) {
       toast.error("Card reference or user data not available");
@@ -134,39 +134,110 @@ function CardPageContent() {
     try {
       setLoading(true);
 
-      // Generate image using html-to-image
-      const dataUrl = await toPng(cardRef.current, {
-        quality: 0.6,
-        pixelRatio: 1,
-        style: {
-          transform: "scale(1)",
-          transformOrigin: "top left",
-        },
+      // Debug element state
+      const element = cardRef.current;
+      console.log("Element state before capture:", {
+        offsetWidth: element.offsetWidth,
+        offsetHeight: element.offsetHeight,
+        clientWidth: element.clientWidth,
+        clientHeight: element.clientHeight,
+        scrollWidth: element.scrollWidth,
+        scrollHeight: element.scrollHeight,
+        style: element.style.cssText,
+        computedStyle: window.getComputedStyle(element),
+        isVisible: element.offsetParent !== null,
+        display: window.getComputedStyle(element).display,
+        visibility: window.getComputedStyle(element).visibility,
+        opacity: window.getComputedStyle(element).opacity,
       });
 
-      // // Download the image
-      // const link = document.createElement("a");
-      // link.href = dataUrl;
-      // link.download = `clan-card-${card.title
-      //   .toLowerCase()
-      //   .replace(/\s+/g, "-")}.png`;
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
+      // Wait for any animations or transitions to complete
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Try with minimal options first
+      console.log("Attempting first capture with minimal options...");
+      let dataUrl = await toPng(element, {
+        quality: 1.0,
+        pixelRatio: 1,
+        backgroundColor: 'transparent',
+      });
+      
+      console.log("First attempt dataUrl length:", dataUrl?.length || 0);
+      
+      if (!dataUrl || dataUrl.length < 100) {
+        console.log("First attempt failed, trying with more options...");
+        
+        // Try with more options
+        const dataUrl2 = await toPng(element, {
+          quality: 1.0,
+          pixelRatio: 1,
+          backgroundColor: 'transparent',
+          filter: (node: HTMLElement) => {
+            const className = node.className || '';
+            const id = node.id || '';
+            console.log("Processing node:", { className, id });
+            return true;
+          },
+          cacheBust: true,
+          skipAutoScale: false,
+          skipFonts: false,
+        });
+        
+        console.log("Second attempt dataUrl length:", dataUrl2?.length || 0);
+        
+        if (!dataUrl2 || dataUrl2.length < 100) {
+          console.error("Both capture attempts failed. Element state:", {
+            offsetWidth: element.offsetWidth,
+            offsetHeight: element.offsetHeight,
+            isVisible: element.offsetParent !== null,
+            display: window.getComputedStyle(element).display,
+            visibility: window.getComputedStyle(element).visibility,
+            opacity: window.getComputedStyle(element).opacity,
+          });
+          throw new Error("Both image generation attempts failed");
+        }
+        
+        dataUrl = dataUrl2;
+      }
 
       // Convert dataUrl to Blob and File for upload
+      console.log("Converting dataUrl to Blob...");
       const res = await fetch(dataUrl);
       const blob = await res.blob();
+      
+      console.log("Blob details:", {
+        size: blob.size,
+        type: blob.type,
+        lastModified: new Date().toISOString()
+      });
+      
+      if (blob.size === 0) {
+        throw new Error("Generated blob is empty");
+      }
+      
       const file = new File(
         [blob],
         `card-${card?.title?.replace(/\s+/g, "-").toLowerCase()}.png`,
         { type: "image/png" }
       );
+      
+      console.log("File details:", {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified
+      });
+      
+      if (file.size === 0) {
+        throw new Error("Generated file is empty");
+      }
 
       // Upload only the image file
       const formData = new FormData();
       formData.append("media", file);
+      console.log("FormData created with file");
 
+      console.log("Sending upload request to:", `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/upload-media/${userData.userId}`);
       const uploadResponse = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/upload-media/${userData.userId}`,
         {
@@ -178,17 +249,26 @@ function CardPageContent() {
         throw new Error(`Network error during media upload: ${error.message}`);
       });
 
+      console.log("Upload response status:", uploadResponse.status);
+      let responseData;
+      try {
+        responseData = await uploadResponse.json();
+        console.log("Upload response data:", responseData);
+      } catch (error) {
+        console.error("Error parsing response:", error);
+        throw new Error("Failed to parse server response");
+      }
+
       if (!uploadResponse.ok) {
-        const errorData = await uploadResponse.json().catch(() => ({}));
-        console.error("Upload media response error:", errorData);
+        console.error("Upload media response error:", responseData);
         throw new Error(
           `Failed to upload image: ${
-            errorData.message || uploadResponse.statusText
+            responseData.message || uploadResponse.statusText
           }`
         );
       }
 
-      const uploadResult = await uploadResponse.json();
+      const uploadResult = responseData;
       if (!uploadResult.success || !uploadResult.mediaId) {
         console.error("Upload result error:", uploadResult);
         throw new Error(
@@ -221,20 +301,22 @@ function CardPageContent() {
         return null;
       });
 
-      console.log('Tweet Response Status:', tweetResponse?.status);
-      console.log('Tweet Response OK:', tweetResponse?.ok);
-      
       if (!tweetResponse) {
         console.log('No tweet response received');
         return;
       }
 
-      const tweetResult = await tweetResponse.json().catch((error) => {
+      console.log('Tweet Response Status:', tweetResponse.status);
+      console.log('Tweet Response OK:', tweetResponse.ok);
+      
+      let tweetResult;
+      try {
+        tweetResult = await tweetResponse.json();
+        console.log('Tweet Result:', tweetResult);
+      } catch (error) {
         console.error('Error parsing tweet response:', error);
-        return {};
-      });
-
-      console.log('Tweet Result:', tweetResult);
+        throw new Error('Failed to parse tweet response');
+      }
 
       if (!tweetResponse.ok || !tweetResult.success) {
         console.error('Tweet failed:', {
@@ -295,9 +377,9 @@ function CardPageContent() {
     >
       <Toaster position="top-center" />
       <div className="absolute inset-0 bg-black/60  z-0" />
-      <div className="flex flex-col items-center justify-center  max-w-5xl px-2 py-3 sm:px-5 sm:py-5 relative z-10 w-full mt-5">
-        <h1 className="md:text-2xl text-white font-bold mb-10 text-3xl px-10 sm:px-0 text-center">
-          You are now certified Clans Roarer!
+      <div className="flex flex-col items-center justify-center  max-w-6xl px-2 py-3 sm:px-5 sm:py-5 relative z-10 w-full mt-5">
+        <h1 className="md:text-4xl text-white font-bold mb-10 text-4xl px-10 sm:px-0 text-center">
+          You are now certified <span style={{ color: card.glowColor }}>Clans Roarer!</span>
         </h1>
         <div className="hidden lg:block">
           <ClanCard

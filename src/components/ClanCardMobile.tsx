@@ -154,9 +154,9 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
 
             {/* Right side: main image */}
             <div className="flex items-end justify-end w-full md:w-1/3 relative mt-4 md:mt-0">
-              {cardCharacter && (
+              {sideImage && (
                 <img
-                  src={cardCharacter}
+                  src={sideImage}
                   alt="Side Image"
                   width={340}
                   height={520}

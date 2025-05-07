@@ -131,7 +131,7 @@ const SelectClan = () => {
         <div className="text-white">
           <div className="flex gap-x-2 items-center">
             <div
-              className="h-10 w-2 transition-all duration-300"
+              className="h-10 w-1 transition-all duration-300"
               style={{
                 background: selectedCard?.glowColor || "#6D28D9",
                 boxShadow: selectedCard
@@ -210,6 +210,7 @@ const SelectClan = () => {
                       : "white",
                 }}
               ></div>
+              
 
               <div
                 className="absolute inset-[4px] text-white bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center"
@@ -220,8 +221,9 @@ const SelectClan = () => {
                   transition: "background-image 0.4s ease",
                 }}
               >
-                <h3
-                  className="lg:text-xl md:text-[12px] font-bold text-center px-2 absolute bottom-10"
+              </div>
+              <h3
+                  className="lg:text-xl  font-bold text-center px-2 absolute -bottom-10 right-14"
                   style={{
                     textShadow:
                       "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)",
@@ -229,11 +231,10 @@ const SelectClan = () => {
                 >
                   {clan.title}
                 </h3>
-              </div>
 
               <div
                 className={clsx(
-                  "absolute xl:bottom-[-100px] lg:bottom-[-80px] md:bottom-[-60px] left-0 w-full flex justify-center transition-opacity duration-300  ",
+                  "absolute xl:bottom-[-140px] lg:bottom-[-80px] md:bottom-[-60px] left-0 w-full flex justify-center transition-opacity duration-300  ",
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 )}
               >
@@ -270,6 +271,7 @@ const SelectClan = () => {
             </div>
           ))}
         </div>
+        
 
         {avatarImage && (
           <div className="absolute bottom-0 ease-in-out right-0 z-0">

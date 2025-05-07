@@ -56,7 +56,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
         className="rounded-3xl shadow-2xl flex items-center justify-center relative"
         style={{
           backgroundColor: safeGlowColor,
-          width: "950px",
+          width: "1100px",
           height: "570px",
           maxWidth: "95vw",
           maxHeight: "70vh",
@@ -116,25 +116,17 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
             </div>
           </div>
           {/* Right side: main image */}
-          <div className="flex items-end justify-end w-full md:w-1/3 relative mt-4 md:mt-0">
-            {cardImage && (
+          <div className="flex items-end justify-end w-full relative mt-4 md:mt-0">
+            {sideImage && (
               <img
-                src={cardImage}
+                src={sideImage}
                 alt="Side Image"
                 width={340}
                 height={520}
-                className="h-[280px] w-[200px] md:h-[440px] md:w-[320px] xl:w-[360px] xl:h-[450px] object-contain drop-shadow-lg absolute bottom-0 -right-6 md:mx-auto md:absolute md:bottom-0 md:-right-7"
+                className="absolute bottom-0 right-0 max-h-[95%] max-w-[430px] w-auto h-auto object-contain drop-shadow-lg"
                 loading="eager"
               />
             )}
-            {/* <img
-            src={image}
-            alt="Card Image"
-            width={340}
-            height={520}
-            className="h-[280px] w-[200px] md:h-[440px] md:w-[320px] xl:w-[360px] xl:h-[450px] object-contain drop-shadow-lg absolute bottom-0 -right-6 md:mx-auto md:absolute md:bottom-0 md:-right-7"
-            loading="eager"
-          /> */}
           </div>
         </div>
       </div>
