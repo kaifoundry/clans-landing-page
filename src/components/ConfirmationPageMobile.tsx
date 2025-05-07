@@ -126,7 +126,7 @@ const ConfirmationPage = () => {
         width={300}
         height={400}
         alt="Avatar Left"
-        className="absolute bottom-0 left-0 sm:-left-3 lg:left-0 w-[250px] h-auto md:w-[250px] z-30 pointer-events-none"
+        className="absolute bottom-0 left-0 sm:-left-3 lg:left-0 xxs:w-[250px] w-[200px] h-auto md:w-[250px] z-30 pointer-events-none"
       />
 
       {/* Right avatar */}
@@ -135,15 +135,15 @@ const ConfirmationPage = () => {
         width={300}
         height={400}
         alt="Avatar Right"
-        className="absolute bottom-0 right-0 w-[265px] h-auto md:w-[250px] z-20 pointer-events-none"
+        className="absolute bottom-0 right-0 xxs:w-[265px] w-[200px] h-auto md:w-[250px] z-20 pointer-events-none"
       />
 
-      <div className="relative h-full flex flex-col items-center justify-center text-center px-4 pt-16 pb-32 z-40">
+      <div className="relative h-full flex flex-col items-center justify-center text-center px-4 xxs:pt-16 pt-6 xxs:pb-32 pb-16 z-40">
         <div className="flex items-center justify-center mb-8 w-64 h-24">
           <ClanLogo />
         </div>
 
-        <h1 className="text-2xl leading-tight font-semibold mb-6">
+        <h1 className="text-2xl leading-tight font-semibold xxsmb-6 mb-5">
           You’re officially on the list! 🎉
         </h1>
 
@@ -159,32 +159,32 @@ const ConfirmationPage = () => {
 
         <div className="flex gap-5 relative z-50">
           <Image
-            src="/Images/confirmationPage/twitter.png"
+            src="/Images/confirmationPage/twitter.svg"
             alt="Twitter"
-            width={28}
-            height={28}
-            className="w-10 h-10"
+            width={27}
+            height={27}
+            className="w-7 h-10"
           />
           <Image
-            src="/Images/confirmationPage/discord.png"
+            src="/Images/confirmationPage/discord.svg"
             alt="Discord"
-            width={28}
-            height={28}
-            className="w-10 h-10"
+            width={27}
+            height={27}
+            className="w-7 h-10"
           />
           <Image
-            src="/Images/confirmationPage/whatsapp.png"
+            src="/Images/confirmationPage/whatsapp.svg"
             alt="Whatsapp"
-            width={28}
-            height={28}
-            className="w-10 h-10"
+            width={27}
+            height={27}
+            className="w-7 h-10"
           />
           <Image
-            src="/Images/confirmationPage/telegram.png"
+            src="/Images/confirmationPage/telegram.svg"
             alt="Telegram"
-            width={28}
-            height={28}
-            className="w-10 h-10"
+            width={27}
+            height={27}
+            className="w-7 h-10"
           />
         </div>
       </div>

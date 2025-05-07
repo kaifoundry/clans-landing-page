@@ -135,28 +135,28 @@ const ConfirmationPage = () => {
         {/* Social Icons */}
         <div className="flex gap-6 mb-8">
           <Image
-            src="/Images/confirmationPage/twitter.png"
+            src="/Images/confirmationPage/twitter.svg"
             alt="Twitter"
             width={32}
             height={32}
             className="w-6 sm:w-8"
           />
           <Image
-            src="/Images/confirmationPage/discord.png"
+            src="/Images/confirmationPage/discord.svg"
             alt="Discord"
             width={32}
             height={32}
             className="w-6 sm:w-8"
           />
           <Image
-            src="/Images/confirmationPage/whatsapp.png"
+            src="/Images/confirmationPage/whatsapp.svg"
             alt="Whatsapp"
             width={32}
             height={32}
             className="w-6 sm:w-8"
           />
           <Image
-            src="/Images/confirmationPage/telegram.png"
+            src="/Images/confirmationPage/telegram.svg"
             alt="Telegram"
             width={32}
             height={32}

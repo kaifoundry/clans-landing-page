@@ -111,21 +111,19 @@ export default function MobileMainPage() {
 
         {/* Main Content Section */}
         <div className="relative flex flex-col h-screen">
-          {/* Centered Logo with more margin and larger size for mobile only */}
           <div className="flex flex-col items-center justify-center mt-18 pb-4 md:hidden">
             <div className="mt-0 sm:mt-16 lg:mt-0 w-64 h-24 sm:w-80 sm:h-[86px] flex items-center justify-center">
               <ClanLogoMobile />
             </div>
           </div>
 
-          {/* Avatars and Button Section */}
           <div className="flex justify-between w-full absolute -bottom-[40px] left-0 right-0 h-full pointer-events-none">
             <Image
               src="/Images/gettingStarted/homeleft.svg"
               width={500}
               height={550}
               alt="avtar1"
-              className="z-1 absolute left-0 sm:left-1 lg:left-0   -bottom-10 xs:-bottom-[40px] w-[220px] h-[600px] sm:w-[270px] xxs:w-[300px] sm:h-[730px] object-contain scale-105"
+              className="z-1 absolute left-0 sm:left-1 lg:left-0   -bottom-10 xs:-bottom-[40px] sm:-bottom-[55px] xxs:-bottom-[89px]  w-[220px] h-[600px] sm:w-[220px] xxs:w-[220px] sm:h-[660px] object-contain scale-105"
               draggable={false}
             />
             <Image
@@ -133,7 +131,7 @@ export default function MobileMainPage() {
               width={400}
               height={600}
               alt="avtar2"
-              className="absolute right-0 -bottom-13 sm:-bottom-10 h-[700px] w-[200px] sm:h-[790px] sm:w-[260px]  xxs:w-[260px] object-contain scale-110"
+              className="absolute right-0 -bottom-13 sm:-bottom-10 xxs:-bottom-13 h-[700px] w-[200px] sm:h-[600px] sm:w-[200px]  xxs:w-[200px] xxs:h-[700px]  object-contain scale-110"
               draggable={false}
             />
           </div>
@@ -177,7 +175,7 @@ export default function MobileMainPage() {
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    <span  className="flex items-center justify-center">
+                    <span className="flex items-center justify-center">
                       <span className="pr-1">Authenticating</span>
                       <LuLoaderCircle className="animate-spin" />
                     </span>

@@ -73,14 +73,14 @@ const IntroducingClans = () => {
 
   return (
     <section className="relative main-section flex flex-col items-center gap-2 px-8 py-8 overflow-hidden">
-      <span className="absolute top-4 left-4 w-16 h-8 sm:w-28 sm:h-10 md:w-36 md:h-12 lg:w-44 lg:h-14 xl:w-52 xl:h-16 2xl:w-60 2xl:h-20 z-10">
+      <span className="hidden lg:block    absolute top-4 left-4 w-16 h-8 sm:w-28 sm:h-10 md:w-36 md:h-12 lg:w-44 lg:h-14 xl:w-52 xl:h-16 2xl:w-60 2xl:h-20 z-10">
         <ClanLogo />
       </span>
       <h1 className="text-[28px] md:text-4xl lg:text-5xl font-bold">
         Introducing Clans
       </h1>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4 p-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 xxs:gap-x-8 gap-x-16 gap-y-4 p-8">
         {cardData.map((card, index) => (
           <div
             key={card.id}
