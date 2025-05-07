@@ -58,7 +58,7 @@ export default function Button({
         <path
           d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
           className={clsx(
-            "fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300",
+            "fill-black group-hover:fill-[rgba(212,0,165,0.16)] opacity-80 transition-colors duration-300",
             disabled && "group-hover:fill-black"
           )}
         />

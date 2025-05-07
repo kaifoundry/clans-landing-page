@@ -147,7 +147,7 @@ const MainPage = () => {
           <div className="mx-auto z-10 flex items-center justify-center">
             <button
               onClick={openModal}
-              className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full  min-h-[40px] lg:w-[280px] lg:h-[70px] md:w-[200px] md:h-[50px]"
+              className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full  min-h-[40px] lg:w-[280px] lg:h-[70px] md:w-[307px] md:h-[79px]"
             >
               <svg
                 width="100%"
@@ -160,7 +160,7 @@ const MainPage = () => {
               >
                 <path
                   d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-                  className="fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300"
+                  className="fill-black group-hover:fill-[rgba(212,0,165,0.16)] transition-colors duration-300"
                 />
                 <path
                   d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
@@ -184,7 +184,7 @@ const MainPage = () => {
           width={550}
           height={550}
           alt="Avatar Left"
-          className="absolute bottom-0 left-0 w-[300px] md:w-[350px] xl:w-[500px] 2xl:w-[540px] object-contain z-10"
+          className="absolute bottom-0 left-0 w-[300px] md:w-[350px] xl:w-[530px] 2xl:w-[540px] object-contain z-10"
           draggable={false}
         />
 

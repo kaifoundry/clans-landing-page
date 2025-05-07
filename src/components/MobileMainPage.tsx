@@ -166,7 +166,7 @@ export default function MobileMainPage() {
                 />
               </div>
 
-              <h2 className="text-xl font-bold mb-4 text-black">
+              <h2 className="text-xl font-bold mb-4 text-black font-['Segoe UI']">
                 Clans wants to access your X account
               </h2>
 

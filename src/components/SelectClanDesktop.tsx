@@ -130,7 +130,15 @@ const SelectClan = () => {
       <div className="flex 2xl:gap-x-12 md:gap-x-4 flex-col gap-20 px-8 py-20 flex-grow mx-auto w-full max-w-screen-2xl">
         <div className="text-white">
           <div className="flex gap-x-2 items-center">
-            <div className="h-10 w-2 bg-purple-800"></div>
+            <div
+              className="h-10 w-2 transition-all duration-300"
+              style={{
+                background: selectedCard?.glowColor || "#6D28D9",
+                boxShadow: selectedCard
+                  ? `0 0 16px 4px ${selectedCard.glowColor}, 0 0 32px 8px ${selectedCard.glowColor}66`
+                  : "none",
+              }}
+            ></div>
             <h2 className="lg:text-4xl md:text-2xl font-bold text-white">
               {displayedTitle}
             </h2>
@@ -244,7 +252,7 @@ const SelectClan = () => {
                   >
                     <path
                       d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-                      className="fill-black group-hover:fill-purple-800/40 opacity-80 transition-colors duration-300"
+                      className="fill-black group-hover:fill-[rgba(212,0,165,0.16)] opacity-80 transition-colors duration-300"
                     />
                     <path
                       d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"

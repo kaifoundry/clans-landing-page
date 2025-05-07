@@ -114,14 +114,13 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
           </h2>
         </div>
         {/* Center Card Section */}
-        <div className="z-10 drop-shadow-[10px_10px_5px_rgba(255,255,255,1)] flex items-center justify-center flex-col gap-6 w-full max-w-4xl px-4 md:px-0">
+        <div className="z-10 flex items-center justify-center flex-col gap-6 w-full max-w-4xl px-4 md:px-0">
           <div
-            className="w-full md:w-[450px] md:h-[400px] lg:w-[958px] lg:h-[500px] px-10 py-8 rounded relative bg-gradient-to-br from-black via-black/98 to-black/80 flex flex-col justify-center items-center lg:gap-12 md:gap-5"
+            className="w-full   lg:w-[958px] lg:h-[530px] px-10 py-8 rounded relative flex flex-col justify-center items-center lg:gap-12 md:gap-5"
             style={{
-              overflow: "hidden",
-              // Custom shape using clip-path
-              clipPath:
-                "polygon(2% 8%, 2% 85%, 10% 98%, 96% 98%, 98% 95%, 98% 18%, 90% 3%, 4% 3%, 2% 8%)",
+              backgroundImage: "url('/Images/startRoaring/centerbg.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           >
             {/* Text Content */}
@@ -142,17 +141,16 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
             alt="Stylized avatar character 1"
             width={200} // Base width, adjust className for responsiveness
             height={200} // Base height, adjust className for responsiveness
-            className="absolute bottom-0 right-0 w-[120px] h-auto md:w-[150px] lg:w-[280px] 2xl:w-[350px] max-w-full" // Responsive sizing
+            className="absolute bottom-2 rounded-r-4xl right-5 w-[120px] h-auto md:w-[300px] lg:w-[280px] 2xl:w-[350px] max-w-full" // Responsive sizing
             priority // Prioritize loading if it's visible early
             draggable={false}
           />
         </div>
 
           {/* Navigation Button */}
-          <div className="w-full flex justify-center lg:justify-end mt-6 md:mt-0 ">
+          <div className="w-full lg:w-[958px] flex justify-center lg:justify-end mt-6 md:mt-0">
             <Link href="/introducingClans" prefetch>
-              <Button ButtonText="Start Roaring" width={300} height={80} />{" "}
-              {/* Ensure Button component renders a clickable element */}
+              <Button ButtonText="Start Roaring" width={307} height={79} className="mr-4"/>
             </Link>
           </div>
         </div>

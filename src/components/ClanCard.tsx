@@ -11,6 +11,7 @@ interface ClanCardProps {
   email?: string;
   username?: string;
   displayName?: string;
+  cardImage?: string;
 }
 
 const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
@@ -26,6 +27,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
       email,
       username,
       displayName,
+      cardImage,
     },
     ref
   ) => {
@@ -34,12 +36,13 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
       switch (title.toLowerCase()) {
         case "clan mcbuilder":
           return "rgba(255, 0, 0, 0.5)";
-        case "mchodler":
+        case "clan mchodler":
           return "rgba(128, 0, 128, 0.5)";
-        case "clan mcdegen":
-          return "rgba(0, 255, 0, 0.5)";
-        case "clan mcprivacy":
+        case "clan degen":
           return "rgba(0, 0, 255, 0.5)";
+        case "clan mcprivacy":
+          return "rgba(0, 255, 0, 0.5)";
+          
         default:
           return "rgba(128, 128, 128, 0.5)";
       }
@@ -73,7 +76,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 loading="eager"
               />
               <div className="flex flex-col px-3">
-                <p className="font-semibold text-base md:text-lg text-white">
+                <p className="font-semibold text-base md:text-lg text-white ">
                   {displayName}
                 </p>
                 {username && (
@@ -114,9 +117,9 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
           </div>
           {/* Right side: main image */}
           <div className="flex items-end justify-end w-full md:w-1/3 relative mt-4 md:mt-0">
-            {sideImage && (
+            {cardImage && (
               <img
-                src={sideImage}
+                src={cardImage}
                 alt="Side Image"
                 width={340}
                 height={520}

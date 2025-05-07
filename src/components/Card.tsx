@@ -76,15 +76,16 @@ const Card = ({
 
       {/* Title Below Card */}
       <h3
-        className="text-sm font-semibold text-nowrap text-white text-center"
+        className="text-lg font-semibold text-nowrap text-white text-center"
         style={{
           textShadow: `
     -1px -1px 0 #000,  
      1px -1px 0 #000,
     -1px  1px 0 #000,
      1px  1px 0 #000,  /* black border effect */
-     0 0 3px rgba(255,255,255,0.3),
-     0 0 6px rgba(255,255,255,0.3)
+     0 0 8px #fff,
+     0 0 16px #fff,
+     0 0 10px ${glowColor || 'rgba(255,0,255,0.5)'}
   `,
         }}
       >
