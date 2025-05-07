@@ -42,7 +42,8 @@ function CardPageContent() {
     // cardCharacter:string;
   }>(null);
 
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRefDesktop = useRef<HTMLDivElement>(null);
+  const cardRefMobile = useRef<HTMLDivElement>(null);
 
   const [userData, setUserData] = useState<null | {
     userId: string;
@@ -122,27 +123,39 @@ function CardPageContent() {
 
 
   const handleStartRoaring = async () => {
-    if (!cardRef.current || !userData?.userId) {
-      toast.error("Card reference or user data not available");
+    if (!cardRefDesktop.current && !cardRefMobile.current) {
+      toast.error("Card reference not available");
+      return;
+    }
+
+    if (!userData) {
+      toast.error("User data not available");
       return;
     }
 
     try {
       setLoading(true);
 
-      // Generate image using html-to-image with optimized settings
-      const dataUrl = await toPng(cardRef.current, {
-        quality: 0.8, // Slightly reduced quality for smaller file size
-        pixelRatio: 1.5, // Reduced from 2 to 1.5
+      // Determine which ref to use based on screen size
+      const isMobile = window.innerWidth < 1024;
+      const cardNode = isMobile ? cardRefMobile.current : cardRefDesktop.current;
+      if (!cardNode) {
+        toast.error("Card reference not available");
+        return;
+      }
+      const rect = cardNode.getBoundingClientRect();
+
+      const dataUrl = await toPng(cardNode, {
+        quality: 0.8, // Balanced quality setting
+        pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
         style: {
           transform: "scale(1)",
           transformOrigin: "top left",
         },
-        backgroundColor: "#000000",
-        width: 800, // Reduced from 1200 to 800
-        height: 450, // Maintaining 16:9 aspect ratio
+        backgroundColor: '#181118',
+        width: Math.min(rect.width, 1200), // Cap maximum width
+        height: Math.min(rect.height, 675), // Cap maximum height
         filter: (node) => {
-          // Skip any problematic elements that might increase file size
           const className = node.className || '';
           return !className.includes('toast') && !className.includes('Toaster');
         },
@@ -158,7 +171,7 @@ function CardPageContent() {
       // Ensure the file size is within reasonable limits (1MB)
       if (blob.size > 1024 * 1024) {
         // If still too large, try with even lower quality
-        const reducedDataUrl = await toPng(cardRef.current, {
+        const reducedDataUrl = await toPng(cardNode, {
           quality: 0.6,
           pixelRatio: 1,
           style: {
@@ -166,8 +179,8 @@ function CardPageContent() {
             transformOrigin: "top left",
           },
           backgroundColor: "#000000",
-          width: 600,
-          height: 338,
+          width: rect.width,
+          height: rect.height,
           filter: (node) => {
             const className = node.className || '';
             return !className.includes('toast') && !className.includes('Toaster');
@@ -300,7 +313,7 @@ function CardPageContent() {
         </h1>
         <div className="hidden lg:block">
           <ClanCard
-            ref={cardRef}
+            ref={cardRefDesktop}
             glowColor={card.glowColor}
             title={card.title}
             description={card.description}
@@ -313,7 +326,7 @@ function CardPageContent() {
         </div>
         <div className="block lg:hidden">
           <ClanCardMobile
-            ref={cardRef}
+            ref={cardRefMobile}
             glowColor={card.glowColor}
             title={card.title}
             description={card.description}

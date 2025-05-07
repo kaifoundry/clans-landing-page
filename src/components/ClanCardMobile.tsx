@@ -50,30 +50,32 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     const getSafeColor = () => {
       switch (title.toLowerCase()) {
         case "clan mcbuilder":
-          return "rgba(100, 0, 0, 0.4)"; // Very dark red
-        case "mchodler":
-          return "rgba(100, 0, 100, 0.4)"; // Very dark magenta
-        case "clan mcdegen":
-          return "rgba(0, 100, 0, 0.4)"; // Very dark green
+          return "rgba(255, 0, 0, 1)";
+        case "clan mchodler":
+          return "rgba(128, 0, 128, 0.5)";
+        case "clan degen":
+          return "rgba(0, 0, 255, 0.5)";
         case "clan mcprivacy":
-          return "rgba(0, 0, 100, 0.4)"; // Very dark blue
+          return "rgba(0, 255, 0, 0.5)";
+          
         default:
-          return "rgba(32, 32, 32, 0.4)"; // Very dark gray
+          return "rgba(128, 128, 128, 0.5)";// Very dark gray
       }
     };
 
     const getSafeColorBorder = () => {
       switch (title.toLowerCase()) {
         case "clan mcbuilder":
-          return "rgba(255, 0, 0, 0.7)";
-        case "mchodler":
-          return "rgba(255, 0, 255, 0.7)";
-        case "clan mcdegen":
-          return "rgba(0, 255, 0, 0.7)";
+          return "rgba(255, 0, 0, 1)";
+        case "clan mchodler":
+          return "rgba(128, 0, 128, 0.5)";
+        case "clan degen":
+          return "rgba(0, 0, 255, 0.5)";
         case "clan mcprivacy":
-          return "rgba(0, 0, 255, 0.7)";
+          return "rgba(0, 255, 0, 0.5)";
+          
         default:
-          return "rgba(128, 128, 128, 0.7)";
+          return "rgba(128, 128, 128, 0.5)";
       }
     };
 
@@ -83,19 +85,27 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     return (
       <div
         ref={ref}
-        className="rounded-3xl shadow-2xl flex items-center justify-center relative"
+        className="rounded-3xl shadow-2xl flex items-center justify-center relative bg-[url('/Images/cardPage/cardBg.png')] border-2"
         style={{
-          backgroundColor: safeGlowColor,
           width: "320px",
           height: "360px",
           maxWidth: "95vw",
           maxHeight: "70vh",
-          boxShadow: ` 0 0 5px 2px ${safeColorBorder}`,
+          zIndex: 1,
+          borderColor: safeColorBorder,
         }}
       >
         {/* Background image and black translucent overlay */}
-        <div className="absolute inset-3 rounded-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center z-0" />
+        <div className="absolute inset-3 rounded-2xl overflow-hidden " 
+         style={{
+          boxShadow: `0 0 40px 10px ${safeGlowColor}`,
+          backgroundColor: safeGlowColor,
+          opacity: 0.5,
+          zIndex: 2
+        }}>
+          <div className="absolute inset-0 bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center " 
+          style={{ zIndex: 3 }}
+          />
           <div className="absolute inset-0 bg-black/70 bg-opacity-90 z-10" />
           <div className="relative z-20 flex flex-col md:flex-row justify-between items-stretch h-full">
             {/* Left side: user info and text */}
@@ -160,7 +170,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   alt="Side Image"
                   width={340}
                   height={520}
-                  className="h-[280px] w-[200px] md:h-[440px] md:w-[320px] xl:w-[360px] xl:h-[450px] object-contain drop-shadow-lg absolute bottom-0 -right-6 md:mx-auto md:absolute md:bottom-0 md:-right-7"
+                  className="h-[280px] w-[200px] md:h-[440px] md:w-[320px] xl:w-[360px] xl:h-[450px] object-contain drop-shadow-lg absolute -bottom-16 -right-6 md:mx-auto md:absolute md:bottom-0 md:-right-7"
                   loading="eager"
                 />
               )}

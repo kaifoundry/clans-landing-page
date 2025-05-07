@@ -35,9 +35,9 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     const getSafeColor = () => {
       switch (title.toLowerCase()) {
         case "clan mcbuilder":
-          return "rgba(255, 0, 0, 0.5)";
+          return "rgba(255, 0, 0, 1.5)";
         case "clan mchodler":
-          return "rgba(128, 0, 128, 0.5)";
+          return "rgba(128, 0, 128, 1.5)";
         case "clan degen":
           return "rgba(0, 0, 255, 0.5)";
         case "clan mcprivacy":
@@ -53,17 +53,30 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     return (
       <div
         ref={ref}
-        className="rounded-3xl shadow-2xl flex items-center justify-center relative"
+        className="rounded-3xl shadow-2xl flex items-center justify-center relative bg-[url('/Images/cardPage/cardBg.png')] border-2"
         style={{
-          backgroundColor: safeGlowColor,
           width: "1100px",
           height: "570px",
           maxWidth: "95vw",
           maxHeight: "70vh",
-          boxShadow: `0 0 40px 10px ${safeGlowColor}`,
+          zIndex: 1,
+          borderColor: safeGlowColor,
+
         }}
       >
-        <div className="absolute inset-5 rounded-2xl bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center flex flex-col md:flex-row justify-between items-stretch">
+        <div 
+          className="absolute inset-0 rounded-3xl "
+          style={{
+            boxShadow: `0 0 40px 10px ${safeGlowColor}`,
+            backgroundColor: safeGlowColor,
+            opacity: 0.5,
+            zIndex: 2
+          }}
+        />
+        <div 
+          className="absolute inset-5 rounded-2xl bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center flex flex-col md:flex-row justify-between items-stretch "
+          style={{ zIndex: 3 }}
+        >
           {/* Left side: user info and text */}
           <div className="flex flex-col justify-between p-4 md:p-8 gap-y-4 md:gap-y-6 w-full md:w-2/3 min-w-[280px] md:min-w-[320px]">
             <div className="flex flex-row items-center mb-4 md:mb-0">

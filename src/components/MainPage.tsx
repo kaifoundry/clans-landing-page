@@ -122,14 +122,14 @@ const MainPage = () => {
         <div className="flex items-center justify-center gap-10 z-20 flex-col">
           <div className="flex gap-4 items-center justify-center">
             <Image
-              src="/Images/gettingStarted/Object.png"
+              src="/Images/gettingStarted/clansLogo.svg"
               width={80}
               height={80}
               alt="Object1"
-              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-50 object-contain"
+              className="w-20 h-20 sm:w-80 sm:h-24 md:w-100 md:h-32 lg:w-120 lg:h-40 xl:w-130 xl:h-48 2xl:w-150 2xl:h-56 object-contain"
               draggable={false}
             />
-            <Image
+            {/* <Image
               src="/Images/gettingStarted/Line.png"
               width={1}
               height={1}
@@ -144,7 +144,7 @@ const MainPage = () => {
               alt="Clans"
               className="w-24 h-12 sm:w-32 sm:h-16 md:w-40 md:h-20 lg:w-48 lg:h-24 xl:w-66 xl:h-28 2xl:w-80 2xl:h-32 object-contain"
               draggable={false}
-            />
+            /> */}
           </div>
 
           <div className="mx-auto z-10 flex items-center justify-center">
