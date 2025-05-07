@@ -93,7 +93,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
           <div
             className="card-container  relative text-white   w-full max-w-[370px] flex flex-col gap-4   mx-auto"
             style={{
-              backgroundImage: "url('/Images/cardPage/cardVecor.svg')",
+              backgroundImage: "url('/Images/cardPage/cardVecor.png')",
               backgroundSize: "contain",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
