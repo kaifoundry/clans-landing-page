@@ -19,6 +19,7 @@ interface UserData {
 
 const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
   const avatarLeftRef = useRef(null);
+   const avatarRightRef = useRef(null);
   const { userData, fetchUserData, isLoading } = useUser();
 
   // Memoize the fetchUserData callback
@@ -35,20 +36,47 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
   }, [handleUserDataFetch]);
 
   // GSAP animation effect for the left avatar - only run once
-  useEffect(() => {
-    if (avatarLeftRef.current) {
-      gsap.fromTo(
-        avatarLeftRef.current,
-        { x: "-200", opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1.5,
-          ease: "power3.out",
-        }
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (avatarLeftRef.current) {
+  //     gsap.fromTo(
+  //       avatarLeftRef.current,
+  //       { x: "-200", opacity: 0 },
+  //       {
+  //         x: 0,
+  //         opacity: 1,
+  //         duration: 1.5,
+  //         ease: "power3.out",
+  //       }
+  //     );
+  //   }
+  // }, []);
+   useEffect(() => {
+     if (avatarLeftRef.current) {
+       gsap.fromTo(
+         avatarLeftRef.current,
+         { x: "-200", opacity: 0 },
+         {
+           x: 0,
+           opacity: 1,
+           duration: 1.5,
+           ease: "power3.out",
+         }
+       );
+     }
+
+     if (avatarRightRef.current) {
+       gsap.fromTo(
+         avatarRightRef.current,
+         { x: "200", opacity: 0 },
+         {
+           x: 0,
+           opacity: 1,
+           duration: 1.5,
+           ease: "power3.out",
+         }
+       );
+     }
+   }, []);
 
   // Memoize the main content
   const mainContent = useMemo(() => {
@@ -57,7 +85,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
     }
 
   return (
-    <section className="relative w-screen h-screen overflow-hidden bg-black flex flex-col justify-between bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center ">
+    <section className="relative w-screen h-dvh overflow-hidden bg-black flex flex-col justify-between bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center ">
       {/* Background Avatars */}
       <Image
         ref={avatarLeftRef}
@@ -70,6 +98,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
         draggable={false}
       />
       <Image
+        ref={avatarRightRef}
         src="/Images/startRoaring/Avtar3.png"
         alt="Avatar 2"
         width={300}
