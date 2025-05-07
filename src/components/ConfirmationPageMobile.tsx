@@ -159,28 +159,28 @@ const ConfirmationPage = () => {
 
         <div className="flex gap-5 relative z-50">
           <Image
-            src="/Images/confirmationPage/twitter.png"
+            src="/Images/confirmationPage/twitter.svg"
             alt="Twitter"
             width={28}
             height={28}
             className="w-10 h-10"
           />
           <Image
-            src="/Images/confirmationPage/discord.png"
+            src="/Images/confirmationPage/discord.svg"
             alt="Discord"
             width={28}
             height={28}
             className="w-10 h-10"
           />
           <Image
-            src="/Images/confirmationPage/whatsapp.png"
+            src="/Images/confirmationPage/whatsapp.svg"
             alt="Whatsapp"
             width={28}
             height={28}
             className="w-10 h-10"
           />
           <Image
-            src="/Images/confirmationPage/telegram.png"
+            src="/Images/confirmationPage/telegram.svg"
             alt="Telegram"
             width={28}
             height={28}
