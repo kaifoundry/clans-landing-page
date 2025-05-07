@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { clansData } from "@/data/selectClanData";
 import Loader from "./Features/Loader";
 import { useClan } from "@/context/ClanContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 const SelectClan = () => {
   const router = useRouter();
@@ -140,11 +141,11 @@ const SelectClan = () => {
               }}
             ></div>
             <h2 className="lg:text-4xl md:text-2xl font-bold text-white">
-              {displayedTitle}
+              {displayedTitle} 
             </h2>
           </div>
           <p className="lg:text-3xl md:text-xl my-2 text-white">
-            "{displayedDescription}"
+            {displayedDescription}
           </p>
         </div>
 
@@ -288,48 +289,36 @@ const SelectClan = () => {
       </div>
 
       {/* Confirmation Modal */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Backdrop with blur effect */}
-          <div
-            className="absolute inset-0 bg-black/50  bg-opacity-50 backdrop-blur-xs"
-            onClick={() => setModalOpen(false)}
-          />
-
-          {/* Modal Content */}
-          <div
-            className={`relative bg-black  border border- text-white p-6 rounded-lg w-full max-w-md mx-4 z-10`}
+      <AnimatePresence>
+        {modalOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            <h3 className="text-xl font-bold mb-4 text-center">
-              Clan Confirmation
-            </h3>
-
-            <div className="mb-6 text-center">
-              <p className="mb-4">Are you confirm you want to choose</p>
-              <p className="text-xl font-bold text-purple-400">
-                {selectedCard?.title}
-              </p>
-              <p className="mt-2 italic">"{selectedCard?.description}"</p>
-            </div>
-
-            <div className="flex justify-center gap-4">
-              <Button
-                ButtonText="No, go back"
-                onClick={() => setModalOpen(false)}
-                width={130}
-                height={40}
-                className="bg-gray-700 hover:bg-gray-600"
-              />
-              <Button
-                ButtonText="Yes"
-                onClick={handleConfirmJoin}
-                width={130}
-                height={40}
-              />
-            </div>
-          </div>
-        </div>
-      )}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-xs" onClick={() => setModalOpen(false)} />
+            <motion.div
+              className="relative bg-black text-white p-6 rounded-lg w-full max-w-md mx-4 z-10 border border-white/10"
+              initial={{ y: 50, opacity: 0, scale: 0.9 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 50, opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h3 className="text-xl font-bold mb-4 text-center">Clan Confirmation</h3>
+              <div className="mb-6 text-center">
+                <p className="mb-4">Are you sure you want to choose</p>
+                <p className="text-xl font-bold text-purple-400">{selectedCard?.title}</p>
+                <p className="mt-2 italic">"{selectedCard?.description}"</p>
+              </div>
+              <div className="flex justify-center gap-4">
+                <Button ButtonText="No, go back" onClick={() => setModalOpen(false)} width={130} height={40} className="bg-gray-700 hover:bg-gray-600" />
+                <Button ButtonText="Yes" onClick={handleConfirmJoin} width={130} height={40} />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {loading && <Loader message="Loading Clans Please wait..." />}
     </section>
