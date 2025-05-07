@@ -69,14 +69,10 @@ function CardPageContent() {
           glowColor: clansData[index]?.glowColor || "#6366f1",
         }))
       : [];
-    console.log("Mapped card data:", mappedData);
     return mappedData;
   }, [clans]);
 
   useEffect(() => {
-    console.log("Selected card ID:", selectedCardId);
-    console.log("Available card data:", cardData);
-    
     // If we have card data but no selected card ID, try to get it from localStorage
     if (!selectedCardId && cardData.length > 0) {
       try {
@@ -124,7 +120,7 @@ function CardPageContent() {
 
   Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/api/referral/redirect/${userData?.referralCode}`;
 
-  console.log("userData:", userData);
+
   const handleStartRoaring = async () => {
     if (!cardRef.current || !userData?.userId) {
       toast.error("Card reference or user data not available");
@@ -134,146 +130,97 @@ function CardPageContent() {
     try {
       setLoading(true);
 
-      // Debug element state
-      const element = cardRef.current;
-      console.log("Element state before capture:", {
-        offsetWidth: element.offsetWidth,
-        offsetHeight: element.offsetHeight,
-        clientWidth: element.clientWidth,
-        clientHeight: element.clientHeight,
-        scrollWidth: element.scrollWidth,
-        scrollHeight: element.scrollHeight,
-        style: element.style.cssText,
-        computedStyle: window.getComputedStyle(element),
-        isVisible: element.offsetParent !== null,
-        display: window.getComputedStyle(element).display,
-        visibility: window.getComputedStyle(element).visibility,
-        opacity: window.getComputedStyle(element).opacity,
+      // Generate image using html-to-image with optimized settings
+      const dataUrl = await toPng(cardRef.current, {
+        quality: 0.8, // Slightly reduced quality for smaller file size
+        pixelRatio: 1.5, // Reduced from 2 to 1.5
+        style: {
+          transform: "scale(1)",
+          transformOrigin: "top left",
+        },
+        backgroundColor: "#000000",
+        width: 800, // Reduced from 1200 to 800
+        height: 450, // Maintaining 16:9 aspect ratio
+        filter: (node) => {
+          // Skip any problematic elements that might increase file size
+          const className = node.className || '';
+          return !className.includes('toast') && !className.includes('Toaster');
+        },
       });
-
-      // Wait for any animations or transitions to complete
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Try with minimal options first
-      console.log("Attempting first capture with minimal options...");
-      let dataUrl = await toPng(element, {
-        quality: 1.0,
-        pixelRatio: 1,
-        backgroundColor: 'transparent',
-      });
-      
-      console.log("First attempt dataUrl length:", dataUrl?.length || 0);
-      
-      if (!dataUrl || dataUrl.length < 100) {
-        console.log("First attempt failed, trying with more options...");
-        
-        // Try with more options
-        const dataUrl2 = await toPng(element, {
-          quality: 1.0,
-          pixelRatio: 1,
-          backgroundColor: 'transparent',
-          filter: (node: HTMLElement) => {
-            const className = node.className || '';
-            const id = node.id || '';
-            console.log("Processing node:", { className, id });
-            return true;
-          },
-          cacheBust: true,
-          skipAutoScale: false,
-          skipFonts: false,
-        });
-        
-        console.log("Second attempt dataUrl length:", dataUrl2?.length || 0);
-        
-        if (!dataUrl2 || dataUrl2.length < 100) {
-          console.error("Both capture attempts failed. Element state:", {
-            offsetWidth: element.offsetWidth,
-            offsetHeight: element.offsetHeight,
-            isVisible: element.offsetParent !== null,
-            display: window.getComputedStyle(element).display,
-            visibility: window.getComputedStyle(element).visibility,
-            opacity: window.getComputedStyle(element).opacity,
-          });
-          throw new Error("Both image generation attempts failed");
-        }
-        
-        dataUrl = dataUrl2;
-      }
 
       // Convert dataUrl to Blob and File for upload
-      console.log("Converting dataUrl to Blob...");
       const res = await fetch(dataUrl);
-      const blob = await res.blob();
+      let blob = await res.blob();
       
-      console.log("Blob details:", {
-        size: blob.size,
-        type: blob.type,
-        lastModified: new Date().toISOString()
-      });
-      
-      if (blob.size === 0) {
-        throw new Error("Generated blob is empty");
+      // Log the size for debugging
+      console.log("Generated image size:", Math.round(blob.size / 1024), "KB");
+
+      // Ensure the file size is within reasonable limits (1MB)
+      if (blob.size > 1024 * 1024) {
+        // If still too large, try with even lower quality
+        const reducedDataUrl = await toPng(cardRef.current, {
+          quality: 0.6,
+          pixelRatio: 1,
+          style: {
+            transform: "scale(1)",
+            transformOrigin: "top left",
+          },
+          backgroundColor: "#000000",
+          width: 600,
+          height: 338,
+          filter: (node) => {
+            const className = node.className || '';
+            return !className.includes('toast') && !className.includes('Toaster');
+          },
+        });
+
+        const reducedRes = await fetch(reducedDataUrl);
+        const reducedBlob = await reducedRes.blob();
+        console.log("Reduced image size:", Math.round(reducedBlob.size / 1024), "KB");
+        
+        if (reducedBlob.size > 1024 * 1024) {
+          throw new Error("Unable to generate image within size limits");
+        }
+        
+        blob = reducedBlob;
       }
-      
+
       const file = new File(
         [blob],
         `card-${card?.title?.replace(/\s+/g, "-").toLowerCase()}.png`,
         { type: "image/png" }
       );
-      
-      console.log("File details:", {
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified
-      });
-      
-      if (file.size === 0) {
-        throw new Error("Generated file is empty");
-      }
 
-      // Upload only the image file
+      // Upload to server
       const formData = new FormData();
       formData.append("media", file);
-      console.log("FormData created with file");
 
-      console.log("Sending upload request to:", `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/upload-media/${userData.userId}`);
+      console.log("Attempting to upload image...");
+      
       const uploadResponse = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/upload-media/${userData.userId}`,
         {
           method: "POST",
           body: formData,
+          headers: {
+            Accept: "application/json",
+          },
         }
-      ).catch((error) => {
-        console.error("Upload media fetch error:", error);
-        throw new Error(`Network error during media upload: ${error.message}`);
-      });
-
-      console.log("Upload response status:", uploadResponse.status);
-      let responseData;
-      try {
-        responseData = await uploadResponse.json();
-        console.log("Upload response data:", responseData);
-      } catch (error) {
-        console.error("Error parsing response:", error);
-        throw new Error("Failed to parse server response");
-      }
+      );
 
       if (!uploadResponse.ok) {
-        console.error("Upload media response error:", responseData);
-        throw new Error(
-          `Failed to upload image: ${
-            responseData.message || uploadResponse.statusText
-          }`
-        );
+        const errorText = await uploadResponse.text();
+        console.error("Upload failed with status:", uploadResponse.status);
+        console.error("Error response:", errorText);
+        throw new Error(`Failed to upload image: ${uploadResponse.status} ${errorText}`);
       }
 
-      const uploadResult = responseData;
+      const uploadResult = await uploadResponse.json();
+      console.log("Upload result:", uploadResult);
+      
       if (!uploadResult.success || !uploadResult.mediaId) {
-        console.error("Upload result error:", uploadResult);
-        throw new Error(
-          "Media upload failed or media ID not found in response"
-        );
+        console.error("Media upload failed:", uploadResult);
+        throw new Error(`Media upload failed: ${JSON.stringify(uploadResult)}`);
       }
 
       // Post tweet
@@ -284,73 +231,43 @@ function CardPageContent() {
         referralCode: userData.referralCode || "",
       };
 
-      console.log("Sending tweet data:", tweetData);
-
+      console.log("Attempting to post tweet...");
       const tweetResponse = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(tweetData),
         }
-      ).catch((error) => {
-        console.error("Tweet fetch error:", error);
-        toast.error(`Network error: ${error.message}`);
-        return null;
-      });
+      );
 
-      if (!tweetResponse) {
-        console.log('No tweet response received');
-        return;
+      if (!tweetResponse.ok) {
+        const errorText = await tweetResponse.text();
+        console.error("Tweet failed with status:", tweetResponse.status);
+        console.error("Error response:", errorText);
+        throw new Error(`Failed to post tweet: ${tweetResponse.status} ${errorText}`);
       }
 
-      console.log('Tweet Response Status:', tweetResponse.status);
-      console.log('Tweet Response OK:', tweetResponse.ok);
+      const tweetResult = await tweetResponse.json();
+      console.log("Tweet result:", tweetResult);
       
-      let tweetResult;
-      try {
-        tweetResult = await tweetResponse.json();
-        console.log('Tweet Result:', tweetResult);
-      } catch (error) {
-        console.error('Error parsing tweet response:', error);
-        throw new Error('Failed to parse tweet response');
+      if (!tweetResult.tweetId && !tweetResult.tweetData?.tweetId) {
+        console.error("No tweet ID received:", tweetResult);
+        throw new Error(`No tweet ID received: ${JSON.stringify(tweetResult)}`);
       }
 
-      if (!tweetResponse.ok || !tweetResult.success) {
-        console.error('Tweet failed:', {
-          status: tweetResponse.status,
-          statusText: tweetResponse.statusText,
-          result: tweetResult
-        });
-        toast.error(
-          `Failed to post tweet: ${
-            tweetResult?.message || tweetResponse.statusText
-          }`
-        );
-        return;
-      }
+      // Save tweet data
+      localStorage.setItem(
+        "tweetData",
+        JSON.stringify({
+          tweetId: tweetResult.tweetId || tweetResult.tweetData?.tweetId,
+          userId: userData.userId,
+        })
+      );
 
-      // Save tweet data to localStorage
-      if (tweetResult.tweetId || tweetResult.tweetData?.tweetId) {
-        const tweetId = tweetResult.tweetId || tweetResult.tweetData?.tweetId;
-        console.log('Tweet successful, saving data:', {
-          tweetId: tweetId,
-          userId: userData.userId
-        });
-        localStorage.setItem(
-          "tweetData",
-          JSON.stringify({
-            tweetId: tweetId,
-            userId: userData.userId,
-          })
-        );
-        setTweetPosted(true);
-        toast.success("Tweet posted successfully!");
-      } else {
-        console.error('Tweet response missing required data:', tweetResult);
-      }
+      setTweetPosted(true);
+      toast.success("Tweet posted successfully!");
+
     } catch (error: any) {
       console.error("Error in handleStartRoaring:", error);
       toast.error(error.message || "Failed to complete the process");
@@ -405,7 +322,6 @@ function CardPageContent() {
             profilePic={profilePic}
             displayName={userData?.socialHandles?.[0]?.displayName}
             username={userData?.socialHandles?.[0]?.username}
-            // cardCharacter={card.cardCharacter}
           />
         </div>
         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">
@@ -430,287 +346,3 @@ function CardPageContent() {
     </section>
   );
 }
-
-// "use client";
-
-// import Button from "@/components/Button";
-// import { useEffect, useState, useRef, useMemo, Suspense } from "react";
-// import { useClan } from "@/context/ClanContext";
-// import { toPng } from "html-to-image";
-// import ClanCard from "@/components/ClanCard";
-// import toast, { Toaster } from "react-hot-toast";
-// import Loader from "@/components/Features/Loader";
-// import { clansData } from "@/data/selectClanData";
-
-// export default function CardPage() {
-//   return (
-//     <Suspense fallback={<Loader message="Loading your selected Clan please wait..." />}>
-//       <CardPageContent />
-//     </Suspense>
-//   );
-// }
-
-// function CardPageContent() {
-//   const { clans, loading: clansLoading, error, selectedCardId, setSelectedCardId, joinClan } = useClan();
-//   const [loading, setLoading] = useState(false);
-//   const [tweetPosted, setTweetPosted] = useState(false);
-//   const [card, setCard] = useState<null | {
-//     id: string;
-//     title: string;
-//     description: string;
-//     image: string;
-//     sideImage: string;
-//     glowColor: string;
-//   }>(null);
-
-//   const cardRef = useRef<HTMLDivElement>(null);
-
-//   const [userData, setUserData] = useState<null | {
-//     userId: string;
-//     displayName: string;
-//     referralCode?: string;
-//     socialHandles?: {
-//       username: string;
-//       profilePicture: string;
-//       displayName: string;
-//     }[];
-//   }>(null);
-
-//   const profilePic = userData?.socialHandles?.[0]?.profilePicture;
-
-//   const cardData = useMemo(() => {
-//     console.log("Clans data:", clans);
-//     const mappedData = Array.isArray(clans) ? clans.map((clan, index) => ({
-//       id: clan.clanId,
-//       title: clan.title,
-//       description: clan.description,
-//       image: clan.banner || "",
-//       sideImage: clansData[index]?.hoverImage || "",
-//       glowColor: clansData[index]?.glowColor || "#6366f1"
-//     })) : [];
-//     console.log("Mapped card data:", mappedData);
-//     return mappedData;
-//   }, [clans]);
-
-//   useEffect(() => {
-//     console.log("Selected card ID:", selectedCardId);
-//     console.log("Available card data:", cardData);
-//     if (selectedCardId !== null) {
-//       const selected = cardData.find(
-//         (card) => card.id === selectedCardId.toString()
-//       );
-//       console.log("Selected card:", selected);
-//       if (selected) {
-//         setCard(selected);
-//       } else {
-//         // If no card is found, set the first card as default
-//         setCard(cardData[0]);
-//       }
-//     } else if (cardData.length > 0) {
-//       // If no card is selected but we have card data, set the first card
-//       setCard(cardData[0]);
-//     }
-//   }, [selectedCardId, cardData]);
-
-//   useEffect(() => {
-//     const storedUserData = localStorage.getItem("userData");
-//     if (storedUserData) {
-//       setUserData(JSON.parse(storedUserData));
-//     }
-//   }, []);
-
-//   if (!card || !cardData.length) {
-//     return <Loader message="Loading your selected Clan please wait..." />;
-//   }
-
-//   const tweetContent = `Roar louder. Roar prouder.
-
-// Pick your clan! @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
-
-// Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/${userData?.referralCode}`;
-
-//   const handleStartRoaring = async () => {
-//     if (!cardRef.current || !userData?.userId) {
-//       toast.error("Card reference or user data not available");
-//       return;
-//     }
-
-//     try {
-//       setLoading(true);
-
-//       // Generate image using html-to-image
-//       const dataUrl = await toPng(cardRef.current, {
-//         quality: 0.6,
-//         pixelRatio: 1,
-//         style: {
-//           transform: "scale(1)",
-//           transformOrigin: "top left",
-//         },
-//       });
-
-//       // // Download the image
-//       // const link = document.createElement("a");
-//       // link.href = dataUrl;
-//       // link.download = `clan-card-${card.title
-//       //   .toLowerCase()
-//       //   .replace(/\s+/g, "-")}.png`;
-//       // document.body.appendChild(link);
-//       // link.click();
-//       // document.body.removeChild(link);
-
-//       // Convert dataUrl to Blob and File for upload
-//       const res = await fetch(dataUrl);
-//       const blob = await res.blob();
-//       const file = new File(
-//         [blob],
-//         `card-${card?.title?.replace(/\s+/g, "-").toLowerCase()}.png`,
-//         { type: "image/png" }
-//       );
-
-//       // Upload only the image file
-//       const formData = new FormData();
-//       formData.append("media", file);
-
-//       const uploadResponse = await fetch(
-//         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/upload-media/${userData.userId}`,
-//         {
-//           method: "POST",
-//           body: formData,
-//         }
-//       ).catch((error) => {
-//         console.error("Upload media fetch error:", error);
-//         throw new Error(`Network error during media upload: ${error.message}`);
-//       });
-
-//       if (!uploadResponse.ok) {
-//         const errorData = await uploadResponse.json().catch(() => ({}));
-//         console.error("Upload media response error:", errorData);
-//         throw new Error(
-//           `Failed to upload image: ${
-//             errorData.message || uploadResponse.statusText
-//           }`
-//         );
-//       }
-
-//       const uploadResult = await uploadResponse.json();
-//       if (!uploadResult.success || !uploadResult.mediaId) {
-//         console.error("Upload result error:", uploadResult);
-//         throw new Error(
-//           "Media upload failed or media ID not found in response"
-//         );
-//       }
-
-//       // Post tweet
-//       const tweetData = {
-//         userId: userData.userId,
-//         text: tweetContent,
-//         mediaId: uploadResult.mediaId,
-//         referralCode: userData.referralCode || "",
-//       };
-
-//       console.log("Sending tweet data:", tweetData);
-
-//       const tweetResponse = await fetch(
-//         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet`,
-//         {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(tweetData),
-//         }
-//       ).catch((error) => {
-//         console.error("Tweet fetch error:", error);
-//         toast.error(`Network error: ${error.message}`);
-//         return null;
-//       });
-
-//       if (!tweetResponse) return;
-
-//       const tweetResult = await tweetResponse.json().catch(() => ({}));
-
-//       if (!tweetResponse.ok || !tweetResult.success) {
-//         toast.error(
-//           `Failed to post tweet: ${
-//             tweetResult?.message || tweetResponse.statusText
-//           }`
-//         );
-//         return;
-//       }
-
-//       // Save tweet data to localStorage
-//       if (tweetResult.tweetId && tweetResult.userId) {
-//         localStorage.setItem(
-//           "tweetData",
-//           JSON.stringify({
-//             tweetId: tweetResult.tweetId,
-//             userId: tweetResult.userId,
-//           })
-//         );
-//         setTweetPosted(true);
-//         toast.success("Tweet posted successfully!");
-//       }
-//     } catch (error: any) {
-//       console.error("Error in handleStartRoaring:", error);
-//       toast.error(error.message || "Failed to complete the process");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleRedirect = () => {
-//     const tweetData = JSON.parse(localStorage.getItem("tweetData") || "{}");
-//     window.location.href = `/JoinWaitlist/${userData?.userId || ""}&${tweetData.tweetId || ""}`;
-//   };
-
-//   return (
-//     <section
-//       className="h-screen flex flex-col items-center justify-center bg-black p-2 sm:p-4 overflow-hidden relative"
-//       style={{
-//         backgroundImage: "url('/Images/cardPage/cardBg.png')",
-//         backgroundSize: "cover",
-//         backgroundPosition: "center",
-//       }}
-//     >
-//       <Toaster position="top-center" />
-//       <div className="absolute inset-0 bg-black/40 backdrop-blur-md z-0" />
-//       <div className="flex flex-col items-center justify-center  max-w-5xl mx-auto px-2 py-3 sm:px-5 sm:py-5 relative z-10 w-full ">
-//         <h1 className="md:text-5xl font-bold mb-10 text-3xl px-10 sm:px-0 text-center">
-//           You are now a Certified{" "}
-//           <span className="text-purple-500">Clans Roarer!</span>
-//         </h1>
-
-//         <ClanCard
-//           ref={cardRef}
-//           glowColor={card.glowColor}
-//           title={card.title}
-//           description={card.description}
-//           sideImage={card.sideImage}
-//           userId={userData?.userId || ""}
-//           profilePic={profilePic}
-//           displayName={userData?.socialHandles?.[0]?.displayName}
-//           username={userData?.socialHandles?.[0]?.username}
-//         />
-
-//         <div className="flex flex-col md:flex-row gap-6 items-center justify-center mt-10">
-//           <Button
-//             ButtonText={loading ? "Processing..." : "Start Roaring"}
-//             onClick={handleStartRoaring}
-//             className="px-2 py-1 text-xs"
-//             disabled={loading || tweetPosted}
-//             width={280}
-//             height={60}
-//           />
-//           <Button
-//             ButtonText="Continue"
-//             onClick={handleRedirect}
-//             className="px-2 py-1 text-xs"
-//             width={280}
-//             height={60}
-//             disabled={!tweetPosted}
-//           />
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
