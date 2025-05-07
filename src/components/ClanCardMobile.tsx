@@ -52,11 +52,11 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         case "clan mcbuilder":
           return "rgba(255, 0, 0, 1)";
         case "clan mchodler":
-          return "rgba(128, 0, 128, 0.5)";
+          return "rgba(128, 0, 128, 1)";
         case "clan degen":
-          return "rgba(0, 0, 255, 0.5)";
+          return "rgba(0, 0, 255, 1)";
         case "clan mcprivacy":
-          return "rgba(0, 255, 0, 0.5)";
+          return "rgba(0, 255, 0, 1)";
           
         default:
           return "rgba(128, 128, 128, 0.5)";// Very dark gray
@@ -68,14 +68,14 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         case "clan mcbuilder":
           return "rgba(255, 0, 0, 1)";
         case "clan mchodler":
-          return "rgba(128, 0, 128, 0.5)";
+          return "rgba(128, 0, 128, 1)";
         case "clan degen":
-          return "rgba(0, 0, 255, 0.5)";
+          return "rgba(0, 0, 255,1)";
         case "clan mcprivacy":
-          return "rgba(0, 255, 0, 0.5)";
+          return "rgba(0, 255, 0, 1)";
           
         default:
-          return "rgba(128, 128, 128, 0.5)";
+          return "rgba(128, 128, 128, 1)";
       }
     };
 
@@ -100,13 +100,12 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
          style={{
           boxShadow: `0 0 40px 10px ${safeGlowColor}`,
           backgroundColor: safeGlowColor,
-          opacity: 0.5,
           zIndex: 2
         }}>
           <div className="absolute inset-0 bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center " 
           style={{ zIndex: 3 }}
           />
-          <div className="absolute inset-0 bg-black/70 bg-opacity-90 z-10" />
+          <div className="absolute inset-0 z-10" />
           <div className="relative z-20 flex flex-col md:flex-row justify-between items-stretch h-full">
             {/* Left side: user info and text */}
             <div className=" flex flex-col justify-between p-4 md:p-8 gap-y-4 md:gap-y-6 w-full md:w-2/3 min-w-[280px] md:min-w-[320px]">
@@ -120,15 +119,15 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   loading="eager"
                 />
                 <div className="flex flex-col px-3">
-                  <p className="font-semibold text-base md:text-lg text-white">
+                  <p className="font-semibold text-base md:text-lg text-white/100">
                     {displayName}
                   </p>
                   {username && (
-                    <p className="text-xs md:text-sm text-purple-300 font-medium">
+                    <p className="text-xs md:text-sm text-purple-200 font-medium">
                       @{username}
                     </p>
                   )}
-                  <p className="text-xs md:text-sm text-gray-400">{email}</p>
+                  <p className="text-xs md:text-sm text-gray-200">{email}</p>
                 </div>
               </div>
               <div>
