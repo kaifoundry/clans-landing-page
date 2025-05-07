@@ -158,7 +158,7 @@ const MainPage = () => {
                 viewBox="0 0 309 81"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 left-0 w-full h-full"
+                className="absolute top-0 left-0 w-full h-full opacity-50"
                 preserveAspectRatio="none"
               >
                 <path
@@ -267,7 +267,8 @@ const MainPage = () => {
 
               <div className="text-left border-t border-[#EBEBEB] pt-4">
                 <h3 className="font-bold mb-2 text-sm text-[#141414]">
-                  Things this App can view...
+                  {/* Things this App can view... */}
+                  Permission Required
                 </h3>
                 <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed">
                   <li className="font-[500] text-sm text-[#525252]">
