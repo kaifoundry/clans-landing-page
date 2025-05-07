@@ -123,7 +123,7 @@ function CardPageContent() {
   const tweetContent = `Roar louder. Roar prouder. Pick your clan!
   @CLANS is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
 
-  Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL_FRONTEND}/api/referral/redirect/${userData?.referralCode}`;
+  Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/api/referral/redirect/${userData?.referralCode}`;
 
   const handleStartRoaring = async () => {
     if (!cardRef.current || !userData?.userId) {
