@@ -187,7 +187,7 @@ export default function MobileMainPage() {
 
               <p
                 onClick={closeModal}
-                className="text-base text-[#141414] font-bold cursor-pointer  mb-4"
+                className="text-base text-red-500 font-bold cursor-pointer  mb-4"
               >
                 Cancel
               </p>
