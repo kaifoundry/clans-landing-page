@@ -76,7 +76,8 @@ const IntroducingClans = () => {
       <span className="hidden lg:block    absolute top-4 left-4 w-16 h-8 sm:w-28 sm:h-10 md:w-36 md:h-12 lg:w-44 lg:h-14 xl:w-52 xl:h-16 2xl:w-60 2xl:h-20 z-10">
         <ClanLogo />
       </span>
-      <h1 className="text-[28px] md:text-4xl lg:text-5xl font-bold">
+      {/* <h1 className="text-[28px] md:text-4xl lg:text-5xl font-bold"> */}
+      <h1 className="text-xl lg:text-4xl xl:text-5xl md:text-4xl text-center text-white font-semibold mt-20">
         Introducing Clans
       </h1>
 
