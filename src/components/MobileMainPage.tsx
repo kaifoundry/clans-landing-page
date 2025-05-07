@@ -86,7 +86,7 @@ export default function MobileMainPage() {
 
   return (
     <>
-      <section className="w-full h-screen overflow-hidden">
+      <section className="w-full h-dvh overflow-hidden">
         {/* Mute/Unmute Button */}
         <button
           onClick={handleMuteUnmute}
@@ -123,7 +123,7 @@ export default function MobileMainPage() {
         </div>
 
         {/* Main Content Section */}
-        <div className="relative flex flex-col h-screen">
+        <div className="relative flex flex-col h-dvh">
           <div className="flex flex-col items-center justify-center mt-18 pb-4 md:hidden">
             <div className="mt-0 sm:mt-16 lg:mt-0 w-64 h-24 sm:w-80 sm:h-[86px] flex items-center justify-center">
               <ClanLogoMobile />

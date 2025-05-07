@@ -114,6 +114,14 @@ const ConfirmationPage = () => {
         Your browser does not support the video tag.
       </video>
 
+            <Image
+              src="/Images/gettingStarted/background.png" // Replace with your actual overlay image path
+              alt="Overlay"
+              fill
+              style={{ opacity: 0.33 }}
+              className="absolute top-0 left-0 w-full h-full object-cover z-10 pointer-events-none"
+            />
+
       {/* Black overlay for darkening the whole video */}
       <div className="absolute inset-0 bg-black/60 z-10"></div>
 
