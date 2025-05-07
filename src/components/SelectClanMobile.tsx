@@ -29,6 +29,7 @@ const SelectClan = () => {
     title: string;
     description: string;
     glowColor: string;
+    cardCharacter: string;
   } | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingClanId, setPendingClanId] = useState<string | null>(null);
@@ -43,7 +44,8 @@ const SelectClan = () => {
         image: clanData.image || "",
         hoverImage: clanData.hoverImage || "",
         cardImage: clanData.image || "",
-        glowColor: clanData.glowColor || ""
+        glowColor: clanData.glowColor || "",
+        cardCharacter: clanData.selectImage || "",
       };
     }) : [];
   }, [clans]);
