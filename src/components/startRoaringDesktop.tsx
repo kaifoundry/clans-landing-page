@@ -96,7 +96,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
     return (
       <section className="w-full flex flex-col gap-y-8 items-center justify-center px-6 py-12 h-screen bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center relative overflow-hidden ">
         {/* Clan Logo */}
-        <span className="absolute top-3 left-3 w-14 h-14 xs:w-16 xs:h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 2xl:w-48 2xl:h-48 transition-all duration-300 ease-in-out">
+        <span className="absolute top-10 left-10 w-14 h-14 xs:w-16 xs:h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 2xl:w-48 2xl:h-48 transition-all duration-300 ease-in-out">
           <ClanLogo />
         </span>
         {/* Display the userId (e.g., for debugging or personalization) */}
@@ -109,7 +109,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
         <div className=" z-10">
           {" "}
           {/* Ensure title is above potential overlaps */}
-          <h2 className="text-xl lg:text-4xl xl:text-5xl md:text-4xl text-center text-white font-semibold mt-20">
+          <h2 className="text-xl lg:text-4xl xl:text-5xl md:text-4xl text-center text-white font-bold mt-20">
             Introducing Roar Points
           </h2>
         </div>

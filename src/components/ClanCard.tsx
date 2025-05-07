@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { motion } from "framer-motion";
 
 interface ClanCardProps {
   glowColor: string;
@@ -20,7 +21,6 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
       glowColor,
       title,
       description,
-
       sideImage,
       userId,
       profilePic,
@@ -31,7 +31,6 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     },
     ref
   ) => {
-    // Always use a safe color for html2canvas compatibility
     const getSafeColor = () => {
       switch (title.toLowerCase()) {
         case "clan mcbuilder":
@@ -42,7 +41,6 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
           return "rgba(0, 0, 255, 0.5)";
         case "clan mcprivacy":
           return "rgba(0, 255, 0, 0.5)";
-          
         default:
           return "rgba(128, 128, 128, 0.5)";
       }
@@ -51,8 +49,11 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     const safeGlowColor = getSafeColor();
 
     return (
-      <div
+      <motion.div
         ref={ref}
+        initial={{ opacity: 0, y: -50, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="rounded-3xl shadow-2xl flex items-center justify-center relative bg-[url('/Images/cardPage/cardBg.png')] border-2"
         style={{
           width: "1100px",
@@ -61,20 +62,19 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
           maxHeight: "70vh",
           zIndex: 1,
           borderColor: safeGlowColor,
-
         }}
       >
-        <div 
-          className="absolute inset-0 rounded-3xl "
+        <div
+          className="absolute inset-0 rounded-3xl"
           style={{
             boxShadow: `0 0 40px 10px ${safeGlowColor}`,
             backgroundColor: safeGlowColor,
             opacity: 0.5,
-            zIndex: 2
+            zIndex: 2,
           }}
         />
-        <div 
-          className="absolute inset-5 rounded-2xl bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center flex flex-col md:flex-row justify-between items-stretch "
+        <div
+          className="absolute inset-5 rounded-2xl bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center flex flex-col md:flex-row justify-between items-stretch"
           style={{ zIndex: 3 }}
         >
           {/* Left side: user info and text */}
@@ -89,7 +89,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 loading="eager"
               />
               <div className="flex flex-col px-3">
-                <p className="font-semibold text-base md:text-lg text-white ">
+                <p className="font-semibold text-base md:text-lg text-white">
                   {displayName}
                 </p>
                 {username && (
@@ -107,7 +107,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               >
                 {title}
               </h1>
-              <p className="text-lg md:text-2xl text-white/90">{description}</p>
+              <p className="text-lg md:text-2xl font-semibold text-white/90">{description}</p>
             </div>
             <div className="flex items-center mt-4 gap-2 absolute left-4 bottom-4 z-10 md:static md:mt-4 md:gap-2">
               <img
@@ -128,6 +128,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               />
             </div>
           </div>
+
           {/* Right side: main image */}
           <div className="flex items-end justify-end w-full relative mt-4 md:mt-0">
             {sideImage && (
@@ -142,7 +143,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 );
@@ -150,6 +151,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
 ClanCard.displayName = "ClanCard";
 
 export default ClanCard;
+
 
 // import React, { forwardRef } from "react";
 
