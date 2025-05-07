@@ -11,6 +11,7 @@ interface ReferralContextType {
   getAuthUrl: () => string;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
+  hasReferralCode: () => boolean;
 }
 
 const ReferralContext = createContext<ReferralContextType | undefined>(undefined);
@@ -23,37 +24,27 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  // Handle referral code from URL
-  useEffect(() => {
-    const referralCode = searchParams.get('referralCode');
-    console.log(referralCode);
-    if (referralCode) {
-      fetchReferCode(referralCode);
-    }
-  }, [searchParams]);
-
-  const fetchReferCode = async (referralCode: string) => {
-    try {
-      setReferralLoading(true);
-      setReferralError(null);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/referral/redirect/${referralCode}`);
-      const response = await res.json();
-      if (response.success && Array.isArray(response.data)) {
-        setReferralCode(response.data);
-      } else {
-        setReferralError('Invalid response format from API'); 
-      }
-    } catch (err) {
-      setReferralError(err instanceof Error ? err.message : 'Failed to fetch clans');
-    } finally {
-      setReferralLoading(false);
-    }
+  // Check if there's a valid referral code
+  const hasReferralCode = () => {
+    return !!Cookies.get('referral_code');
   };
+
   // Handle referral code usage after authentication
   const handleReferralCode = async (userId: string) => {
     try {
       const referralCode = Cookies.get('referral_code');
-      if (!referralCode) return;
+      if (!referralCode) {
+        console.log('No referral code found');
+        return;
+      }
+
+      if (!userId) {
+        console.log('No user ID provided');
+        return;
+      }
+
+      setIsLoading(true);
+      setReferralError(null);
 
       const response = await fetch(`${BASE_URL}/api/referral/join_referral`, {
         method: 'POST',
@@ -73,12 +64,18 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       }
 
       // Clear the referral code cookie after successful use
-      Cookies.remove('referral_code');
+      Cookies.remove('referral_code', {
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict'
+      });
       
       toast.success('Referral code applied successfully!');
     } catch (error: any) {
       console.error('Error applying referral code:', error);
       toast.error(error.message || 'Failed to apply referral code');
+      setReferralError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -96,7 +93,13 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ReferralContext.Provider value={{ handleReferralCode, getAuthUrl, isLoading, setIsLoading }}>
+    <ReferralContext.Provider value={{ 
+      handleReferralCode, 
+      getAuthUrl, 
+      isLoading, 
+      setIsLoading,
+      hasReferralCode 
+    }}>
       {children}
     </ReferralContext.Provider>
   );
