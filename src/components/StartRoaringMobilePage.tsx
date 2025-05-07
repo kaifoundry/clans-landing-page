@@ -66,7 +66,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
         width={400}
         height={400}
         objectFit="cover"
-        className="absolute left-0 bottom-0 sm:bottom-12  w-[325px] h-[90%] sm:w-[400px] sm:h-[84%] z-0 select-none pointer-events-none object-cover object-center"
+        className="absolute left-0 bottom-0 sm:bottom-0  w-[325px] h-[90%] sm:w-[310px] sm:h-[84%] z-0 select-none pointer-events-none object-cover object-center"
         draggable={false}
       />
       <Image
@@ -75,7 +75,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
         width={300}
         height={300}
         objectFit="cover"
-        className="absolute right-0 bottom-0 w-[220px] h-[94%] sm:w-[280px] z-1 select-none pointer-events-none"
+        className="absolute right-0 bottom-0 w-[220px] h-[94%] sm:w-[250px] z-1 select-none pointer-events-none"
         draggable={false}
       />
 

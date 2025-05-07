@@ -8,7 +8,7 @@
 @theme {
   --breakpoint-xs: 320px;
   --breakpoint-sm: 390px;
-  --breakpoint-xxs: 405px;
+  --breakpoint-xxs: 400px;
   --breakpoint-mdd: 425px;
   --breakpoint-lg: 768px;
   --breakpoint-2xl: 100rem;
@@ -84,6 +84,21 @@ body {
 
 @media (min-width: 390px) {
   .card-container {
-    height: 70%;
+    height: 85%;
   }
+}
+
+
+/* // scroll line  */
+/* Custom utility to hide scrollbar */
+.scrollbar-hide {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
 }

@@ -227,7 +227,7 @@ const SelectClan = () => {
           ))}
         </div>
 
-        <div className="w-full flex items-center justify-center z-1 mt-8 sm:mt-[100px]">
+        <div className="w-full flex items-center justify-center z-1 mt-8 sm:mt-[37px] lg:mt-8">
           {selectedCard && (
             <button
               className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white"
