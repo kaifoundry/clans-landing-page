@@ -96,7 +96,7 @@ export default function MobileMainPage() {
         <div className="opacity-100">
           <video
             ref={videoRef}
-            preload="auto"
+            preload="metadata"
             autoPlay
             loop
             muted={isMuted}
@@ -107,6 +107,14 @@ export default function MobileMainPage() {
             <source src="/videos/Main.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+          <Image
+            src="/Images/gettingStarted/mobilebackground.png"
+            alt="Overlay"
+            fill
+            style={{ opacity: 0.33 }}
+            className="object-cover z-0 pointer-events-none"
+            priority
+          />
         </div>
 
         {/* Main Content Section */}
