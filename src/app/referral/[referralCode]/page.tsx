@@ -37,7 +37,7 @@ export default function ReferralPage() {
           return;
         }
 
-        const apiUrl = `${apiBaseUrl}/api/referral/redirect/${encodeURIComponent(referralCode)}`;
+        const apiUrl = `${apiBaseUrl}/api/referral/redirect/${referralCode}`;
 
         const response = await fetch(apiUrl, {
           method: 'GET',
