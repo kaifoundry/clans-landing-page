@@ -6,6 +6,12 @@ export async function GET() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   {/* Twitter Card meta tags */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Your Page Title" />
+  <meta name="twitter:description" content="Your page description here" />
+  <meta name="twitter:image" content="https://yourdomain.com/path-to-image.jpg" />
+  <meta name="twitter:image:alt" content="Alternative text for image" />
   <title>Clan Roar Tweet</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>

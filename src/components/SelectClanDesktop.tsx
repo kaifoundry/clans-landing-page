@@ -75,6 +75,7 @@ const SelectClan = () => {
   };
 
   const handleConfirmJoin = async () => {
+    console.log("handleConfirmJoin called");
     setModalOpen(false);
     const userData = localStorage.getItem("userData");
     const user = userData ? JSON.parse(userData) : null;
@@ -88,9 +89,9 @@ const SelectClan = () => {
     try {
       const success = await joinClan({ userId: storedUserId, clanId: pendingClanId });
       if (success) {
-        toast.success("Successfully joined the clan!");
         setSelectedCardId(pendingClanId);
-        router.push("/CardPage");
+      await router.push("/CardPage");
+      toast.success("Successfully joined the clan!");
       } else {
         toast.error("You have already joined the clan.");
       }
@@ -181,7 +182,7 @@ const SelectClan = () => {
                   transition: "background-image 0.4s ease",
                 }}
               ></div>
-              <h3 className="lg:text-xl font-bold text-center px-2 absolute -bottom-10 right-14" style={{ textShadow: "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)" }}>
+              <h3 className="lg:text-xl font-bold text-white text-center px-2 absolute -bottom-10 right-14" style={{ textShadow: "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)" }}>
                 {clan.title}
               </h3>
 

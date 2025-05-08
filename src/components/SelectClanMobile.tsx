@@ -240,7 +240,7 @@ const SelectClan = () => {
             key={avatarImage}
             src={avatarImage}
             alt="bgAvatar"
-            className="absolute bottom-0 right-0 z-0 w-[250px] h-[500px] "
+            className="absolute bottom-0 right-0 z-0 w-[250px] h-[500px]  "
             // width={280}
             // height={300}
             draggable={false}
