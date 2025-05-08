@@ -6,6 +6,7 @@ import { ClanProvider } from "@/context/ClanContext";
 import { Toaster } from 'react-hot-toast';
 import { ReferralProvider } from "@/context/ReferralContext";
 import { UserProvider } from '@/context/UserContext';
+
 // import localFont from "next/font/local";
 
 // const similarGothic = localFont({

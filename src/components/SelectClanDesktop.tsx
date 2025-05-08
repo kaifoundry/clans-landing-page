@@ -181,7 +181,7 @@ const SelectClan = () => {
                   transition: "background-image 0.4s ease",
                 }}
               ></div>
-              <h3 className="lg:text-xl font-bold text-center px-2 absolute -bottom-10 right-14" style={{ textShadow: "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)" }}>
+              <h3 className="lg:text-xl font-bold text-white text-center px-2 absolute -bottom-10 right-14" style={{ textShadow: "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)" }}>
                 {clan.title}
               </h3>
 
