@@ -111,7 +111,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
       {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center w-full mx-auto px-2 min-h-dvh">
         {/* Header */}
-        <h1 className="text-3xl text-center font-semibold text-white leading-tight mt-10 mb-8 drop-shadow-lg">
+        <h1 className="text-3xl font-semibold text-center  text-white leading-tight mt-10 mb-8 drop-shadow-lg">
           Introducing
           <br />
           Roar Points

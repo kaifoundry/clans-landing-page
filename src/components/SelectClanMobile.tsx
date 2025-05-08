@@ -113,18 +113,19 @@ const SelectClan = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <section className="main-section p-4 overflow-hidden">
+    <section className="main-section h-dvh px-4 overflow-hidden">
       <div className="relative w-full overflow-hidden flex justify-start flex-col gap-y-8">
         <h1 className="text-3xl text-center font-semibold">Claim your Clan</h1>
-
         <div className="z-10">
           <div className="flex gap-x-2 items-center ">
-            <div className="h-7 w-[2px]" style={{ backgroundColor: clanColor }} />
+            <div
+              className="h-7 w-[2px]"
+              style={{ backgroundColor: clanColor }}
+            />
             <h2 className="text-[26px] font-bold">{displayedTitle}</h2>
           </div>
           <p className="text-lg font-semibold z-1">{displayedDescription}</p>
         </div>
-
         <div className="w-[50%] grid grid-cols-2 gap-x-10 gap-y-5 z-10 p-2">
           {cardData.map((clan, index) => (
             <div
@@ -195,8 +196,8 @@ const SelectClan = () => {
             </div>
           ))}
         </div>
-
-        <div className="w-full flex items-center justify-center z-1 mt-8 sm:mt-[37px] lg:mt-8">
+        {/* mt-8 sm:mt-[37px] lg:mt-8 */}
+        <div className="w-full flex items-center justify-center z-1 ">
           {selectedCard && (
             <button
               className="group cursor-pointer z-10 transition-transform hover:scale-105 active:scale-95 text-white"
@@ -212,7 +213,7 @@ const SelectClan = () => {
                 >
                   <path
                     d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-                    className="fill-[#0E0E17] group-hover:fill-pink-500 opacity-50"
+                    className="fill-[#0E0E17] group-hover:fill-pink-500 opacity-80"
                     fillOpacity="0.8"
                   />
                   <path
@@ -239,9 +240,9 @@ const SelectClan = () => {
             key={avatarImage}
             src={avatarImage}
             alt="bgAvatar"
-            className="absolute bottom-0 right-0 z-0"
-            width={280}
-            height={300}
+            className="absolute bottom-0 right-0 z-0 w-[250px] h-[500px] "
+            // width={280}
+            // height={300}
             draggable={false}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -258,7 +259,8 @@ const SelectClan = () => {
             className="absolute inset-0 bg-black/50 backdrop-blur-xs"
             onClick={() => setModalOpen(false)}
           />
-          <motion.div className="relative bg-black border border-gray-200 p-6 rounded-2xl w-full max-w-md mx-4 z-10"
+          <motion.div
+            className="relative bg-black border border-gray-200 p-6 rounded-2xl w-full max-w-md mx-4 z-10"
             initial={{ y: 50, opacity: 0, scale: 0.9 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 50, opacity: 0, scale: 0.9 }}
@@ -271,7 +273,10 @@ const SelectClan = () => {
               <p className="mb-4 text-sm font-semibold">
                 Are you sure you want to choose
               </p>
-              <p className="text-xl font-bold" style={{ color: selectedCard?.glowColor }}>
+              <p
+                className="text-xl font-bold"
+                style={{ color: selectedCard?.glowColor }}
+              >
                 {selectedCard?.title}
               </p>
               <p className="mt-2 font-display font-semibold">

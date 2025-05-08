@@ -50,16 +50,30 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     const getSafeColor = () => {
       switch (title.toLowerCase()) {
         case "clan mcbuilder":
-          return "rgba(255, 0, 0, 1)";
+          return "rgba(255, 69, 69, 1)";
         case "clan mchodler":
-          return "rgba(128, 0, 128, 1)";
-        case "clan degen":
-          return "rgba(0, 0, 255, 1)";
+          return "rgba(151, 71, 255, 1)";
+        case "clan mcdegen":
+          return "rgba(0, 142, 31, 1)";
         case "clan mcprivacy":
-          return "rgba(0, 255, 0, 1)";
-          
+          return "rgba(44, 117, 242, 1)";
         default:
-          return "rgba(128, 128, 128, 0.5)";// Very dark gray
+          return "rgba(128, 128, 128, 0.5)";
+      }
+    };
+
+    const safeGlowColor = () => {
+      switch (title.toLowerCase()) {
+        case "clan mcbuilder":
+          return "rgba(255, 69, 69, 0.8)";
+        case "clan mchodler":
+          return "rgba(151, 71, 255, 0.8)";
+        case "clan mcdegen":
+          return "rgba(0, 142, 31, 0.8)";
+        case "clan mcprivacy":
+          return "rgba(44, 117, 242,0.8)";
+        default:
+          return "rgba(128, 128, 128,0.8)";
       }
     };
 
@@ -68,20 +82,44 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         case "clan mcbuilder":
           return "rgba(255, 0, 0, 1)";
         case "clan mchodler":
-          return "rgba(128, 0, 128, 1)";
-        case "clan degen":
-          return "rgba(0, 0, 255,1)";
-        case "clan mcprivacy":
+          return "rgba(151, 71, 255, 1)";
+        case "clan mcdegen":
           return "rgba(0, 255, 0, 1)";
+        case "clan mcprivacy":
+          return "rgba(0, 0, 255,1)";
           
         default:
           return "rgba(128, 128, 128, 1)";
       }
     };
-
-    const safeGlowColor = getSafeColor();
-    const safeColorBorder = getSafeColorBorder();
-
+    const safeColorBorder = safeGlowColor();
+    const getSafeBackgroundStyle = () => {
+      switch (title.toLowerCase()) {
+        case "clan mcbuilder":
+          return {
+            background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(255, 0, 0, 1)",
+            backgroundBlendMode: "normal, color"
+          };
+        case "clan mcholder":
+          return {
+            background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(151, 71, 255, 1)",
+            backgroundBlendMode: "normal, color"
+          };
+        case "clan mcprivacy":
+          return {
+            background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(0, 0, 255,1)",
+            backgroundBlendMode: "normal, color"
+          };
+        case "clan mcdegen":
+          return {
+            background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(0, 255, 0, 0.8)",
+            backgroundBlendMode: "normal, color"
+          };
+        default:
+          return { backgroundColor: "rgba(128, 128, 128, 0.5)" };
+      }
+    };
+    
     return (
       <div
         ref={ref}
@@ -96,14 +134,20 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         }}
       >
         {/* Background image and black translucent overlay */}
-        <div className="absolute inset-3 rounded-2xl overflow-hidden " 
-         style={{
-          boxShadow: `0 0 40px 10px ${safeGlowColor}`,
-          backgroundColor: safeGlowColor,
-          zIndex: 2
-        }}>
+        
+          <div
+            className="absolute inset-3 rounded-2xl overflow-hidden"
+            style={{
+              boxShadow: `0 0 40px 10px ${safeColorBorder}`,
+              zIndex: 2,
+              ...getSafeBackgroundStyle(),
+            }}
+          >
           <div className="absolute inset-0 bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center " 
-          style={{ zIndex: 3 }}
+          style={{ 
+            zIndex: 3,
+            backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("/Images/cardPage/cardBg.png")'
+          }}
           />
           <div className="absolute inset-0 z-10" />
           <div className="relative z-20 flex flex-col md:flex-row justify-between items-stretch h-full">
@@ -132,7 +176,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
               </div>
               <div>
                 <h1
-                  style={{ color: safeColorBorder }}
+                  style={{ color: getSafeColor() }}
                   className="text-xl md:text-5xl font-bold z-10"
                 >
                   {title}

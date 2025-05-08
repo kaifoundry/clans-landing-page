@@ -125,7 +125,7 @@ export default function MobileMainPage() {
         {/* Main Content Section */}
         <div className="relative flex flex-col h-dvh">
           <div className="flex flex-col items-center justify-center mt-18 pb-4 md:hidden">
-            <div className="mt-0 sm:mt-16 lg:mt-0 w-64 h-24 sm:w-80 sm:h-[86px] flex items-center justify-center">
+            <div className="mt-0 sm:mt-8 lg:mt-0 w-64 h-24 sm:w-80 sm:h-[86px] flex items-center justify-center">
               <ClanLogoMobile />
             </div>
           </div>
@@ -150,7 +150,7 @@ export default function MobileMainPage() {
           </div>
 
           {/* Start Now Button */}
-          <div className="absolute bottom-14 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
+          <div className="absolute bottom-14 sm:bottom-10 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
             <Button1
               width={270}
               height={75}
@@ -180,7 +180,7 @@ export default function MobileMainPage() {
                 />
               </div>
 
-              <h2 className="text-xl font-bold mb-4 text-black font-['Segoe UI']">
+              <h2 className="text-2xl font-semibold mb-4 text-black font-['Segoe UI']">
                 Clans wants to access your X account
               </h2>
 
@@ -214,7 +214,8 @@ export default function MobileMainPage() {
                 </h3>
                 <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed ">
                   <li className="font-[500] text-sm text-[#525252]">
-                    All the posts you can view, including posts from protected accounts.
+                    All the posts you can view, including posts from protected
+                    accounts.
                   </li>
                   <li className="font-[500] text-sm text-[#525252]">
                     Any account you can view, including protected accounts.
