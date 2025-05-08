@@ -19,7 +19,7 @@
 /* min-h-dvh */
 @layer utilities {
   .main-section {
-    @apply bg-cover bg-center bg-no-repeat flex items-center justify-center text-white px-4 ;
+    @apply bg-cover bg-center bg-no-repeat flex items-center justify-center text-white  px-4 ;
     background-image: url("/Images/gettingStarted/background.png");
   }
 }
