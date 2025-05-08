@@ -85,7 +85,7 @@ const Card = ({
      1px  1px 0 #000,  /* black border effect */
      0 0 8px #fff,
      0 0 16px #fff,
-     0 0 10px ${glowColor || 'rgba(255,0,255,0.5)'}
+      0 0 10px #fff,
   `,
         }}
       >
@@ -96,3 +96,4 @@ const Card = ({
 };
 
 export default Card;
+    //  0 0 10px ${glowColor || "rgba(255,0,255,0.5)"}
