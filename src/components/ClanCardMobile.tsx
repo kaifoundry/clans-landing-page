@@ -93,7 +93,33 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
       }
     };
     const safeColorBorder = safeGlowColor();
-
+    const getSafeBackgroundStyle = () => {
+      switch (title.toLowerCase()) {
+        case "clan mcbuilder":
+          return {
+            background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(255, 0, 0, 1)",
+            backgroundBlendMode: "normal, color"
+          };
+        case "clan mchodler":
+          return {
+            background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(151, 71, 255, 1)",
+            backgroundBlendMode: "normal, color"
+          };
+        case "clan mcprivacy":
+          return {
+            background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(0, 0, 255,1)",
+            backgroundBlendMode: "normal, color"
+          };
+        case "clan mcdegen":
+          return {
+            background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(0, 255, 0, 0.8)",
+            backgroundBlendMode: "normal, color"
+          };
+        default:
+          return { backgroundColor: "rgba(128, 128, 128, 0.5)" };
+      }
+    };
+    
     return (
       <div
         ref={ref}
@@ -108,12 +134,15 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         }}
       >
         {/* Background image and black translucent overlay */}
-        <div className="absolute inset-3 rounded-2xl overflow-hidden " 
-         style={{
-          boxShadow: `0 0 40px 10px ${safeGlowColor()}`,
-          backgroundColor: safeGlowColor(),
-          zIndex: 2
-        }}>
+        
+          <div
+            className="absolute inset-3 rounded-2xl overflow-hidden"
+            style={{
+              boxShadow: `0 0 40px 10px ${safeColorBorder}`,
+              zIndex: 2,
+              ...getSafeBackgroundStyle(),
+            }}
+          >
           <div className="absolute inset-0 bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center " 
           style={{ 
             zIndex: 3,
