@@ -133,14 +133,12 @@ const JoinWaitlist = () => {
       </div>
 
       <div className="flex flex-col items-center md:gap-6 gap-4">
-        <h1 className="text-3xl md:text-6xl lg:text-9xl font-bold text-white">
+        <h1 className="text-[28px] md:text-6xl lg:text-[104px] lg:font-bold font-semibold text-white text-nowrap">
           Early Roarers get the edge!
         </h1>
 
-
         <p className="text-center text-white text-[18px] md:text-2xl font-medium">
-          Get early access, exclusive rewards,
-          and bragging rights.
+          Get early access, exclusive rewards, and bragging rights.
           <br />
           The battle for the timeline starts soon.
         </p>
