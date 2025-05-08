@@ -100,7 +100,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
             background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(255, 0, 0, 1)",
             backgroundBlendMode: "normal, color"
           };
-        case "clan mchodler":
+        case "clan mcholder":
           return {
             background: "linear-gradient(0deg, rgba(11, 11, 20, 0.4) 0%, rgba(11, 11, 20, 0.4) 100%), rgba(151, 71, 255, 1)",
             backgroundBlendMode: "normal, color"
