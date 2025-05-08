@@ -75,6 +75,7 @@ const SelectClan = () => {
   };
 
   const handleConfirmJoin = async () => {
+    console.log("handleConfirmJoin called");
     setModalOpen(false);
     const userData = localStorage.getItem("userData");
     const user = userData ? JSON.parse(userData) : null;
@@ -88,9 +89,9 @@ const SelectClan = () => {
     try {
       const success = await joinClan({ userId: storedUserId, clanId: pendingClanId });
       if (success) {
-        toast.success("Successfully joined the clan!");
         setSelectedCardId(pendingClanId);
-        router.push("/CardPage");
+      await router.push("/CardPage");
+      toast.success("Successfully joined the clan!");
       } else {
         toast.error("You have already joined the clan.");
       }
