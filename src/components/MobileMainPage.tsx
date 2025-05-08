@@ -180,7 +180,7 @@ export default function MobileMainPage() {
                 />
               </div>
 
-              <h2 className="text-xl font-bold mb-4 text-black font-['Segoe UI']">
+              <h2 className="text-2xl font-semibold mb-4 text-black font-['Segoe UI']">
                 Clans wants to access your X account
               </h2>
 
@@ -214,7 +214,8 @@ export default function MobileMainPage() {
                 </h3>
                 <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed ">
                   <li className="font-[500] text-sm text-[#525252]">
-                    All the posts you can view, including posts from protected accounts.
+                    All the posts you can view, including posts from protected
+                    accounts.
                   </li>
                   <li className="font-[500] text-sm text-[#525252]">
                     Any account you can view, including protected accounts.
