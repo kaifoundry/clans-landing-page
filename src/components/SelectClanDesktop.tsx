@@ -108,15 +108,15 @@ const SelectClan = () => {
       <div className="flex 2xl:gap-x-12 md:gap-x-4 flex-col gap-20 px-8 py-20 flex-grow mx-auto w-full max-w-screen-2xl">
         <div className="text-white">
           <div className="flex gap-x-2 items-center">
-            <div
-              className="h-10 w-1 transition-all duration-300"
-              style={{
-                background: selectedCard?.glowColor || "#6D28D9",
-                boxShadow: selectedCard
-                  ? `0 0 16px 4px ${selectedCard.glowColor}, 0 0 32px 8px ${selectedCard.glowColor}66`
-                  : "none",
-              }}
-            ></div>
+          <div
+            className="h-10 w-1 transition-all duration-300"
+            style={{
+              background: hoveredIndex !== null
+                ? cardData[hoveredIndex]?.glowColor
+                : selectedCard?.glowColor || "#6D28D9",
+            }}
+          ></div>
+
             <h2 className="lg:text-4xl md:text-4xl font-bold text-white">{displayedTitle}</h2>
           </div>
           <p className="lg:text-3xl font-semibold md:text-xl my-2 text-white">{displayedDescription}</p>
@@ -261,11 +261,11 @@ const SelectClan = () => {
               <div className="mb-6 text-center">
                 <p className="mb-4">Are you sure you want to choose</p>
                 <p className="text-xl font-bold" style={{ color: selectedCard?.glowColor }}>{selectedCard?.title}</p>
-                <p className="mt-2 font-display font-semibold">"{selectedCard?.description}"</p>
+                <p className="mt-2 font-display font-semibold">{selectedCard?.description}</p>
               </div>
               <div className="flex justify-center gap-4">
-                <Button ButtonText="Yes" onClick={handleConfirmJoin} width={130} height={40} />
-                <Button ButtonText="No, go back" onClick={() => setModalOpen(false)} width={130} height={40} className="bg-red-500 hover:bg-red-600" />
+                <Button ButtonText="Yes" onClick={handleConfirmJoin} width={130} height={40} className="custom-button"/>
+                <Button ButtonText="No, go back" onClick={() => setModalOpen(false)} width={130} height={40} className="bg-red-500 hover:bg-red-600 custom-button" />
               </div>
             </motion.div>
           </motion.div>

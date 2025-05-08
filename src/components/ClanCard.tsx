@@ -34,19 +34,32 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     const getSafeColor = () => {
       switch (title.toLowerCase()) {
         case "clan mcbuilder":
-          return "rgba(255, 0, 0, 1.5)";
+          return "rgba(255, 69, 69, 1)";
         case "clan mchodler":
-          return "rgba(128, 0, 128, 1.5)";
-        case "clan degen":
-          return "rgba(0, 0, 255, 0.5)";
+          return "rgba(151, 71, 255, 1)";
+        case "clan mcdegen":
+          return "rgba(0, 142, 31, 1)";
         case "clan mcprivacy":
-          return "rgba(0, 255, 0, 0.5)";
+          return "rgba(44, 117, 242, 1)";
         default:
           return "rgba(128, 128, 128, 0.5)";
       }
     };
 
-    const safeGlowColor = getSafeColor();
+    const safeGlowColor = () => {
+      switch (title.toLowerCase()) {
+        case "clan mcbuilder":
+          return "rgba(255, 69, 69, 0.4)";
+        case "clan mchodler":
+          return "rgba(151, 71, 255, 0.4)";
+        case "clan mcdegen":
+          return "rgba(0, 142, 31, 0.4)";
+        case "clan mcprivacy":
+          return "rgba(44, 117, 242, 0.4)";
+        default:
+          return "rgba(128, 128, 128, 0.5)";
+      }
+    };
 
     return (
       <motion.div
@@ -61,21 +74,24 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
           maxWidth: "95vw",
           maxHeight: "70vh",
           zIndex: 1,
-          borderColor: safeGlowColor,
+          borderColor: safeGlowColor(),
         }}
       >
         <div
           className="absolute inset-0 rounded-3xl"
           style={{
             boxShadow: `0 0 40px 10px ${safeGlowColor}`,
-            backgroundColor: safeGlowColor,
-            opacity: 0.5,
+            backgroundColor: safeGlowColor(),
+            // opacity: 0.3,
             zIndex: 2,
           }}
         />
         <div
           className="absolute inset-5 rounded-2xl bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center flex flex-col md:flex-row justify-between items-stretch"
-          style={{ zIndex: 3 }}
+          style={{ 
+            zIndex: 3,
+            backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("/Images/cardPage/cardBg.png")'
+          }}
         >
           {/* Left side: user info and text */}
           <div className="flex flex-col justify-between p-4 md:p-8 gap-y-4 md:gap-y-6 w-full md:w-2/3 min-w-[280px] md:min-w-[320px]">
@@ -87,6 +103,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 width={80}
                 className="rounded-full h-8 w-8 md:h-16 md:w-16 border-white border-2 object-cover"
                 loading="eager"
+                draggable="false"
               />
               <div className="flex flex-col px-3">
                 <p className="font-semibold text-base md:text-lg text-white">
@@ -102,7 +119,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
             </div>
             <div>
               <h1
-                style={{ color: safeGlowColor }}
+                style={{ color: getSafeColor() }}
                 className="text-2xl md:text-5xl font-semibold"
               >
                 {title}
@@ -117,6 +134,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 className="w-4 h-8 md:w-8 md:h-16 object-contain"
                 alt="Object1"
                 loading="eager"
+                draggable="false"
               />
               <img
                 src="/Images/gettingStarted/Clans.png"
@@ -125,6 +143,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 className="w-12 h-10 md:w-28 md:h-20 object-contain"
                 alt="Clans"
                 loading="eager"
+                draggable="false"
               />
             </div>
           </div>
@@ -139,6 +158,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 height={520}
                 className="absolute bottom-0 right-0 max-h-[95%] max-w-[430px] w-auto h-auto object-contain drop-shadow-lg"
                 loading="eager"
+                draggable="false"
               />
             )}
           </div>
