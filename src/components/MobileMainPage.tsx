@@ -125,7 +125,7 @@ export default function MobileMainPage() {
         {/* Main Content Section */}
         <div className="relative flex flex-col h-dvh">
           <div className="flex flex-col items-center justify-center mt-18 pb-4 md:hidden">
-            <div className="mt-0 sm:mt-14 lg:mt-0 w-64 h-24 sm:w-80 sm:h-[86px] flex items-center justify-center">
+            <div className="mt-0 sm:mt-12 lg:mt-0 w-64 h-24 sm:w-80 sm:h-[86px] flex items-center justify-center">
               <ClanLogoMobile />
             </div>
           </div>
@@ -150,7 +150,7 @@ export default function MobileMainPage() {
           </div>
 
           {/* Start Now Button */}
-          <div className="absolute bottom-14 sm:bottom-13 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
+          <div className="absolute bottom-14 sm:bottom-10 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
             <Button1
               width={270}
               height={75}
