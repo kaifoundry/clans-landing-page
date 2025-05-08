@@ -77,10 +77,19 @@ const JoinWaitlist = () => {
 
       const data = await response.json();
       console.log("✅ Successfully joined waitlist:", data);
-      toast.success("Successfully joined the waitlist!");
-
-      // Successful redirect
+      
+      // Check if user is already an early user
+      if (data.message && data.message.includes("is already an early user")) {
+        toast.success("You're already on the waitlist!");
       router.push("/ConfirmationPage");
+
+      } else {
+        toast.success("Successfully joined the waitlist!");
+      router.push("/ConfirmationPage");
+
+      }
+
+      // Redirect to confirmation page in both cases
     } catch (error) {
       console.error("❌ Error joining waitlist:", error);
         toast.error(
