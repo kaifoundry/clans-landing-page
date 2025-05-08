@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 import { useUser } from '@/context/UserContext';
 import Loader from "./Features/Loader";
 import Button1 from "./Button1";
+import { useReferral } from "@/context/ReferralContext";
+
 
 interface Props {
   userId: string;
@@ -22,12 +24,17 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
    const avatarRightRef = useRef(null);
   const { userData, fetchUserData, isLoading } = useUser();
 
+  const {  handleReferralCode } =
+  useReferral();
+
   // Memoize the fetchUserData callback
   const handleUserDataFetch = useCallback(() => {
     if (userId) {
       console.log("Mobile User ID from params:", userId);
       localStorage.setItem("userId", userId);
       fetchUserData(userId);
+    handleReferralCode(userId)
+
     }
   }, [userId, fetchUserData]);
 

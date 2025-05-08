@@ -145,22 +145,70 @@ function CardPageContent() {
       }
       const rect = cardNode.getBoundingClientRect();
 
-      const dataUrl = await toPng(cardNode, {
-        quality: 0.8, // Balanced quality setting
-        pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
-        style: {
-          transform: "scale(1)",
-          transformOrigin: "top left",
-        },
-        backgroundColor: '#181118',
-        width: Math.min(rect.width, 1200), // Cap maximum width
-        height: Math.min(rect.height, 675), // Cap maximum height
-        filter: (node) => {
-          const className = node.className || '';
-          return !className.includes('toast') && !className.includes('Toaster');
-        },
-      });
+      // const dataUrl = await toPng(cardNode, {
+      //   quality: 0.8, // Balanced quality setting
+      //   pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
+      //   style: {
+      //     transform: "scale(1)",
+      //     transformOrigin: "top left",
+      //   },
+      //   backgroundColor: '#181118',
+      //   width: Math.min(rect.width, 1200), // Cap maximum width
+      //   height: Math.min(rect.height, 675), // Cap maximum height
+      //   filter: (node) => {
+      //     const className = node.className || '';
+      //     return !className.includes('toast') && !className.includes('Toaster');
+      //   },
+      // });
 
+      const buildPng = async () => {
+        const element = document.getElementById('image-node');
+    
+        let dataUrl = '';
+        const minDataLength = 2000000;
+        let i = 0;
+        const maxAttempts = 10;
+    
+        while (dataUrl.length < minDataLength && i < maxAttempts) {
+          dataUrl = await toPng(cardNode, {
+            quality: 0.8, // Balanced quality setting
+            pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
+            style: {
+              transform: "scale(1)",
+              transformOrigin: "top left",
+            },
+            backgroundColor: '#181118',
+            width: Math.min(rect.width, 1200), // Cap maximum width
+            height: Math.min(rect.height, 675), // Cap maximum height
+            filter: (node) => {
+              const className = node.className || '';
+              return !className.includes('toast') && !className.includes('Toaster');
+            },
+          });
+          i += 1;
+        }
+    
+        return dataUrl;
+      };
+
+      const dataUrl = await buildPng()
+
+
+      // const dataUrl = await toJ(cardNode, {
+      //   quality: 0.8, // Balanced quality setting
+      //   pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
+      //   style: {
+      //     transform: "scale(1)",
+      //     transformOrigin: "top left",
+      //   },
+      //   backgroundColor: '#181118',
+      //   width: Math.min(rect.width, 1200), // Cap maximum width
+      //   height: Math.min(rect.height, 675), // Cap maximum height
+      //   filter: (node) => {
+      //     const className = node.className || '';
+      //     return !className.includes('toast') && !className.includes('Toaster');
+      //   },
+      // });
       // Convert dataUrl to Blob and File for upload
       const res = await fetch(dataUrl);
       let blob = await res.blob();

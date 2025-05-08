@@ -9,6 +9,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import toast from "react-hot-toast";
 import Loader from "./Features/Loader";
 import { useUser } from '@/context/UserContext';
+import { useReferral } from "@/context/ReferralContext";
 
 interface Props {
   userId: string;
@@ -45,9 +46,16 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
     []
   );
 
+            
+  const {  handleReferralCode } =
+  useReferral();
+
+
   useEffect(() => {
     handleResize(); // Initial check
     window.addEventListener("resize", handleResize);
+    console.log("bhanu9909")
+    handleReferralCode(userId)
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);
 
@@ -57,6 +65,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
       console.log("User ID from params:", userId);
       localStorage.setItem("userId", userId);
       fetchUserData(userId);
+
     }
   }, [userId, fetchUserData]);
 
