@@ -300,7 +300,7 @@ const SelectClan = () => {
                 height={40}
               />
               <Button
-                ButtonText="No, go back"
+                ButtonText="No"
                 onClick={() => setModalOpen(false)}
                 width={130}
                 height={40}

@@ -364,7 +364,7 @@ function CardPageContent() {
         backgroundPosition: "center",
       }}
     >
-      <Toaster position="top-center" />
+      {/* <Toaster position="top-center" /> */}
       <div className="absolute inset-0 bg-black/60  z-0" />
       <div className="flex flex-col items-center justify-center  max-w-6xl px-2 py-3 sm:px-5 sm:py-5 relative z-10 w-full mt-5 ">
         <h1 className="md:text-4xl text-white font-bold mb-10 text-2xl sm:text-3xl px-10 sm:px-0 text-center">
