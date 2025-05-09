@@ -108,7 +108,6 @@ body {
 
 @media (max-width: 640px) {
   .main-section {
-    height: 100vh;
     /* Use vh instead of dvh for better compatibility */
     height: -webkit-fill-available;
     /* For iOS Safari */

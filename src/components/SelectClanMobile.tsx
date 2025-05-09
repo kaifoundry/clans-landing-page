@@ -121,7 +121,7 @@ const SelectClan = () => {
      };
    }, []);
   return (
-    <section className="main-section h-dvh px-4 overflow-hidden">
+    <section className="main-section h-screen px-4 overflow-hidden">
       <div className="relative w-full overflow-hidden flex justify-start flex-col gap-y-8">
         <h1 className="text-3xl text-center font-semibold">Claim your Clan</h1>
         <div className="z-10">
@@ -256,6 +256,10 @@ const SelectClan = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
+            style={{
+              maxHeight: "60vh",
+              maxWidth: "80vw",
+            }}
           />
         )}
       </AnimatePresence>
