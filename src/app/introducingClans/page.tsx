@@ -24,13 +24,19 @@ const IntroducingClans = () => {
     ...clansData[index]
   })) : [];
 
-  if (loading) {
-    return <div>Loading clans...</div>;
-  }
+ if (loading)
+   return (
+     <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+       <div className="text-white text-3xl">Loading clans...</div>
+     </div>
+   );
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+ if (error)
+   return (
+     <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+       <div className="text-white text-xl">Error: {error}</div>
+     </div>
+   );
 
   useEffect(() => {
     cardRefs.current.forEach((ref, index) => {
