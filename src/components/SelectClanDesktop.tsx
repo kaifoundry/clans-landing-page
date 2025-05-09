@@ -89,8 +89,8 @@ const SelectClan = () => {
     try {
       const success = await joinClan({ userId: storedUserId, clanId: pendingClanId });
       if (success) {
-        setSelectedCardId(pendingClanId);
-      await router.push("/CardPage");
+      setSelectedCardId(pendingClanId);
+      router.push("/CardPage");
       toast.success("Successfully joined the clan!");
       } else {
         toast.error("You have already joined the clan.");
