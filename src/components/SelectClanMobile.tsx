@@ -116,6 +116,7 @@ const SelectClan = () => {
 
 
   return (
+     <div className="fixed inset-0 overflow-hidden">
     <section className="main-section h-screen px-4 overflow-hidden">
       <div className="relative w-full overflow-hidden flex justify-start flex-col gap-y-8">
         <h1 className="text-3xl text-center font-semibold">Claim your Clan</h1>
@@ -310,6 +311,7 @@ const SelectClan = () => {
         </div>
       )}
     </section>
+    </div>
   );
 };
 
