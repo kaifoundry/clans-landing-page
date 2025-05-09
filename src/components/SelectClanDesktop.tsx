@@ -266,7 +266,7 @@ const SelectClan = () => {
               </div>
               <div className="flex justify-center gap-4">
                 <Button ButtonText="Yes" onClick={handleConfirmJoin} width={130} height={40} className="custom-button"/>
-                <Button ButtonText="No, go back" onClick={() => setModalOpen(false)} width={130} height={40} className="bg-red-500 hover:bg-red-600 custom-button" />
+                <Button ButtonText="No" onClick={() => setModalOpen(false)} width={130} height={40} className="bg-red-500 hover:bg-red-600 custom-button" />
               </div>
             </motion.div>
           </motion.div>
