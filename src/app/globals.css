@@ -19,7 +19,7 @@
 }
 @layer utilities {
   .main-section {
-    @apply bg-cover bg-center bg-no-repeat flex items-center justify-center text-white px-4 min-h-screen overflow-hidden;
+    @apply bg-cover bg-center bg-no-repeat flex items-center justify-center text-white px-4 md:min-h-screen overflow-hidden;
     background-image: url("/Images/gettingStarted/background.png");
   }
 }
@@ -105,19 +105,17 @@ body {
 }
 
 
-
+/* 
 @media (max-width: 640px) {
   .main-section {
-    /* Use vh instead of dvh for better compatibility */
     height: -webkit-fill-available;
-    /* For iOS Safari */
     max-height: -webkit-fill-available;
     overflow: hidden;
   }
 
-  /* Fix iOS momentum scrolling */
+
   * {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: none;
   }
-}
+} */
