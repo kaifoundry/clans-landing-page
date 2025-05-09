@@ -133,7 +133,7 @@ const JoinWaitlist = () => {
       </div>
 
       <div className="flex flex-col items-center md:gap-6 gap-4">
-        <h1 className="text-[28px] md:text-6xl lg:text-[104px] lg:font-bold font-semibold text-white text-nowrap">
+        <h1 className="text-[28px] md:text-6xl lg:text-[104px] lg:font-bold font-semibold text-white text-nowrap md:pb-[35px]">
           Early Roarers get the edge!
         </h1>
 

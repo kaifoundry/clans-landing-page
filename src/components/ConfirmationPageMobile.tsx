@@ -123,7 +123,7 @@ const ConfirmationPage = () => {
             />
 
       {/* Black overlay for darkening the whole video */}
-      <div className="absolute inset-0 bg-black/60 z-10"></div>
+      {/* <div className="absolute inset-0 bg-black/50 z-10"></div> */}
 
       {/* Fade shadow from bottom */}
       <div className="absolute bottom-0 z-40 left-0 w-full h-80 bg-gradient-to-t from-black via-black/40 to-transparent "></div>
