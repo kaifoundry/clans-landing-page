@@ -112,6 +112,14 @@ const SelectClan = () => {
   if (loading) return <div>Loading clans...</div>;
   if (error) return <div>Error: {error}</div>;
 
+
+
+   useEffect(() => {
+     document.body.style.overflow = "hidden";
+     return () => {
+       document.body.style.overflow = ""; // Cleanup on unmount
+     };
+   }, []);
   return (
     <section className="main-section h-dvh px-4 overflow-hidden">
       <div className="relative w-full overflow-hidden flex justify-start flex-col gap-y-8">
@@ -240,9 +248,9 @@ const SelectClan = () => {
             key={avatarImage}
             src={avatarImage}
             alt="bgAvatar"
-            className="absolute bottom-0 right-0 z-0 w-[250px] h-[500px]  "
-            // width={280}
-            // height={300}
+            className="fixed bottom-0 right-0 z-0 w-[250px] h-[500px]  "
+            width={250}
+            height={270}
             draggable={false}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}

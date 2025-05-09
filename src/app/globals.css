@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
 } */
+ 
 @theme {
   --breakpoint-xs: 320px;
   --breakpoint-sm: 390px;
@@ -101,4 +102,23 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera */
+}
+
+
+
+@media (max-width: 640px) {
+  .main-section {
+    height: 100vh;
+    /* Use vh instead of dvh for better compatibility */
+    height: -webkit-fill-available;
+    /* For iOS Safari */
+    max-height: -webkit-fill-available;
+    overflow: hidden;
+  }
+
+  /* Fix iOS momentum scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+  }
 }
