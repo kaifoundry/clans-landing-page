@@ -114,12 +114,7 @@ const SelectClan = () => {
 
 
 
-   useEffect(() => {
-     document.body.style.overflow = "hidden";
-     return () => {
-       document.body.style.overflow = ""; // Cleanup on unmount
-     };
-   }, []);
+
   return (
     <section className="main-section h-screen px-4 overflow-hidden">
       <div className="relative w-full overflow-hidden flex justify-start flex-col gap-y-8">
@@ -232,7 +227,7 @@ const SelectClan = () => {
                   />
                 </svg>
 
-                <span className="absolute inset-0 w-full h-full flex items-center justify-center text-white z-10 text-[21px] sm:text-2xl md:text-2xl font-medium">
+                <span className=" inset-0 w-full h-full flex items-center justify-center text-white z-10 text-[21px] sm:text-2xl md:text-2xl font-medium">
                   Join Clan
                 </span>
               </div>
