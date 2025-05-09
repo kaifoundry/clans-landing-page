@@ -228,7 +228,7 @@ const SelectClan = () => {
                   />
                 </svg>
 
-                <span className=" inset-0 w-full h-full flex items-center justify-center text-white z-10 text-[21px] sm:text-2xl md:text-2xl font-medium">
+                <span className="absolute text-white inset-0 w-full h-full flex items-center justify-center text-white z-10 text-[21px] sm:text-2xl md:text-2xl font-medium">
                   Join Clan
                 </span>
               </div>
