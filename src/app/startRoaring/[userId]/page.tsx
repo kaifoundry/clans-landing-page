@@ -31,7 +31,9 @@ export default function StartRoaring() {
   const updateUserId = useCallback(() => {
     const userIdFromParams = params?.userId;
     if (userIdFromParams) {
-      const id = Array.isArray(userIdFromParams) ? userIdFromParams[0] : userIdFromParams;
+      const id = Array.isArray(userIdFromParams)
+        ? userIdFromParams[0]
+        : userIdFromParams;
       setUserId((currentUserId) => (currentUserId !== id ? id : currentUserId));
     }
   }, [params?.userId]);
@@ -59,7 +61,11 @@ export default function StartRoaring() {
   // Memoize the loading state
   const loadingContent = useMemo(() => {
     if (userId === null) {
-      return <p>Loading...</p>;
+      return (
+        <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+          <div className="text-white text-xl">Loading...</div>
+        </div>
+      );
     }
     return null;
   }, [userId]);
@@ -67,7 +73,7 @@ export default function StartRoaring() {
   // Memoize the main content
   const mainContent = useMemo(() => {
     if (userId === null) return null;
-    
+
     return isMobile ? (
       <StartRoaringMobile userId={userId} />
     ) : (

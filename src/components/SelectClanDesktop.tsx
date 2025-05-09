@@ -101,9 +101,21 @@ const SelectClan = () => {
     }
   };
 
-  if (loading) return <div>Loading clans...</div>;
-  if (error) return <div>Error: {error}</div>;
+  // if (loading) return <div className="flex justity-center items-center">Loading clans...</div>;
+  // if (error) return <div>Error: {error}</div>;
+if (loading)
+  return (
+    <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+      <div className="text-white text-3xl">Loading clans...</div>
+    </div>
+  );
 
+if (error)
+  return (
+    <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+      <div className="text-white text-xl">Error: {error}</div>
+    </div>
+  );
   return (
     <section className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen">
       <div className="flex 2xl:gap-x-12 md:gap-x-4 flex-col gap-20 px-8 py-20 flex-grow mx-auto w-full max-w-screen-2xl">
