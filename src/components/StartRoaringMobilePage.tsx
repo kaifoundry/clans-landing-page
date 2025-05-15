@@ -8,32 +8,81 @@ import toast from 'react-hot-toast';
 import { useUser } from '@/context/UserContext';
 import Loader from "./Features/Loader";
 import Button1 from "./Button1";
+import { useReferral } from "@/context/ReferralContext";
+import { useSearchParams } from "next/navigation";
+import { LuLoaderCircle } from "react-icons/lu";
 
 interface Props {
-  userId: string;
+  // userId: string;
 }
 
 interface UserData {
   userId: string;
 }
 
-const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
+const StartRoaringPage: React.FC<Props> = React.memo(() => {
   const avatarLeftRef = useRef(null);
    const avatarRightRef = useRef(null);
-  const { userData, fetchUserData, isLoading } = useUser();
+  const { userData, fetchUserData } = useUser();
+  const { getAuthUrl, handleReferralCode, isLoading, setIsLoading } =
+    useReferral();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Check for authentication callback
+  useEffect(() => {
+    const checkAuthCallback = async () => {
+      const userId = searchParams.get("userId");
+      if (userId) {
+        await handleReferralCode(userId);
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, "", newUrl);
+      }
+    };
+
+    checkAuthCallback();
+  }, [searchParams, handleReferralCode]);
+
+  // Animate modal when it opens
+  useEffect(() => {
+    if (isModalOpen && modalRef.current) {
+      gsap.fromTo(
+        modalRef.current,
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+      );
+    }
+  }, [isModalOpen]);
+  const loginWithTwitter = async () => {
+    if (typeof window === "undefined") return;
+
+    try {
+      setIsLoading(true);
+      const authUrl = getAuthUrl();
+      const currentUrl = window.location.href;
+      sessionStorage.setItem("redirectUrl", currentUrl);
+      window.location.assign(authUrl);
+    } catch (error) {
+      console.error("Error during Twitter auth:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   // Memoize the fetchUserData callback
-  const handleUserDataFetch = useCallback(() => {
-    if (userId) {
-      console.log("Mobile User ID from params:", userId);
-      localStorage.setItem("userId", userId);
-      fetchUserData(userId);
-    }
-  }, [userId, fetchUserData]);
+  // const handleUserDataFetch = useCallback(() => {
+  //   if (userId) {
+  //     console.log("Mobile User ID from params:", userId);
+  //     localStorage.setItem("userId", userId);
+  //     fetchUserData(userId);
+  //   }
+  // }, [userId, fetchUserData]);
 
-  useEffect(() => {
-    handleUserDataFetch();
-  }, [handleUserDataFetch]);
+  // useEffect(() => {
+  //   handleUserDataFetch();
+  // }, [handleUserDataFetch]);
 
   // GSAP animation effect for the left avatar - only run once
   // useEffect(() => {
@@ -79,10 +128,9 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
    }, []);
 
   // Memoize the main content
-  const mainContent = useMemo(() => {
-    if (!userId || isLoading) {
-      return <Loader message="Loading please wait..." />;
-    }
+  // if ( isLoading) {
+  //   return <Loader message={"Loading please wait..."} />;
+  // }
 
   return (
     <section className="relative w-screen h-dvh overflow-hidden bg-black flex flex-col justify-between bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center ">
@@ -161,22 +209,85 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
 
         {/* Button */}
         <div className="w-full flex justify-center mb-8 sm:mb-16">
-          <Link href="/introducingClans" prefetch>
+          {/* <Link href="/introducingClans" prefetch> */}
             <Button1
+              onClick={openModal}
               width={270}
               height={75}
               ButtonText="Start Roaring"
               className="text-3xl text-white  font-semibold w-full max-w-[260px] drop-shadow-lg text-[21px]"
             />
-          </Link>
+          {/* </Link> */}
         </div>
       </div>
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
+          <div
+            ref={modalRef}
+            className="bg-white rounded-2xl shadow-lg w-[308px] p-6 text-center relative"
+          >
+            <div className="w-full flex items-center justify-center">
+              <Image
+                src="/logo.svg"
+                width={100}
+                height={100}
+                className="w-24 h-20 object-contain text-xl"
+                alt="Clans Logo"
+                draggable={false}
+              />
+            </div>
+
+            <h2 className="text-2xl font-semibold mb-4 text-black font-['Segoe UI']">
+              Clans wants to access your X account
+            </h2>
+
+            <div className="flex flex-col gap-3 mb-4">
+              <button
+                onClick={loginWithTwitter}
+                className="bg-black text-base text-white py-3 rounded-full font-bold hover:bg-gray-800 transition duration-300 cursor-pointer"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className="flex items-center justify-center">
+                    <span className="pr-1">Authenticating</span>
+                    <LuLoaderCircle className="animate-spin" />
+                  </span>
+                ) : (
+                  "Authenticate"
+                )}
+              </button>
+            </div>
+
+            <p
+              onClick={closeModal}
+              className="text-base text-red-500 font-bold cursor-pointer mb-4"
+            >
+              Cancel
+            </p>
+
+            <div className="text-left border-t border-[#EBEBEB] pt-4">
+              <h3 className="font-semibold mb-2 text-sm text-[#141414] ">
+                Things this App can view...
+              </h3>
+              <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed ">
+                <li className="font-[500] text-sm text-[#525252]">
+                  All the posts you can view, including posts from protected
+                  accounts.
+                </li>
+                <li className="font-[500] text-sm text-[#525252]">
+                  Any account you can view, including protected accounts.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
-  }, [userId, isLoading]);
+  });
 
-  return mainContent;
-});
+
 
 StartRoaringPage.displayName = 'StartRoaringPage';
 
