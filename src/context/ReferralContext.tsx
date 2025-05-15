@@ -88,8 +88,8 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
 
     const referralCode = Cookies.get('referral_code');
     return referralCode 
-      ? `${BASE_URL}/api/auth/twitter?referralCode=${referralCode}`
-      : `${BASE_URL}/api/auth/twitter`;
+      ? `${BASE_URL}/api/V2/twitter?referralCode=${referralCode}`
+      : `${BASE_URL}/api/V2/twitter`;
   };
 
   return (
