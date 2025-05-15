@@ -7,16 +7,17 @@ import { useParams, useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import ClanLogo from "@/components/ClanLogo";
 import { clansData } from "@/data/clansData";
+import { useUser } from "@/context/UserContext";
 const IntroducingClans = () => {
   const { clans, loading, error, setSelectedCardId } = useClan();
   console.log("clans", clans);
   const router = useRouter();
   const cardRefs = useRef<HTMLDivElement[]>([]);
   const [userId, setUserId] = useState<string | null>(null); // Initialize userId as null
-
+ const { userData, fetchUserData,  } = useUser();
   // Get route parameters
   const params = useParams();
-
+ console.log("params", params);
   // Memoize the userId update function
   const updateUserId = useCallback(() => {
     const userIdFromParams = params?.userId;
@@ -33,28 +34,18 @@ const IntroducingClans = () => {
     updateUserId();
   }, [updateUserId]);
 
-  // Memoize the loading state
-  // const loadingContent = useMemo(() => {
-  //   if (userId === null) {
-  //     return (
-  //       <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
-  //         <div className="text-white text-xl">Loading...</div>
-  //       </div>
-  //     );
-  //   }
-  //   return null;
-  // }, [userId]);
 
-  // Memoize the main content
-  // const mainContent = useMemo(() => {
-  //   if (userId === null) return null;
+  const handleUserDataFetch = useCallback(() => {
+    if (userId) {
+      console.log("User ID from params:", userId);
+      localStorage.setItem("userId", userId);
+      fetchUserData(userId);
+    }
+  }, [userId, fetchUserData]);
 
-  //   return isMobile ? (
-  //     <StartRoaringMobile userId={userId} />
-  //   ) : (
-  //     <StartRoaringDesktop userId={userId} />
-  //   );
-  // }, [isMobile, userId]);
+  useEffect(() => {
+    handleUserDataFetch();
+  }, [handleUserDataFetch]);
 
   const cardData = Array.isArray(clans)
     ? clans.map((clan, index) => ({
@@ -65,7 +56,47 @@ const IntroducingClans = () => {
       }))
     : [];
 
-  if (loading)
+
+    useEffect(() => {
+      cardRefs.current.forEach((ref, index) => {
+        if (ref) {
+          gsap.fromTo(ref, cardData[index].from, {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            delay: index * 0.2,
+          });
+
+          // Hover animation
+          const onEnter = () => {
+            gsap.to(ref, {
+              scale: 1.05,
+              duration: 0.3,
+              ease: "power1.out",
+            });
+          };
+          const onLeave = () => {
+            gsap.to(ref, {
+              scale: 1,
+              duration: 0.3,
+              ease: "power1.out",
+            });
+          };
+
+          ref.addEventListener("mouseenter", onEnter);
+          ref.addEventListener("mouseleave", onLeave);
+
+          return () => {
+            ref.removeEventListener("mouseenter", onEnter);
+            ref.removeEventListener("mouseleave", onLeave);
+          };
+        }
+      });
+    }, []);
+
+  if (!userId || loading)
     return (
       <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
         <div className="text-white text-3xl">Loading clans...</div>
@@ -79,44 +110,8 @@ const IntroducingClans = () => {
       </div>
     );
 
-  useEffect(() => {
-    cardRefs.current.forEach((ref, index) => {
-      if (ref) {
-        gsap.fromTo(ref, cardData[index].from, {
-          x: 0,
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          delay: index * 0.2,
-        });
 
-        // Hover animation
-        const onEnter = () => {
-          gsap.to(ref, {
-            scale: 1.05,
-            duration: 0.3,
-            ease: "power1.out",
-          });
-        };
-        const onLeave = () => {
-          gsap.to(ref, {
-            scale: 1,
-            duration: 0.3,
-            ease: "power1.out",
-          });
-        };
 
-        ref.addEventListener("mouseenter", onEnter);
-        ref.addEventListener("mouseleave", onLeave);
-
-        return () => {
-          ref.removeEventListener("mouseenter", onEnter);
-          ref.removeEventListener("mouseleave", onLeave);
-        };
-      }
-    });
-  }, []);
 
   return (
     <section className="relative main-section flex flex-col items-center gap-2 px-8 py-8 overflow-hidden">
