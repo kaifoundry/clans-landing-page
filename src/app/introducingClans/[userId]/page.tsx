@@ -1,42 +1,83 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Card from "@/components/Card";
 import { useClan } from "@/context/ClanContext";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import ClanLogo from "@/components/ClanLogo";
 import { clansData } from "@/data/clansData";
 const IntroducingClans = () => {
-  const { clans, loading, error ,setSelectedCardId} = useClan();
-
-  console.log('clans', clans);
+  const { clans, loading, error, setSelectedCardId } = useClan();
+  console.log("clans", clans);
   const router = useRouter();
-
   const cardRefs = useRef<HTMLDivElement[]>([]);
+  const [userId, setUserId] = useState<string | null>(null); // Initialize userId as null
 
-  
+  // Get route parameters
+  const params = useParams();
 
-  const cardData = Array.isArray(clans) ? clans.map((clan, index) => ({
-    id: clan.clanId,
-    title: clan.title,
-    description: clan.description,
-    ...clansData[index]
-  })) : [];
+  // Memoize the userId update function
+  const updateUserId = useCallback(() => {
+    const userIdFromParams = params?.userId;
+    if (userIdFromParams) {
+      const id = Array.isArray(userIdFromParams)
+        ? userIdFromParams[0]
+        : userIdFromParams;
+      setUserId((currentUserId) => (currentUserId !== id ? id : currentUserId));
+    }
+  }, [params?.userId]);
 
- if (loading)
-   return (
-     <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
-       <div className="text-white text-3xl">Loading clans...</div>
-     </div>
-   );
+  // Effect to extract and set the userId from route parameters
+  useEffect(() => {
+    updateUserId();
+  }, [updateUserId]);
 
- if (error)
-   return (
-     <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
-       <div className="text-white text-xl">Error: {error}</div>
-     </div>
-   );
+  // Memoize the loading state
+  // const loadingContent = useMemo(() => {
+  //   if (userId === null) {
+  //     return (
+  //       <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+  //         <div className="text-white text-xl">Loading...</div>
+  //       </div>
+  //     );
+  //   }
+  //   return null;
+  // }, [userId]);
+
+  // Memoize the main content
+  // const mainContent = useMemo(() => {
+  //   if (userId === null) return null;
+
+  //   return isMobile ? (
+  //     <StartRoaringMobile userId={userId} />
+  //   ) : (
+  //     <StartRoaringDesktop userId={userId} />
+  //   );
+  // }, [isMobile, userId]);
+
+  const cardData = Array.isArray(clans)
+    ? clans.map((clan, index) => ({
+        id: clan.clanId,
+        title: clan.title,
+        description: clan.description,
+        ...clansData[index],
+      }))
+    : [];
+
+  if (loading)
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+        <div className="text-white text-3xl">Loading clans...</div>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+        <div className="text-white text-xl">Error: {error}</div>
+      </div>
+    );
 
   useEffect(() => {
     cardRefs.current.forEach((ref, index) => {

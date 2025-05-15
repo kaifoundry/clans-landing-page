@@ -7,14 +7,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { useReferral } from "@/context/ReferralContext";
-import { LuLoaderCircle } from "react-icons/lu";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const MainPage = () => {
-  const { getAuthUrl, handleReferralCode, isLoading, setIsLoading } =
-    useReferral();
-  const searchParams = useSearchParams();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -24,64 +20,6 @@ const MainPage = () => {
   const avatarRightRef = useRef(null);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const checkAuthCallback = async () => {
-  //     const userId = searchParams.get("userId");
-  //     if (userId) {
-  //       await handleReferralCode(userId);
-  //       const newUrl = window.location.pathname;
-  //       window.history.replaceState({}, "", newUrl);
-  //     }
-  //   };
-
-  //   checkAuthCallback();
-  // }, [searchParams, handleReferralCode]);
-
-  useEffect(() => {
-    const checkAuthCallback = async () => {
-      const userId = searchParams.get("userId");
-  
-      // Check if referral code exists in cookies
-      const cookies = document.cookie.split(";").reduce((acc: Record<string, string>, cookie) => {
-        const [key, value] = cookie.split("=").map(c => c.trim());
-        acc[key] = decodeURIComponent(value);
-        return acc;
-      }, {});
-  
-      const referralCode = cookies["referralCode"];
-  
-      if (userId) {
-        if (referralCode) {
-          // If both userId from URL and referralCode from cookie exist, use referralCode
-          await handleReferralCode(referralCode);
-        } else {
-          await handleReferralCode(userId);
-        }
-  
-        // Clean the URL
-        const newUrl = window.location.pathname;
-        window.history.replaceState({}, "", newUrl);
-      }
-    };
-  
-    checkAuthCallback();
-  }, [searchParams, handleReferralCode]);
-  
-  const callTwitterAuthAPI = async () => {
-    try {
-      setIsLoading(true);
-      const authUrl = getAuthUrl();
-      const currentUrl = window.location.href;
-      sessionStorage.setItem("redirectUrl", currentUrl);
-      window.location.assign(authUrl);
-    } catch (error) {
-      console.error("Error during Twitter auth:", error);
-      setIsLoading(false);
-    }
-  };
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   const handleMuteUnmute = () => {
     const video = videoRef.current;
@@ -178,35 +116,34 @@ const MainPage = () => {
           </div>
 
           <div className="mx-auto z-10 flex items-center justify-center">
-            <button
-              onClick={openModal}
-              className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full min-h-[40px] lg:w-[280px] lg:h-[70px] md:w-[307px] md:h-[79px]"
-            >
-              <svg
-                width="100%"
-                height="100%"
-                viewBox="0 0 309 81"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 left-0 w-full h-full opacity-50"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
-                  className="fill-black group-hover:fill-[rgba(212,0,165,0.16)] transition-colors duration-300"
-                />
-                <path
-                  d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
-                  stroke="white"
-                  strokeOpacity="0.4"
-                  strokeWidth="1.5"
-                />
-              </svg>
+            <Link href="/startRoaring" prefetch>
+              <button className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full min-h-[40px] lg:w-[280px] lg:h-[70px] md:w-[307px] md:h-[79px]">
+                <svg
+                  width="100%"
+                  height="100%"
+                  viewBox="0 0 309 81"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="absolute top-0 left-0 w-full h-full opacity-50"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
+                    className="fill-black group-hover:fill-[rgba(212,0,165,0.16)] transition-colors duration-300"
+                  />
+                  <path
+                    d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5M8.5 1V80M8.5 1H1V48L3 49.5V67.5L1 69.5V80H8.5"
+                    stroke="white"
+                    strokeOpacity="0.4"
+                    strokeWidth="1.5"
+                  />
+                </svg>
 
-              <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg lg:text-xl">
-                Start Now
-              </span>
-            </button>
+                <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg lg:text-xl">
+                  Start Now
+                </span>
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -231,89 +168,6 @@ const MainPage = () => {
           draggable={false}
         />
       </div>
-
-      {/* Modal with animation */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-white rounded-2xl shadow-lg w-[308px] p-6 text-center relative"
-            >
-              <div className="w-full flex items-center justify-center">
-                <Image
-                  src="/logo.svg"
-                  width={100}
-                  height={100}
-                  className="w-24 h-20 object-contain text-xl"
-                  alt="Logo"
-                  draggable={false}
-                  priority
-                />
-              </div>
-
-              <h2 className="text-xl font-bold mb-4 text-black">
-                Clans wants to access your X account
-              </h2>
-
-              <div className="flex flex-col gap-3 mb-4">
-                <button
-                  onClick={callTwitterAuthAPI}
-                  className="bg-black text-white py-3 rounded-full text-base font-bold hover:bg-gray-800 transition duration-300 cursor-pointer"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <span className="flex items-center justify-center">
-                      <span className="pr-1">Authenticating</span>
-                      <LuLoaderCircle className="animate-spin" />
-                    </span>
-                  ) : (
-                    "Authenticate"
-                  )}
-                </button>
-              </div>
-
-              {/* <p
-                onClick={closeModal}
-                className="text-base text-[#141414]  font-bold cursor-pointer mb-4"
-              >
-                Cancel
-              </p> */}
-
-<p
-  onClick={closeModal}
-  className="text-base text-red-500 font-bold cursor-pointer mb-4"
->
-  Cancel
-</p>
-
-              <div className="text-left border-t border-[#EBEBEB] pt-4">
-                <h3 className="font-bold mb-2 text-sm text-[#141414]">
-                  {/* Things this App can view... */}
-                  Permission Required
-                </h3>
-                <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed">
-                  <li className="font-[500] text-sm text-[#525252]">
-                    All the posts you can view, including posts from protected
-                    accounts.
-                  </li>
-                  <li className="font-[500] text-sm text-[#525252]">
-                    Any account you can view, including protected accounts.
-                  </li>
-                </ul>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Mute Button */}
       <button

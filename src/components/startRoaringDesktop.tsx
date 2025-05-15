@@ -5,13 +5,23 @@ import Button from "@/components/Button"; // Assuming Button component exists at
 import ClanLogo from "@/components/ClanLogo"; // Assuming ClanLogo component exists at this path
 import Link from "next/link";
 import { gsap } from "gsap";
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import toast from "react-hot-toast";
 import Loader from "./Features/Loader";
-import { useUser } from '@/context/UserContext';
+import { useUser } from "@/context/UserContext";
+import { useReferral } from "@/context/ReferralContext";
+import { useSearchParams } from "next/navigation";
+import { LuLoaderCircle } from "react-icons/lu";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Props {
-  userId: string;
+  // userId: string;
 }
 
 interface UserData {
@@ -31,11 +41,61 @@ const debounce = (func: Function, wait: number) => {
   };
 };
 
-const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
+const StartRoaringPage: React.FC<Props> = React.memo(() => {
   const [isMobile, setIsMobile] = useState(false);
-  const { userData, fetchUserData, isLoading } = useUser();
+  const { userData, fetchUserData,  } = useUser();
   const avatarLeftRef = useRef(null);
   const animationRef = useRef<gsap.core.Tween | null>(null);
+  const { getAuthUrl, handleReferralCode,isLoading, setIsLoading } = useReferral();
+  const searchParams = useSearchParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    const checkAuthCallback = async () => {
+      const userId = searchParams.get("userId");
+
+      // Check if referral code exists in cookies
+      const cookies = document.cookie
+        .split(";")
+        .reduce((acc: Record<string, string>, cookie) => {
+          const [key, value] = cookie.split("=").map((c) => c.trim());
+          acc[key] = decodeURIComponent(value);
+          return acc;
+        }, {});
+
+      const referralCode = cookies["referralCode"];
+
+      if (userId) {
+        if (referralCode) {
+          // If both userId from URL and referralCode from cookie exist, use referralCode
+          await handleReferralCode(referralCode);
+        } else {
+          await handleReferralCode(userId);
+        }
+
+        // Clean the URL
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, "", newUrl);
+      }
+    };
+
+    checkAuthCallback();
+  }, [searchParams, handleReferralCode]);
+
+  const callTwitterAuthAPI = async () => {
+    try {
+      setIsLoading(true);
+      const authUrl = getAuthUrl();
+      const currentUrl = window.location.href;
+      sessionStorage.setItem("redirectUrl", currentUrl);
+      window.location.assign(authUrl);
+    } catch (error) {
+      console.error("Error during Twitter auth:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   // Memoize the resize handler with debounce
   const handleResize = useCallback(
@@ -52,17 +112,17 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
   }, [handleResize]);
 
   // Memoize the user data fetch callback
-  const handleUserDataFetch = useCallback(() => {
-    if (userId) {
-      console.log("User ID from params:", userId);
-      localStorage.setItem("userId", userId);
-      fetchUserData(userId);
-    }
-  }, [userId, fetchUserData]);
+  // const handleUserDataFetch = useCallback(() => {
+  //   if (userId) {
+  //     console.log("User ID from params:", userId);
+  //     localStorage.setItem("userId", userId);
+  //     fetchUserData(userId);
+  //   }
+  // }, [userId, fetchUserData]);
 
-  useEffect(() => {
-    handleUserDataFetch();
-  }, [handleUserDataFetch]);
+  // useEffect(() => {
+  //   handleUserDataFetch();
+  // }, [handleUserDataFetch]);
 
   // GSAP animation effect for the left avatar - only run once
   useEffect(() => {
@@ -88,10 +148,9 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
   }, []);
 
   // Memoize the main content
-  const mainContent = useMemo(() => {
-    if (!userId || isLoading) {
-      return <Loader message={"Loading please wait..."} />;
-    }
+  // if (!userId || isLoading) {
+  //   return <Loader message={"Loading please wait..."} />;
+  // }
 
     return (
       <section className="w-full flex flex-col gap-y-8 items-center justify-center px-6 py-12 h-screen bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center relative overflow-hidden ">
@@ -128,30 +187,38 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
               <p className="text-center text-lg md:text-xl leading-8 md:leading-10 text-white">
                 Ancient warriors had clans.
                 <br /> You have social media. <br />
-                <span className="font-bold">Post. Engage. Earn Roar Points.</span>
+                <span className="font-bold">
+                  Post. Engage. Earn Roar Points.
+                </span>
                 <br /> Only those who join the waitlist
                 <br /> will enter the battleground. <br />
                 Which clan will you join?
               </p>
             </div>
 
-          {/* Right Avatar Image (decorative) */}
-          <Image
-            src="/Images/startRoaring/Avtar1.png"
-            alt="Stylized avatar character 1"
-            width={200} // Base width, adjust className for responsiveness
-            height={200} // Base height, adjust className for responsiveness
-            className="absolute bottom-2 rounded-r-4xl right-5 w-[120px] h-auto md:w-[300px] lg:w-[280px] 2xl:w-[350px] max-w-full" // Responsive sizing
-            priority // Prioritize loading if it's visible early
-            draggable={false}
-          />
-        </div>
+            {/* Right Avatar Image (decorative) */}
+            <Image
+              src="/Images/startRoaring/Avtar1.png"
+              alt="Stylized avatar character 1"
+              width={200} // Base width, adjust className for responsiveness
+              height={200} // Base height, adjust className for responsiveness
+              className="absolute bottom-2 rounded-r-4xl right-5 w-[120px] h-auto md:w-[300px] lg:w-[280px] 2xl:w-[350px] max-w-full" // Responsive sizing
+              priority // Prioritize loading if it's visible early
+              draggable={false}
+            />
+          </div>
 
           {/* Navigation Button */}
           <div className="w-full lg:w-[958px] flex justify-center lg:justify-end mt-6 md:mt-0">
-            <Link href="/introducingClans" prefetch>
-              <Button ButtonText="Start Roaring" width={307} height={79} className="mr-4"/>
-            </Link>
+            {/* <Link href="/introducingClans" prefetch> */}
+            <Button
+              onClick={openModal}
+              ButtonText="Start Roaring"
+              width={307}
+              height={79}
+              className="mr-4"
+            />
+            {/* </Link> */}
           </div>
         </div>
         {/* Left Avatar Image (animated) */}
@@ -163,15 +230,97 @@ const StartRoaringPage: React.FC<Props> = React.memo(({ userId }) => {
           alt="Stylized avatar character 2"
           className="absolute bottom-0 left-0 z-0 md:z-10 w-[250px] h-auto md:w-[300px] lg:w-[400px] xl:w-[500px] md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:left-20 xl:left-10 md:left-0 max-w-full" // Responsive sizing and positioning
           priority // Prioritize loading if it's important LCP
-        draggable={false}
+          draggable={false}
         />
+
+        {/* Modal with animation */}
+        <AnimatePresence>
+          {isModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="bg-white rounded-2xl shadow-lg w-[308px] p-6 text-center relative"
+              >
+                <div className="w-full flex items-center justify-center">
+                  <Image
+                    src="/logo.svg"
+                    width={100}
+                    height={100}
+                    className="w-24 h-20 object-contain text-xl"
+                    alt="Logo"
+                    draggable={false}
+                    priority
+                  />
+                </div>
+
+                <h2 className="text-xl font-bold mb-4 text-black">
+                  Clans wants to access your X account
+                </h2>
+
+                <div className="flex flex-col gap-3 mb-4">
+                  <button
+                    onClick={callTwitterAuthAPI}
+                    className="bg-black text-white py-3 rounded-full text-base font-bold hover:bg-gray-800 transition duration-300 cursor-pointer"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <span className="flex items-center justify-center">
+                        <span className="pr-1">Authenticating</span>
+                        <LuLoaderCircle className="animate-spin" />
+                      </span>
+                    ) : (
+                      "Authenticate"
+                    )}
+                  </button>
+                </div>
+
+                {/* <p
+                        onClick={closeModal}
+                        className="text-base text-[#141414]  font-bold cursor-pointer mb-4"
+                      >
+                        Cancel
+                      </p> */}
+
+                <p
+                  onClick={closeModal}
+                  className="text-base text-red-500 font-bold cursor-pointer mb-4"
+                >
+                  Cancel
+                </p>
+
+                <div className="text-left border-t border-[#EBEBEB] pt-4">
+                  <h3 className="font-bold mb-2 text-sm text-[#141414]">
+                    {/* Things this App can view... */}
+                    Permission Required
+                  </h3>
+                  <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed">
+                    <li className="font-[500] text-sm text-[#525252]">
+                      All the posts you can view, including posts from protected
+                      accounts.
+                    </li>
+                    <li className="font-[500] text-sm text-[#525252]">
+                      Any account you can view, including protected accounts.
+                    </li>
+                  </ul>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
     );
-  }, [userId, isLoading]);
+  }, );
 
-  return mainContent;
-});
 
-StartRoaringPage.displayName = 'StartRoaringPage';
+StartRoaringPage.displayName = "StartRoaringPage";
 
 export default StartRoaringPage;
+
