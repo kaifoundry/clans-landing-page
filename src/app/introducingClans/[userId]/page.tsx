@@ -38,37 +38,6 @@ const IntroducingClans = () => {
   }, [updateUserId]);
 
 
-  useEffect(() => {
-    const checkAuthCallback = async () => {
-      const userId = searchParams.get("userId");
-
-      // Check if referral code exists in cookies
-      const cookies = document.cookie
-        .split(";")
-        .reduce((acc: Record<string, string>, cookie) => {
-          const [key, value] = cookie.split("=").map((c) => c.trim());
-          acc[key] = decodeURIComponent(value);
-          return acc;
-        }, {});
-
-      const referralCode = cookies["referralCode"];
-
-      if (userId) {
-        if (referralCode) {
-          // If both userId from URL and referralCode from cookie exist, use referralCode
-          await handleReferralCode(userId);
-        } else {
-          await handleReferralCode(userId);
-        }
-
-        // Clean the URL
-        const newUrl = window.location.pathname;
-        window.history.replaceState({}, "", newUrl);
-      }
-    };
-
-    checkAuthCallback();
-  }, [searchParams, handleReferralCode]);
 
   const handleUserDataFetch = useCallback(() => {
     if (userId) {
