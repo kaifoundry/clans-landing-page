@@ -1,0 +1,91 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "../globals.css";
+import { Rajdhani } from "next/font/google";
+import { ClanProvider } from "@/context/ClanContext";
+import { Toaster } from 'react-hot-toast';
+import { ReferralProvider } from "@/context/ReferralContext";
+import { UserProvider } from '@/context/UserContext';
+
+// import localFont from "next/font/local";
+
+// const similarGothic = localFont({
+//   src: "./fonts/SimilarGothic-Regular.woff2", // Path to your font file
+//   display: "swap",
+//   variable: "--font-similar-gothic", // Define the CSS variable
+// });
+
+const rajdhani = Rajdhani({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-rajdhani",
+});
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Clans",
+  description: "Clans - Your Digital Identity",
+};
+
+// export const metadata = {
+//   title: "Clans Landing Page",
+//   description: "Choose your Clan & join the waitlist",
+//   openGraph: {
+//     title: "Join your Clan",
+//     description: "Choose your Clan & join the waitlist",
+//     url: "https://clans-landing-page.vercel.app/",
+//     siteName: "Clans",
+//     images: [
+//       {
+//         url: "https://clans-landing-page.vercel.app/api/og?clan=Clan%20McHODLer&user=Yashika&tagline=Diamond%20hands%20forever",
+//         width: 1200,
+//         height: 630,
+//         alt: "Clan Card",
+//       },
+//     ],
+//     locale: "en_US",
+//     type: "website",
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     site: "@yourhandle",
+//     title: "Choose Your Clan",
+//     description: "Join now and show your allegiance.",
+//     images: [
+//       "https://clans-landing-page.vercel.app/api/og?clan=Clan%20McHODLer&user=Yashika&tagline=Diamond%20hands%20forever",
+//     ],
+//   },
+// };
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className={`${rajdhani.variable} antialiased`}>
+        <div className="container max-w-[1920px] overflow-x-hidden mx-auto">
+          <UserProvider>
+            <ReferralProvider>
+              <ClanProvider>
+                {children}
+                <Toaster position="top-center" />
+              </ClanProvider>
+            </ReferralProvider>
+          </UserProvider>
+        </div>
+      </body>
+    </html>
+  );
+}

@@ -102,6 +102,7 @@ import { useParams } from "next/navigation";
 import StartRoaringMobile from "@/components/StartRoaringMobilePage"; 
 import StartRoaringDesktop from "@/components/startRoaringDesktop"; 
 import { useReferral } from "@/context/ReferralContext";
+import { gsap } from "gsap";
 
 
 const debounce = (func: Function, wait: number) => {

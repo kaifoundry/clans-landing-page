@@ -181,7 +181,7 @@ const StartRoaringPage = React.memo(({
                 </span>
                 <br /> Only those who join the waitlist
                 <br /> will enter the battleground. <br />
-                Which clan will you join? juiji
+                Which clan will you join?
               </p>
             </div>
 
