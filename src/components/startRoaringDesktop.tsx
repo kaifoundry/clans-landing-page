@@ -49,37 +49,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(() => {
   const { getAuthUrl, handleReferralCode,isLoading, setIsLoading } = useReferral();
   const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  useEffect(() => {
-    const checkAuthCallback = async () => {
-      const userId = searchParams.get("userId");
 
-      // Check if referral code exists in cookies
-      const cookies = document.cookie
-        .split(";")
-        .reduce((acc: Record<string, string>, cookie) => {
-          const [key, value] = cookie.split("=").map((c) => c.trim());
-          acc[key] = decodeURIComponent(value);
-          return acc;
-        }, {});
-
-      const referralCode = cookies["referralCode"];
-
-      if (userId) {
-        if (referralCode) {
-          // If both userId from URL and referralCode from cookie exist, use referralCode
-          await handleReferralCode(referralCode);
-        } else {
-          await handleReferralCode(userId);
-        }
-
-        // Clean the URL
-        const newUrl = window.location.pathname;
-        window.history.replaceState({}, "", newUrl);
-      }
-    };
-
-    checkAuthCallback();
-  }, [searchParams, handleReferralCode]);
 
   const callTwitterAuthAPI = async () => {
     try {
