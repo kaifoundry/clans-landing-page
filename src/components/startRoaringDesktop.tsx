@@ -19,68 +19,86 @@ import { useReferral } from "@/context/ReferralContext";
 import { useSearchParams } from "next/navigation";
 import { LuLoaderCircle } from "react-icons/lu";
 import { motion, AnimatePresence } from "framer-motion";
+import { RefObject } from "react";
 
 interface Props {
   // userId: string;
 }
 
+
+interface CommonRoaringProps {
+  isModalOpen: boolean;
+  isLoading: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+  callTwitterAuthAPI: () => void;
+  avatarLeftRef: RefObject<HTMLImageElement | null>;
+  avatarRightRef?: RefObject<HTMLImageElement | null>; 
+}
 interface UserData {
   userId: string;
 }
 
 // Debounce function to limit how often a function can be called
-const debounce = (func: Function, wait: number) => {
-  let timeout: NodeJS.Timeout;
-  return function executedFunction(...args: any[]) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-};
+// const debounce = (func: Function, wait: number) => {
+//   let timeout: NodeJS.Timeout;
+//   return function executedFunction(...args: any[]) {
+//     const later = () => {
+//       clearTimeout(timeout);
+//       func(...args);
+//     };
+//     clearTimeout(timeout);
+//     timeout = setTimeout(later, wait);
+//   };
+// };
 
-const StartRoaringPage: React.FC<Props> = React.memo(() => {
+const StartRoaringPage = React.memo(({
+  isModalOpen,
+  isLoading,
+  openModal,
+  closeModal,
+  callTwitterAuthAPI,
+  avatarLeftRef,
+}: CommonRoaringProps) => {
   const [isMobile, setIsMobile] = useState(false);
   const { userData, fetchUserData,  } = useUser();
-  const avatarLeftRef = useRef(null);
+ // const avatarLeftRef = useRef(null);
   const animationRef = useRef<gsap.core.Tween | null>(null);
-  const { getAuthUrl, handleReferralCode,isLoading, setIsLoading } = useReferral();
+ // const { getAuthUrl, handleReferralCode,isLoading, setIsLoading } = useReferral();
   const searchParams = useSearchParams();
-  const [isModalOpen, setIsModalOpen] = useState(false);
- console.log("search params", searchParams);
+ // const [isModalOpen, setIsModalOpen] = useState(false);
+ //console.log("search params", searchParams);
  
 
-  const callTwitterAuthAPI = async () => {
-    try {
-      setIsLoading(true);
-      const authUrl = getAuthUrl();
-      const currentUrl = window.location.href;
-      sessionStorage.setItem("redirectUrl", currentUrl);
-      window.location.assign(authUrl);
-    } catch (error) {
-      console.error("Error during Twitter auth:", error);
-      setIsLoading(false);
-    }
-  };
+  // const callTwitterAuthAPI = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const authUrl = getAuthUrl();
+  //     const currentUrl = window.location.href;
+  //     sessionStorage.setItem("redirectUrl", currentUrl);
+  //     window.location.assign(authUrl);
+  //   } catch (error) {
+  //     console.error("Error during Twitter auth:", error);
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  // const openModal = () => setIsModalOpen(true);
+  // const closeModal = () => setIsModalOpen(false);
 
   // Memoize the resize handler with debounce
-  const handleResize = useCallback(
-    debounce(() => {
-      setIsMobile(window.innerWidth <= 768);
-    }, 100),
-    []
-  );
+  // const handleResize = useCallback(
+  //   debounce(() => {
+  //     setIsMobile(window.innerWidth <= 768);
+  //   }, 100),
+  //   []
+  // );
 
-  useEffect(() => {
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [handleResize]);
+  // useEffect(() => {
+  //   handleResize(); // Initial check
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, [handleResize]);
 
   // Memoize the user data fetch callback
   // const handleUserDataFetch = useCallback(() => {
@@ -96,27 +114,27 @@ const StartRoaringPage: React.FC<Props> = React.memo(() => {
   // }, [handleUserDataFetch]);
 
   // GSAP animation effect for the left avatar - only run once
-  useEffect(() => {
-    if (avatarLeftRef.current && !animationRef.current) {
-      animationRef.current = gsap.fromTo(
-        avatarLeftRef.current,
-        { x: "-200", opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1.5,
-          ease: "power3.out",
-        }
-      );
-    }
+  // useEffect(() => {
+  //   if (avatarLeftRef.current && !animationRef.current) {
+  //     animationRef.current = gsap.fromTo(
+  //       avatarLeftRef.current,
+  //       { x: "-200", opacity: 0 },
+  //       {
+  //         x: 0,
+  //         opacity: 1,
+  //         duration: 1.5,
+  //         ease: "power3.out",
+  //       }
+  //     );
+  //   }
 
-    return () => {
-      if (animationRef.current) {
-        animationRef.current.kill();
-        animationRef.current = null;
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (animationRef.current) {
+  //       animationRef.current.kill();
+  //       animationRef.current = null;
+  //     }
+  //   };
+  // }, []);
 
   // Memoize the main content
   // if (!userId || isLoading) {
@@ -163,7 +181,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(() => {
                 </span>
                 <br /> Only those who join the waitlist
                 <br /> will enter the battleground. <br />
-                Which clan will you join?
+                Which clan will you join? juiji
               </p>
             </div>
 

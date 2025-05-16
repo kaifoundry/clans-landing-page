@@ -17,8 +17,8 @@ import { RefObject } from "react";
 interface MobileMainPageProps {
   isMuted: boolean;
   isPlaying: boolean;
-  videoRef: RefObject<HTMLVideoElement>;
-  iconRef: RefObject<HTMLSpanElement>;
+  videoRef: React.MutableRefObject<HTMLVideoElement | null>;
+  iconRef: RefObject<HTMLSpanElement | null>;
   handleMuteUnmute: () => void;
 }
 

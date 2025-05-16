@@ -1,6 +1,6 @@
 "use client";
-import MainPage from "../components/MainPage";
-import MobileMainPage from "../components/MobileMainPage";
+import MainPage from "@/components/MainPage";
+import MobileMainPage from "@/components/MobileMainPage";
 import { useEffect, useState,useRef } from "react";
 import { gsap } from "gsap";
 
