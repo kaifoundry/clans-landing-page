@@ -65,7 +65,7 @@ const StartRoaringPage: React.FC<Props> = React.memo(() => {
           return acc;
         }, {});
 
-      const referralCode = cookies["referralCode"];
+      const referralCode = cookies["referral_code"];
        console.log("referal code inside checkAuthcallback", referralCode);
       if (userId) {
         if (referralCode) {
