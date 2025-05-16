@@ -8,42 +8,56 @@ import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { useReferral } from "@/context/ReferralContext";
 import Link from "next/link";
+import { RefObject } from "react";
 
-const MainPage = () => {
+interface MainPageProps {
+  isMuted: boolean;
+  isPlaying: boolean;
+  videoRef: RefObject<HTMLVideoElement>;
+  iconRef: RefObject<HTMLSpanElement>;
+  handleMuteUnmute: () => void;
+}
 
-  const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
+const MainPage = ({
+  isMuted,
+  isPlaying,
+  videoRef,
+  iconRef,
+  handleMuteUnmute,
+}: MainPageProps) => {
+  // const [isMuted, setIsMuted] = useState(true);
+  // const [isPlaying, setIsPlaying] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const iconRef = useRef(null);
+  // const videoRef = useRef<HTMLVideoElement>(null);
+  // const iconRef = useRef(null);
   const avatarLeftRef = useRef(null);
   const avatarRightRef = useRef(null);
   const router = useRouter();
 
 
-  const handleMuteUnmute = () => {
-    const video = videoRef.current;
-    if (video) {
-      video.muted = !isMuted;
-      video.volume = isMuted ? 1 : 0;
-      setIsMuted(!isMuted);
-      setIsPlaying(true);
-      video.play();
+  // const handleMuteUnmute = () => {
+  //   const video = videoRef.current;
+  //   if (video) {
+  //     video.muted = !isMuted;
+  //     video.volume = isMuted ? 1 : 0;
+  //     setIsMuted(!isMuted);
+  //     setIsPlaying(true);
+  //     video.play();
 
-      gsap.fromTo(
-        iconRef.current,
-        { scale: 1 },
-        { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.out" }
-      );
-    }
-  };
+  //     gsap.fromTo(
+  //       iconRef.current,
+  //       { scale: 1 },
+  //       { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.out" }
+  //     );
+  //   }
+  // };
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video && !isPlaying) {
-      video.play().catch((err) => console.warn("Autoplay failed:", err));
-    }
-  }, [isPlaying]);
+  // useEffect(() => {
+  //   const video = videoRef.current;
+  //   if (video && !isPlaying) {
+  //     video.play().catch((err) => console.warn("Autoplay failed:", err));
+  //   }
+  // }, [isPlaying]);
 
   useEffect(() => {
     gsap.fromTo(
