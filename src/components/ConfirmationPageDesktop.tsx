@@ -5,74 +5,94 @@ import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { RefObject } from "react";
 
-const ConfirmationPage = () => {
+
+interface ConfirmationPageProps {
+  isMuted: boolean;
+  isPlaying: boolean;
+  videoRef: React.MutableRefObject<HTMLVideoElement | null>;
+  iconRef: RefObject<HTMLSpanElement | null>;
+  avatarLeftRef: RefObject<HTMLImageElement | null>;
+  avatarRightRef: RefObject<HTMLImageElement | null>;
+  handleMuteUnmute: () => void;
+}
+
+const ConfirmationPage = ({
+  isMuted,
+  isPlaying,
+  videoRef,
+  iconRef,
+  avatarLeftRef,
+  avatarRightRef,
+  handleMuteUnmute,
+}: ConfirmationPageProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isMuted, setIsMuted] = useState(true);
+  //const [isPlaying, setIsPlaying] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const iconRef = useRef(null);
+  // const videoRef = useRef<HTMLVideoElement>(null);
+  // const iconRef = useRef(null);
 
-  const avatarLeftRef = useRef(null);
-  const avatarRightRef = useRef(null);
+  // const avatarLeftRef = useRef(null);
+  // const avatarRightRef = useRef(null);
 
-  const handleMuteUnmute = () => {
-    const video = videoRef.current;
-    if (video) {
-      video.muted = !isMuted;
-      video.volume = isMuted ? 1 : 0;
-      setIsMuted(!isMuted);
-      setIsPlaying(true);
-      video.play();
+  // const handleMuteUnmute = () => {
+  //   const video = videoRef.current;
+  //   if (video) {
+  //     video.muted = !isMuted;
+  //     video.volume = isMuted ? 1 : 0;
+  //     setIsMuted(!isMuted);
+  //     setIsPlaying(true);
+  //     video.play();
 
-      gsap.fromTo(
-        iconRef.current,
-        { scale: 1 },
-        {
-          scale: 1.3,
-          duration: 0.2,
-          yoyo: true,
-          repeat: 1,
-          ease: "power1.out",
-        }
-      );
-    }
-  };
+  //     gsap.fromTo(
+  //       iconRef.current,
+  //       { scale: 1 },
+  //       {
+  //         scale: 1.3,
+  //         duration: 0.2,
+  //         yoyo: true,
+  //         repeat: 1,
+  //         ease: "power1.out",
+  //       }
+  //     );
+  //   }
+  // };
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video && !isPlaying) {
-      video.play().catch((err) => console.warn("Autoplay failed:", err));
-    }
-  }, [isPlaying]);
+  // useEffect(() => {
+  //   const video = videoRef.current;
+  //   if (video && !isPlaying) {
+  //     video.play().catch((err) => console.warn("Autoplay failed:", err));
+  //   }
+  // }, [isPlaying]);
 
-  // Animate avatars on mount
-  useEffect(() => {
-    gsap.fromTo(
-      avatarLeftRef.current,
-      { x: "-100%", opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1.5,
-        ease: "power3.out",
-      }
-    );
+  // // Animate avatars on mount
+  // useEffect(() => {
+  //   gsap.fromTo(
+  //     avatarLeftRef.current,
+  //     { x: "-100%", opacity: 0 },
+  //     {
+  //       x: 0,
+  //       opacity: 1,
+  //       duration: 1.5,
+  //       ease: "power3.out",
+  //     }
+  //   );
 
-    gsap.fromTo(
-      avatarRightRef.current,
-      { x: "100%", opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1.5,
-        ease: "power3.out",
-        delay: 0.2,
-      }
-    );
-  }, []);
+  //   gsap.fromTo(
+  //     avatarRightRef.current,
+  //     { x: "100%", opacity: 0 },
+  //     {
+  //       x: 0,
+  //       opacity: 1,
+  //       duration: 1.5,
+  //       ease: "power3.out",
+  //       delay: 0.2,
+  //     }
+  //   );
+  // }, []);
 
   return (
     <section className="relative h-dvh flex items-center justify-center overflow-hidden bg-black text-white">
