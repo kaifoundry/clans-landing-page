@@ -267,7 +267,7 @@ function CardPageContent() {
       console.log("Attempting to upload image...");
 
       const uploadResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/upload-media/${userData.userId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/V2/twitter/upload-media/${userData.userId}`,
         {
           method: "POST",
           body: formData,
@@ -304,7 +304,7 @@ function CardPageContent() {
 
       console.log("Attempting to post tweet...");
       const tweetResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/twitter/tweet`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/V2/twitter/tweet`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
