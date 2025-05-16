@@ -56,7 +56,7 @@ const IntroducingClans = () => {
       if (userId) {
         if (referralCode) {
           // If both userId from URL and referralCode from cookie exist, use referralCode
-          await handleReferralCode(referralCode);
+          await handleReferralCode(userId);
         } else {
           await handleReferralCode(userId);
         }
