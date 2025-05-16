@@ -31,6 +31,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
 
   // Handle referral code usage after authentication
   const handleReferralCode = async (userId: string) => {
+    console.log('Handling referral code...');
     try {
       const referralCode = Cookies.get('referral_code');
       if (!referralCode) {
