@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 
-
-
 @theme {
   --breakpoint-xs: 320px;
   --breakpoint-sm: 390px;
@@ -44,8 +42,8 @@ body {
   font-family: 'Rajdhani', sans-serif;
 }
 .custom-clip-path {
-  width: 90vw; 
-  height: 50vh; 
+  width: 90vw;
+  height: 50vh;
   overflow: hidden;
   clip-path: polygon(
     2% 8%,
@@ -76,7 +74,7 @@ body {
 
 @media (max-width: 375px) {
   .scale-xs {
-    transform: scale(0.5); 
+    transform: scale(0.5);
   }
 }
 
@@ -102,5 +100,3 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
-

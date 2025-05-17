@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect,  useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Card from '@/components/Card';
 import { useClan } from '@/context/ClanContext';
 import { useParams, useRouter } from 'next/navigation';
@@ -12,7 +12,7 @@ const IntroducingClans = () => {
   const { clans, loading, error, setSelectedCardId } = useClan();
   const router = useRouter();
   const cardRefs = useRef<HTMLDivElement[]>([]);
-  const [userId, setUserId] = useState<string | null>(null); 
+  const [userId, setUserId] = useState<string | null>(null);
   const { userData, fetchUserData } = useUser();
   // Get route parameters
   const params = useParams();
@@ -111,7 +111,7 @@ const IntroducingClans = () => {
         <ClanLogo />
       </span>
       {/* <h1 className="text-[28px] md:text-4xl lg:text-5xl font-bold"> */}
-      <h1 className='mt-10 text-center text-3xl  font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
+      <h1 className='mt-10 text-center text-3xl font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
         Introducing Clans
       </h1>
 

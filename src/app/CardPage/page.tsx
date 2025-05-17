@@ -78,7 +78,7 @@ function CardPageContent() {
         const storedCardId = localStorage.getItem('selectedCardId');
         if (storedCardId) {
           setSelectedCardId(storedCardId);
-          return; 
+          return;
         }
       } catch (err) {
         console.error('Error reading from localStorage:', err);
@@ -141,7 +141,6 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
       }
       const rect = cardNode.getBoundingClientRect();
 
-
       const buildPng = async () => {
         const element = document.getElementById('image-node');
 
@@ -152,8 +151,8 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           dataUrl = await toPng(cardNode, {
-            quality: 0.8, 
-            pixelRatio: 1.5, 
+            quality: 0.8,
+            pixelRatio: 1.5,
             style: {
               transform: 'scale(1)',
               transformOrigin: 'top left',
@@ -176,11 +175,9 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
 
       const dataUrl = await buildPng();
 
-   
       // Convert dataUrl to Blob and File for upload
       const res = await fetch(dataUrl);
       let blob = await res.blob();
-
 
       //  the file size is within reasonable limits (1MB)
       if (blob.size > 1024 * 1024) {
