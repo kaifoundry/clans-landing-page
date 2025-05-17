@@ -97,13 +97,14 @@
 
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo,useRef } from "react";
 import { useParams } from "next/navigation";
+import StartRoaringMobile from "@/components/StartRoaringMobilePage"; 
+import StartRoaringDesktop from "@/components/startRoaringDesktop"; 
+import { useReferral } from "@/context/ReferralContext";
+import { gsap } from "gsap";
 
-import StartRoaringMobile from "@/components/StartRoaringMobilePage"; // Ensure this path is correct
-import StartRoaringDesktop from "@/components/startRoaringDesktop"; // Ensure this path is correct
 
-// Debounce function to limit how often a function can be called
 const debounce = (func: Function, wait: number) => {
   let timeout: NodeJS.Timeout;
   return function executedFunction(...args: any[]) {
@@ -117,10 +118,14 @@ const debounce = (func: Function, wait: number) => {
 };
 
 export default function StartRoaring() {
-  // State for mobile/desktop view and the user ID
+  
   const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const avatarLeftRef = useRef<HTMLImageElement>(null);
+  const avatarRightRef = useRef<HTMLImageElement>(null);
+  const { getAuthUrl, isLoading, setIsLoading } = useReferral();
 
-  // Memoize the resize handler with debounce
+  
   const handleResize = useCallback(
     debounce(() => {
       setIsMobile(window.innerWidth <= 768);
@@ -128,36 +133,62 @@ export default function StartRoaring() {
     []
   );
 
-  // Effect to handle window resizing for mobile/desktop view
+  const callTwitterAuthAPI = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const authUrl = getAuthUrl();
+      const currentUrl = window.location.href;
+      sessionStorage.setItem("redirectUrl", currentUrl);
+      window.location.assign(authUrl);
+    } catch (error) {
+      console.error("Error during Twitter auth:", error);
+      setIsLoading(false);
+    }
+  }, [getAuthUrl, setIsLoading]);
+
+
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
+
+
   useEffect(() => {
-    handleResize(); // Initial check
+    if (avatarLeftRef.current) {
+      gsap.fromTo(
+        avatarLeftRef.current,
+        { x: "-200", opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+      );
+    }
+    
+    if (avatarRightRef.current) {
+      gsap.fromTo(
+        avatarRightRef.current,
+        { x: "200", opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+      );
+    }
+  }, []);
+
+  
+  useEffect(() => {
+    handleResize(); 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);
 
-  // Memoize the loading state
-  // const loadingContent = useMemo(() => {
-  //   if (userId === null) {
-  //     return (
-  //       <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
-  //         <div className="text-white text-xl">Loading...</div>
-  //       </div>
-  //     );
-  //   }
-  //   return null;
-  // }, [userId]);
 
-  // Memoize the main content
-  // const mainContent = useMemo(() => {
-  //   if (userId === null) return null;
+  const commonProps = {
+    isModalOpen,
+    isLoading,
+    openModal,
+    closeModal,
+    callTwitterAuthAPI,
+    avatarLeftRef,
+    avatarRightRef
+  };
 
-  //   return isMobile ? (
-  //     <StartRoaringMobile userId={userId} />
-  //   ) : (
-  //     <StartRoaringDesktop userId={userId} />
-  //   );
-  // }, [isMobile, userId]);
+  
 
-  return isMobile ? <StartRoaringMobile /> : <StartRoaringDesktop />;
+  return isMobile ? <StartRoaringMobile {...commonProps} /> : <StartRoaringDesktop  {...commonProps} />;
 }
 

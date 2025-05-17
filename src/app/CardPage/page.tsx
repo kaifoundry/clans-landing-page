@@ -45,6 +45,8 @@ function CardPageContent() {
   const cardRefDesktop = useRef<HTMLDivElement>(null);
   const cardRefMobile = useRef<HTMLDivElement>(null);
 
+  
+
   const [userData, setUserData] = useState<null | {
     userId: string;
     displayName: string;
@@ -354,6 +356,8 @@ function CardPageContent() {
     const tweetId = tweetData.tweetId || "";
     window.location.href = `/JoinWaitlist/${userId}/${tweetId}`;
   };
+
+  
 
   return (
     <section

@@ -11,33 +11,49 @@ import ClanLogoMobile from "./ClanLogoMobile";
 import { useReferral } from "@/context/ReferralContext";
 import Button1 from "./Button1";
 import Link from "next/link";
+import { RefObject } from "react";
 
-export default function MobileMainPage() {
+
+interface MobileMainPageProps {
+  isMuted: boolean;
+  isPlaying: boolean;
+  videoRef: React.MutableRefObject<HTMLVideoElement | null>;
+  iconRef: RefObject<HTMLSpanElement | null>;
+  handleMuteUnmute: () => void;
+}
+
+const MobileMainPage = ({
+  isMuted,
+  isPlaying,
+  videoRef,
+  iconRef,
+  handleMuteUnmute,
+}: MobileMainPageProps) => {
 
   const [redirectTo, setRedirectTo] = useState<string | null>("/startRoaring");
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  // const [isPlaying, setIsPlaying] = useState(false);
+  // const [isMuted, setIsMuted] = useState(true);
   const router = useRouter();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const iconRef = useRef(null);
+  // const videoRef = useRef<HTMLVideoElement>(null);
+  // const iconRef = useRef(null);
   const provider = new TwitterAuthProvider();
 
 
-  const handleMuteUnmute = () => {
-    const video = videoRef.current;
-    if (video) {
-      video.muted = !isMuted;
-      setIsMuted(!isMuted);
-      setIsPlaying(false);
-      video.play();
+  // const handleMuteUnmute = () => {
+  //   const video = videoRef.current;
+  //   if (video) {
+  //     video.muted = !isMuted;
+  //     setIsMuted(!isMuted);
+  //     setIsPlaying(false);
+  //     video.play();
 
-      gsap.fromTo(
-        iconRef.current,
-        { scale: 1 },
-        { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.out" }
-      );
-    }
-  };
+  //     gsap.fromTo(
+  //       iconRef.current,
+  //       { scale: 1 },
+  //       { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.out" }
+  //     );
+  //   }
+  // };
 
 
   return (
@@ -125,6 +141,8 @@ export default function MobileMainPage() {
     </>
   );
 }
+
+export default MobileMainPage;
 
 
 
