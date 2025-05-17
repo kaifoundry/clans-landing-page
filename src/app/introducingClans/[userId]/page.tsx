@@ -1,27 +1,21 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect,  useRef, useState } from 'react';
 import Card from '@/components/Card';
 import { useClan } from '@/context/ClanContext';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import ClanLogo from '@/components/ClanLogo';
 import { clansData } from '@/data/clansData';
 import { useUser } from '@/context/UserContext';
-import { useReferral } from '@/context/ReferralContext';
 const IntroducingClans = () => {
   const { clans, loading, error, setSelectedCardId } = useClan();
-  const { getAuthUrl, handleReferralCode, isLoading, setIsLoading } =
-    useReferral();
-  const searchParams = useSearchParams();
-  console.log('clans', clans);
   const router = useRouter();
   const cardRefs = useRef<HTMLDivElement[]>([]);
-  const [userId, setUserId] = useState<string | null>(null); // Initialize userId as null
+  const [userId, setUserId] = useState<string | null>(null); 
   const { userData, fetchUserData } = useUser();
   // Get route parameters
   const params = useParams();
-  console.log('params', params);
 
   // Memoize the userId update function
   const updateUserId = useCallback(() => {
@@ -34,14 +28,12 @@ const IntroducingClans = () => {
     }
   }, [params?.userId]);
 
-  // Effect to extract and set the userId from route parameters
   useEffect(() => {
     updateUserId();
   }, [updateUserId]);
 
   const handleUserDataFetch = useCallback(() => {
     if (userId) {
-      console.log('User ID from params:', userId);
       localStorage.setItem('userId', userId);
       fetchUserData(userId);
     }
@@ -119,7 +111,7 @@ const IntroducingClans = () => {
         <ClanLogo />
       </span>
       {/* <h1 className="text-[28px] md:text-4xl lg:text-5xl font-bold"> */}
-      <h1 className='mt-10 text-center text-3xl font-bold font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
+      <h1 className='mt-10 text-center text-3xl  font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
         Introducing Clans
       </h1>
 

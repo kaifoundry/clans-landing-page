@@ -1,39 +1,4 @@
-// "use client";
 
-// import { useState, useEffect, useMemo } from "react";
-// import SelectClanDesktop from "@/components/SelectClanDesktop";
-// import SelectClanMobile from "@/components/SelectClanMobile";
-
-// export default function StartRoaring() {
-//   const [windowWidth, setWindowWidth] = useState<number>(0);
-
-//   useEffect(() => {
-//     const handleResize = () => {
-//       setWindowWidth(window.innerWidth);
-//     };
-
-//     // Set initial width
-//     handleResize();
-
-//     // Add debounced resize listener
-//     let timeoutId: NodeJS.Timeout;
-//     const debouncedResize = () => {
-//       clearTimeout(timeoutId);
-//       timeoutId = setTimeout(handleResize, 100);
-//     };
-
-//     window.addEventListener("resize", debouncedResize);
-
-//     return () => {
-//       window.removeEventListener("resize", debouncedResize);
-//       clearTimeout(timeoutId);
-//     };
-//   }, []);
-
-//   const isMobile = useMemo(() => windowWidth <= 768, [windowWidth]);
-
-//   return isMobile ? <SelectClanMobile /> : <SelectClanDesktop />;
-// }
 
 'use client';
 
@@ -41,16 +6,9 @@ import { useState, useEffect, useMemo } from 'react';
 import SelectClanDesktop from '@/components/SelectClanDesktop';
 import SelectClanMobile from '@/components/SelectClanMobile';
 import toast from 'react-hot-toast';
-import Image from 'next/image';
-
-import clsx from 'clsx';
-import { gsap } from 'gsap';
 import { useRouter } from 'next/navigation';
-
 import { clansData } from '@/data/selectClanData';
-
 import { useClan } from '@/context/ClanContext';
-import { motion, AnimatePresence } from 'framer-motion';
 
 export default function SelectClan() {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -118,7 +76,6 @@ export default function SelectClan() {
   };
 
   const handleConfirmJoin = async () => {
-    console.log('handleConfirmJoin called');
     setModalOpen(false);
     const userData = localStorage.getItem('userData');
     const user = userData ? JSON.parse(userData) : null;
@@ -142,7 +99,6 @@ export default function SelectClan() {
         toast.error('You have already joined the clan.');
       }
     } catch (error) {
-      console.error(' Error while calling joinClan API: ', error);
       toast.error('Failed to join clan due to network or server error.');
     }
   };
