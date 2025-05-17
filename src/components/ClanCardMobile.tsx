@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { FaUsers } from 'react-icons/fa';
 
 interface ClanCardProps {
   glowColor: string;
@@ -140,8 +141,8 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                     {displayName}
                   </p>
                   {username && (
-                    <p className='text-xs font-medium text-purple-200 md:text-sm'>
-                      @{username} | Followers: {followers}
+                    <p className='text-xs font-medium flex justify-center items-center gap-1 flex-wrap text-purple-200 md:text-sm'>
+                      @{username} | <span className='flex justify-center items-center '><FaUsers className='pr-1'/> Followers: {followers}</span> 
                     </p>
                   )}
                   {/* <p className='text-xs text-gray-200 md:text-sm'>{followers}</p> */}
