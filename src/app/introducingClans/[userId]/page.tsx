@@ -1,15 +1,15 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Card from '@/components/Card';
 import { useClan } from '@/context/ClanContext';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { gsap } from 'gsap';
 import ClanLogo from '@/components/ClanLogo';
 import { clansData } from '@/data/clansData';
 import { useUser } from '@/context/UserContext';
-import { useSearchParams } from 'next/navigation';
 import { useReferral } from '@/context/ReferralContext';
+
 const IntroducingClans = () => {
   const { clans, loading, error, setSelectedCardId } = useClan();
   const router = useRouter();
@@ -17,9 +17,8 @@ const IntroducingClans = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const { userData, fetchUserData } = useUser();
   const params = useParams();
-  const searchParams = useSearchParams();
-  const { handleReferralCode } = useReferral();
-  // Memoize the userId update function
+  const { handleReferralCode, hasReferralCode } = useReferral();
+
   const updateUserId = useCallback(() => {
     const userIdFromParams = params?.userId;
     if (userIdFromParams) {
@@ -31,44 +30,20 @@ const IntroducingClans = () => {
   }, [params?.userId]);
 
   useEffect(() => {
-    updateUserId();
-  }, [updateUserId]);
+    if (params?.userId) {
+      updateUserId();
+    }
+  }, [updateUserId, params?.userId]);
 
   useEffect(() => {
-    console.log('start checkauthcallback function');
-
-    const checkAuthCallback = async () => {
-      const userId = searchParams.get('userId');
-      console.log('user id inside checkAuthcallback', userId);
-      // Check if referral code exists in cookies
-      const cookies = document.cookie
-        .split(';')
-        .reduce((acc: Record<string, string>, cookie) => {
-          const [key, value] = cookie.split('=').map((c) => c.trim());
-          acc[key] = decodeURIComponent(value);
-          return acc;
-        }, {});
-
-      const referralCode = cookies['referral_code'];
-      console.log('referal code inside checkAuthcallback', referralCode);
-      if (userId) {
-        if (referralCode) {
-          // If both userId from URL and referralCode from cookie exist, use referralCode
-          console.log('start function');
-          await handleReferralCode(userId);
-          console.log('end referal  function');
-        } else {
-          await handleReferralCode(userId);
-        }
-
-        // Clean the URL
+    if (userId && hasReferralCode()) {
+      (async () => {
+        await handleReferralCode(userId);
         const newUrl = window.location.pathname;
         window.history.replaceState({}, '', newUrl);
-      }
-    };
-
-    checkAuthCallback();
-  }, [searchParams, handleReferralCode]);
+      })();
+    }
+  }, [userId, handleReferralCode, hasReferralCode]);
 
   const handleUserDataFetch = useCallback(() => {
     if (userId) {
@@ -81,16 +56,20 @@ const IntroducingClans = () => {
     handleUserDataFetch();
   }, [handleUserDataFetch]);
 
-  const cardData = Array.isArray(clans)
-    ? clans.map((clan, index) => ({
-        id: clan.clanId,
-        title: clan.title,
-        description: clan.description,
-        ...clansData[index],
-      }))
-    : [];
+  const cardData = useMemo(() => {
+    return Array.isArray(clans)
+      ? clans.map((clan, index) => ({
+          id: clan.clanId,
+          title: clan.title,
+          description: clan.description,
+          ...clansData[index],
+        }))
+      : [];
+  }, [clans]);
 
   useEffect(() => {
+    if (!cardData.length) return;
+
     cardRefs.current.forEach((ref, index) => {
       if (ref) {
         gsap.fromTo(ref, cardData[index].from, {
@@ -102,7 +81,6 @@ const IntroducingClans = () => {
           delay: index * 0.2,
         });
 
-        // Hover animation
         const onEnter = () => {
           gsap.to(ref, {
             scale: 1.05,
@@ -121,13 +99,14 @@ const IntroducingClans = () => {
         ref.addEventListener('mouseenter', onEnter);
         ref.addEventListener('mouseleave', onLeave);
 
+        // Clean up
         return () => {
           ref.removeEventListener('mouseenter', onEnter);
           ref.removeEventListener('mouseleave', onLeave);
         };
       }
     });
-  }, []);
+  }, [cardData]);
 
   if (!userId || loading)
     return (
@@ -148,7 +127,7 @@ const IntroducingClans = () => {
       <span className='absolute top-10 left-10 z-10 hidden h-14 w-16 sm:h-10 sm:w-28 md:h-12 md:w-36 lg:block lg:h-14 lg:w-44 xl:h-16 xl:w-52 2xl:h-20 2xl:w-60'>
         <ClanLogo />
       </span>
-      {/* <h1 className="text-[28px] md:text-4xl lg:text-5xl font-bold"> */}
+
       <h1 className='mt-10 text-center text-3xl font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
         Introducing Clans
       </h1>
