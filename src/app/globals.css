@@ -1,10 +1,6 @@
 @import 'tailwindcss';
 
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
+
 
 @theme {
   --breakpoint-xs: 320px;
@@ -48,8 +44,8 @@ body {
   font-family: 'Rajdhani', sans-serif;
 }
 .custom-clip-path {
-  width: 90vw; /* Instead of fixed px, use relative units */
-  height: 50vh; /* Adjust height relative to the viewport */
+  width: 90vw; 
+  height: 50vh; 
   overflow: hidden;
   clip-path: polygon(
     2% 8%,
@@ -80,7 +76,7 @@ body {
 
 @media (max-width: 375px) {
   .scale-xs {
-    transform: scale(0.5); /* or any value you want */
+    transform: scale(0.5); 
   }
 }
 
@@ -105,20 +101,6 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, Opera */
 }
 
-/* 
-@media (max-width: 640px) {
-  .main-section {
-    height: -webkit-fill-available;
-    max-height: -webkit-fill-available;
-    overflow: hidden;
-  }
 
-
-  * {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: none;
-  }
-} */

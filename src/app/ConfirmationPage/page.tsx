@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import SelectClanDesktop from '@/components/SelectClanDesktop';
-import SelectClanMobile from '@/components/SelectClanMobile';
 import ConfirmationPageDesktop from '@/components/ConfirmationPageDesktop';
 import ConfirmationPageMobile from '@/components/ConfirmationPageMobile';
 import { gsap } from 'gsap';

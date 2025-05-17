@@ -40,7 +40,6 @@ export default function StartRoaring() {
       sessionStorage.setItem('redirectUrl', currentUrl);
       window.location.assign(authUrl);
     } catch (error) {
-      console.error('Error during Twitter auth:', error);
       setIsLoading(false);
     }
   }, [getAuthUrl, setIsLoading]);

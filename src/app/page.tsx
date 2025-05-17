@@ -14,7 +14,6 @@ export default function Home() {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-      // console.log("Window size resized", window.innerWidth);clear
     };
 
     handleResize();
