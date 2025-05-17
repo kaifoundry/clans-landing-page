@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
@@ -8,18 +8,19 @@ import toast from 'react-hot-toast';
 export default function ReferralPage() {
   const router = useRouter();
   const params = useParams();
-  const [isProcessing, setIsProcessing] = useState(true);
   const hasProcessed = useRef(false);
 
   useEffect(() => {
     if (hasProcessed.current) return;
     hasProcessed.current = true;
 
-    const referralCode = params.referralCode as string;
+    const referralCode = params.referralCode as string | undefined;
 
-    if (!referralCode) {
-      toast.error('Invalid referral code');
-      router.push('/');
+    if (!referralCode || typeof referralCode !== "string" || referralCode.trim() === "") {
+      setTimeout(() => {
+        toast.error('Invalid referral code');
+        router.replace('/');
+      }, 1200); 
       return;
     }
 

@@ -1,19 +1,11 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
-import { Rajdhani } from 'next/font/google';
-import { ClanProvider } from '@/context/ClanContext';
-import { Toaster } from 'react-hot-toast';
-import { ReferralProvider } from '@/context/ReferralContext';
-import { UserProvider } from '@/context/UserContext';
-
-// import localFont from "next/font/local";
-
-// const similarGothic = localFont({
-//   src: "./fonts/SimilarGothic-Regular.woff2", // Path to your font file
-//   display: "swap",
-//   variable: "--font-similar-gothic", // Define the CSS variable
-// });
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { Rajdhani } from "next/font/google";
+import "./globals.css";
+import { ClanProvider } from "@/context/ClanContext";
+import { Toaster } from "react-hot-toast";
+import { ReferralProvider } from "@/context/ReferralContext";
+import { UserProvider } from "@/context/UserContext";
 
 const rajdhani = Rajdhani({
   subsets: ['latin'],
@@ -32,59 +24,90 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const DOMAIN = process.env.NEXT_PUBLIC_API_BASE_URL;
+const OG_IMAGE = `${DOMAIN}/og-image.png`;
+
 export const metadata: Metadata = {
-  title: 'Clans',
-  description: 'Clans - Your Digital Identity',
+  title: "Clans",
+  description:
+    "Clans is your decentralized identity wallet powered by the KILT Protocol. Claim your Web3 name, manage verifiable credentials, and interact securely with the digital world.",
+  keywords: [
+    "KILT Protocol",
+    "digital identity",
+    "decentralized identity",
+    "DID",
+    "verifiable credentials",
+    "Web3 name",
+    "Clans",
+    "SSI",
+    "privacy",
+    "identity wallet",
+    "blockchain identity",
+    "Web3",
+    "identity management",
+    "KILT",
+    "self-sovereign identity"
+  ],
+  openGraph: {
+    title: "Clans",
+    description:
+      "Clans is your identity super app built on the KILT Protocol. Claim your Web3 name, manage DIDs, and control your credentials securely.",
+    url: DOMAIN,
+    siteName: "Clans",
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "Clans - KILT Identity Wallet",
+        type: "image/png",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Clans | Your KILT Identity Wallet",
+    description:
+      "Claim your Web3 name, manage decentralized credentials, and verify your identity using the KILT Protocol. Join Clans now.",
+    images: [OG_IMAGE],
+    creator: "@yourtwitterhandle",
+    site: "@yourtwitterhandle",
+  },
+  alternates: {
+    canonical: DOMAIN,
+  },
+  icons: [
+    { rel: "icon", url: "/favicon.ico" },
+    { rel: "apple-touch-icon", url: "./favicon.ico" },
+  ],
+  other: {
+    "theme-color": "#ffffff",
+    "application-name": "Clans",
+    "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+    "author": "Clans Team",
+    "publisher": "Clans",
+  },
 };
 
-// export const metadata = {
-//   title: "Clans Landing Page",
-//   description: "Choose your Clan & join the waitlist",
-//   openGraph: {
-//     title: "Join your Clan",
-//     description: "Choose your Clan & join the waitlist",
-//     url: "https://clans-landing-page.vercel.app/",
-//     siteName: "Clans",
-//     images: [
-//       {
-//         url: "https://clans-landing-page.vercel.app/api/og?clan=Clan%20McHODLer&user=Yashika&tagline=Diamond%20hands%20forever",
-//         width: 1200,
-//         height: 630,
-//         alt: "Clan Card",
-//       },
-//     ],
-//     locale: "en_US",
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     site: "@yourhandle",
-//     title: "Choose Your Clan",
-//     description: "Join now and show your allegiance.",
-//     images: [
-//       "https://clans-landing-page.vercel.app/api/og?clan=Clan%20McHODLer&user=Yashika&tagline=Diamond%20hands%20forever",
-//     ],
-//   },
-// };
 
-export default function RootLayout({
+export default function Layout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang='en'>
-      <body className={`${rajdhani.variable} antialiased`}>
-        <div className='container mx-auto max-w-[1920px] overflow-x-hidden'>
-          <UserProvider>
-            <ReferralProvider>
-              <ClanProvider>
-                {children}
-                <Toaster position='top-center' />
-              </ClanProvider>
-            </ReferralProvider>
-          </UserProvider>
-        </div>
+    <html lang="en">
+      <body className={`antialiased ${rajdhani.variable} ${geistSans.variable} ${geistMono.variable}`}>
+        <UserProvider>
+          <ReferralProvider>
+            <ClanProvider>
+              {children}
+              <Toaster />
+            </ClanProvider>
+          </ReferralProvider>
+        </UserProvider>
       </body>
     </html>
   );
