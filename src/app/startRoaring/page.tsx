@@ -89,21 +89,14 @@
 //   );
 // }
 
+'use client';
 
-
-
-
-
-
-"use client";
-
-import { useState, useEffect, useCallback, useMemo,useRef } from "react";
-import { useParams } from "next/navigation";
-import StartRoaringMobile from "@/components/StartRoaringMobilePage"; 
-import StartRoaringDesktop from "@/components/startRoaringDesktop"; 
-import { useReferral } from "@/context/ReferralContext";
-import { gsap } from "gsap";
-
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useParams } from 'next/navigation';
+import StartRoaringMobile from '@/components/StartRoaringMobilePage';
+import StartRoaringDesktop from '@/components/startRoaringDesktop';
+import { useReferral } from '@/context/ReferralContext';
+import { gsap } from 'gsap';
 
 const debounce = (func: Function, wait: number) => {
   let timeout: NodeJS.Timeout;
@@ -118,14 +111,12 @@ const debounce = (func: Function, wait: number) => {
 };
 
 export default function StartRoaring() {
-  
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const avatarLeftRef = useRef<HTMLImageElement>(null);
   const avatarRightRef = useRef<HTMLImageElement>(null);
   const { getAuthUrl, isLoading, setIsLoading } = useReferral();
 
-  
   const handleResize = useCallback(
     debounce(() => {
       setIsMobile(window.innerWidth <= 768);
@@ -138,44 +129,40 @@ export default function StartRoaring() {
       setIsLoading(true);
       const authUrl = getAuthUrl();
       const currentUrl = window.location.href;
-      sessionStorage.setItem("redirectUrl", currentUrl);
+      sessionStorage.setItem('redirectUrl', currentUrl);
       window.location.assign(authUrl);
     } catch (error) {
-      console.error("Error during Twitter auth:", error);
+      console.error('Error during Twitter auth:', error);
       setIsLoading(false);
     }
   }, [getAuthUrl, setIsLoading]);
 
-
   const openModal = useCallback(() => setIsModalOpen(true), []);
   const closeModal = useCallback(() => setIsModalOpen(false), []);
-
 
   useEffect(() => {
     if (avatarLeftRef.current) {
       gsap.fromTo(
         avatarLeftRef.current,
-        { x: "-200", opacity: 0 },
-        { x: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+        { x: '-200', opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.5, ease: 'power3.out' }
       );
     }
-    
+
     if (avatarRightRef.current) {
       gsap.fromTo(
         avatarRightRef.current,
-        { x: "200", opacity: 0 },
-        { x: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+        { x: '200', opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.5, ease: 'power3.out' }
       );
     }
   }, []);
 
-  
   useEffect(() => {
-    handleResize(); 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
-
 
   const commonProps = {
     isModalOpen,
@@ -184,11 +171,12 @@ export default function StartRoaring() {
     closeModal,
     callTwitterAuthAPI,
     avatarLeftRef,
-    avatarRightRef
+    avatarRightRef,
   };
 
-  
-
-  return isMobile ? <StartRoaringMobile {...commonProps} /> : <StartRoaringDesktop  {...commonProps} />;
+  return isMobile ? (
+    <StartRoaringMobile {...commonProps} />
+  ) : (
+    <StartRoaringDesktop {...commonProps} />
+  );
 }
-

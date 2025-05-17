@@ -1,24 +1,30 @@
 {
-  "name": "clan-landing-page",
+  "name": "kilt-clans-landing",
   "version": "0.1.0",
   "private": true,
+  "repository": "git@github.com:kaifoundry/clans-landing-page.git",
+  "description": "Landing page for Kilt-clans",
+  "author": "KaiFoundry",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fmt": "prettier --write \"src/**/*.{js,ts,jsx,tsx,json,css,md}\"",
+    "prepare": "husky"
+  },
+  "engines": {
+    "node": "^18.18.0 || ^20.0.0 || ^22.11.0",
+    "npm": "^9 || ^10"
   },
   "dependencies": {
     "@types/js-cookie": "^3.0.6",
-    "cloudinary": "^2.6.0",
     "clsx": "^2.1.1",
-    "firebase": "^11.6.1",
     "framer-motion": "^12.10.1",
     "gsap": "^3.13.0",
     "html-to-image": "^1.11.13",
     "js-cookie": "^3.0.5",
     "next": "^15.3.2",
-    "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
@@ -32,7 +38,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
+    "husky": "^9.1.7",
     "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.1.5",
     "typescript": "^5"
   }

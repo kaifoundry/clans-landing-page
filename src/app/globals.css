@@ -1,11 +1,11 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 } */
- 
+
 @theme {
   --breakpoint-xs: 320px;
   --breakpoint-sm: 390px;
@@ -14,13 +14,12 @@
   --breakpoint-lg: 768px;
   --breakpoint-2xl: 100rem;
   --breakpoint-3xl: 120rem;
-  --font-display: "Edu QLD Beginner",
-    cursive;;
+  --font-display: 'Edu QLD Beginner', cursive;
 }
 @layer utilities {
   .main-section {
-    @apply bg-cover bg-center bg-no-repeat flex items-center justify-center text-white px-4 min-h-screen overflow-hidden;
-    background-image: url("/Images/gettingStarted/background.png");
+    @apply flex min-h-screen items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat px-4 text-white;
+    background-image: url('/Images/gettingStarted/background.png');
   }
 }
 
@@ -40,21 +39,28 @@
 
 html,
 body {
-   /* min-height: 100%;
+  /* min-height: 100%;
   width: 100%; */
   overflow-x: hidden;
   scroll-behavior: smooth;
-    background: var(--background);
+  background: var(--background);
   color: var(--foreground);
-    font-family: "Rajdhani", sans-serif;
-
+  font-family: 'Rajdhani', sans-serif;
 }
 .custom-clip-path {
-  width: 90vw;  /* Instead of fixed px, use relative units */
-  height: 50vh;  /* Adjust height relative to the viewport */
+  width: 90vw; /* Instead of fixed px, use relative units */
+  height: 50vh; /* Adjust height relative to the viewport */
   overflow: hidden;
   clip-path: polygon(
-    2% 8%, 2% 85%, 10% 98%, 96% 98%, 98% 95%, 98% 18%, 90% 3%, 4% 3%, 2% 8%
+    2% 8%,
+    2% 85%,
+    10% 98%,
+    96% 98%,
+    98% 95%,
+    98% 18%,
+    90% 3%,
+    4% 3%,
+    2% 8%
   );
 }
 
@@ -70,7 +76,6 @@ body {
   .xxsClass {
     transform: scale(0.9);
   }
-  
 }
 
 @media (max-width: 375px) {
@@ -89,7 +94,6 @@ body {
   }
 }
 
-
 /* // scroll line  */
 /* Custom utility to hide scrollbar */
 .scrollbar-hide {
@@ -103,7 +107,6 @@ body {
   display: none;
   /* Chrome, Safari, Opera */
 }
-
 
 /* 
 @media (max-width: 640px) {

@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
-import { Rajdhani } from "next/font/google";
-import { ClanProvider } from "@/context/ClanContext";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import '../globals.css';
+import { Rajdhani } from 'next/font/google';
+import { ClanProvider } from '@/context/ClanContext';
 import { Toaster } from 'react-hot-toast';
-import { ReferralProvider } from "@/context/ReferralContext";
+import { ReferralProvider } from '@/context/ReferralContext';
 import { UserProvider } from '@/context/UserContext';
 
 // import localFont from "next/font/local";
@@ -16,25 +16,25 @@ import { UserProvider } from '@/context/UserContext';
 // });
 
 const rajdhani = Rajdhani({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-rajdhani",
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-rajdhani',
 });
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Clans",
-  description: "Clans - Your Digital Identity",
+  title: 'Clans',
+  description: 'Clans - Your Digital Identity',
 };
 
 // export const metadata = {
@@ -73,14 +73,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body className={`${rajdhani.variable} antialiased`}>
-        <div className="container max-w-[1920px] overflow-x-hidden mx-auto">
+        <div className='container mx-auto max-w-[1920px] overflow-x-hidden'>
           <UserProvider>
             <ReferralProvider>
               <ClanProvider>
                 {children}
-                <Toaster position="top-center" />
+                <Toaster position='top-center' />
               </ClanProvider>
             </ReferralProvider>
           </UserProvider>

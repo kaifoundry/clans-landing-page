@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from "next/image";
 import Button from "@/components/Button";
@@ -16,7 +16,7 @@ interface CommonRoaringProps {
   closeModal: () => void;
   callTwitterAuthAPI: () => void;
   avatarLeftRef: RefObject<HTMLImageElement | null>;
-  avatarRightRef?: RefObject<HTMLImageElement | null>; 
+  avatarRightRef?: RefObject<HTMLImageElement | null>;
 }
 
 
@@ -32,36 +32,36 @@ const StartRoaringPage = React.memo(({
 
 
     return (
-      <section className="w-full flex flex-col gap-y-8 items-center justify-center px-6 py-12 h-screen bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center relative overflow-hidden ">
+      <section className="relative flex h-screen w-full flex-col items-center justify-center gap-y-8 overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center px-6 py-12">
         {/* Clan Logo */}
-        <span className="absolute top-10 left-10 w-14 h-14 xs:w-16 xs:h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 2xl:w-48 2xl:h-48 transition-all duration-300 ease-in-out">
+        <span className='xs:w-16 xs:h-16 absolute top-10 left-10 h-14 w-14 transition-all duration-300 ease-in-out sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-32 lg:w-32 xl:h-40 xl:w-40 2xl:h-48 2xl:w-48'>
           <ClanLogo />
         </span>
       
         {/* Page Title */}
-        <div className=" z-10">
-          {" "}
+        <div className='z-10'>
+          {' '}
           {/* Ensure title is above potential overlaps */}
-          <h2 className="text-xl lg:text-4xl xl:text-5xl md:text-4xl text-center text-white font-bold mt-20">
+          <h2 className='mt-20 text-center text-xl font-bold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
             Introducing Roar Points
           </h2>
         </div>
         {/* Center Card Section */}
-        <div className="z-10 flex items-center justify-center flex-col gap-6 w-full max-w-4xl px-4 md:px-0">
+        <div className='z-10 flex w-full max-w-4xl flex-col items-center justify-center gap-6 px-4 md:px-0'>
           <div
-            className="w-full   lg:w-[958px] lg:h-[530px] px-10 py-8 rounded relative flex flex-col justify-center items-center lg:gap-12 md:gap-5"
+            className='relative flex w-full flex-col items-center justify-center rounded px-10 py-8 md:gap-5 lg:h-[530px] lg:w-[958px] lg:gap-12'
             style={{
               backgroundImage: "url('/Images/startRoaring/centerbg.png')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
             }}
           >
             {/* Text Content */}
-            <div className="flex flex-col items-center justify-center h-full">
-              <p className="text-center text-lg md:text-xl leading-8 md:leading-10 text-white">
+            <div className='flex h-full flex-col items-center justify-center'>
+              <p className='text-center text-lg leading-8 text-white md:text-xl md:leading-10'>
                 Ancient warriors had clans.
                 <br /> You have social media. <br />
-                <span className="font-bold">
+                <span className='font-bold'>
                   Post. Engage. Earn Roar Points.
                 </span>
                 <br /> Only those who join the waitlist
@@ -83,14 +83,14 @@ const StartRoaringPage = React.memo(({
           </div>
 
           {/* Navigation Button */}
-          <div className="w-full lg:w-[958px] flex justify-center lg:justify-end mt-6 md:mt-0">
+          <div className='mt-6 flex w-full justify-center md:mt-0 lg:w-[958px] lg:justify-end'>
             {/* <Link href="/introducingClans" prefetch> */}
             <Button
               onClick={openModal}
-              ButtonText="Start Roaring"
+              ButtonText='Start Roaring'
               width={307}
               height={79}
-              className="mr-4"
+              className='mr-4'
             />
             {/* </Link> */}
           </div>
@@ -114,67 +114,77 @@ const StartRoaringPage = React.memo(({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+              className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'
             >
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="bg-white rounded-2xl shadow-lg w-[308px] p-6 text-center relative"
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className='relative w-[308px] rounded-2xl bg-white p-6 text-center shadow-lg'
               >
-                <div className="w-full flex items-center justify-center">
+                <div className='flex w-full items-center justify-center'>
                   <Image
-                    src="/logo.svg"
+                    src='/logo.svg'
                     width={100}
                     height={100}
-                    className="w-24 h-20 object-contain text-xl"
-                    alt="Logo"
+                    className='h-20 w-24 object-contain text-xl'
+                    alt='Logo'
                     draggable={false}
                     priority
                   />
                 </div>
 
-                <h2 className="text-xl font-bold mb-4 text-black">
+                <h2 className='mb-4 text-xl font-bold text-black'>
                   Clans wants to access your X account
                 </h2>
 
-                <div className="flex flex-col gap-3 mb-4">
+                <div className='mb-4 flex flex-col gap-3'>
                   <button
                     onClick={callTwitterAuthAPI}
-                    className="bg-black text-white py-3 rounded-full text-base font-bold hover:bg-gray-800 transition duration-300 cursor-pointer"
+                    className='cursor-pointer rounded-full bg-black py-3 text-base font-bold text-white transition duration-300 hover:bg-gray-800'
                     disabled={isLoading}
                   >
                     {isLoading ? (
-                      <span className="flex items-center justify-center">
-                        <span className="pr-1">Authenticating</span>
-                        <LuLoaderCircle className="animate-spin" />
+                      <span className='flex items-center justify-center'>
+                        <span className='pr-1'>Authenticating</span>
+                        <LuLoaderCircle className='animate-spin' />
                       </span>
                     ) : (
-                      "Authenticate"
+                      'Authenticate'
                     )}
                   </button>
                 </div>
 
                 <p
                   onClick={closeModal}
-                  className="text-base text-red-500 font-bold cursor-pointer mb-4"
+                  className='mb-4 cursor-pointer text-base font-bold text-red-500'
                 >
                   Cancel
                 </p>
 
-                <div className="text-left border-t border-[#EBEBEB] pt-4">
-                  <h3 className="font-bold mb-2 text-sm text-[#141414]">
-                   
-                    Permission Required
+                <div className='border-t border-[#EBEBEB] pt-4 text-left'>
+                  <center>
+                    <h3 className='mb-2 font-bold text-[#141414]'>
+                      Permission required by Clans
+                    </h3>
+                  </center>
+                  <h3 className='mb-2 text-sm font-bold text-[#141414]'>
+                    Things this App can do...
                   </h3>
-                  <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed">
-                    <li className="font-[500] text-sm text-[#525252]">
+                  <ul className='list-outside list-disc space-y-1 pl-5 leading-relaxed'>
+                    <li className='text-sm font-[500] text-[#525252]'>
+                      Post and repost for you.
+                    </li>
+                  </ul>
+
+                  <h3 className='mt-4 mb-2 text-sm font-bold text-[#141414]'>
+                    Things this App can view...
+                  </h3>
+                  <ul className='list-outside list-disc space-y-1 pl-5 leading-relaxed'>
+                    <li className='text-sm font-[500] text-[#525252]'>
                       All the posts you can view, including posts from protected
                       accounts.
-                    </li>
-                    <li className="font-[500] text-sm text-[#525252]">
-                      Any account you can view, including protected accounts.
                     </li>
                   </ul>
                 </div>
@@ -184,10 +194,9 @@ const StartRoaringPage = React.memo(({
         </AnimatePresence>
       </section>
     );
-  }, );
+  }
+);
 
-
-StartRoaringPage.displayName = "StartRoaringPage";
+StartRoaringPage.displayName = 'StartRoaringPage';
 
 export default StartRoaringPage;
-

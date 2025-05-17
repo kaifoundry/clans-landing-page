@@ -23,66 +23,66 @@ const ConfirmationPage = ({
   handleMuteUnmute,
 }: ConfirmationPageProps) => {
   return (
-    <section className="relative h-dvh flex items-center justify-center overflow-hidden bg-black text-white">
+    <section className='relative flex h-dvh items-center justify-center overflow-hidden bg-black text-white'>
       {/* Background Video */}
-      <div className="opacity-60">
+      <div className='opacity-60'>
         <video
           ref={videoRef}
-          preload="auto"
+          preload='auto'
           autoPlay
           loop
           muted={isMuted}
           playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 backdrop-blur-2xl bg-white/30"
+          className='absolute top-0 left-0 z-0 h-full w-full bg-white/30 object-cover backdrop-blur-2xl'
         >
-          <source src="/videos/Main.mp4" type="video/mp4" />
+          <source src='/videos/Main.mp4' type='video/mp4' />
           Your browser does not support the video tag.
         </video>
       </div>
 
       {/* Overlay Image */}
       <Image
-        src="/Images/gettingStarted/background.png" // Replace with your actual overlay image path
-        alt="Overlay"
+        src='/Images/gettingStarted/background.png' // Replace with your actual overlay image path
+        alt='Overlay'
         fill
         style={{ opacity: 0.33 }}
-        className="absolute top-0 left-0 w-full h-full object-cover z-10 pointer-events-none"
+        className='pointer-events-none absolute top-0 left-0 z-10 h-full w-full object-cover'
       />
 
       {/* Main content */}
-      <div className="relative z-20 flex flex-col items-center justify-center text-center px-4 pt-20 w-full max-w-screen-2xl">
+      <div className='relative z-20 flex w-full max-w-screen-2xl flex-col items-center justify-center px-4 pt-20 text-center'>
         {/* Logo Row */}
-        <div className="flex items-center justify-center gap-4 mb-6">
+        <div className='mb-6 flex items-center justify-center gap-4'>
           <Image
-            src="/Images/gettingStarted/Object.png"
+            src='/Images/gettingStarted/Object.png'
             width={80}
             height={80}
-            alt="Object"
-            className="w-12 sm:w-16 md:w-20"
+            alt='Object'
+            className='w-12 sm:w-16 md:w-20'
           />
           <Image
-            src="/Images/gettingStarted/Line.png"
+            src='/Images/gettingStarted/Line.png'
             width={1}
             height={1}
-            alt="Line1"
-            className="w-1 h-10 sm:h-12 md:h-20 md:w-1 lg:h-18 xl:h-18 object-contain"
+            alt='Line1'
+            className='h-10 w-1 object-contain sm:h-12 md:h-20 md:w-1 lg:h-18 xl:h-18'
           />
           <Image
-            src="/Images/gettingStarted/Clans.png"
+            src='/Images/gettingStarted/Clans.png'
             width={140}
             height={70}
-            alt="Clans"
-            className="w-[120px] sm:w-[150px] md:w-[180px]"
+            alt='Clans'
+            className='w-[120px] sm:w-[150px] md:w-[180px]'
           />
         </div>
 
         {/* Heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-snug mb-4">
+        <h1 className='mb-4 text-3xl leading-snug font-bold sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl'>
           You’re officially <br />a Roarer!🎉
         </h1>
 
         {/* Subtext */}
-        <p className="text-base font-medium sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed mb-10">
+        <p className='mb-10 text-base leading-relaxed font-medium sm:text-lg md:text-xl lg:text-2xl xl:text-3xl'>
           The Clans have heard your Roar.
           <br />
           You’ll be among the 1ST to know <br />
@@ -90,34 +90,34 @@ const ConfirmationPage = ({
         </p>
 
         {/* Social Icons */}
-        <div className="flex gap-6 mb-8">
+        <div className='mb-8 flex gap-6'>
           <Image
-            src="/Images/confirmationPage/twitter.svg"
-            alt="Twitter"
+            src='/Images/confirmationPage/twitter.svg'
+            alt='Twitter'
             width={32}
             height={32}
-            className="w-6 sm:w-8"
+            className='w-6 sm:w-8'
           />
           <Image
-            src="/Images/confirmationPage/discord.svg"
-            alt="Discord"
+            src='/Images/confirmationPage/discord.svg'
+            alt='Discord'
             width={32}
             height={32}
-            className="w-6 sm:w-8"
+            className='w-6 sm:w-8'
           />
           <Image
-            src="/Images/confirmationPage/whatsapp.svg"
-            alt="Whatsapp"
+            src='/Images/confirmationPage/whatsapp.svg'
+            alt='Whatsapp'
             width={32}
             height={32}
-            className="w-6 sm:w-8"
+            className='w-6 sm:w-8'
           />
           <Image
-            src="/Images/confirmationPage/telegram.svg"
-            alt="Telegram"
+            src='/Images/confirmationPage/telegram.svg'
+            alt='Telegram'
             width={32}
             height={32}
-            className="w-6 sm:w-8"
+            className='w-6 sm:w-8'
           />
         </div>
       </div>
@@ -125,32 +125,32 @@ const ConfirmationPage = ({
       {/* Bottom Left Avatar */}
       <Image
         ref={avatarLeftRef}
-        src="/Images/gettingStarted/avtar1.png"
+        src='/Images/gettingStarted/avtar1.png'
         width={500}
         height={500}
-        alt="Avatar Left"
-        className="absolute bottom-0 left-0 w-[140px] sm:w-[200px] md:w-[280px] lg:w-[350px] xl:w-[450px] 2xl:w-[500px] object-contain z-10"
+        alt='Avatar Left'
+        className='absolute bottom-0 left-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-[280px] lg:w-[350px] xl:w-[450px] 2xl:w-[500px]'
       />
 
       {/* Bottom Right Avatar */}
       <Image
         ref={avatarRightRef}
-        src="/Images/gettingStarted/avtar2_.png"
+        src='/Images/gettingStarted/avtar2_.png'
         width={500}
         height={500}
-        alt="Avatar Right"
-        className="absolute bottom-0 right-0 w-[140px] sm:w-[200px] md:w-[280px] lg:w-[350px] xl:w-[450px] 2xl:w-[500px] object-contain z-10"
+        alt='Avatar Right'
+        className='absolute right-0 bottom-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-[280px] lg:w-[350px] xl:w-[450px] 2xl:w-[500px]'
       />
 
       {/* Mute Button */}
       <button
         onClick={handleMuteUnmute}
-        className="absolute bottom-10 left-10 bg-black/50 px-4 py-2 rounded-full text-white flex items-center justify-center z-20 border-2 border-white/50 hover:bg-white/20 transition duration-300"
+        className='absolute bottom-10 left-10 z-20 flex items-center justify-center rounded-full border-2 border-white/50 bg-black/50 px-4 py-2 text-white transition duration-300 hover:bg-white/20'
       >
-        <span className="text-xl p-1" ref={iconRef}>
+        <span className='p-1 text-xl' ref={iconRef}>
           {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
         </span>
-        {isMuted ? "Unmute" : "Mute"}
+        {isMuted ? 'Unmute' : 'Mute'}
       </button>
     </section>
   );
