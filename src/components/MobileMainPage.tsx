@@ -11,6 +11,7 @@ import ClanLogoMobile from "./ClanLogoMobile";
 import { useReferral } from "@/context/ReferralContext";
 import Link from "next/link";
 import { RefObject } from "react";
+import Button from "./Button";
 
 
 interface MobileMainPageProps {
