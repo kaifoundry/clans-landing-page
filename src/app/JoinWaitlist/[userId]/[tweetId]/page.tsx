@@ -65,15 +65,8 @@ const JoinWaitlist = () => {
       );
 
       if (!response.ok) {
-        let errorData;
-        try {
-          errorData = await response.json();
-        } catch (e) {
-          errorData = { message: `Server error: ${response.status}` };
-        }
-
         throw new Error(
-          errorData.message || `Failed to join waitlist: ${response.status}`
+          data.message || `Failed to join waitlist: ${response.status}`
         );
       }
 

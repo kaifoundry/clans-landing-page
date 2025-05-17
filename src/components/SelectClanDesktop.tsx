@@ -2,14 +2,9 @@
 
 import Image from "next/image";
 import Button from "@/components/Button";
-import { useState, useEffect, useMemo } from "react";
 import clsx from "clsx";
 import { gsap } from "gsap";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { clansData } from "@/data/selectClanData";
 import Loader from "./Features/Loader";
-import { useClan } from "@/context/ClanContext";
 import { motion, AnimatePresence } from "framer-motion";
 import StartButtonBorder from "@/constant/StartButtonBorder";
 
@@ -70,8 +65,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
   loading,
   error,
 }) => {
-  // if (loading) return <div className="flex justity-center items-center">Loading clans...</div>;
-  // if (error) return <div>Error: {error}</div>;
+
   if (loading)
     return (
       <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>

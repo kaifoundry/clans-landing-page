@@ -1,16 +1,12 @@
 'use client';
 
-import ClanLogo from './ClanLogo';
-import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
-import gsap from 'gsap';
-import ClanLogoMobile from './ClanLogoMobile';
-import { useReferral } from '@/context/ReferralContext';
-import Link from 'next/link';
-import { RefObject } from 'react';
-import Button from './Button';
+import Image from "next/image";
+import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
+import ClanLogoMobile from "./ClanLogoMobile";
+import Link from "next/link";
+import { RefObject } from "react";
+import Button from "./Button";
+
 
 interface MobileMainPageProps {
   isMuted: boolean;
@@ -27,28 +23,7 @@ const MobileMainPage = ({
   iconRef,
   handleMuteUnmute,
 }: MobileMainPageProps) => {
-  const [redirectTo, setRedirectTo] = useState<string | null>('/startRoaring');
-  // const [isPlaying, setIsPlaying] = useState(false);
-  // const [isMuted, setIsMuted] = useState(true);
-  const router = useRouter();
-  // const videoRef = useRef<HTMLVideoElement>(null);
-  // const iconRef = useRef(null);
 
-  // const handleMuteUnmute = () => {
-  //   const video = videoRef.current;
-  //   if (video) {
-  //     video.muted = !isMuted;
-  //     setIsMuted(!isMuted);
-  //     setIsPlaying(false);
-  //     video.play();
-
-  //     gsap.fromTo(
-  //       iconRef.current,
-  //       { scale: 1 },
-  //       { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.out" }
-  //     );
-  //   }
-  // };
 
   return (
     <>
