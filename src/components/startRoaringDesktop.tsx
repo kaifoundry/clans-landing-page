@@ -1,29 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import Button from "@/components/Button"; // Assuming Button component exists at this path
-import ClanLogo from "@/components/ClanLogo"; // Assuming ClanLogo component exists at this path
-import Link from "next/link";
-import { gsap } from "gsap";
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-  useCallback,
-} from "react";
-import toast from "react-hot-toast";
-import Loader from "./Features/Loader";
-import { useUser } from "@/context/UserContext";
-import { useReferral } from "@/context/ReferralContext";
-import { useSearchParams } from "next/navigation";
+import Button from "@/components/Button";
+import ClanLogo from "@/components/ClanLogo"; 
 import { LuLoaderCircle } from "react-icons/lu";
 import { motion, AnimatePresence } from "framer-motion";
-import { RefObject } from "react";
+import React, { RefObject } from "react";
 
-interface Props {
-  // userId: string;
-}
 
 
 interface CommonRoaringProps {
@@ -35,22 +18,8 @@ interface CommonRoaringProps {
   avatarLeftRef: RefObject<HTMLImageElement | null>;
   avatarRightRef?: RefObject<HTMLImageElement | null>; 
 }
-interface UserData {
-  userId: string;
-}
 
-// Debounce function to limit how often a function can be called
-// const debounce = (func: Function, wait: number) => {
-//   let timeout: NodeJS.Timeout;
-//   return function executedFunction(...args: any[]) {
-//     const later = () => {
-//       clearTimeout(timeout);
-//       func(...args);
-//     };
-//     clearTimeout(timeout);
-//     timeout = setTimeout(later, wait);
-//   };
-// };
+
 
 const StartRoaringPage = React.memo(({
   isModalOpen,
@@ -60,86 +29,7 @@ const StartRoaringPage = React.memo(({
   callTwitterAuthAPI,
   avatarLeftRef,
 }: CommonRoaringProps) => {
-  const [isMobile, setIsMobile] = useState(false);
-  const { userData, fetchUserData,  } = useUser();
- // const avatarLeftRef = useRef(null);
-  const animationRef = useRef<gsap.core.Tween | null>(null);
- // const { getAuthUrl, handleReferralCode,isLoading, setIsLoading } = useReferral();
-  const searchParams = useSearchParams();
- // const [isModalOpen, setIsModalOpen] = useState(false);
- //console.log("search params", searchParams);
- 
 
-  // const callTwitterAuthAPI = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     const authUrl = getAuthUrl();
-  //     const currentUrl = window.location.href;
-  //     sessionStorage.setItem("redirectUrl", currentUrl);
-  //     window.location.assign(authUrl);
-  //   } catch (error) {
-  //     console.error("Error during Twitter auth:", error);
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const openModal = () => setIsModalOpen(true);
-  // const closeModal = () => setIsModalOpen(false);
-
-  // Memoize the resize handler with debounce
-  // const handleResize = useCallback(
-  //   debounce(() => {
-  //     setIsMobile(window.innerWidth <= 768);
-  //   }, 100),
-  //   []
-  // );
-
-  // useEffect(() => {
-  //   handleResize(); // Initial check
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, [handleResize]);
-
-  // Memoize the user data fetch callback
-  // const handleUserDataFetch = useCallback(() => {
-  //   if (userId) {
-  //     console.log("User ID from params:", userId);
-  //     localStorage.setItem("userId", userId);
-  //     fetchUserData(userId);
-  //   }
-  // }, [userId, fetchUserData]);
-
-  // useEffect(() => {
-  //   handleUserDataFetch();
-  // }, [handleUserDataFetch]);
-
-  // GSAP animation effect for the left avatar - only run once
-  // useEffect(() => {
-  //   if (avatarLeftRef.current && !animationRef.current) {
-  //     animationRef.current = gsap.fromTo(
-  //       avatarLeftRef.current,
-  //       { x: "-200", opacity: 0 },
-  //       {
-  //         x: 0,
-  //         opacity: 1,
-  //         duration: 1.5,
-  //         ease: "power3.out",
-  //       }
-  //     );
-  //   }
-
-  //   return () => {
-  //     if (animationRef.current) {
-  //       animationRef.current.kill();
-  //       animationRef.current = null;
-  //     }
-  //   };
-  // }, []);
-
-  // Memoize the main content
-  // if (!userId || isLoading) {
-  //   return <Loader message={"Loading please wait..."} />;
-  // }
 
     return (
       <section className="w-full flex flex-col gap-y-8 items-center justify-center px-6 py-12 h-screen bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center relative overflow-hidden ">
@@ -147,12 +37,7 @@ const StartRoaringPage = React.memo(({
         <span className="absolute top-10 left-10 w-14 h-14 xs:w-16 xs:h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 2xl:w-48 2xl:h-48 transition-all duration-300 ease-in-out">
           <ClanLogo />
         </span>
-        {/* Display the userId (e.g., for debugging or personalization) */}
-        {/* You might remove this h1 in the final version */}
-        {/* <h1 className="text-white text-sm absolute top-5 right-5">
-          User: {userId}
-        </h1> */}
-
+      
         {/* Page Title */}
         <div className=" z-10">
           {" "}
@@ -189,10 +74,10 @@ const StartRoaringPage = React.memo(({
             <Image
               src="/Images/startRoaring/Avtar1.png"
               alt="Stylized avatar character 1"
-              width={200} // Base width, adjust className for responsiveness
-              height={200} // Base height, adjust className for responsiveness
+              width={200} 
+              height={200} 
               className="absolute bottom-2 rounded-r-4xl right-5 w-[120px] h-auto md:w-[300px] lg:w-[280px] 2xl:w-[350px] max-w-full" // Responsive sizing
-              priority // Prioritize loading if it's visible early
+              priority 
               draggable={false}
             />
           </div>
@@ -212,13 +97,13 @@ const StartRoaringPage = React.memo(({
         </div>
         {/* Left Avatar Image (animated) */}
         <Image
-          ref={avatarLeftRef} // Attach ref for GSAP animation
+          ref={avatarLeftRef} 
           src="/Images/startRoaring/Avtar2.png"
           height={500} // Base height
           width={500} // Base width
           alt="Stylized avatar character 2"
           className="absolute bottom-0 left-0 z-0 md:z-10 w-[250px] h-auto md:w-[300px] lg:w-[400px] xl:w-[500px] md:h-[400px] lg:h-[500px] xl:h-[600px] 2xl:left-20 xl:left-10 md:left-0 max-w-full" // Responsive sizing and positioning
-          priority // Prioritize loading if it's important LCP
+          priority 
           draggable={false}
         />
 
@@ -271,13 +156,6 @@ const StartRoaringPage = React.memo(({
                   </button>
                 </div>
 
-                {/* <p
-                        onClick={closeModal}
-                        className="text-base text-[#141414]  font-bold cursor-pointer mb-4"
-                      >
-                        Cancel
-                      </p> */}
-
                 <p
                   onClick={closeModal}
                   className="text-base text-red-500 font-bold cursor-pointer mb-4"
@@ -287,7 +165,7 @@ const StartRoaringPage = React.memo(({
 
                 <div className="text-left border-t border-[#EBEBEB] pt-4">
                   <h3 className="font-bold mb-2 text-sm text-[#141414]">
-                    {/* Things this App can view... */}
+                   
                     Permission Required
                   </h3>
                   <ul className="list-disc list-outside pl-5 space-y-1 leading-relaxed">

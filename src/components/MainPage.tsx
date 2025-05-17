@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import {  useEffect, useRef } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import Link from "next/link";
@@ -19,44 +18,13 @@ interface MainPageProps {
 
 const MainPage = ({
   isMuted,
-  isPlaying,
   videoRef,
   iconRef,
   handleMuteUnmute,
 }: MainPageProps) => {
-  // const [isMuted, setIsMuted] = useState(true);
-  // const [isPlaying, setIsPlaying] = useState(false);
-
-  // const videoRef = useRef<HTMLVideoElement>(null);
-  // const iconRef = useRef(null);
   const avatarLeftRef = useRef(null);
   const avatarRightRef = useRef(null);
-  const router = useRouter();
 
-
-  // const handleMuteUnmute = () => {
-  //   const video = videoRef.current;
-  //   if (video) {
-  //     video.muted = !isMuted;
-  //     video.volume = isMuted ? 1 : 0;
-  //     setIsMuted(!isMuted);
-  //     setIsPlaying(true);
-  //     video.play();
-
-  //     gsap.fromTo(
-  //       iconRef.current,
-  //       { scale: 1 },
-  //       { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.out" }
-  //     );
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const video = videoRef.current;
-  //   if (video && !isPlaying) {
-  //     video.play().catch((err) => console.warn("Autoplay failed:", err));
-  //   }
-  // }, [isPlaying]);
 
   useEffect(() => {
     gsap.fromTo(
@@ -90,7 +58,7 @@ const MainPage = ({
 
         {/* Image overlay over video */}
         <Image
-          src="/Images/gettingStarted/background.png" // Replace with your actual overlay image path
+          src="/Images/gettingStarted/background.png" 
           alt="Overlay"
           fill
           style={{ opacity: 0.33 }}

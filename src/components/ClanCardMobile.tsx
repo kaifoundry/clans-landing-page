@@ -17,17 +17,13 @@ interface ClanCardProps {
 const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
   (
     {
-      glowColor,
       title,
       description,
-
       sideImage,
-      userId,
       profilePic,
       email,
       username,
       displayName,
-      cardCharacter,
     },
     ref
   ) => {
