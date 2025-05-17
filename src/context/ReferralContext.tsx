@@ -1,10 +1,8 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { createContext, useContext, useState, ReactNode, Suspense } from 'react';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
-import ClanLogo from '@/components/ClanLogo';
 
 interface ReferralContextType {
   handleReferralCode: (userId: string) => Promise<void>;
@@ -18,10 +16,7 @@ const ReferralContext = createContext<ReferralContextType | undefined>(undefined
 
 function ReferralProviderContent({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [referralCode, setReferralCode] = useState<string | null>(null);
-  const [referralLoading, setReferralLoading] = useState(false);
   const [referralError, setReferralError] = useState<string | null>(null);
-  const searchParams = useSearchParams();
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   // Check if there's a valid referral code

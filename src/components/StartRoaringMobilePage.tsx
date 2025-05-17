@@ -1,24 +1,12 @@
 import Image from "next/image";
 import Button from "@/components/Button";
-import ClanLogo from "@/components/ClanLogo";
-import Link from "next/link";
-import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import React, {  useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import toast from 'react-hot-toast';
-import { useUser } from '@/context/UserContext';
-import Loader from "./Features/Loader";
 import { useReferral } from "@/context/ReferralContext";
 import { useSearchParams } from "next/navigation";
 import { LuLoaderCircle } from "react-icons/lu";
 import { RefObject } from "react";
 
-interface Props {
-  // userId: string;
-}
-
-interface UserData {
-  userId: string;
-}
 
 
 interface CommonRoaringProps {
@@ -40,15 +28,10 @@ const StartRoaringPage = React.memo(({
   avatarLeftRef,
   avatarRightRef
 }: CommonRoaringProps) => {
-  // const avatarLeftRef = useRef(null);
-  //  const avatarRightRef = useRef(null);
-  const { userData, fetchUserData } = useUser();
-  const { getAuthUrl, handleReferralCode, setIsLoading } =
+  const { handleReferralCode } =
     useReferral();
   const modalRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
-  //const [isModalOpen, setIsModalOpen] = useState(false);
-  // Check for authentication callback
   useEffect(() => {
     const checkAuthCallback = async () => {
       const userId = searchParams.get("userId");
@@ -72,84 +55,7 @@ const StartRoaringPage = React.memo(({
       );
     }
   }, [isModalOpen]);
-  // const loginWithTwitter = async () => {
-  //   if (typeof window === "undefined") return;
-
-  //   try {
-  //     setIsLoading(true);
-  //     const authUrl = getAuthUrl();
-  //     const currentUrl = window.location.href;
-  //     sessionStorage.setItem("redirectUrl", currentUrl);
-  //     window.location.assign(authUrl);
-  //   } catch (error) {
-  //     console.error("Error during Twitter auth:", error);
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const openModal = () => setIsModalOpen(true);
-  // const closeModal = () => setIsModalOpen(false);
-
-  // Memoize the fetchUserData callback
-  // const handleUserDataFetch = useCallback(() => {
-  //   if (userId) {
-  //     console.log("Mobile User ID from params:", userId);
-  //     localStorage.setItem("userId", userId);
-  //     fetchUserData(userId);
-  //   }
-  // }, [userId, fetchUserData]);
-
-  // useEffect(() => {
-  //   handleUserDataFetch();
-  // }, [handleUserDataFetch]);
-
-  // GSAP animation effect for the left avatar - only run once
-  // useEffect(() => {
-  //   if (avatarLeftRef.current) {
-  //     gsap.fromTo(
-  //       avatarLeftRef.current,
-  //       { x: "-200", opacity: 0 },
-  //       {
-  //         x: 0,
-  //         opacity: 1,
-  //         duration: 1.5,
-  //         ease: "power3.out",
-  //       }
-  //     );
-  //   }
-  // }, []);
-  //  useEffect(() => {
-  //    if (avatarLeftRef.current) {
-  //      gsap.fromTo(
-  //        avatarLeftRef.current,
-  //        { x: "-200", opacity: 0 },
-  //        {
-  //          x: 0,
-  //          opacity: 1,
-  //          duration: 1.5,
-  //          ease: "power3.out",
-  //        }
-  //      );
-  //    }
-
-  //    if (avatarRightRef.current) {
-  //      gsap.fromTo(
-  //        avatarRightRef.current,
-  //        { x: "200", opacity: 0 },
-  //        {
-  //          x: 0,
-  //          opacity: 1,
-  //          duration: 1.5,
-  //          ease: "power3.out",
-  //        }
-  //      );
-  //    }
-  //  }, []);
-
-  // Memoize the main content
-  // if ( isLoading) {
-  //   return <Loader message={"Loading please wait..."} />;
-  // }
+ 
 
   return (
     <section className="relative w-screen h-dvh overflow-hidden bg-black flex flex-col justify-between bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center ">
