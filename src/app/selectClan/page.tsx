@@ -3,9 +3,112 @@
 import { useState, useEffect, useMemo } from "react";
 import SelectClanDesktop from "@/components/SelectClanDesktop";
 import SelectClanMobile from "@/components/SelectClanMobile";
+import toast from "react-hot-toast";
+import Image from "next/image";
 
-export default function StartRoaring() {
+import clsx from "clsx";
+import { gsap } from "gsap";
+import { useRouter } from "next/navigation";
+
+import { clansData } from "@/data/selectClanData";
+
+import { useClan } from "@/context/ClanContext";
+import { motion, AnimatePresence } from "framer-motion";
+
+export default function SelectClan() {
   const [windowWidth, setWindowWidth] = useState<number>(0);
+  const router = useRouter();
+  const { clans, loading, error, selectedCardId, setSelectedCardId, joinClan } =
+    useClan();
+
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [avatarImage, setAvatarImage] = useState("");
+  const [displayedTitle, setDisplayedTitle] = useState("");
+  const [displayedDescription, setDisplayedDescription] = useState("");
+  const [clanColor, setClanColor] = useState<string>("#ffffff");
+  const [selectedCard, setSelectedCard] = useState<{
+    id: string;
+    image: string;
+    hoverImage: string;
+    cardImage: string;
+    title: string;
+    description: string;
+    glowColor: string;
+  } | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pendingClanId, setPendingClanId] = useState<string | null>(null);
+
+  const cardData = useMemo(() => {
+    return Array.isArray(clans)
+      ? clans.map((clan, index) => {
+          const clanData = clansData[index] || {};
+          return {
+            id: clan.clanId,
+            title: clan.title,
+            description: clan.description,
+            image: clanData.image || "",
+            hoverImage: clanData.hoverImage || "",
+            cardImage: clanData.image || "",
+            glowColor: clanData.glowColor || "",
+          };
+        })
+      : [];
+  }, [clans]);
+
+  useEffect(() => {
+    if (selectedCardId !== null) {
+      const clan = cardData.find((card) => card.id === String(selectedCardId));
+      if (clan) {
+        const index = cardData.findIndex((c) => c.id === clan.id);
+        setActiveIndex(index !== -1 ? index : null);
+        setSelectedCard(clan);
+        setAvatarImage(clan.hoverImage);
+        setDisplayedTitle(clan.title);
+        setDisplayedDescription(clan.description);
+      }
+    }
+  }, [selectedCardId, cardData]);
+
+  const handleJoinClan = (clanId: string) => {
+    setPendingClanId(clanId);
+    setSelectedCardId(clanId);
+    const clan = cardData.find((card) => card.id === clanId);
+    if (clan) {
+      setSelectedCard(clan);
+    }
+    setModalOpen(true);
+  };
+
+  const handleConfirmJoin = async () => {
+    console.log("handleConfirmJoin called");
+    setModalOpen(false);
+    const userData = localStorage.getItem("userData");
+    const user = userData ? JSON.parse(userData) : null;
+    const storedUserId = user?.userId;
+
+    if (!storedUserId || !pendingClanId) {
+      toast.error("Missing user or clan ID.");
+      return;
+    }
+
+    try {
+      const success = await joinClan({
+        userId: storedUserId,
+        clanId: pendingClanId,
+      });
+      if (success) {
+        setSelectedCardId(pendingClanId);
+        router.push("/CardPage");
+        toast.success("Successfully joined the clan!");
+      } else {
+        toast.error("You have already joined the clan.");
+      }
+    } catch (error) {
+      console.error("❌ Error while calling joinClan API: ", error);
+      toast.error("Failed to join clan due to network or server error.");
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,6 +134,37 @@ export default function StartRoaring() {
   }, []);
 
   const isMobile = useMemo(() => windowWidth <= 768, [windowWidth]);
+  const commonProps = {
+    cardData,
+    selectedCard,
+    setSelectedCard,
+    selectedCardId,
+    setSelectedCardId,
+    activeIndex,
+    setActiveIndex,
+    hoveredIndex,
+    setHoveredIndex,
+    avatarImage,
+    setAvatarImage,
+    displayedTitle,
+    setDisplayedTitle,
+    displayedDescription,
+    setDisplayedDescription,
+    handleJoinClan,
+    handleConfirmJoin,
+    modalOpen,
+    setModalOpen,
+    loading,
+    error,
+  };
 
-  return isMobile ? <SelectClanMobile /> : <SelectClanDesktop />;
+  return isMobile ? (
+    <SelectClanMobile
+      {...commonProps}
+      clanColor={clanColor}
+      setClanColor={setClanColor}
+    />
+  ) : (
+    <SelectClanDesktop {...commonProps} />
+  );
 }

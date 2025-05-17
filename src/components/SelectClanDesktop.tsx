@@ -12,127 +12,100 @@ import Loader from "./Features/Loader";
 import { useClan } from "@/context/ClanContext";
 import { motion, AnimatePresence } from "framer-motion";
 
-const SelectClan = () => {
-  const router = useRouter();
-  const { clans, loading, error, selectedCardId, setSelectedCardId, joinClan } = useClan();
+export interface ClanCard {
+  id: string;
+  image: string;
+  hoverImage: string;
+  cardImage: string;
+  title: string;
+  description: string;
+  glowColor: string;
+}
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [avatarImage, setAvatarImage] = useState("");
-  const [displayedTitle, setDisplayedTitle] = useState("");
-  const [displayedDescription, setDisplayedDescription] = useState("");
-  const [selectedCard, setSelectedCard] = useState<{
-    id: string;
-    image: string;
-    hoverImage: string;
-    cardImage: string;
-    title: string;
-    description: string;
-    glowColor: string;
-  } | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [pendingClanId, setPendingClanId] = useState<string | null>(null);
+export interface SelectClanDesktopProps {
+  cardData: ClanCard[];
+  selectedCard: ClanCard | null;
+  setSelectedCard: React.Dispatch<React.SetStateAction<ClanCard | null>>;
+  selectedCardId: string | null;
+  setSelectedCardId: (id: string) => void;
+  activeIndex: number | null;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  hoveredIndex: number | null;
+  setHoveredIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  avatarImage: string;
+  setAvatarImage: React.Dispatch<React.SetStateAction<string>>;
+  displayedTitle: string;
+  setDisplayedTitle: React.Dispatch<React.SetStateAction<string>>;
+  displayedDescription: string;
+  setDisplayedDescription: React.Dispatch<React.SetStateAction<string>>;
+  handleJoinClan: (clanId: string) => void;
+  handleConfirmJoin: () => Promise<void>;
+  modalOpen: boolean;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
+  error: string | null;
+}
 
-  const cardData = useMemo(() => {
-    return Array.isArray(clans)
-      ? clans.map((clan, index) => {
-          const clanData = clansData[index] || {};
-          return {
-            id: clan.clanId,
-            title: clan.title,
-            description: clan.description,
-            image: clanData.image || "",
-            hoverImage: clanData.hoverImage || "",
-            cardImage: clanData.image || "",
-            glowColor: clanData.glowColor || "",
-          };
-        })
-      : [];
-  }, [clans]);
-
-  useEffect(() => {
-    if (selectedCardId !== null) {
-      const clan = cardData.find((card) => card.id === String(selectedCardId));
-      if (clan) {
-        const index = cardData.findIndex((c) => c.id === clan.id);
-        setActiveIndex(index !== -1 ? index : null);
-        setSelectedCard(clan);
-        setAvatarImage(clan.hoverImage);
-        setDisplayedTitle(clan.title);
-        setDisplayedDescription(clan.description);
-      }
-    }
-  }, [selectedCardId, cardData]);
-
-  const handleJoinClan = (clanId: string) => {
-    setPendingClanId(clanId);
-    setSelectedCardId(clanId);
-    const clan = cardData.find((card) => card.id === clanId);
-    if (clan) {
-      setSelectedCard(clan);
-    }
-    setModalOpen(true);
-  };
-
-  const handleConfirmJoin = async () => {
-    console.log("handleConfirmJoin called");
-    setModalOpen(false);
-    const userData = localStorage.getItem("userData");
-    const user = userData ? JSON.parse(userData) : null;
-    const storedUserId = user?.userId;
-
-    if (!storedUserId || !pendingClanId) {
-      toast.error("Missing user or clan ID.");
-      return;
-    }
-
-    try {
-      const success = await joinClan({ userId: storedUserId, clanId: pendingClanId });
-      if (success) {
-      setSelectedCardId(pendingClanId);
-      router.push("/CardPage");
-      toast.success("Successfully joined the clan!");
-      } else {
-        toast.error("You have already joined the clan.");
-      }
-    } catch (error) {
-      console.error("❌ Error while calling joinClan API: ", error);
-      toast.error("Failed to join clan due to network or server error.");
-    }
-  };
-
+const SelectClan: React.FC<SelectClanDesktopProps> = ({
+  cardData,
+  selectedCard,
+  setSelectedCard,
+  selectedCardId,
+  setSelectedCardId,
+  activeIndex,
+  setActiveIndex,
+  hoveredIndex,
+  setHoveredIndex,
+  avatarImage,
+  setAvatarImage,
+  displayedTitle,
+  setDisplayedTitle,
+  displayedDescription,
+  setDisplayedDescription,
+  handleJoinClan,
+  handleConfirmJoin,
+  modalOpen,
+  setModalOpen,
+  loading,
+  error,
+}) => {
   // if (loading) return <div className="flex justity-center items-center">Loading clans...</div>;
   // if (error) return <div>Error: {error}</div>;
-if (loading)
-  return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
-      <div className="text-white text-3xl">Loading clans...</div>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+        <div className="text-white text-3xl">Loading clans...</div>
+      </div>
+    );
 
-if (error)
-  return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
-      <div className="text-white text-xl">Error: {error}</div>
-    </div>
-  );
+  if (error)
+    return (
+      <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-50">
+        <div className="text-white text-xl">Error: {error}</div>
+      </div>
+    );
   return (
     <section className="relative bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover overflow-hidden flex flex-col min-h-screen">
       <div className="flex 2xl:gap-x-12 md:gap-x-4 flex-col gap-20 px-8 py-20 flex-grow mx-auto w-full max-w-screen-2xl">
         <div className="text-white">
           <div className="flex gap-x-2 items-center">
-          <div
-            className="h-10 w-1 transition-all duration-300"
-            style={{
-              background: hoveredIndex !== null
-                ? cardData[hoveredIndex]?.glowColor
-                : selectedCard?.glowColor || "#6D28D9",
-            }}
-          ></div>
+            <div
+              className="h-10 w-1 transition-all duration-300"
+              style={{
+                background:
+                  hoveredIndex !== null
+                    ? cardData[hoveredIndex]?.glowColor
+                    : selectedCard?.glowColor || "#6D28D9",
+              }}
+            ></div>
 
-            <h2 className="lg:text-4xl md:text-4xl font-bold text-white">{displayedTitle}</h2>
+            <h2 className="lg:text-4xl md:text-4xl font-bold text-white">
+              {displayedTitle}
+            </h2>
           </div>
-          <p className="lg:text-3xl font-semibold md:text-xl my-2 text-white">{displayedDescription}</p>
+          <p className="lg:text-3xl font-semibold md:text-xl my-2 text-white">
+            {displayedDescription}
+          </p>
         </div>
 
         <div className="flex gap-12 items-center w-3/4 mx-0 lg:flex-col-4 md:flex-col-2 z-1">
@@ -167,7 +140,11 @@ if (error)
                     setDisplayedTitle(active.title);
                     setDisplayedDescription(active.description);
                   }
-                  gsap.to(`#card-${clan.id}`, { scale: 1, boxShadow: "none", duration: 0.3 });
+                  gsap.to(`#card-${clan.id}`, {
+                    scale: 1,
+                    boxShadow: "none",
+                    duration: 0.3,
+                  });
                 }
               }}
               className={clsx(
@@ -180,21 +157,31 @@ if (error)
               <div
                 className="absolute inset-0 rounded-xl transition-all duration-500"
                 style={{
-                  clipPath: "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
+                  clipPath:
+                    "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
                   backgroundColor:
-                    activeIndex === index || hoveredIndex === index ? clan.glowColor : "white",
+                    activeIndex === index || hoveredIndex === index
+                      ? clan.glowColor
+                      : "white",
                 }}
               ></div>
 
               <div
                 className="absolute inset-[4px] text-white bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center"
                 style={{
-                  clipPath: "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
+                  clipPath:
+                    "polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)",
                   backgroundImage: `url(${clan.image})`,
                   transition: "background-image 0.4s ease",
                 }}
               ></div>
-              <h3 className="lg:text-xl font-bold text-white text-center px-2 absolute -bottom-10 right-14" style={{ textShadow: "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)" }}>
+              <h3
+                className="lg:text-xl font-bold text-white text-center px-2 absolute -bottom-10 right-14"
+                style={{
+                  textShadow:
+                    "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)",
+                }}
+              >
                 {clan.title}
               </h3>
 
@@ -208,7 +195,15 @@ if (error)
                   onClick={() => handleJoinClan(clan.id)}
                   className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full min-h-[40px] xl:w-[220px] xl:h-[60px] lg:w-[150px] lg:h-[30px] md:w-[100px] md:h-[20px]"
                 >
-                  <svg width="100%" height="100%" viewBox="0 0 309 81" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute top-0 left-0 w-full h-full" preserveAspectRatio="none">
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 309 81"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="absolute top-0 left-0 w-full h-full"
+                    preserveAspectRatio="none"
+                  >
                     <path
                       d="M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z"
                       className="fill-black group-hover:fill-[rgba(212,0,165,0.16)] opacity-80 transition-colors duration-300"
@@ -262,7 +257,10 @@ if (error)
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-xs" onClick={() => setModalOpen(false)} />
+            <div
+              className="absolute inset-0 bg-black/50 backdrop-blur-xs"
+              onClick={() => setModalOpen(false)}
+            />
             <motion.div
               className="relative bg-black text-white p-6 rounded-lg w-full max-w-md mx-4 z-10 border border-white/10"
               initial={{ y: 50, opacity: 0, scale: 0.9 }}
@@ -270,15 +268,36 @@ if (error)
               exit={{ y: 50, opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
             >
-              <h3 className="text-xl font-bold mb-4 text-center">Clan Confirmation</h3>
+              <h3 className="text-xl font-bold mb-4 text-center">
+                Clan Confirmation
+              </h3>
               <div className="mb-6 text-center">
                 <p className="mb-4">Are you sure you want to choose</p>
-                <p className="text-xl font-bold" style={{ color: selectedCard?.glowColor }}>{selectedCard?.title}</p>
-                <p className="mt-2 font-display font-semibold">{selectedCard?.description}</p>
+                <p
+                  className="text-xl font-bold"
+                  style={{ color: selectedCard?.glowColor }}
+                >
+                  {selectedCard?.title}
+                </p>
+                <p className="mt-2 font-display font-semibold">
+                  {selectedCard?.description}
+                </p>
               </div>
               <div className="flex justify-center gap-4">
-                <Button ButtonText="Yes" onClick={handleConfirmJoin} width={130} height={40} className="custom-button"/>
-                <Button ButtonText="No" onClick={() => setModalOpen(false)} width={130} height={40} className="bg-red-500 hover:bg-red-600 custom-button" />
+                <Button
+                  ButtonText="Yes"
+                  onClick={handleConfirmJoin}
+                  width={130}
+                  height={40}
+                  className="custom-button"
+                />
+                <Button
+                  ButtonText="No"
+                  onClick={() => setModalOpen(false)}
+                  width={130}
+                  height={40}
+                  className="bg-red-500 hover:bg-red-600 custom-button"
+                />
               </div>
             </motion.div>
           </motion.div>
@@ -291,9 +310,6 @@ if (error)
 };
 
 export default SelectClan;
-
-
-
 
 // "use client";
 
@@ -438,7 +454,7 @@ export default SelectClan;
 //               }}
 //             ></div>
 //             <h2 className="lg:text-4xl md:text-4xl font-bold text-white">
-//               {displayedTitle} 
+//               {displayedTitle}
 //             </h2>
 //           </div>
 //           <p className="lg:text-3xl font-semibold md:text-xl my-2 text-white">
@@ -508,7 +524,6 @@ export default SelectClan;
 //                       : "white",
 //                 }}
 //               ></div>
-              
 
 //               <div
 //                 className="absolute inset-[4px] text-white bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center"
@@ -569,7 +584,6 @@ export default SelectClan;
 //             </div>
 //           ))}
 //         </div>
-        
 
 //         {avatarImage && (
 //           <div className="absolute bottom-0 ease-in-out right-0 z-0">
