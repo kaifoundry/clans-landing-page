@@ -51,7 +51,7 @@ const Loader = ({
         ease: 'power3.inOut',
         onComplete: () => {
           setShowLoader(false);
-          onHide(); 
+          onHide();
         },
       });
     }

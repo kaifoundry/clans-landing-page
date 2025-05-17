@@ -36,7 +36,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log("user data is ", userData)
+  console.log('user data is ', userData);
 
   // Load user data from localStorage on initial mount
   useEffect(() => {
@@ -111,7 +111,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
         const data = await res.json();
 
-        console.log("data is  data", )
+        console.log('data is  data');
 
         if (data.success && data.data) {
           setUserData(data.data);

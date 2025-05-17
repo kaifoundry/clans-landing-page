@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from "react";
-import Image from "next/image";
-import { gsap } from "gsap";
-import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import Link from "next/link";
-import StartButtonBorder from "@/constant/StartButtonBorder";
-import { RefObject } from "react";
+import { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { gsap } from 'gsap';
+import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
+import Link from 'next/link';
+import StartButtonBorder from '@/constant/StartButtonBorder';
+import { RefObject } from 'react';
 
 interface MainPageProps {
   isMuted: boolean;
@@ -55,8 +55,8 @@ const MainPage = ({
           Your browser does not support the video tag.
         </video>
         <Image
-          src="/Images/gettingStarted/background.png"
-          alt="Background overlay"
+          src='/Images/gettingStarted/background.png'
+          alt='Background overlay'
           fill
           style={{ opacity: 0.33 }}
           className='pointer-events-none z-0 object-cover'

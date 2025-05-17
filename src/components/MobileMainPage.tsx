@@ -1,12 +1,11 @@
 'use client';
 
-import Image from "next/image";
-import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import ClanLogoMobile from "./ClanLogoMobile";
-import Link from "next/link";
-import { RefObject } from "react";
-import Button from "./Button";
-
+import Image from 'next/image';
+import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
+import ClanLogoMobile from './ClanLogoMobile';
+import Link from 'next/link';
+import { RefObject } from 'react';
+import Button from './Button';
 
 interface MobileMainPageProps {
   isMuted: boolean;
@@ -29,7 +28,7 @@ const MobileMainPage = ({
       <button
         onClick={handleMuteUnmute}
         className='absolute top-4 left-12 z-20 flex -translate-x-1/2 transform items-center justify-center rounded-full px-4 py-2 text-white transition duration-300 hover:bg-white/20'
-        aria-label={isMuted ? "Unmute video" : "Mute video"}
+        aria-label={isMuted ? 'Unmute video' : 'Mute video'}
       >
         <span className='p-1 text-xl' ref={iconRef}>
           {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}

@@ -48,7 +48,7 @@ function CardPageContent() {
     userId: string;
     displayName: string;
     referralCode?: string;
-    followers: string
+    followers: string;
     socialHandles?: {
       username: string;
       profilePicture: string;

@@ -25,7 +25,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
       email,
       username,
       displayName,
-      followers
+      followers,
     },
     ref
   ) => {

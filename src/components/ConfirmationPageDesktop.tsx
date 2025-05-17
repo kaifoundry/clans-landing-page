@@ -1,8 +1,7 @@
-"use client";
-import Image from "next/image";
-import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import { RefObject } from "react";
-
+'use client';
+import Image from 'next/image';
+import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
+import { RefObject } from 'react';
 
 interface ConfirmationPageProps {
   isMuted: boolean;
@@ -42,8 +41,8 @@ const ConfirmationPage = ({
 
       {/* Overlay Image */}
       <Image
-        src="/Images/gettingStarted/background.png" 
-        alt="Overlay"
+        src='/Images/gettingStarted/background.png'
+        alt='Overlay'
         fill
         style={{ opacity: 0.33 }}
         className='pointer-events-none absolute top-0 left-0 z-10 h-full w-full object-cover'
@@ -157,5 +156,3 @@ const ConfirmationPage = ({
 };
 
 export default ConfirmationPage;
-
-
