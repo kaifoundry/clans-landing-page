@@ -39,10 +39,10 @@ const StartRoaringPage = React.memo(({
         </span>
       
         {/* Page Title */}
-        <div className='z-10'>
-          {' '}
-          {/* Ensure title is above potential overlaps */}
-          <h2 className='mt-20 text-center text-xl font-bold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
+        <div className=" z-10">
+          {" "}
+          {/*  title is above potential overlaps */}
+          <h2 className="text-xl lg:text-4xl xl:text-5xl md:text-4xl text-center text-white font-bold mt-20">
             Introducing Roar Points
           </h2>
         </div>

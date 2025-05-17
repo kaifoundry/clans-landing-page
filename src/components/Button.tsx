@@ -18,7 +18,7 @@ export default function Button({
   onClick,
   disabled = false,
 }: ButtonProps) {
-  // Responsive style: fallback to 100% width, but allow custom width/height
+ 
   const style: React.CSSProperties = {
     width: width ? (typeof width === 'number' ? `${width}px` : width) : '100%',
     height: height

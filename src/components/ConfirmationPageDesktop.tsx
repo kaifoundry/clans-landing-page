@@ -42,8 +42,8 @@ const ConfirmationPage = ({
 
       {/* Overlay Image */}
       <Image
-        src='/Images/gettingStarted/background.png' // Replace with your actual overlay image path
-        alt='Overlay'
+        src="/Images/gettingStarted/background.png" 
+        alt="Overlay"
         fill
         style={{ opacity: 0.33 }}
         className='pointer-events-none absolute top-0 left-0 z-10 h-full w-full object-cover'
