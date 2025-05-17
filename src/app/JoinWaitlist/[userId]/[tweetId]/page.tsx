@@ -6,7 +6,6 @@ import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import ClanLogo from "@/components/ClanLogoMobile";
-import Button1 from "@/components/Button1";
 
 const JoinWaitlist = () => {
   const router = useRouter();

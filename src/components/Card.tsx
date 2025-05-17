@@ -7,16 +7,15 @@ type CardProps = {
   hoverImage?: string;
   title: string;
   description: string;
-  width?: string;
-  height?: string;
-  glowColor?: string; // Added glowColor prop
+  width?: Number;
+  height?: Number;
+  glowColor?: string;
 };
 
 const Card = ({
   image,
   hoverImage,
   title,
-  description,
   glowColor = "red",
 }: CardProps) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -42,9 +41,9 @@ const Card = ({
           className="absolute inset-0"
           style={{
             clipPath: clipPathStyle,
-            backgroundColor: isHovered ? glowColor : "white", // Dynamically set background color
-            transition: "background-color 0.3s ease", // Smooth transition for background color
-            boxShadow: isHovered ? `0 0 1px ${glowColor}` : "none", // Glow effect on hover
+            backgroundColor: isHovered ? glowColor : "white", 
+            transition: "background-color 0.3s ease", 
+            boxShadow: isHovered ? `0 0 1px ${glowColor}` : "none", 
           }}
         />
 
@@ -82,7 +81,7 @@ const Card = ({
     -1px -1px 0 #000,  
      1px -1px 0 #000,
     -1px  1px 0 #000,
-     1px  1px 0 #000,  /* black border effect */
+     1px  1px 0 #000, 
      0 0 8px #fff,
      0 0 16px #fff,
       0 0 10px #fff,
@@ -96,4 +95,4 @@ const Card = ({
 };
 
 export default Card;
-    //  0 0 10px ${glowColor || "rgba(255,0,255,0.5)"}
+   
