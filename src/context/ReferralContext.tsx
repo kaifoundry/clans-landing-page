@@ -69,7 +69,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict'
       });
-      
+      console.log("Referral applied successfully, showing toast");
       toast.success('Referral code applied successfully!');
     } catch (error: any) {
       console.error('Error applying referral code:', error);
