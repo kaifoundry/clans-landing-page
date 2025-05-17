@@ -1,18 +1,16 @@
-"use client";
+'use client';
 
-import ClanLogo from "./ClanLogo";
-import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
-import { TwitterAuthProvider } from "firebase/auth";
-import { useRouter, useSearchParams } from "next/navigation";
-import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import gsap from "gsap";
-import ClanLogoMobile from "./ClanLogoMobile";
-import { useReferral } from "@/context/ReferralContext";
-import Link from "next/link";
-import { RefObject } from "react";
-import Button from "./Button";
-
+import ClanLogo from './ClanLogo';
+import Image from 'next/image';
+import { useState, useRef, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
+import gsap from 'gsap';
+import ClanLogoMobile from './ClanLogoMobile';
+import { useReferral } from '@/context/ReferralContext';
+import Link from 'next/link';
+import { RefObject } from 'react';
+import Button from './Button';
 
 interface MobileMainPageProps {
   isMuted: boolean;
@@ -29,15 +27,12 @@ const MobileMainPage = ({
   iconRef,
   handleMuteUnmute,
 }: MobileMainPageProps) => {
-
-  const [redirectTo, setRedirectTo] = useState<string | null>("/startRoaring");
+  const [redirectTo, setRedirectTo] = useState<string | null>('/startRoaring');
   // const [isPlaying, setIsPlaying] = useState(false);
   // const [isMuted, setIsMuted] = useState(true);
   const router = useRouter();
   // const videoRef = useRef<HTMLVideoElement>(null);
   // const iconRef = useRef(null);
-  const provider = new TwitterAuthProvider();
-
 
   // const handleMuteUnmute = () => {
   //   const video = videoRef.current;
@@ -55,91 +50,87 @@ const MobileMainPage = ({
   //   }
   // };
 
-
   return (
     <>
-      <section className="w-full h-dvh overflow-hidden">
+      <section className='h-dvh w-full overflow-hidden'>
         {/* Mute/Unmute Button */}
         <button
           onClick={handleMuteUnmute}
-          className="absolute top-4 left-12 transform -translate-x-1/2  px-4 py-2 rounded-full text-white flex items-center justify-center z-20  hover:bg-white/20 transition duration-300"
+          className='absolute top-4 left-12 z-20 flex -translate-x-1/2 transform items-center justify-center rounded-full px-4 py-2 text-white transition duration-300 hover:bg-white/20'
         >
-          <span className="text-xl p-1" ref={iconRef}>
+          <span className='p-1 text-xl' ref={iconRef}>
             {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
           </span>
         </button>
 
         {/* Video Section */}
-        <div className="opacity-100">
+        <div className='opacity-100'>
           <video
             ref={videoRef}
-            preload="metadata"
+            preload='metadata'
             autoPlay
             loop
             muted={isMuted}
             playsInline
-            className="absolute top-0 left-0 w-full h-full object-cover z-0 backdrop-blur-2xl bg-white/30"
+            className='absolute top-0 left-0 z-0 h-full w-full bg-white/30 object-cover backdrop-blur-2xl'
             draggable={false}
           >
-            <source src="/videos/Main.mp4" type="video/mp4" />
+            <source src='/videos/Main.mp4' type='video/mp4' />
             Your browser does not support the video tag.
           </video>
           <Image
-            src="/Images/gettingStarted/mobilebackground.png"
-            alt="Overlay"
+            src='/Images/gettingStarted/mobilebackground.png'
+            alt='Overlay'
             fill
             style={{ opacity: 0.33 }}
-            className="object-cover z-0 pointer-events-none"
+            className='pointer-events-none z-0 object-cover'
             priority
           />
         </div>
 
         {/* Main Content Section */}
-        <div className="relative flex flex-col h-dvh">
-          <div className="flex flex-col items-center justify-center mt-18 pb-4 md:hidden">
-            <div className="mt-0 sm:mt-8 lg:mt-0 w-64 h-24 sm:w-80 sm:h-[86px] flex items-center justify-center">
+        <div className='relative flex h-dvh flex-col'>
+          <div className='mt-18 flex flex-col items-center justify-center pb-4 md:hidden'>
+            <div className='mt-0 flex h-24 w-64 items-center justify-center sm:mt-8 sm:h-[86px] sm:w-80 lg:mt-0'>
               <ClanLogoMobile />
             </div>
           </div>
 
-          <div className="flex justify-between w-full absolute -bottom-[40px] left-0 right-0 h-full pointer-events-none">
+          <div className='pointer-events-none absolute right-0 -bottom-[40px] left-0 flex h-full w-full justify-between'>
             <Image
-              src="/Images/gettingStarted/homeleft.svg"
+              src='/Images/gettingStarted/homeleft.svg'
               width={500}
               height={550}
-              alt="avtar1"
-              className="z-1 absolute left-0 sm:left-1 lg:left-0 -bottom-10 xs:-bottom-[40px] sm:-bottom-[55px] xxs:-bottom-[89px]  w-[220px] h-[600px] sm:w-[220px] xxs:w-[220px] sm:h-[660px] object-contain scale-105"
+              alt='avtar1'
+              className='xs:-bottom-[40px] xxs:-bottom-[89px] xxs:w-[220px] absolute -bottom-10 left-0 z-1 h-[600px] w-[220px] scale-105 object-contain sm:-bottom-[55px] sm:left-1 sm:h-[660px] sm:w-[220px] lg:left-0'
               draggable={false}
             />
             <Image
-              src="/Images/gettingStarted/homeright.svg"
+              src='/Images/gettingStarted/homeright.svg'
               width={400}
               height={600}
-              alt="avtar2"
-              className="absolute right-0 -bottom-13 sm:-bottom-10 xxs:-bottom-13 h-[700px] w-[200px] sm:h-[600px] sm:w-[200px]  xxs:w-[200px] xxs:h-[700px]  object-contain scale-110"
+              alt='avtar2'
+              className='xxs:-bottom-13 xxs:w-[200px] xxs:h-[700px] absolute right-0 -bottom-13 h-[700px] w-[200px] scale-110 object-contain sm:-bottom-10 sm:h-[600px] sm:w-[200px]'
               draggable={false}
             />
           </div>
 
           {/* Start Now Button */}
-          <div className="absolute bottom-14 sm:bottom-10 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
-          <Link href="/startRoaring" prefetch>
-            <Button
-              width={270}
-              height={75}
-              ButtonText="Start Now!"
-              className="text-3xl text-white font-semibold tracking-wide  px-8 py-4 mx-12 flex items-center justify-center "
-              aria-label="Start Now"
-             
-            />
+          <div className='pointer-events-auto absolute bottom-14 left-0 z-20 flex w-full items-center justify-center sm:bottom-10'>
+            <Link href='/startRoaring' prefetch>
+              <Button
+                width={270}
+                height={75}
+                ButtonText='Start Now!'
+                className='mx-12 flex items-center justify-center px-8 py-4 text-3xl font-semibold tracking-wide text-white'
+                aria-label='Start Now'
+              />
             </Link>
           </div>
         </div>
-
-       
       </section>
     </>
   );
-}
+};
 
 export default MobileMainPage;

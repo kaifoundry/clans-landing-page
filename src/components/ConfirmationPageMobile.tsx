@@ -1,6 +1,6 @@
-"use client";
-import Image from "next/image";
-import ClanLogo from "./ClanLogoMobile";
+'use client';
+import Image from 'next/image';
+import ClanLogo from './ClanLogoMobile';
 
 const ConfirmationPage = () => {
   return (
@@ -11,9 +11,9 @@ const ConfirmationPage = () => {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className='absolute top-0 left-0 z-0 h-full w-full object-cover'
       >
-        <source src="/Videos/Main.mp4" type="video/mp4" />
+        <source src='/Videos/Main.mp4' type='video/mp4' />
         Your browser does not support the video tag.
       </video>
 
@@ -29,36 +29,36 @@ const ConfirmationPage = () => {
       {/* <div className="absolute inset-0 bg-black/50 z-10"></div> */}
 
       {/* Fade shadow from bottom */}
-      <div className="absolute bottom-0 z-40 left-0 w-full h-80 bg-gradient-to-t from-black via-black/40 to-transparent "></div>
+      <div className='absolute bottom-0 left-0 z-40 h-80 w-full bg-gradient-to-t from-black via-black/40 to-transparent'></div>
 
       {/* Left avatar */}
       <Image
-        src="/Images/confirmationPage/mobileavtar1.png"
+        src='/Images/confirmationPage/mobileavtar1.png'
         width={300}
         height={400}
-        alt="Avatar Left"
-        className="absolute bottom-0 left-0 sm:-left-3 lg:left-0 xxs:w-[250px] w-[200px] h-auto md:w-[250px] z-30 pointer-events-none"
+        alt='Avatar Left'
+        className='xxs:w-[250px] pointer-events-none absolute bottom-0 left-0 z-30 h-auto w-[200px] sm:-left-3 md:w-[250px] lg:left-0'
       />
 
       {/* Right avatar */}
       <Image
-        src="/Images/confirmationPage/mobileavtar2.png"
+        src='/Images/confirmationPage/mobileavtar2.png'
         width={300}
         height={400}
-        alt="Avatar Right"
-        className="absolute bottom-0 right-0 xxs:w-[265px] w-[200px] h-auto md:w-[250px] z-20 pointer-events-none"
+        alt='Avatar Right'
+        className='xxs:w-[265px] pointer-events-none absolute right-0 bottom-0 z-20 h-auto w-[200px] md:w-[250px]'
       />
 
-      <div className="relative h-full flex flex-col items-center justify-center text-center px-4 xxs:pt-16 pt-6 xxs:pb-32 pb-16 z-40">
-        <div className="flex items-center justify-center mb-8 w-64 h-24">
+      <div className='xxs:pt-16 xxs:pb-32 relative z-40 flex h-full flex-col items-center justify-center px-4 pt-6 pb-16 text-center'>
+        <div className='mb-8 flex h-24 w-64 items-center justify-center'>
           <ClanLogo />
         </div>
 
-        <h1 className="text-2xl leading-tight font-semibold xxsmb-6 mb-5">
+        <h1 className='xxsmb-6 mb-5 text-2xl leading-tight font-semibold'>
           You’re officially on the list! 🎉
         </h1>
 
-        <p className="text-lg leading-normal mb-8 text-gray-300 font-semibold">
+        <p className='mb-8 text-lg leading-normal font-semibold text-gray-300'>
           The Clans have heard your Roar.
           <br />
           <br />
@@ -66,36 +66,36 @@ const ConfirmationPage = () => {
           when the gates open.
         </p>
 
-        <div className="flex-grow"></div>
+        <div className='flex-grow'></div>
 
-        <div className="flex gap-5 relative z-50">
+        <div className='relative z-50 flex gap-5'>
           <Image
-            src="/Images/confirmationPage/twitter.svg"
-            alt="Twitter"
+            src='/Images/confirmationPage/twitter.svg'
+            alt='Twitter'
             width={27}
             height={27}
-            className="w-7 h-10"
+            className='h-10 w-7'
           />
           <Image
-            src="/Images/confirmationPage/discord.svg"
-            alt="Discord"
+            src='/Images/confirmationPage/discord.svg'
+            alt='Discord'
             width={27}
             height={27}
-            className="w-7 h-10"
+            className='h-10 w-7'
           />
           <Image
-            src="/Images/confirmationPage/whatsapp.svg"
-            alt="Whatsapp"
+            src='/Images/confirmationPage/whatsapp.svg'
+            alt='Whatsapp'
             width={27}
             height={27}
-            className="w-7 h-10"
+            className='h-10 w-7'
           />
           <Image
-            src="/Images/confirmationPage/telegram.svg"
-            alt="Telegram"
+            src='/Images/confirmationPage/telegram.svg'
+            alt='Telegram'
             width={27}
             height={27}
-            className="w-7 h-10"
+            className='h-10 w-7'
           />
         </div>
       </div>

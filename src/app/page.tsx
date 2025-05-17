@@ -1,8 +1,8 @@
-"use client";
-import MainPage from "@/components/MainPage";
-import MobileMainPage from "@/components/MobileMainPage";
-import { useEffect, useState,useRef } from "react";
-import { gsap } from "gsap";
+'use client';
+import MainPage from '@/components/MainPage';
+import MobileMainPage from '@/components/MobileMainPage';
+import { useEffect, useState, useRef } from 'react';
+import { gsap } from 'gsap';
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
@@ -19,9 +19,9 @@ export default function Home() {
 
     handleResize();
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleMuteUnmute = () => {
@@ -36,7 +36,7 @@ export default function Home() {
       gsap.fromTo(
         iconRef.current,
         { scale: 1 },
-        { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.out" }
+        { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: 'power1.out' }
       );
     }
   };
@@ -44,10 +44,9 @@ export default function Home() {
   useEffect(() => {
     const video = videoRef.current;
     if (video && !isPlaying) {
-      video.play().catch((err) => console.warn("Autoplay failed:", err));
+      video.play().catch((err) => console.warn('Autoplay failed:', err));
     }
   }, [isPlaying]);
-
 
   const commonProps = {
     isMuted,
@@ -57,5 +56,9 @@ export default function Home() {
     handleMuteUnmute,
   };
 
-  return isMobile ? <MobileMainPage  {...commonProps} /> : <MainPage  {...commonProps} />;
+  return isMobile ? (
+    <MobileMainPage {...commonProps} />
+  ) : (
+    <MainPage {...commonProps} />
+  );
 }

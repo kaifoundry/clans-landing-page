@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {  useEffect, useRef } from "react";
 import Image from "next/image";
@@ -29,30 +29,30 @@ const MainPage = ({
   useEffect(() => {
     gsap.fromTo(
       avatarLeftRef.current,
-      { x: "-100%", opacity: 0 },
-      { x: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+      { x: '-100%', opacity: 0 },
+      { x: 0, opacity: 1, duration: 1.5, ease: 'power3.out' }
     );
     gsap.fromTo(
       avatarRightRef.current,
-      { x: "100%", opacity: 0 },
-      { x: 0, opacity: 1, duration: 1.5, ease: "power3.out", delay: 0.2 }
+      { x: '100%', opacity: 0 },
+      { x: 0, opacity: 1, duration: 1.5, ease: 'power3.out', delay: 0.2 }
     );
   }, []);
 
   return (
-    <section className="relative bg-black overflow-hidden flex items-center justify-center h-screen text-white">
+    <section className='relative flex h-screen items-center justify-center overflow-hidden bg-black text-white'>
       {/* Background Video */}
-      <div className="opacity-60">
+      <div className='opacity-60'>
         <video
           ref={videoRef}
-          preload="auto"
+          preload='auto'
           autoPlay
           loop
           muted={isMuted}
           playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover z-0 backdrop-blur-2xl bg-white/30"
+          className='absolute top-0 left-0 z-0 h-full w-full bg-white/30 object-cover backdrop-blur-2xl'
         >
-          <source src="/videos/Main.mp4" type="video/mp4" />
+          <source src='/videos/Main.mp4' type='video/mp4' />
           Your browser does not support the video tag.
         </video>
 
@@ -62,29 +62,29 @@ const MainPage = ({
           alt="Overlay"
           fill
           style={{ opacity: 0.33 }}
-          className="object-cover z-0 pointer-events-none"
+          className='pointer-events-none z-0 object-cover'
         />
       </div>
 
       {/* Foreground Content */}
-      <div className="mx-auto relative w-full h-full text-center flex items-center justify-center flex-col z-10">
-        <div className="flex items-center justify-center gap-10 z-20 flex-col">
-          <div className="flex gap-4 items-center justify-center">
+      <div className='relative z-10 mx-auto flex h-full w-full flex-col items-center justify-center text-center'>
+        <div className='z-20 flex flex-col items-center justify-center gap-10'>
+          <div className='flex items-center justify-center gap-4'>
             <Image
-              src="/Images/gettingStarted/clansLogo.svg"
+              src='/Images/gettingStarted/clansLogo.svg'
               width={80}
               height={80}
-              alt="Object1"
-              className="w-20 h-20 sm:w-80 sm:h-24 md:w-100 md:h-32 lg:w-120 lg:h-40 xl:w-130 xl:h-48 2xl:w-150 2xl:h-56 object-contain"
+              alt='Object1'
+              className='h-20 w-20 object-contain sm:h-24 sm:w-80 md:h-32 md:w-100 lg:h-40 lg:w-120 xl:h-48 xl:w-130 2xl:h-56 2xl:w-150'
               draggable={false}
             />
           </div>
 
-          <div className="mx-auto z-10 flex items-center justify-center">
-            <Link href="/startRoaring" prefetch>
-              <button className="group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full min-h-[40px] lg:w-[280px] lg:h-[70px] md:w-[307px] md:h-[79px]">
+          <div className='z-10 mx-auto flex items-center justify-center'>
+            <Link href='/startRoaring' prefetch>
+              <button className='group relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px] lg:h-[70px] lg:w-[280px]'>
                 <StartButtonBorder />
-                <span className="absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg lg:text-xl">
+                <span className='absolute inset-0 z-10 flex items-center justify-center text-base font-semibold tracking-wide text-white sm:text-lg lg:text-xl'>
                   Start Now
                 </span>
               </button>
@@ -95,21 +95,21 @@ const MainPage = ({
         {/* Avatars with GSAP refs */}
         <Image
           ref={avatarLeftRef}
-          src="/Images/gettingStarted/avtar1.png"
+          src='/Images/gettingStarted/avtar1.png'
           width={550}
           height={550}
-          alt="Avatar Left"
-          className="absolute bottom-0 left-0 w-[300px] md:w-[350px] xl:w-[530px] 2xl:w-[540px] object-contain z-10"
+          alt='Avatar Left'
+          className='absolute bottom-0 left-0 z-10 w-[300px] object-contain md:w-[350px] xl:w-[530px] 2xl:w-[540px]'
           draggable={false}
         />
 
         <Image
           ref={avatarRightRef}
-          src="/Images/gettingStarted/avtar2_.png"
+          src='/Images/gettingStarted/avtar2_.png'
           width={580}
           height={580}
-          alt="Avatar Right"
-          className="absolute bottom-0 right-0 w-[300px] md:w-[320px] xl:w-[550px] 2xl:w-[550px] object-contain z-10"
+          alt='Avatar Right'
+          className='absolute right-0 bottom-0 z-10 w-[300px] object-contain md:w-[320px] xl:w-[550px] 2xl:w-[550px]'
           draggable={false}
         />
       </div>
@@ -117,18 +117,15 @@ const MainPage = ({
       {/* Mute Button */}
       <button
         onClick={handleMuteUnmute}
-        className="absolute bottom-10 left-10 bg-black/50 px-4 py-2 rounded-full text-white flex items-center justify-center z-20 border-2 border-white/50 hover:bg-white/20 transition duration-300"
+        className='absolute bottom-10 left-10 z-20 flex items-center justify-center rounded-full border-2 border-white/50 bg-black/50 px-4 py-2 text-white transition duration-300 hover:bg-white/20'
       >
-        <span className="text-xl p-1" ref={iconRef}>
+        <span className='p-1 text-xl' ref={iconRef}>
           {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
         </span>
-        {isMuted ? "Unmute" : "Mute"}
+        {isMuted ? 'Unmute' : 'Mute'}
       </button>
     </section>
   );
 };
 
 export default MainPage;
-
-
-

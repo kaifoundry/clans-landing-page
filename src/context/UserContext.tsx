@@ -1,8 +1,14 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useCallback,
+} from 'react';
 import toast from 'react-hot-toast';
-
 
 interface UserData {
   userId: string;
@@ -43,82 +49,92 @@ export function UserProvider({ children }: { children: ReactNode }) {
     };
 
     if (isLocalStorageAvailable()) {
-      const storedUserData = localStorage.getItem("userData");
+      const storedUserData = localStorage.getItem('userData');
       if (storedUserData) {
         try {
           const parsedData = JSON.parse(storedUserData);
           setUserData(parsedData);
         } catch (error) {
-          console.error("Error parsing stored user data:", error);
-          localStorage.removeItem("userData");
+          console.error('Error parsing stored user data:', error);
+          localStorage.removeItem('userData');
         }
       }
     } else {
-      console.warn("localStorage is not available on this device");
+      console.warn('localStorage is not available on this device');
     }
   }, []);
 
   const saveUserDataToStorage = useCallback((data: UserData) => {
     if (!data) return;
-    
+
     try {
-      localStorage.setItem("userData", JSON.stringify(data));
+      localStorage.setItem('userData', JSON.stringify(data));
     } catch (error) {
-      console.error("Error saving user data to localStorage:", error);
+      console.error('Error saving user data to localStorage:', error);
       // Handle storage quota exceeded
-      if (error instanceof DOMException && error.name === 'QuotaExceededError') {
-        console.warn("Storage quota exceeded, clearing old data");
+      if (
+        error instanceof DOMException &&
+        error.name === 'QuotaExceededError'
+      ) {
+        console.warn('Storage quota exceeded, clearing old data');
         localStorage.clear();
         try {
-          localStorage.setItem("userData", JSON.stringify(data));
+          localStorage.setItem('userData', JSON.stringify(data));
         } catch (retryError) {
-          console.error("Failed to save user data after clearing storage:", retryError);
+          console.error(
+            'Failed to save user data after clearing storage:',
+            retryError
+          );
         }
       }
     }
   }, []);
 
   // Memoize the fetchUserData function
-  const fetchUserData = useCallback(async (userId: string) => {
-    if (!userId) return;
-    
-    // Check if we already have the data for this userId
-    if (userData?.userId === userId) return;
-    
-    setIsLoading(true);
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/fetch/${userId}`);
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+  const fetchUserData = useCallback(
+    async (userId: string) => {
+      if (!userId) return;
+
+      // Check if we already have the data for this userId
+      if (userData?.userId === userId) return;
+
+      setIsLoading(true);
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/fetch/${userId}`
+        );
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.success && data.data) {
+          setUserData(data.data);
+          saveUserDataToStorage(data.data);
+        } else {
+          throw new Error(data.message || 'Invalid response format');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : 'Failed to fetch user data. Please try again.';
+        toast.error(errorMessage);
+      } finally {
+        setIsLoading(false);
       }
-      const data = await res.json();
-      if (data.success && data.data) {
-        setUserData(data.data);
-        saveUserDataToStorage(data.data);
-      } else {
-        throw new Error(data.message || 'Invalid response format');
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      const errorMessage = error instanceof Error ? error.message : "Failed to fetch user data. Please try again.";
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [userData?.userId, saveUserDataToStorage]);
+    },
+    [userData?.userId, saveUserDataToStorage]
+  );
 
   const value = {
     userData,
     setUserData,
     fetchUserData,
-    isLoading
+    isLoading,
   };
 
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
 export function useUser() {
@@ -127,4 +143,4 @@ export function useUser() {
     throw new Error('useUser must be used within a UserProvider');
   }
   return context;
-} 
+}

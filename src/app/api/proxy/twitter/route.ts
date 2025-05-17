@@ -24,11 +24,14 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Proxy failed', detail: error }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({ error: 'Proxy failed', detail: error }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 }

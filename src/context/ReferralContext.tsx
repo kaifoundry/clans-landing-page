@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createContext, useContext, useState, ReactNode, Suspense } from 'react';
 import Cookies from 'js-cookie';
@@ -12,12 +12,14 @@ interface ReferralContextType {
   hasReferralCode: () => boolean;
 }
 
-const ReferralContext = createContext<ReferralContextType | undefined>(undefined);
+const ReferralContext = createContext<ReferralContextType | undefined>(
+  undefined
+);
 
 function ReferralProviderContent({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [referralError, setReferralError] = useState<string | null>(null);
-  const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const BASE_URL = process.env.NEXT_PUBLIC_API_BACKEND_URL;
 
   // Check if there's a valid referral code
   const hasReferralCode = () => {
@@ -54,7 +56,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Failed to apply referral code');
       }
@@ -62,9 +64,9 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       // Clear the referral code cookie after successful use
       Cookies.remove('referral_code', {
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
+        sameSite: 'strict',
       });
-      console.log("Referral applied successfully, showing toast");
+      console.log('Referral applied successfully, showing toast');
       toast.success('Referral code applied successfully!');
     } catch (error: any) {
       console.error('Error applying referral code:', error);
@@ -78,24 +80,26 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
   // Get auth URL with referral code if exists
   const getAuthUrl = () => {
     if (!BASE_URL) {
-      console.error("Missing NEXT_PUBLIC_API_BASE_URL");
+      console.error('Missing NEXT_PUBLIC_API_BACKEND_URL');
       return '';
     }
 
     const referralCode = Cookies.get('referral_code');
-    return referralCode 
+    return referralCode
       ? `${BASE_URL}/api/V2/twitter?referralCode=${referralCode}`
       : `${BASE_URL}/api/V2/twitter`;
   };
 
   return (
-    <ReferralContext.Provider value={{ 
-      handleReferralCode, 
-      getAuthUrl, 
-      isLoading, 
-      setIsLoading,
-      hasReferralCode 
-    }}>
+    <ReferralContext.Provider
+      value={{
+        handleReferralCode,
+        getAuthUrl,
+        isLoading,
+        setIsLoading,
+        hasReferralCode,
+      }}
+    >
       {children}
     </ReferralContext.Provider>
   );
@@ -104,9 +108,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
 export function ReferralProvider({ children }: { children: ReactNode }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ReferralProviderContent>
-        {children}
-      </ReferralProviderContent>
+      <ReferralProviderContent>{children}</ReferralProviderContent>
     </Suspense>
   );
 }
@@ -117,4 +119,4 @@ export function useReferral() {
     throw new Error('useReferral must be used within a ReferralProvider');
   }
   return context;
-} 
+}

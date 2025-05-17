@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useEffect,useRef } from "react";
-import SelectClanDesktop from "@/components/SelectClanDesktop";
-import SelectClanMobile from "@/components/SelectClanMobile";
-import ConfirmationPageDesktop from "@/components/ConfirmationPageDesktop";
-import ConfirmationPageMobile from "@/components/ConfirmationPageMobile";
-import { gsap } from "gsap";
+import { useState, useEffect, useRef } from 'react';
+import SelectClanDesktop from '@/components/SelectClanDesktop';
+import SelectClanMobile from '@/components/SelectClanMobile';
+import ConfirmationPageDesktop from '@/components/ConfirmationPageDesktop';
+import ConfirmationPageMobile from '@/components/ConfirmationPageMobile';
+import { gsap } from 'gsap';
 
 export default function StartRoaring() {
   const [isMobile, setIsMobile] = useState(false);
@@ -23,11 +23,10 @@ export default function StartRoaring() {
 
     handleResize();
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
-
 
   const handleMuteUnmute = () => {
     const video = videoRef.current;
@@ -42,37 +41,40 @@ export default function StartRoaring() {
         gsap.fromTo(
           iconRef.current,
           { scale: 1 },
-          { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.out" }
+          {
+            scale: 1.3,
+            duration: 0.2,
+            yoyo: true,
+            repeat: 1,
+            ease: 'power1.out',
+          }
         );
       }
     }
   };
 
-
   useEffect(() => {
     const video = videoRef.current;
     if (video && !isPlaying) {
-      video.play().catch((err) => console.warn("Autoplay failed:", err));
+      video.play().catch((err) => console.warn('Autoplay failed:', err));
     }
   }, [isPlaying]);
 
- 
   useEffect(() => {
     if (avatarLeftRef.current && avatarRightRef.current) {
       gsap.fromTo(
         avatarLeftRef.current,
-        { x: "-100%", opacity: 0 },
-        { x: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+        { x: '-100%', opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.5, ease: 'power3.out' }
       );
       gsap.fromTo(
         avatarRightRef.current,
-        { x: "100%", opacity: 0 },
-        { x: 0, opacity: 1, duration: 1.5, ease: "power3.out", delay: 0.2 }
+        { x: '100%', opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.5, ease: 'power3.out', delay: 0.2 }
       );
     }
   }, []);
 
- 
   const commonProps = {
     isMuted,
     isPlaying,
@@ -80,8 +82,12 @@ export default function StartRoaring() {
     iconRef,
     avatarLeftRef,
     avatarRightRef,
-    handleMuteUnmute
+    handleMuteUnmute,
   };
 
-  return isMobile ? <ConfirmationPageMobile /> : <ConfirmationPageDesktop {...commonProps}/>;
+  return isMobile ? (
+    <ConfirmationPageMobile />
+  ) : (
+    <ConfirmationPageDesktop {...commonProps} />
+  );
 }

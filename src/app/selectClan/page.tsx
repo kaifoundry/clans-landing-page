@@ -35,22 +35,22 @@
 //   return isMobile ? <SelectClanMobile /> : <SelectClanDesktop />;
 // }
 
-"use client";
+'use client';
 
-import { useState, useEffect, useMemo } from "react";
-import SelectClanDesktop from "@/components/SelectClanDesktop";
-import SelectClanMobile from "@/components/SelectClanMobile";
-import toast from "react-hot-toast";
-import Image from "next/image";
+import { useState, useEffect, useMemo } from 'react';
+import SelectClanDesktop from '@/components/SelectClanDesktop';
+import SelectClanMobile from '@/components/SelectClanMobile';
+import toast from 'react-hot-toast';
+import Image from 'next/image';
 
-import clsx from "clsx";
-import { gsap } from "gsap";
-import { useRouter } from "next/navigation";
+import clsx from 'clsx';
+import { gsap } from 'gsap';
+import { useRouter } from 'next/navigation';
 
-import { clansData } from "@/data/selectClanData";
+import { clansData } from '@/data/selectClanData';
 
-import { useClan } from "@/context/ClanContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { useClan } from '@/context/ClanContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function SelectClan() {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -60,10 +60,10 @@ export default function SelectClan() {
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [avatarImage, setAvatarImage] = useState("");
-  const [displayedTitle, setDisplayedTitle] = useState("");
-  const [displayedDescription, setDisplayedDescription] = useState("");
-  const [clanColor, setClanColor] = useState<string>("#ffffff");
+  const [avatarImage, setAvatarImage] = useState('');
+  const [displayedTitle, setDisplayedTitle] = useState('');
+  const [displayedDescription, setDisplayedDescription] = useState('');
+  const [clanColor, setClanColor] = useState<string>('#ffffff');
   const [selectedCard, setSelectedCard] = useState<{
     id: string;
     image: string;
@@ -84,10 +84,10 @@ export default function SelectClan() {
             id: clan.clanId,
             title: clan.title,
             description: clan.description,
-            image: clanData.image || "",
-            hoverImage: clanData.hoverImage || "",
-            cardImage: clanData.image || "",
-            glowColor: clanData.glowColor || "",
+            image: clanData.image || '',
+            hoverImage: clanData.hoverImage || '',
+            cardImage: clanData.image || '',
+            glowColor: clanData.glowColor || '',
           };
         })
       : [];
@@ -118,33 +118,33 @@ export default function SelectClan() {
   };
 
   const handleConfirmJoin = async () => {
-    console.log("handleConfirmJoin called");
+    console.log('handleConfirmJoin called');
     setModalOpen(false);
-    const userData = localStorage.getItem("userData");
+    const userData = localStorage.getItem('userData');
     const user = userData ? JSON.parse(userData) : null;
     const storedUserId = user?.userId;
 
-if (!storedUserId || !pendingClanId) {
-  toast.error("Missing user or clan ID.");
-  return;
-}
+    if (!storedUserId || !pendingClanId) {
+      toast.error('Missing user or clan ID.');
+      return;
+    }
 
-try {
-  const success = await joinClan({
-    userId: storedUserId,
-    clanId: pendingClanId,
-  });
-  if (success) {
-    setSelectedCardId(pendingClanId);
-    router.push("/CardPage");
-    toast.success("Successfully joined the clan!");
-  } else {
-    toast.error("You have already joined the clan.");
-  }
-} catch (error) {
-  console.error(" Error while calling joinClan API: ", error);
-  toast.error("Failed to join clan due to network or server error.");
-}
+    try {
+      const success = await joinClan({
+        userId: storedUserId,
+        clanId: pendingClanId,
+      });
+      if (success) {
+        setSelectedCardId(pendingClanId);
+        router.push('/CardPage');
+        toast.success('Successfully joined the clan!');
+      } else {
+        toast.error('You have already joined the clan.');
+      }
+    } catch (error) {
+      console.error(' Error while calling joinClan API: ', error);
+      toast.error('Failed to join clan due to network or server error.');
+    }
   };
 
   useEffect(() => {
@@ -152,22 +152,22 @@ try {
       setWindowWidth(window.innerWidth);
     };
 
-// Set initial width
-handleResize();
+    // Set initial width
+    handleResize();
 
-// Add debounced resize listener
-let timeoutId: NodeJS.Timeout;
-const debouncedResize = () => {
-  clearTimeout(timeoutId);
-  timeoutId = setTimeout(handleResize, 100);
-};
+    // Add debounced resize listener
+    let timeoutId: NodeJS.Timeout;
+    const debouncedResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(handleResize, 100);
+    };
 
-window.addEventListener("resize", debouncedResize);
+    window.addEventListener('resize', debouncedResize);
 
-return () => {
-  window.removeEventListener("resize", debouncedResize);
-  clearTimeout(timeoutId);
-};
+    return () => {
+      window.removeEventListener('resize', debouncedResize);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const isMobile = useMemo(() => windowWidth <= 768, [windowWidth]);

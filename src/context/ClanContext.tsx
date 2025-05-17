@@ -1,6 +1,12 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Clan {
@@ -68,7 +74,9 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clans/fetch/all`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`
+      );
       const response = await res.json();
       if (response.success && Array.isArray(response.data)) {
         setClans(response.data);
@@ -86,16 +94,19 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/clans/JoinClan`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(joinData),
-      });
-      
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/JoinClan`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(joinData),
+        }
+      );
+
       const data = await res.json();
-      console.log('data',data)
+      console.log('data', data);
       if (!res.ok) {
         if (data.message?.toLowerCase().includes('already a participant')) {
           handleSetSelectedCardId(joinData.clanId);
@@ -104,10 +115,11 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         }
         throw new Error(data.message || 'Failed to join clan');
       }
-      
+
       return true;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to join clan';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to join clan';
       setError(errorMessage);
       console.error('Error joining clan:', errorMessage);
       return false;

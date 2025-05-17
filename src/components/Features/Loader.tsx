@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
 
 const Loader = ({
-  message = "Loading Clans, please wait...",
-  logoSrc = "/Images/gettingStarted/Object.png",
+  message = 'Loading Clans, please wait...',
+  logoSrc = '/Images/gettingStarted/Object.png',
   visible = true,
   onHide = () => {},
 }) => {
@@ -22,20 +22,20 @@ const Loader = ({
       tl.fromTo(
         loaderRef.current,
         { opacity: 0, scale: 0.95 },
-        { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }
+        { opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' }
       );
 
       tl.fromTo(
         textRef.current,
         { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
-        "-=0.3"
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
+        '-=0.3'
       );
 
       gsap.to(logoRef.current, {
         rotation: 360,
         repeat: -1,
-        ease: "linear",
+        ease: 'linear',
         duration: 1.2, // Faster spin
       });
     }
@@ -48,7 +48,7 @@ const Loader = ({
         opacity: 0,
         scale: 0.95,
         duration: 0.6,
-        ease: "power3.inOut",
+        ease: 'power3.inOut',
         onComplete: () => {
           setShowLoader(false);
           onHide(); // optional callback
@@ -62,17 +62,17 @@ const Loader = ({
   return (
     <div
       ref={loaderRef}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[url('/Images/gettingStarted/background.png')] bg-center bg-cover bg-no-repeat bg-black/80"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/80 bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center bg-no-repeat"
     >
       <img
         ref={logoRef}
         src={logoSrc}
-        alt="Loading Logo"
-        className="w-32 h-32 object-contain mb-6"
+        alt='Loading Logo'
+        className='mb-6 h-32 w-32 object-contain'
       />
       <p
         ref={textRef}
-        className="text-white text-xl font-semibold tracking-wide text-center"
+        className='text-center text-xl font-semibold tracking-wide text-white'
       >
         {message}
       </p>
