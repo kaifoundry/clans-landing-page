@@ -18,7 +18,6 @@ export default function Button({
   onClick,
   disabled = false,
 }: ButtonProps) {
- 
   const style: React.CSSProperties = {
     width: width ? (typeof width === 'number' ? `${width}px` : width) : '100%',
     height: height

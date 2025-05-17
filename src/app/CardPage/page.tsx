@@ -48,6 +48,7 @@ function CardPageContent() {
     userId: string;
     displayName: string;
     referralCode?: string;
+    followers: string;
     socialHandles?: {
       username: string;
       profilePicture: string;
@@ -328,6 +329,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
             profilePic={profilePic}
             displayName={userData?.socialHandles?.[0]?.displayName}
             username={userData?.socialHandles?.[0]?.username}
+            followers={userData?.followers}
           />
         </div>
         <div className='block lg:hidden'>
@@ -341,6 +343,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
             profilePic={profilePic}
             displayName={userData?.socialHandles?.[0]?.displayName}
             username={userData?.socialHandles?.[0]?.username}
+            followers={userData?.followers}
           />
         </div>
         <div className='mt-5 flex flex-col items-center justify-center gap-5 md:flex-row'>

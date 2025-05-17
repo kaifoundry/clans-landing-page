@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode, Suspense } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  Suspense,
+} from 'react';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 

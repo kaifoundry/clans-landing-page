@@ -4,8 +4,7 @@ import ClanLogo from './ClanLogoMobile';
 
 const ConfirmationPage = () => {
   return (
-   
-    <section className="relative h-dvh overflow-hidden bg-black text-white">
+    <section className='relative h-dvh overflow-hidden bg-black text-white'>
       <video
         autoPlay
         loop
@@ -17,13 +16,13 @@ const ConfirmationPage = () => {
         Your browser does not support the video tag.
       </video>
 
-            <Image
-              src="/Images/gettingStarted/background.png" 
-              alt="Overlay"
-              fill
-              style={{ opacity: 0.33 }}
-              className="absolute top-0 left-0 w-full h-full object-cover z-10 pointer-events-none"
-            />
+      <Image
+        src='/Images/gettingStarted/background.png'
+        alt='Overlay'
+        fill
+        style={{ opacity: 0.33 }}
+        className='pointer-events-none absolute top-0 left-0 z-10 h-full w-full object-cover'
+      />
 
       {/* Black overlay for darkening the whole video */}
       {/* <div className="absolute inset-0 bg-black/50 z-10"></div> */}

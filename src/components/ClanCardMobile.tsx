@@ -12,6 +12,7 @@ interface ClanCardProps {
   username?: string;
   displayName?: string;
   cardCharacter?: string;
+  followers?: string;
 }
 
 const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
@@ -24,6 +25,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
       email,
       username,
       displayName,
+      followers,
     },
     ref
   ) => {
@@ -139,10 +141,10 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   </p>
                   {username && (
                     <p className='text-xs font-medium text-purple-200 md:text-sm'>
-                      @{username}
+                      @{username} | Followers: {followers}
                     </p>
                   )}
-                  <p className='text-xs text-gray-200 md:text-sm'>{email}</p>
+                  {/* <p className='text-xs text-gray-200 md:text-sm'>{followers}</p> */}
                 </div>
               </div>
               <div>

@@ -1,10 +1,9 @@
-"use client";
+'use client';
 
-
-import Button from "@/components/Button";
-import clsx from "clsx";
-import { motion, AnimatePresence } from "framer-motion";
-import { SelectClanDesktopProps } from "./SelectClanDesktop";
+import Button from '@/components/Button';
+import clsx from 'clsx';
+import { motion, AnimatePresence } from 'framer-motion';
+import { SelectClanDesktopProps } from './SelectClanDesktop';
 export interface SelectClanMobileProps {
   clanColor: string;
   setClanColor: React.Dispatch<React.SetStateAction<string>>;
