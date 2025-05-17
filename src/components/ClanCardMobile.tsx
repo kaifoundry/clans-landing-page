@@ -31,21 +31,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     },
     ref
   ) => {
-    // Always use a safe color for html2canvas compatibility
-    // const getSafeColor = () => {
-    //   switch (title.toLowerCase()) {
-    //     case 'clan mcbuilder':
-    //       return 'rgba(255, 0, 0, 0.5)';
-    //     case 'mchodler':
-    //       return 'rgba(255, 0, 255, 0.5)';
-    //     case 'clan mcdegen':
-    //       return 'rgba(0, 255, 0, 0.5)';
-    //     case 'clan mcprivacy':
-    //       return 'rgba(0, 0, 255, 0.5)';
-    //     default:
-    //       return 'rgba(128, 128, 128, 0.5)';
-    //   }
-    // };
+
 
     const getSafeColor = () => {
       switch (title.toLowerCase()) {
@@ -77,21 +63,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
       }
     };
 
-    const getSafeColorBorder = () => {
-      switch (title.toLowerCase()) {
-        case "clan mcbuilder":
-          return "rgba(255, 0, 0, 1)";
-        case "clan mchodler":
-          return "rgba(151, 71, 255, 1)";
-        case "clan mcdegen":
-          return "rgba(0, 255, 0, 1)";
-        case "clan mcprivacy":
-          return "rgba(0, 0, 255,1)";
-          
-        default:
-          return "rgba(128, 128, 128, 1)";
-      }
-    };
+   
     const safeColorBorder = safeGlowColor();
     const getSafeBackgroundStyle = () => {
       switch (title.toLowerCase()) {

@@ -7,7 +7,6 @@ import { gsap } from "gsap";
 import toast from 'react-hot-toast';
 import { useUser } from '@/context/UserContext';
 import Loader from "./Features/Loader";
-import Button1 from "./Button1";
 import { useReferral } from "@/context/ReferralContext";
 import { useSearchParams } from "next/navigation";
 import { LuLoaderCircle } from "react-icons/lu";
@@ -230,7 +229,7 @@ const StartRoaringPage = React.memo(({
         {/* Button */}
         <div className="w-full flex justify-center mb-8 sm:mb-16">
           {/* <Link href="/introducingClans" prefetch> */}
-            <Button1
+            <Button
               onClick={openModal}
               width={270}
               height={75}

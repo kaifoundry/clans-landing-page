@@ -9,7 +9,6 @@ import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import gsap from "gsap";
 import ClanLogoMobile from "./ClanLogoMobile";
 import { useReferral } from "@/context/ReferralContext";
-import Button1 from "./Button1";
 import Link from "next/link";
 import { RefObject } from "react";
 
@@ -124,7 +123,7 @@ const MobileMainPage = ({
           {/* Start Now Button */}
           <div className="absolute bottom-14 sm:bottom-10 left-0 w-full flex items-center justify-center z-20 pointer-events-auto">
           <Link href="/startRoaring" prefetch>
-            <Button1
+            <Button
               width={270}
               height={75}
               ButtonText="Start Now!"
