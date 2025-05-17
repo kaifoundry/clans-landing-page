@@ -18,7 +18,7 @@ const IntroducingClans = () => {
   const { userData, fetchUserData } = useUser();
   const params = useParams();
   const searchParams = useSearchParams();
-  const {  handleReferralCode } = useReferral();
+  const { handleReferralCode } = useReferral();
   // Memoize the userId update function
   const updateUserId = useCallback(() => {
     const userIdFromParams = params?.userId;
@@ -34,36 +34,36 @@ const IntroducingClans = () => {
     updateUserId();
   }, [updateUserId]);
 
-   useEffect(() => {
-    console.log('start checkauthcallback function')
-    
+  useEffect(() => {
+    console.log('start checkauthcallback function');
+
     const checkAuthCallback = async () => {
-      const userId = searchParams.get("userId");
-       console.log("user id inside checkAuthcallback",userId)
+      const userId = searchParams.get('userId');
+      console.log('user id inside checkAuthcallback', userId);
       // Check if referral code exists in cookies
       const cookies = document.cookie
-        .split(";")
+        .split(';')
         .reduce((acc: Record<string, string>, cookie) => {
-          const [key, value] = cookie.split("=").map((c) => c.trim());
+          const [key, value] = cookie.split('=').map((c) => c.trim());
           acc[key] = decodeURIComponent(value);
           return acc;
         }, {});
 
-      const referralCode = cookies["referral_code"];
-       console.log("referal code inside checkAuthcallback", referralCode);
+      const referralCode = cookies['referral_code'];
+      console.log('referal code inside checkAuthcallback', referralCode);
       if (userId) {
         if (referralCode) {
           // If both userId from URL and referralCode from cookie exist, use referralCode
-          console.log("start function")
+          console.log('start function');
           await handleReferralCode(userId);
-          console.log("end referal  function");
+          console.log('end referal  function');
         } else {
           await handleReferralCode(userId);
         }
 
         // Clean the URL
         const newUrl = window.location.pathname;
-        window.history.replaceState({}, "", newUrl);
+        window.history.replaceState({}, '', newUrl);
       }
     };
 
