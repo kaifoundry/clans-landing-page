@@ -15,7 +15,7 @@ const JoinWaitlist = () => {
 
   useEffect(() => {
     setHasMounted(true);
-    // Get user data from localStorage 
+    // Get user data from localStorage
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
       try {
@@ -29,10 +29,9 @@ const JoinWaitlist = () => {
     }
   }, []);
 
- 
   const handleJoinWaitlist = async () => {
     if (!userData || !userData.userId) {
-      toast.error("User ID not found. Please login again.");
+      toast.error('User ID not found. Please login again.');
       return;
     }
 
@@ -42,15 +41,15 @@ const JoinWaitlist = () => {
       const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
 
       const response = await fetch(apiUrl, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
-        credentials: "include",
+        credentials: 'include',
         body: JSON.stringify({
           userId: userData.userId,
-        })
+        }),
       });
 
       if (!response.ok) {
@@ -67,33 +66,31 @@ const JoinWaitlist = () => {
       }
 
       const data = await response.json();
-      
+
       // Check if user is already an early user
-      if (data.message && data.message.includes("is already an early user")) {
+      if (data.message && data.message.includes('is already an early user')) {
         toast.success("You're already on the waitlist!");
-      router.push("/ConfirmationPage");
-
+        router.push('/ConfirmationPage');
       } else {
-        toast.success("Successfully joined the waitlist!");
-      router.push("/ConfirmationPage");
-
+        toast.success('Successfully joined the waitlist!');
+        router.push('/ConfirmationPage');
       }
 
       // Redirect to confirmation page in both cases
     } catch (error) {
-        toast.error(
-          (error instanceof Error
-            ? error.message
-            : "An unknown error occurred") ||
-            "Failed to join waitlist. Please try again."
-        );
+      toast.error(
+        (error instanceof Error
+          ? error.message
+          : 'An unknown error occurred') ||
+          'Failed to join waitlist. Please try again.'
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   if (!hasMounted) {
-    return null; 
+    return null;
   }
 
   return (
