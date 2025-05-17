@@ -95,8 +95,7 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`antialiased ${rajdhani.variable} ${geistSans.variable} ${geistMono.variable}`}>
+      <div className={`antialiased ${rajdhani.variable} ${geistSans.variable} ${geistMono.variable}`}>
         <UserProvider>
           <ReferralProvider>
             <ClanProvider>
@@ -105,7 +104,6 @@ export default function Layout({
             </ClanProvider>
           </ReferralProvider>
         </UserProvider>
-      </body>
-    </html>
+      </div>
   );
 }

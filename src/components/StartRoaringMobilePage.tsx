@@ -1,13 +1,12 @@
 import Image from "next/image";
 import Button from "@/components/Button";
-import React, {  useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { useReferral } from "@/context/ReferralContext";
 import { useSearchParams } from "next/navigation";
 import { LuLoaderCircle } from "react-icons/lu";
 import { RefObject } from "react";
-
-
+import Head from "next/head";
 
 interface CommonRoaringProps {
   isModalOpen: boolean;
@@ -28,10 +27,10 @@ const StartRoaringPage = React.memo(({
   avatarLeftRef,
   avatarRightRef
 }: CommonRoaringProps) => {
-  const { handleReferralCode } =
-    useReferral();
+  const { handleReferralCode } = useReferral();
   const modalRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
+
   useEffect(() => {
     const checkAuthCallback = async () => {
       const userId = searchParams.get("userId");
@@ -41,11 +40,9 @@ const StartRoaringPage = React.memo(({
         window.history.replaceState({}, "", newUrl);
       }
     };
+    checkAuthCallback();
+  }, [searchParams, handleReferralCode]);
 
-      checkAuthCallback();
-    }, [searchParams, handleReferralCode]);
-
-  // Animate modal when it opens
   useEffect(() => {
     if (isModalOpen && modalRef.current) {
       gsap.fromTo(
@@ -55,10 +52,17 @@ const StartRoaringPage = React.memo(({
       );
     }
   }, [isModalOpen]);
- 
 
-    return (
-      <section className="relative flex h-dvh w-screen flex-col justify-between overflow-hidden bg-black bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center">
+  return (
+    <>
+      <Head>
+        <title>Start Roaring - Join the Waitlist | Clans</title>
+        <meta name="description" content="Join the waitlist for Roar Points. Post, engage, and earn rewards. Only those who join will enter the battleground!" />
+        <meta property="og:title" content="Start Roaring - Join the Waitlist | Clans" />
+        <meta property="og:description" content="Ancient warriors had clans. You have social media. Post. Engage. Earn Roar Points. Only those who join the waitlist will enter the battleground." />
+        <meta property="og:image" content="/Images/cardPage/cardVecor.png" />
+      </Head>
+      <main className="relative flex h-dvh w-screen flex-col justify-between overflow-hidden bg-black bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center">
         {/* Background Avatars */}
         <Image
           ref={avatarLeftRef}
@@ -81,18 +85,18 @@ const StartRoaringPage = React.memo(({
           draggable={false}
         />
 
-        {/* Main Content */}
-        <div className='relative z-10 mx-auto flex min-h-dvh w-full flex-col items-center px-2'>
-          {/* Header */}
-          <h1 className='mt-10 mb-8 text-center text-3xl leading-tight font-semibold text-white drop-shadow-lg'>
-            Introducing
-            <br />
-            Roar Points
-          </h1>
+        <section className='relative z-10 mx-auto flex min-h-dvh w-full flex-col items-center px-2'>
+          <header>
+            <h1 className='mt-10 mb-8 text-center text-3xl leading-tight font-semibold text-white drop-shadow-lg'>
+              Introducing
+              <br />
+              Roar Points
+            </h1>
+          </header>
 
           {/* Center Card - vertically centered */}
-          <div className='flex w-full flex-1 flex-col justify-center'>
-            <div
+          <article className='flex w-full flex-1 flex-col justify-center'>
+            <section
               className='card-container relative mx-auto flex w-full max-w-[370px] flex-col gap-4 text-white'
               style={{
                 backgroundImage: "url('/Images/cardPage/cardVecor.png')",
@@ -101,6 +105,7 @@ const StartRoaringPage = React.memo(({
                 backgroundRepeat: 'no-repeat',
                 marginTop: '45px',
               }}
+              aria-label="Roar Points Information"
             >
               {/* Centered Content */}
               <div className='absolute inset-0 flex flex-col items-center justify-center px-2'>
@@ -108,7 +113,6 @@ const StartRoaringPage = React.memo(({
                   Ancient warriors had clans.
                 </p>
                 <p className='mb-2 text-center text-lg font-normal text-white sm:text-xl'>
-                  {' '}
                   You have social media.
                 </p>
                 <p className='mb-2 text-center text-lg font-semibold text-white sm:text-xl'>
@@ -123,12 +127,11 @@ const StartRoaringPage = React.memo(({
                   Which clan will you join?
                 </p>
               </div>
-            </div>
-          </div>
+            </section>
+          </article>
 
           {/* Button */}
-          <div className='mb-8 flex w-full justify-center sm:mb-16'>
-            {/* <Link href="/introducingClans" prefetch> */}
+          <nav className='mb-8 flex w-full justify-center sm:mb-16' aria-label="Start Roaring">
             <Button
               onClick={openModal}
               width={270}
@@ -136,13 +139,13 @@ const StartRoaringPage = React.memo(({
               ButtonText='Start Roaring'
               className='w-full max-w-[260px] text-3xl text-[21px] font-semibold text-white drop-shadow-lg'
             />
-            {/* </Link> */}
-          </div>
-        </div>
+          </nav>
+        </section>
+
         {/* Modal */}
         {isModalOpen && (
-          <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
-            <div
+          <aside className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black/50' aria-modal="true" role="dialog">
+            <section
               ref={modalRef}
               className='relative w-[308px] rounded-2xl bg-white p-6 text-center shadow-lg'
             >
@@ -199,13 +202,13 @@ const StartRoaringPage = React.memo(({
                   </li>
                 </ul>
               </div>
-            </div>
-          </div>
+            </section>
+          </aside>
         )}
-      </section>
-    );
-  }
-);
+      </main>
+    </>
+  );
+});
 
 StartRoaringPage.displayName = 'StartRoaringPage';
 

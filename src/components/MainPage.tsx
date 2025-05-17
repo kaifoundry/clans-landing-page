@@ -1,6 +1,6 @@
 'use client';
 
-import {  useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
@@ -24,7 +24,6 @@ const MainPage = ({
 }: MainPageProps) => {
   const avatarLeftRef = useRef(null);
   const avatarRightRef = useRef(null);
-
 
   useEffect(() => {
     gsap.fromTo(
@@ -55,31 +54,29 @@ const MainPage = ({
           <source src='/videos/Main.mp4' type='video/mp4' />
           Your browser does not support the video tag.
         </video>
-
-        {/* Image overlay over video */}
         <Image
-          src="/Images/gettingStarted/background.png" 
-          alt="Overlay"
+          src="/Images/gettingStarted/background.png"
+          alt="Background overlay"
           fill
           style={{ opacity: 0.33 }}
           className='pointer-events-none z-0 object-cover'
         />
       </div>
 
-      {/* Foreground Content */}
-      <div className='relative z-10 mx-auto flex h-full w-full flex-col items-center justify-center text-center'>
+      {/* Main Content */}
+      <main className='relative z-10 mx-auto flex h-full w-full flex-col items-center justify-center text-center'>
         <div className='z-20 flex flex-col items-center justify-center gap-10'>
           <div className='flex items-center justify-center gap-4'>
             <Image
               src='/Images/gettingStarted/clansLogo.svg'
               width={80}
               height={80}
-              alt='Object1'
+              alt='Clans Logo'
               className='h-20 w-20 object-contain sm:h-24 sm:w-80 md:h-32 md:w-100 lg:h-40 lg:w-120 xl:h-48 xl:w-130 2xl:h-56 2xl:w-150'
               draggable={false}
+              priority
             />
           </div>
-
           <div className='z-10 mx-auto flex items-center justify-center'>
             <Link href='/startRoaring' prefetch>
               <button className='group relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px] lg:h-[70px] lg:w-[280px]'>
@@ -102,7 +99,6 @@ const MainPage = ({
           className='absolute bottom-0 left-0 z-10 w-[300px] object-contain md:w-[350px] xl:w-[530px] 2xl:w-[540px]'
           draggable={false}
         />
-
         <Image
           ref={avatarRightRef}
           src='/Images/gettingStarted/avtar2_.png'
@@ -112,7 +108,7 @@ const MainPage = ({
           className='absolute right-0 bottom-0 z-10 w-[300px] object-contain md:w-[320px] xl:w-[550px] 2xl:w-[550px]'
           draggable={false}
         />
-      </div>
+      </main>
 
       {/* Mute Button */}
       <button
