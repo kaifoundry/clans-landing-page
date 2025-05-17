@@ -13,11 +13,12 @@ interface ClanCardProps {
   username?: string;
   displayName?: string;
   cardImage?: string;
+  followers?: string
 }
 
 const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
   (
-    { title, description, sideImage, profilePic, email, username, displayName },
+    { title, description, sideImage, profilePic, email, username, displayName, followers },
     ref
   ) => {
     const getColorPalette = (title: string) => {
@@ -98,11 +99,15 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 <p className='text-base font-semibold text-white md:text-lg'>
                   {displayName}
                 </p>
+    
                 {username && (
                   <p className='text-xs font-medium text-purple-300 md:text-sm'>
-                    @{username}
+                    @{username} | Followers: {followers}
                   </p>
                 )}
+                                 {/* <p className='text-xs font-medium text-purple-300 md:text-sm'>
+                  Followers: {followers} 
+                </p> */}
                 <p className='text-xs text-gray-400 md:text-sm'>{email}</p>
               </div>
             </div>
