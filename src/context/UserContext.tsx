@@ -186,9 +186,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
           userDAta?.socialHandles[0]?.username || 'NA'
         );
         localStorage.setItem('followers', userDAta?.followers || 'NA');
-          localStorage.setItem('user_id', userData?.userId || 'NA');
+        localStorage.setItem('user_id', userData?.userId || 'NA');
 
-        localStorage.setItem('token', token)
+        localStorage.setItem('token', token);
         // const router = useRouter();
         // router.push('/introducingClans');
         //         {
