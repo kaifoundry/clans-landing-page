@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { Router } from 'next/router';
 import {
   createContext,
   useContext,
@@ -10,7 +12,6 @@ import {
 } from 'react';
 import toast from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid';
-
 interface UserData {
   userId: string;
 
@@ -187,6 +188,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('token', token),
           localStorage.setItem('user_id', userData?.userId || 'NA');
 
+        const router = useRouter();
+        router.push('/introducingClans');
         //         {
         //     "success": true,
         //     "message": "User retrieved successfully",

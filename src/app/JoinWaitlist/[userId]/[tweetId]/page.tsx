@@ -40,12 +40,14 @@ const JoinWaitlist = () => {
     try {
       const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
 
+      const token = localStorage.getItem('token') || 'NA';
+
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          // Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         credentials: 'include',
         // body: JSON.stringify({
