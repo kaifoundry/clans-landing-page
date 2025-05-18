@@ -219,20 +219,23 @@ const handleStartRoaring = async () => {
       { type: 'image/png' }
     );
 
-    // Upload to server
-    const formData = new FormData();
-    formData.append('media', file);
+      // Upload to server
+      const formData = new FormData();
+      formData.append('media', file);
 
-    const uploadResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
-      {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Accept: 'application/json',
-        },
-      }
-    );
+      const token = localStorage.getItem('token') || 'NA';
+
+      const uploadResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
     if (!uploadResponse.ok) {
       const errorText = await uploadResponse.text();
