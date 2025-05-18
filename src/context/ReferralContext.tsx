@@ -63,8 +63,8 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         //   referral_code: referralCode,
         // }),
         body: JSON.stringify({
-          user_id: userID,
-          referral_code: referralCode,
+          userId: userID,
+          referralCode: referralCode,
         }),
       });
 
