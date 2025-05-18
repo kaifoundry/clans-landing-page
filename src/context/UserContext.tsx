@@ -187,9 +187,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         );
         localStorage.setItem('token', token),
           localStorage.setItem('user_id', userData?.userId || 'NA');
-        
-            const router = useRouter();
-          router.push("/introducingClans")
+
+        const router = useRouter();
+        router.push('/introducingClans');
         //         {
         //     "success": true,
         //     "message": "User retrieved successfully",
