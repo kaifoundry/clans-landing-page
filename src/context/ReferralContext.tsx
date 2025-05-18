@@ -62,7 +62,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       });
 
       const data = await response.json();
-console.log('data', data);
+      console.log('data', data);
       if (!response.ok) {
         // Clear the referral code cookie if invalid or failed
         Cookies.remove('referral_code', {
