@@ -259,7 +259,10 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
         `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/tweet`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(tweetData),
         }
       );
