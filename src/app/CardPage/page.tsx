@@ -160,12 +160,12 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
             backgroundColor: '#181118',
             width: Math.min(rect.width, 1200), // Cap maximum width
             height: Math.min(rect.height, 675), // Cap maximum height
-            filter: (node) => {
-              const className = node.className || '';
-              return (
-                !className.includes('toast') && !className.includes('Toaster')
-              );
-            },
+            // filter: (node) => {
+            //   const className = node.className || '';
+            //   return (
+            //     !className.includes('toast') && !className.includes('Toaster')
+            //   );
+            // },
           });
           i += 1;
         }
@@ -192,12 +192,12 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
           backgroundColor: '#000000',
           width: rect.width,
           height: rect.height,
-          filter: (node) => {
-            const className = node.className || '';
-            return (
-              !className.includes('toast') && !className.includes('Toaster')
-            );
-          },
+          // filter: (node) => {
+          //   const className = node.className || '';
+          //   return (
+          //     !className.includes('toast') && !className.includes('Toaster')
+          //   );
+          // },
         });
 
         const reducedRes = await fetch(reducedDataUrl);
