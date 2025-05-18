@@ -41,7 +41,6 @@ function CardPageContent() {
     // cardCharacter:string;
   }>(null);
 
-  let userFollowers = localStorage.getItem('followers') || 'NA';
 
   const cardRefDesktop = useRef<HTMLDivElement>(null);
   const cardRefMobile = useRef<HTMLDivElement>(null);
@@ -303,6 +302,9 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
     const tweetId = tweetData.tweetId || '';
     window.location.href = `/JoinWaitlist/${userId}/${tweetId}`;
   };
+
+
+  let userFollowers = localStorage.getItem('followers') || 'NA';
 
   return (
     <section
