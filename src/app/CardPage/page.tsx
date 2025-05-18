@@ -220,6 +220,8 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
       const formData = new FormData();
       formData.append('media', file);
 
+      const token = localStorage.getItem('token') || 'NA';
+
       const uploadResponse = await fetch(
         `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
         {
@@ -227,6 +229,8 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
           body: formData,
           headers: {
             Accept: 'application/json',
+            "authorization": `Bearer ${token}`,
+
           },
         }
       );
