@@ -88,10 +88,10 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       toast.success('Referral code applied successfully!');
     } catch (error: any) {
       console.error('Error applying referral code:', error);
-      toast.error('Failed to apply referral code testing ');
-      // toast.error(error.message || 'Failed to apply referral code', {
-      //   id: 'referral-error'
-      // });
+      // toast.error( 'Failed to apply referral code testing ');
+      toast.error(error.message || 'Failed to apply referral code', { 
+        id: 'referral-error' 
+      });
       // toast.error(error.message || 'Failed to apply referral code');
       // setReferralError(error.message);
     } finally {
