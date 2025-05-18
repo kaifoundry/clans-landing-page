@@ -232,8 +232,7 @@ const handleStartRoaring = async () => {
           body: formData,
           headers: {
             Accept: 'application/json',
-            "authorization": `Bearer ${token}`,
-
+            authorization: `Bearer ${token}`,
           },
         }
       );

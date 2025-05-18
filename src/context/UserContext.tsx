@@ -185,7 +185,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
           'username',
           userDAta?.socialHandles[0]?.username || 'NA'
         );
-        localStorage.setItem("followers", userDAta?.followers || 'NA')
+        localStorage.setItem('followers', userDAta?.followers || 'NA');
         localStorage.setItem('token', token),
           localStorage.setItem('user_id', userData?.userId || 'NA');
 
