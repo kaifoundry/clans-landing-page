@@ -41,6 +41,9 @@ function CardPageContent() {
     // cardCharacter:string;
   }>(null);
 
+  let userFollowers =  localStorage.getItem('followers') || 'NA';
+
+
   const cardRefDesktop = useRef<HTMLDivElement>(null);
   const cardRefMobile = useRef<HTMLDivElement>(null);
 
@@ -71,11 +74,9 @@ function CardPageContent() {
       : [];
     return mappedData;
   }, [clans]);
-  let userFollowers;
 
   useEffect(() => {
     if (!selectedCardId && cardData.length > 0) {
-      userFollowers = localStorage.getItem('followers') || 'NA';
 
       try {
         const storedCardId = localStorage.getItem('selectedCardId');
