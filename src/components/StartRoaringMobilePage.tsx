@@ -28,9 +28,9 @@ const StartRoaringPage = React.memo(
     avatarLeftRef,
     avatarRightRef,
   }: CommonRoaringProps) => {
-    const { handleReferralCode } = useReferral();
+    // const { handleReferralCode } = useReferral();
     const modalRef = useRef<HTMLDivElement>(null);
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
 
     // useEffect(() => {
     //   const checkAuthCallback = async () => {
