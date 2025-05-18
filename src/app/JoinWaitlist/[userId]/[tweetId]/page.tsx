@@ -38,7 +38,7 @@ const JoinWaitlist = () => {
     setIsLoading(true);
 
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}&campaignId=${0}`;
 
       const token = localStorage.getItem('token') || 'NA';
 
