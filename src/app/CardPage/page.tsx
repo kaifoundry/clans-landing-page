@@ -71,9 +71,13 @@ function CardPageContent() {
       : [];
     return mappedData;
   }, [clans]);
+  let userFollowers;
 
   useEffect(() => {
     if (!selectedCardId && cardData.length > 0) {
+
+      userFollowers = localStorage.getItem("followers") || "NA"
+
       try {
         const storedCardId = localStorage.getItem('selectedCardId');
         if (storedCardId) {
@@ -332,7 +336,7 @@ const handleStartRoaring = async () => {
             profilePic={profilePic}
             displayName={userData?.socialHandles?.[0]?.displayName}
             username={userData?.socialHandles?.[0]?.username}
-            followers={userData?.followers}
+            followers={userFollowers}
           />
         </div>
         <div className='block lg:hidden'>
@@ -346,7 +350,7 @@ const handleStartRoaring = async () => {
             profilePic={profilePic}
             displayName={userData?.socialHandles?.[0]?.displayName}
             username={userData?.socialHandles?.[0]?.username}
-            followers={userData?.followers}
+            followers={userFollowers}
           />
         </div>
         <div className='mt-5 flex flex-col items-center justify-center gap-5 md:flex-row'>
