@@ -116,38 +116,39 @@ ${process.env.NEXT_PUBLIC_X_HANDLER} is shaping the attention economy for roarer
 
 Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
 
-  const handleStartRoaring = async () => {
-    if (!cardRefDesktop.current && !cardRefMobile.current) {
+const handleStartRoaring = async () => {
+  if (!cardRefDesktop.current && !cardRefMobile.current) {
+    toast.error('Card reference not available');
+    return;
+  }
+
+  if (!userData) {
+    toast.error('User data not available');
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    // Determine which ref to use based on screen size
+    const isMobile = window.innerWidth < 1024;
+    const cardNode = isMobile
+      ? cardRefMobile.current
+      : cardRefDesktop.current;
+    if (!cardNode) {
       toast.error('Card reference not available');
       return;
     }
+    const rect = cardNode.getBoundingClientRect();
 
-    if (!userData) {
-      toast.error('User data not available');
-      return;
-    }
 
-    try {
-      setLoading(true);
+    const buildPng = async () => {
+      const element = document.getElementById('image-node');
 
-      // Determine which ref to use based on screen size
-      const isMobile = window.innerWidth < 1024;
-      const cardNode = isMobile
-        ? cardRefMobile.current
-        : cardRefDesktop.current;
-      if (!cardNode) {
-        toast.error('Card reference not available');
-        return;
-      }
-      const rect = cardNode.getBoundingClientRect();
-
-      const buildPng = async () => {
-        const element = document.getElementById('image-node');
-
-        let dataUrl = '';
-        const minDataLength = 2000000;
-        let i = 0;
-        const maxAttempts = 10;
+      let dataUrl = '';
+      const minDataLength = 2000000;
+      let i = 0;
+      const maxAttempts = 10;
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           dataUrl = await toPng(cardNode, {
@@ -170,14 +171,16 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
           i += 1;
         }
 
-        return dataUrl;
-      };
+      return dataUrl;
+    };
 
-      const dataUrl = await buildPng();
+    const dataUrl = await buildPng();
 
-      // Convert dataUrl to Blob and File for upload
-      const res = await fetch(dataUrl);
-      let blob = await res.blob();
+ 
+    // Convert dataUrl to Blob and File for upload
+    const res = await fetch(dataUrl);
+    let blob = await res.blob();
+
 
       //  the file size is within reasonable limits (1MB)
       if (blob.size > 1024 * 1024) {
@@ -200,97 +203,97 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
           // },
         });
 
-        const reducedRes = await fetch(reducedDataUrl);
-        const reducedBlob = await reducedRes.blob();
+      const reducedRes = await fetch(reducedDataUrl);
+      const reducedBlob = await reducedRes.blob();
 
-        if (reducedBlob.size > 1024 * 1024) {
-          throw new Error('Unable to generate image within size limits');
-        }
-
-        blob = reducedBlob;
+      if (reducedBlob.size > 1024 * 1024) {
+        throw new Error('Unable to generate image within size limits');
       }
 
-      const file = new File(
-        [blob],
-        `card-${card?.title?.replace(/\s+/g, '-').toLowerCase()}.png`,
-        { type: 'image/png' }
-      );
-
-      // Upload to server
-      const formData = new FormData();
-      formData.append('media', file);
-
-      const uploadResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            Accept: 'application/json',
-          },
-        }
-      );
-
-      if (!uploadResponse.ok) {
-        const errorText = await uploadResponse.text();
-        throw new Error(
-          `Failed to upload image: ${uploadResponse.status} ${errorText}`
-        );
-      }
-
-      const uploadResult = await uploadResponse.json();
-
-      if (!uploadResult.success || !uploadResult.mediaId) {
-        throw new Error(`Media upload failed: ${JSON.stringify(uploadResult)}`);
-      }
-
-      // Post tweet
-      const tweetData = {
-        userId: userData.userId,
-        text: tweetContent,
-        mediaId: uploadResult.mediaId,
-        referralCode: userData.referralCode || '',
-      };
-
-      const tweetResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/tweet`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(tweetData),
-        }
-      );
-
-      if (!tweetResponse.ok) {
-        const errorText = await tweetResponse.text();
-        throw new Error(
-          `Failed to post tweet: ${tweetResponse.status} ${errorText}`
-        );
-      }
-
-      const tweetResult = await tweetResponse.json();
-
-      if (!tweetResult.tweetId && !tweetResult.tweetData?.tweetId) {
-        throw new Error(`No tweet ID received: ${JSON.stringify(tweetResult)}`);
-      }
-
-      // Save tweet data
-      localStorage.setItem(
-        'tweetData',
-        JSON.stringify({
-          tweetId: tweetResult.tweetId || tweetResult.tweetData?.tweetId,
-          userId: userData.userId,
-        })
-      );
-
-      setTweetPosted(true);
-      toast.success('Tweet posted successfully!');
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to complete the process');
-    } finally {
-      setLoading(false);
+      blob = reducedBlob;
     }
-  };
+
+    const file = new File(
+      [blob],
+      `card-${card?.title?.replace(/\s+/g, '-').toLowerCase()}.png`,
+      { type: 'image/png' }
+    );
+
+    // Upload to server
+    const formData = new FormData();
+    formData.append('media', file);
+
+    const uploadResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
+      {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      }
+    );
+
+    if (!uploadResponse.ok) {
+      const errorText = await uploadResponse.text();
+      throw new Error(
+        `Failed to upload image: ${uploadResponse.status} ${errorText}`
+      );
+    }
+
+    const uploadResult = await uploadResponse.json();
+
+    if (!uploadResult.success || !uploadResult.mediaId) {
+      throw new Error(`Media upload failed: ${JSON.stringify(uploadResult)}`);
+    }
+
+    // Post tweet
+    const tweetData = {
+      userId: userData.userId,
+      text: tweetContent,
+      mediaId: uploadResult.mediaId,
+      referralCode: userData.referralCode || '',
+    };
+
+    const tweetResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/tweet`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(tweetData),
+      }
+    );
+
+    if (!tweetResponse.ok) {
+      const errorText = await tweetResponse.text();
+      throw new Error(
+        `Failed to post tweet: ${tweetResponse.status} ${errorText}`
+      );
+    }
+
+    const tweetResult = await tweetResponse.json();
+
+    if (!tweetResult.tweetId && !tweetResult.tweetData?.tweetId) {
+      throw new Error(`No tweet ID received: ${JSON.stringify(tweetResult)}`);
+    }
+
+    // Save tweet data
+    localStorage.setItem(
+      'tweetData',
+      JSON.stringify({
+        tweetId: tweetResult.tweetId || tweetResult.tweetData?.tweetId,
+        userId: userData.userId,
+      })
+    );
+
+    setTweetPosted(true);
+    toast.success('Tweet posted successfully!');
+  } catch (error: any) {
+    toast.error(error.message || 'Failed to complete the process');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleRedirect = () => {
     const tweetData = JSON.parse(localStorage.getItem('tweetData') || '{}');
