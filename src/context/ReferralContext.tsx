@@ -51,8 +51,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       setReferralError(null);
 
       // get user id from localstorage
-      const userID = localStorage.getItem("user_id")
-      
+      const userID = localStorage.getItem('user_id');
 
       const response = await fetch(`${BASE_URL}/api/referral/join_referral`, {
         method: 'POST',
@@ -63,12 +62,11 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         //   user_id: userId,
         //   referral_code: referralCode,
         // }),
-                body: JSON.stringify({
+        body: JSON.stringify({
           user_id: userID,
           referral_code: referralCode,
         }),
       });
-
 
       const data = await response.json();
       console.log('data', data);

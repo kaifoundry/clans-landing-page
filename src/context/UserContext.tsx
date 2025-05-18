@@ -150,11 +150,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
   // Memoize the fetchUserData function
   const fetchUserData = useCallback(
     async (userid: string) => {
-
-
       if (!userid) return;
 
-      const token = userid
+      const token = userid;
 
       // Check if we already have the data for this token
       // if (userData?.token === userId) return;
@@ -169,50 +167,50 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
         const data = await res.json();
 
-
         if (data?.success == false) {
           throw new Error(`Failed to fetch user data`);
-          
         }
 
         const userDAta = data?.data;
 
+        console.log('response is ', data);
 
+        // set user data and all other data in localstorage
+        localStorage.setItem(
+          'name',
+          userDAta?.socialHandles[0]?.displayName || 'NA'
+        );
+        localStorage.setItem(
+          'username',
+          userDAta?.socialHandles[0]?.username || 'NA'
+        );
+        localStorage.setItem('token', token),
+          localStorage.setItem('user_id', userData?.userId || 'NA');
 
-
-        console.log("response is ", data)
-
-        // set user data and all other data in localstorage 
-        localStorage.setItem("name", userDAta?.socialHandles[0]?.displayName || "NA")
-        localStorage.setItem("username", userDAta?.socialHandles[0]?.username || "NA")
-        localStorage.setItem("token", token),
-        localStorage.setItem("user_id", userData?.userId || "NA")
-
-
-//         {
-//     "success": true,
-//     "message": "User retrieved successfully",
-//     "data": {
-//         "userId": "300198ec-bb75-4c1a-bb27-c74bfff75d86",
-//         "web3UserName": "rajnishddd.icp1",
-//         "did": null,
-//         "isActiveUser": true,
-//         "isEarlyUser": false,
-//         "activeClanId": null,
-//         "clanJoinDate": null,
-//         "referralCode": "2UddKLi06u",
-//         "socialHandles": [
-//             {
-//                 "provider": "twitter",
-//                 "username": "rajnish_devadd",
-//                 "displayName": "Rajnish Tripathi",
-//                 "profilePicture": null
-//             }
-//         ],
-//         "wallets": [],
-//         "rewardHistory": []
-//     }
-// }
+        //         {
+        //     "success": true,
+        //     "message": "User retrieved successfully",
+        //     "data": {
+        //         "userId": "300198ec-bb75-4c1a-bb27-c74bfff75d86",
+        //         "web3UserName": "rajnishddd.icp1",
+        //         "did": null,
+        //         "isActiveUser": true,
+        //         "isEarlyUser": false,
+        //         "activeClanId": null,
+        //         "clanJoinDate": null,
+        //         "referralCode": "2UddKLi06u",
+        //         "socialHandles": [
+        //             {
+        //                 "provider": "twitter",
+        //                 "username": "rajnish_devadd",
+        //                 "displayName": "Rajnish Tripathi",
+        //                 "profilePicture": null
+        //             }
+        //         ],
+        //         "wallets": [],
+        //         "rewardHistory": []
+        //     }
+        // }
 
         if (data.success && data.data) {
           setUserData(data.data);
@@ -239,7 +237,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setUserData,
     fetchUserData,
     isLoading,
-    
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
