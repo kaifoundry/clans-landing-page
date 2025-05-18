@@ -52,6 +52,8 @@ const JoinWaitlist = () => {
         }),
       });
 
+      console.log('response is ', response);
+
       if (!response.ok) {
         let errorData;
         try {
