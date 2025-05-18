@@ -82,7 +82,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
     } catch (error: any) {
       console.error('Error applying referral code:', error);
       toast.error(error.message || 'Failed to apply referral code');
-      setReferralError(error.message);
+      // setReferralError(error.message);
     } finally {
       setIsLoading(false);
     }
