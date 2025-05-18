@@ -141,8 +141,11 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                     {displayName}
                   </p>
                   {username && (
-                    <p className='text-xs font-medium flex justify-center items-center gap-1 flex-wrap text-purple-200 md:text-sm'>
-                      @{username} | <span className='flex justify-center items-center '><FaUsers className='pr-1'/> Followers: {followers}</span> 
+                    <p className='flex flex-wrap items-center justify-center gap-1 text-xs font-medium text-purple-200 md:text-sm'>
+                      @{username} |{' '}
+                      <span className='flex items-center justify-center'>
+                        <FaUsers className='pr-1' /> Followers: {followers}
+                      </span>
                     </p>
                   )}
                   {/* <p className='text-xs text-gray-200 md:text-sm'>{followers}</p> */}
