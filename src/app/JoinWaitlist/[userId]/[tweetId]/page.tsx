@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import ClanLogo from '@/components/ClanLogoMobile';
+import { v4 as uuidv4 } from 'uuid';
 
 const JoinWaitlist = () => {
   const router = useRouter();
@@ -37,8 +38,10 @@ const JoinWaitlist = () => {
 
     setIsLoading(true);
 
+    const uuid = uuidv4();
+
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}&campaignId=${0}`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}&campaignId=${uuid}`;
 
       const token = localStorage.getItem('token') || 'NA';
 
