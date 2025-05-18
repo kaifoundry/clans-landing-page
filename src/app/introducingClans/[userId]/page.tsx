@@ -35,8 +35,20 @@ const IntroducingClans = () => {
     }
   }, [updateUserId, params?.userId]);
 
+  // useEffect(() => {
+  //   if (userId && hasReferralCode()) {
+  //     (async () => {
+  //       await handleReferralCode(userId);
+  //       const newUrl = window.location.pathname;
+  //       window.history.replaceState({}, '', newUrl);
+  //     })();
+  //   }
+  // }, [userId, handleReferralCode, hasReferralCode]);
+  const hasHandledReferral = useRef(false);
+
   useEffect(() => {
-    if (userId && hasReferralCode()) {
+    if (userId && hasReferralCode() && !hasHandledReferral.current) {
+      hasHandledReferral.current = true;
       (async () => {
         await handleReferralCode(userId);
         const newUrl = window.location.pathname;
@@ -44,7 +56,7 @@ const IntroducingClans = () => {
       })();
     }
   }, [userId, handleReferralCode, hasReferralCode]);
-
+  
   const handleUserDataFetch = useCallback(() => {
     if (userId) {
       localStorage.setItem('userId', userId);

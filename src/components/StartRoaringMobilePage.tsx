@@ -28,21 +28,21 @@ const StartRoaringPage = React.memo(
     avatarLeftRef,
     avatarRightRef,
   }: CommonRoaringProps) => {
-    const { handleReferralCode } = useReferral();
+    // const { handleReferralCode } = useReferral();
     const modalRef = useRef<HTMLDivElement>(null);
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
 
-    useEffect(() => {
-      const checkAuthCallback = async () => {
-        const userId = searchParams.get('userId');
-        if (userId) {
-          await handleReferralCode(userId);
-          const newUrl = window.location.pathname;
-          window.history.replaceState({}, '', newUrl);
-        }
-      };
-      checkAuthCallback();
-    }, [searchParams, handleReferralCode]);
+    // useEffect(() => {
+    //   const checkAuthCallback = async () => {
+    //     const userId = searchParams.get('userId');
+    //     if (userId) {
+    //       await handleReferralCode(userId);
+    //       const newUrl = window.location.pathname;
+    //       window.history.replaceState({}, '', newUrl);
+    //     }
+    //   };
+    //   checkAuthCallback();
+    // }, [searchParams, handleReferralCode]);
 
     useEffect(() => {
       if (isModalOpen && modalRef.current) {
