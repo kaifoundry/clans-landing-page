@@ -41,8 +41,7 @@ function CardPageContent() {
     // cardCharacter:string;
   }>(null);
 
-  let userFollowers =  localStorage.getItem('followers') || 'NA';
-
+  let userFollowers = localStorage.getItem('followers') || 'NA';
 
   const cardRefDesktop = useRef<HTMLDivElement>(null);
   const cardRefMobile = useRef<HTMLDivElement>(null);
@@ -77,7 +76,6 @@ function CardPageContent() {
 
   useEffect(() => {
     if (!selectedCardId && cardData.length > 0) {
-
       try {
         const storedCardId = localStorage.getItem('selectedCardId');
         if (storedCardId) {
