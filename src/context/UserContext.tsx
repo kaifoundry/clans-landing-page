@@ -9,9 +9,11 @@ import {
   useCallback,
 } from 'react';
 import toast from 'react-hot-toast';
+import { v4 as uuidv4 } from 'uuid';
 
 interface UserData {
   userId: string;
+
   displayName?: string;
   referralCode?: string;
   followers?: string;
@@ -21,6 +23,12 @@ interface UserData {
     displayName: string;
   }[];
   isActiveUser?: boolean;
+}
+
+export interface CreateAccountData {
+  name: string;
+  username: string;
+  twitterUserId: string;
 }
 
 interface UserContextType {
@@ -93,25 +101,118 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // function userLogin(args: CreateAccountData) {
+  //   try {
+  //     const { name, username, twitterUserId } = args;
+
+  //     const myHeaders = new Headers();
+  //     myHeaders.append('Content-Type', 'application/json');
+
+  //     const uuid = uuidv4();
+
+  //     const raw = JSON.stringify({
+  //       web3UserName: username + uuid,
+  //       DiD: uuid,
+  //       isEarlyUser: false,
+  //       isActiveUser: true,
+  //       activeClanId: null,
+  //       socialHandles: [
+  //         {
+  //           provider: 'twitter',
+  //           socialId: twitterUserId,
+  //           username: username,
+  //           displayName: name,
+  //           accessToken: null,
+  //           refreshToken: null,
+  //         },
+  //       ],
+  //     });
+
+  //     const requestOptions = {
+  //       method: 'POST',
+  //       headers: myHeaders,
+  //       body: raw,
+  //       redirect: 'follow',
+  //     };
+
+  //     const url: string = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/create`;
+
+  //     // @ts-ignore
+  //     fetch(url, requestOptions)
+  //       .then((response) => response.text())
+  //       .then((result) => console.log(result))
+  //       .catch((error) => console.error(error));
+  //   } catch (err: unknown) {
+  //     console.log('Error[UserRegistration]', err);
+  //   }
+  // }
+
   // Memoize the fetchUserData function
   const fetchUserData = useCallback(
-    async (userId: string) => {
-      if (!userId) return;
+    async (userid: string) => {
 
-      // Check if we already have the data for this userId
-      if (userData?.userId === userId) return;
+
+      if (!userid) return;
+
+      const token = userid
+
+      // Check if we already have the data for this token
+      // if (userData?.token === userId) return;
 
       setIsLoading(true);
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/fetch/${userId}`
+          `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/getuser/${token}`
         );
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
 
-        console.log('data is  data');
+
+        if (data?.success == false) {
+          throw new Error(`Failed to fetch user data`);
+          
+        }
+
+        const userDAta = data?.data;
+
+
+
+
+        console.log("response is ", data)
+
+        // set user data and all other data in localstorage 
+        localStorage.setItem("name", userDAta?.socialHandles[0]?.displayName || "NA")
+        localStorage.setItem("username", userDAta?.socialHandles[0]?.username || "NA")
+        localStorage.setItem("token", token),
+        localStorage.setItem("user_id", userData?.userId || "NA")
+
+
+//         {
+//     "success": true,
+//     "message": "User retrieved successfully",
+//     "data": {
+//         "userId": "300198ec-bb75-4c1a-bb27-c74bfff75d86",
+//         "web3UserName": "rajnishddd.icp1",
+//         "did": null,
+//         "isActiveUser": true,
+//         "isEarlyUser": false,
+//         "activeClanId": null,
+//         "clanJoinDate": null,
+//         "referralCode": "2UddKLi06u",
+//         "socialHandles": [
+//             {
+//                 "provider": "twitter",
+//                 "username": "rajnish_devadd",
+//                 "displayName": "Rajnish Tripathi",
+//                 "profilePicture": null
+//             }
+//         ],
+//         "wallets": [],
+//         "rewardHistory": []
+//     }
+// }
 
         if (data.success && data.data) {
           setUserData(data.data);
@@ -138,6 +239,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setUserData,
     fetchUserData,
     isLoading,
+    
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

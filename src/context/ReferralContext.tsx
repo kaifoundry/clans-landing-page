@@ -42,24 +42,33 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         return;
       }
 
-      if (!userId) {
-        console.log('No user ID provided');
-        return;
-      }
+      // if (!userId) {
+      //   console.log('No user ID provided');
+      //   return;
+      // }
 
       setIsLoading(true);
       setReferralError(null);
+
+      // get user id from localstorage
+      const userID = localStorage.getItem("user_id")
+      
 
       const response = await fetch(`${BASE_URL}/api/referral/join_referral`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          userId,
-          referralCode,
+        // body: JSON.stringify({
+        //   user_id: userId,
+        //   referral_code: referralCode,
+        // }),
+                body: JSON.stringify({
+          user_id: userID,
+          referral_code: referralCode,
         }),
       });
+
 
       const data = await response.json();
       console.log('data', data);

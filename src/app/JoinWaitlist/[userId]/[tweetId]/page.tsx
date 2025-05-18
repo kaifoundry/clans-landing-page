@@ -45,11 +45,12 @@ const JoinWaitlist = () => {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
+          // Authorization: `Bearer ${token}`
         },
         credentials: 'include',
-        body: JSON.stringify({
-          userId: userData.userId,
-        }),
+        // body: JSON.stringify({
+        //   "user_id": userData.userId,
+        // }),
       });
 
       console.log('response is ', response);
