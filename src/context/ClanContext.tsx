@@ -95,7 +95,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       setError(null);
 
-      const token = localStorage.getItem("token") || "NA";
+      const token = localStorage.getItem('token') || 'NA';
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/JoinClan`,
@@ -103,7 +103,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "token": `Bearer ${token}`
+            token: `Bearer ${token}`,
           },
           body: JSON.stringify(joinData),
         }
