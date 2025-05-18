@@ -229,8 +229,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
           body: formData,
           headers: {
             Accept: 'application/json',
-            "authorization": `Bearer ${token}`,
-
+            authorization: `Bearer ${token}`,
           },
         }
       );
