@@ -1,12 +1,17 @@
 'use client';
 
-import Image from 'next/image';
-import Button from '@/components/Button';
-import clsx from 'clsx';
-import { gsap } from 'gsap';
-import Loader from './Features/Loader';
-import { motion, AnimatePresence } from 'framer-motion';
-import StartButtonBorder from '@/constant/StartButtonBorder';
+import Image from "next/image";
+import Button from "@/components/Button";
+import { useState, useEffect, useMemo } from "react";
+import clsx from "clsx";
+import { gsap } from "gsap";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { clansData } from "@/data/selectClanData";
+import Loader from "./Features/Loader";
+import { useClan } from "@/context/ClanContext";
+import { motion, AnimatePresence } from "framer-motion";
+import StartButtonBorder from "@/constant/StartButtonBorder";
 
 export interface ClanCard {
   id: string;
@@ -65,6 +70,8 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
   loading,
   error,
 }) => {
+  // if (loading) return <div className="flex justity-center items-center">Loading clans...</div>;
+  // if (error) return <div>Error: {error}</div>;
   if (loading)
     return (
       <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
@@ -102,103 +109,112 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
           </p>
         </div>
 
-        <div className='lg:flex-col-4 md:flex-col-2 z-1 mx-0 flex w-3/4 items-center gap-12'>
-          {cardData.map((clan, index) => (
-            <div
-              key={clan.id}
-              onClick={() => {
-                if (activeIndex !== index) {
-                  setActiveIndex(index);
-                  setAvatarImage(clan.hoverImage);
-                  setSelectedCard(clan);
-                  setSelectedCardId(clan.id);
-                  setDisplayedTitle(clan.title);
-                  setDisplayedDescription(clan.description);
-                }
-              }}
-              onMouseEnter={() => {
-                if (hoveredIndex !== index) {
-                  setHoveredIndex(index);
-                  setAvatarImage(clan.hoverImage);
-                  setDisplayedTitle(clan.title);
-                  setDisplayedDescription(clan.description);
-                  gsap.to(`#card-${clan.id}`, { scale: 1.05, duration: 0.3 });
-                }
-              }}
-              onMouseLeave={() => {
-                if (hoveredIndex !== null) {
-                  setHoveredIndex(null);
-                  if (activeIndex !== null) {
-                    const active = cardData[activeIndex];
-                    setAvatarImage(active.hoverImage);
-                    setDisplayedTitle(active.title);
-                    setDisplayedDescription(active.description);
-                  }
-                  gsap.to(`#card-${clan.id}`, {
-                    scale: 1,
-                    boxShadow: 'none',
-                    duration: 0.3,
-                  });
-                }
-              }}
-              className={clsx(
-                'group relative cursor-pointer transition-all duration-500',
-                'h-[280px] w-[158px] md:h-[200px] md:w-[100px] lg:h-[300px] lg:w-[150px] xl:h-[400px] xl:w-[220px]',
-                activeIndex === index ? 'scale-105' : 'scale-100'
-              )}
-              id={`card-${clan.id}`}
-            >
-              <div
-                className='absolute inset-0 rounded-xl transition-all duration-500'
-                style={{
-                  clipPath:
-                    'polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)',
-                  backgroundColor:
-                    activeIndex === index || hoveredIndex === index
-                      ? clan.glowColor
-                      : 'white',
-                }}
-              ></div>
+     
+    <div className='lg:flex-col-4 md:flex-col-2 z-1 mx-0 flex w-3/4 items-center gap-12'>
+  {cardData.map((clan, index) => (
+    <div
+      key={clan.id}
+      onClick={() => {
+        if (activeIndex !== index) {
+          setActiveIndex(index);
+          setAvatarImage(clan.hoverImage);
+          setSelectedCard(clan);
+          setSelectedCardId(clan.id);
+          setDisplayedTitle(clan.title);
+          setDisplayedDescription(clan.description);
+        }
+      }}
+      onMouseEnter={() => {
+        if (hoveredIndex !== index) {
+          setHoveredIndex(index);
+          setAvatarImage(clan.hoverImage);
+          setDisplayedTitle(clan.title);
+          setDisplayedDescription(clan.description);
+          gsap.to(`#card-${clan.id}`, { scale: 1.05, duration: 0.3 });
+        }
+      }}
+      onMouseLeave={() => {
+        if (hoveredIndex !== null) {
+          setHoveredIndex(null);
+          if (activeIndex !== null) {
+            const active = cardData[activeIndex];
+            setAvatarImage(active.hoverImage);
+            setDisplayedTitle(active.title);
+            setDisplayedDescription(active.description);
+          }
+          gsap.to(`#card-${clan.id}`, {
+            scale: 1,
+            boxShadow: 'none',
+            duration: 0.3,
+          });
+        }
+      }}
+      className={clsx(
+        'group relative cursor-pointer transition-all duration-500',
+        'h-[280px] w-[158px] md:h-[200px] md:w-[100px] lg:h-[300px] lg:w-[150px] xl:h-[400px] xl:w-[220px]',
+        activeIndex === index ? 'scale-105' : 'scale-100'
+      )}
+      id={`card-${clan.id}`}
+    >
+      {/* Background glow div */}
+      <div
+        className='absolute inset-0 rounded-xl transition-all duration-500'
+        style={{
+          clipPath:
+            'polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)',
+          backgroundColor:
+            activeIndex === index || hoveredIndex === index
+              ? clan.glowColor
+              : 'white',
+        }}
+      ></div>
 
-              <div
-                className='absolute inset-[4px] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat text-white'
-                style={{
-                  clipPath:
-                    'polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)',
-                  backgroundImage: `url(${clan.image})`,
-                  transition: 'background-image 0.4s ease',
-                }}
-              ></div>
-              <h3
-                className='absolute right-14 -bottom-10 px-2 text-center font-bold text-white lg:text-xl'
-                style={{
-                  textShadow:
-                    '0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)',
-                }}
-              >
-                {clan.title}
-              </h3>
+      {/* Image container */}
+      <div
+        className='absolute inset-[4px] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat text-white'
+        style={{
+          clipPath:
+            'polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)',
+          backgroundImage: `url(${clan.image})`,
+          transition: 'background-image 0.4s ease',
+        }}
+      ></div>
 
-              <div
-                className={clsx(
-                  'absolute left-0 flex w-full justify-center transition-opacity duration-300 md:bottom-[-60px] lg:bottom-[-80px] xl:bottom-[-140px]',
-                  activeIndex === index ? 'opacity-100' : 'opacity-0'
-                )}
-              >
-                <button
-                  onClick={() => handleJoinClan(clan.id)}
-                  className='group relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[20px] md:w-[100px] lg:h-[30px] lg:w-[150px] xl:h-[60px] xl:w-[220px]'
-                >
-                  <StartButtonBorder />
-                  <span className='absolute inset-0 z-10 flex items-center justify-center text-base font-semibold tracking-wide text-white sm:text-lg md:text-xs lg:text-sm xl:text-xl'>
-                    Join Clan
-                  </span>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* Title positioned outside at bottom */}
+      <h3
+        className={clsx(
+          'absolute w-full text-center font-bold text-white',
+          'bottom-[-40px] md:bottom-[-30px] lg:bottom-[-40px] xl:bottom-[-50px]',
+          ' lg:text-xl'
+        )}
+        style={{
+          textShadow: '0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.8)',
+        }}
+      >
+        {clan.title}
+      </h3>
 
+      {/* Join Clan button */}
+      <div
+        className={clsx(
+          'absolute left-0 flex w-full justify-center transition-opacity duration-300',
+          'bottom-[-80px] md:bottom-[-60px] lg:bottom-[-80px] xl:bottom-[-120px]',
+          activeIndex === index ? 'opacity-100' : 'opacity-0'
+        )}
+      >
+        <button
+          onClick={() => handleJoinClan(clan.id)}
+          className='group relative z-10 cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full min-h-[40px] xl:w-[220px] xl:h-[60px] lg:w-[150px] lg:h-[30px] md:w-[100px] md:h-[20px]'
+        >
+          <StartButtonBorder/>
+          <span className='absolute inset-0 flex items-center justify-center text-white font-semibold tracking-wide z-10 text-base sm:text-lg lg:text-sm md:text-xs xl:text-xl'>
+            Join Clan
+          </span>
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
         {/* Animate selected character */}
         <AnimatePresence mode='wait'>
           {avatarImage && (
@@ -284,4 +300,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
   );
 };
 
-export default SelectClan;
+export default SelectClan; 
+
+
+
