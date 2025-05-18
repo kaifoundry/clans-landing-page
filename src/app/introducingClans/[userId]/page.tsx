@@ -35,16 +35,37 @@ const IntroducingClans = () => {
     }
   }, [updateUserId, params?.userId]);
 
+  // useEffect(() => {
+  //   if (userId && hasReferralCode()) {
+  //     (async () => {
+  //       await handleReferralCode(userId);
+  //       const newUrl = window.location.pathname;
+  //       window.history.replaceState({}, '', newUrl);
+  //     })();
+  //   }
+  // }, [userId, handleReferralCode, hasReferralCode]);
   useEffect(() => {
-    if (userId && hasReferralCode()) {
-      (async () => {
-        await handleReferralCode(userId);
-        const newUrl = window.location.pathname;
-        window.history.replaceState({}, '', newUrl);
-      })();
-    }
+    let isMounted = true;
+    const applyReferralCode = async () => {
+      if (userId && hasReferralCode() && isMounted) {
+        try {
+          await handleReferralCode(userId);
+          if (isMounted) {
+            const newUrl = window.location.pathname;
+            window.history.replaceState({}, '', newUrl);
+          }
+        } catch (error) {
+          console.error('Failed to apply referral code:', error);
+        }
+      }
+    };
+  
+    applyReferralCode();
+  
+    return () => {
+      isMounted = false;
+    };
   }, [userId, handleReferralCode, hasReferralCode]);
-
   const handleUserDataFetch = useCallback(() => {
     if (userId) {
       localStorage.setItem('userId', userId);
