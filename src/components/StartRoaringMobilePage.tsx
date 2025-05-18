@@ -206,7 +206,20 @@ const StartRoaringPage = React.memo(
                 </p>
 
                 <div className='border-t border-[#EBEBEB] pt-4 text-left'>
+                <center>
+                    <h3 className='mb-2 font-bold text-[#141414]'>
+                      Permission required by Clans
+                    </h3>
+                  </center>
                   <h3 className='mb-2 text-sm font-semibold text-[#141414]'>
+                  Things this App can do...
+                  </h3>
+                  <ul className='list-outside list-disc space-y-1 pl-5 leading-relaxed'>
+                    <li className='text-sm font-[500] text-[#525252]'>
+                      Post and repost for you.
+                    </li>
+                  </ul>
+                   <h3 className='mt-4 mb-2 text-sm font-semibold text-[#141414]'>
                     Things this App can view...
                   </h3>
                   <ul className='list-outside list-disc space-y-1 pl-5 leading-relaxed'>
@@ -214,11 +227,9 @@ const StartRoaringPage = React.memo(
                       All the posts you can view, including posts from protected
                       accounts.
                     </li>
-                    <li className='text-sm font-[500] text-[#525252]'>
-                      Any account you can view, including protected accounts.
-                    </li>
                   </ul>
                 </div>
+                 
               </section>
             </aside>
           )}
