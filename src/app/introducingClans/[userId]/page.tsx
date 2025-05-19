@@ -56,7 +56,7 @@ const IntroducingClans = () => {
       })();
     }
   }, [userId, handleReferralCode, hasReferralCode]);
-  
+
   const handleUserDataFetch = useCallback(() => {
     if (userId) {
       localStorage.setItem('userId', userId);
