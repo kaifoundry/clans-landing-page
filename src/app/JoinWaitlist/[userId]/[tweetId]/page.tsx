@@ -88,7 +88,6 @@ const JoinWaitlist = () => {
       setIsLoading(false);
     }
   };
-  
 
   if (!hasMounted) {
     return null;
