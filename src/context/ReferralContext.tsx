@@ -131,8 +131,7 @@ export function ReferralProvider({ children }: { children: ReactNode }) {
   return (
     <Suspense
       fallback={
-        <>
-        </>
+        <></>
         // <div className='flex items-center justify-center text-center'>
         //   Loading...
         // </div>
