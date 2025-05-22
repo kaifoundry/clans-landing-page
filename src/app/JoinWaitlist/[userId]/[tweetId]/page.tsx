@@ -37,12 +37,10 @@ const JoinWaitlist = () => {
     }
 
     setIsLoading(true);
-
     const uuid = uuidv4();
 
     try {
       const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}&campaignId=${uuid}`;
-
       const token = localStorage.getItem('token') || 'NA';
 
       const response = await fetch(apiUrl, {
@@ -52,50 +50,45 @@ const JoinWaitlist = () => {
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        // credentials: 'include',
-        // body: JSON.stringify({
-        //   "user_id": userData.userId,
-        // }),
       });
-
-      console.log('response is ', response);
-
-      if (!response.ok) {
-        let errorData;
-        try {
-          errorData = await response.json();
-        } catch (e) {
-          errorData = { message: `Server error: ${response.status}` };
-        }
-
-        throw new Error(
-          errorData.message || `Failed to join waitlist: ${response.status}`
-        );
-      }
 
       const data = await response.json();
 
-      // Check if user is already an early user
+      // ✅ If the backend responds with success but says already an early user
       if (data.message && data.message.includes('is already an early user')) {
         toast.success("You're already on the waitlist!");
         router.push('/ConfirmationPage');
-      } else {
-        toast.success('Successfully joined the waitlist!');
-        router.push('/ConfirmationPage');
+        return;
       }
 
-      // Redirect to confirmation page in both cases
+      // ❌ If response is NOT ok, check and throw error with message
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to join waitlist.');
+      }
+
+      // ✅ Successful response
+      toast.success('Successfully joined the waitlist!');
+      router.push('/ConfirmationPage');
     } catch (error) {
-      toast.error(
-        (error instanceof Error
-          ? error.message
-          : 'An unknown error occurred') ||
-          'Failed to join waitlist. Please try again.'
-      );
+      console.error('Error joining waitlist:', error);
+
+      // ✅ Handle case: already early user, even in catch block
+      // if (
+      //   error instanceof Error &&
+      //   error.message.includes('is already an early user')
+      // ) {
+      //   toast.success("You're already on the waitlist!");
+      //   router.push('/ConfirmationPage');
+      //   return;
+      // }
+
+      // ❌ Other errors
+      toast.error('Failed to join waitlist. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   if (!hasMounted) {
     return null;
