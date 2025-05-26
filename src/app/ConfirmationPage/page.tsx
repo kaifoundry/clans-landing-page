@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ConfirmationPageDesktop from '@/components/ConfirmationPageDesktop';
 import ConfirmationPageMobile from '@/components/ConfirmationPageMobile';
 import { gsap } from 'gsap';
@@ -13,6 +14,11 @@ export default function StartRoaring() {
   const iconRef = useRef<HTMLSpanElement>(null);
   const avatarLeftRef = useRef<HTMLImageElement>(null);
   const avatarRightRef = useRef<HTMLImageElement>(null);
+
+  // Get the message from the URL query params
+  const searchParams = useSearchParams();
+  const message = searchParams.get('message') ||'You’re officially a Roarer !🎉';
+  const [firstLine, secondLine] = splitMessageInTwoLines(message);
 
   useEffect(() => {
     const handleResize = () => {
@@ -73,6 +79,21 @@ export default function StartRoaring() {
     }
   }, []);
 
+  function splitMessageInTwoLines(message: string | null) {
+  if (!message) return ['', ''];
+  // Special case: "You’re officially a Roarer !🎉"
+  if (message.trim() === "You’re officially a Roarer !🎉") {
+    return ["You’re officially", "a Roarer !🎉"];
+  }
+  // Special case: "You’re already a registered Roarer!"
+  const alreadyIdx = message.indexOf('already');
+  if (alreadyIdx !== -1) {
+    const after = alreadyIdx + 'already'.length;
+    return [message.slice(0, after), message.slice(after + 1)];
+  }
+  // Default: no split
+  return [message, ''];
+}
   const commonProps = {
     isMuted,
     isPlaying,
@@ -80,11 +101,13 @@ export default function StartRoaring() {
     iconRef,
     avatarLeftRef,
     avatarRightRef,
-    handleMuteUnmute,
+    handleMuteUnmute, 
+    firstLine,
+    secondLine
   };
 
   return isMobile ? (
-    <ConfirmationPageMobile />
+    <ConfirmationPageMobile firstLine={firstLine} secondLine={secondLine}/>
   ) : (
     <ConfirmationPageDesktop {...commonProps} />
   );

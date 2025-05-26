@@ -2,7 +2,12 @@
 import Image from 'next/image';
 import ClanLogo from './ClanLogoMobile';
 
-const ConfirmationPage = () => {
+interface ConfirmationPageMobileProps {
+  firstLine?: string | null;
+  secondLine?: string | null;
+}
+
+const ConfirmationPageMobile = ({ firstLine, secondLine}: ConfirmationPageMobileProps) => {
   return (
     <section className='relative h-dvh overflow-hidden bg-black text-white'>
       <video
@@ -23,9 +28,6 @@ const ConfirmationPage = () => {
         style={{ opacity: 0.33 }}
         className='pointer-events-none absolute top-0 left-0 z-10 h-full w-full object-cover'
       />
-
-      {/* Black overlay for darkening the whole video */}
-      {/* <div className="absolute inset-0 bg-black/50 z-10"></div> */}
 
       {/* Fade shadow from bottom */}
       <div className='absolute bottom-0 left-0 z-40 h-80 w-full bg-gradient-to-t from-black via-black/40 to-transparent'></div>
@@ -54,7 +56,9 @@ const ConfirmationPage = () => {
         </div>
 
         <h1 className='xxsmb-6 mb-5 text-2xl leading-tight font-semibold'>
-          You’re officially on the list! 🎉
+           {firstLine}
+          <br />
+          {secondLine}
         </h1>
 
         <p className='mb-8 text-lg leading-normal font-semibold text-gray-300'>
@@ -102,4 +106,4 @@ const ConfirmationPage = () => {
   );
 };
 
-export default ConfirmationPage;
+export default ConfirmationPageMobile;

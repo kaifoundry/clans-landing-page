@@ -40,7 +40,7 @@ const JoinWaitlist = () => {
     const uuid = uuidv4();
 
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}&campaignId=${uuid}`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
       const token = localStorage.getItem('token') || 'NA';
 
       const response = await fetch(apiUrl, {

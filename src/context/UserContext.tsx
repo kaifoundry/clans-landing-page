@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Router } from 'next/router';
 import {
   createContext,
   useContext,
@@ -11,7 +9,6 @@ import {
   useCallback,
 } from 'react';
 import toast from 'react-hot-toast';
-import { v4 as uuidv4 } from 'uuid';
 interface UserData {
   userId: string;
 
@@ -45,7 +42,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log('user data is ', userData);
 
   // Load user data from localStorage on initial mount
   useEffect(() => {
@@ -102,51 +98,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // function userLogin(args: CreateAccountData) {
-  //   try {
-  //     const { name, username, twitterUserId } = args;
-
-  //     const myHeaders = new Headers();
-  //     myHeaders.append('Content-Type', 'application/json');
-
-  //     const uuid = uuidv4();
-
-  //     const raw = JSON.stringify({
-  //       web3UserName: username + uuid,
-  //       DiD: uuid,
-  //       isEarlyUser: false,
-  //       isActiveUser: true,
-  //       activeClanId: null,
-  //       socialHandles: [
-  //         {
-  //           provider: 'twitter',
-  //           socialId: twitterUserId,
-  //           username: username,
-  //           displayName: name,
-  //           accessToken: null,
-  //           refreshToken: null,
-  //         },
-  //       ],
-  //     });
-
-  //     const requestOptions = {
-  //       method: 'POST',
-  //       headers: myHeaders,
-  //       body: raw,
-  //       redirect: 'follow',
-  //     };
-
-  //     const url: string = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/create`;
-
-  //     // @ts-ignore
-  //     fetch(url, requestOptions)
-  //       .then((response) => response.text())
-  //       .then((result) => console.log(result))
-  //       .catch((error) => console.error(error));
-  //   } catch (err: unknown) {
-  //     console.log('Error[UserRegistration]', err);
-  //   }
-  // }
 
   // Memoize the fetchUserData function
   const fetchUserData = useCallback(
@@ -163,11 +114,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/getuser/${token}`
         );
+        console.log('res',res);
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-
+console.log('data  ', data);
         if (data?.success == false) {
           throw new Error(`Failed to fetch user data`);
         }
@@ -189,32 +141,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('user_id', userData?.userId || 'NA');
 
         localStorage.setItem('token', token);
-        // const router = useRouter();
-        // router.push('/introducingClans');
-        //         {
-        //     "success": true,
-        //     "message": "User retrieved successfully",
-        //     "data": {
-        //         "userId": "300198ec-bb75-4c1a-bb27-c74bfff75d86",
-        //         "web3UserName": "rajnishddd.icp1",
-        //         "did": null,
-        //         "isActiveUser": true,
-        //         "isEarlyUser": false,
-        //         "activeClanId": null,
-        //         "clanJoinDate": null,
-        //         "referralCode": "2UddKLi06u",
-        //         "socialHandles": [
-        //             {
-        //                 "provider": "twitter",
-        //                 "username": "rajnish_devadd",
-        //                 "displayName": "Rajnish Tripathi",
-        //                 "profilePicture": null
-        //             }
-        //         ],
-        //         "wallets": [],
-        //         "rewardHistory": []
-        //     }
-        // }
+    
 
         if (data.success && data.data) {
           setUserData(data.data);
@@ -233,7 +160,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setIsLoading(false);
       }
     },
-    [userData?.userId, saveUserDataToStorage]
+    [saveUserDataToStorage]
   );
 
   const value = {
