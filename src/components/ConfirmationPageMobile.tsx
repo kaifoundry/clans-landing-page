@@ -7,7 +7,10 @@ interface ConfirmationPageMobileProps {
   secondLine?: string | null;
 }
 
-const ConfirmationPageMobile = ({ firstLine, secondLine}: ConfirmationPageMobileProps) => {
+const ConfirmationPageMobile = ({
+  firstLine,
+  secondLine,
+}: ConfirmationPageMobileProps) => {
   return (
     <section className='relative h-dvh overflow-hidden bg-black text-white'>
       <video
@@ -56,7 +59,7 @@ const ConfirmationPageMobile = ({ firstLine, secondLine}: ConfirmationPageMobile
         </div>
 
         <h1 className='xxsmb-6 mb-5 text-2xl leading-tight font-semibold'>
-           {firstLine}
+          {firstLine}
           <br />
           {secondLine}
         </h1>

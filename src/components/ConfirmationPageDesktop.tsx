@@ -15,8 +15,6 @@ interface ConfirmationPageProps {
   secondLine: string;
 }
 
-
-
 const ConfirmationPage = ({
   isMuted,
   videoRef,
@@ -27,7 +25,6 @@ const ConfirmationPage = ({
   firstLine,
   secondLine,
 }: ConfirmationPageProps) => {
-
   return (
     <section className='relative flex h-dvh items-center justify-center overflow-hidden bg-black text-white'>
       {/* Background Video */}
@@ -83,7 +80,7 @@ const ConfirmationPage = ({
         </div>
 
         {/* Heading */}
-        <h1 className='mb-4 text-3xl leading-snug font-bold sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl '>
+        <h1 className='mb-4 text-3xl leading-snug font-bold sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl'>
           {firstLine}
           <br />
           {secondLine}

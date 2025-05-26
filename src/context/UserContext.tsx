@@ -42,7 +42,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-
   // Load user data from localStorage on initial mount
   useEffect(() => {
     const isLocalStorageAvailable = () => {
@@ -98,7 +97,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-
   // Memoize the fetchUserData function
   const fetchUserData = useCallback(
     async (userid: string) => {
@@ -114,12 +112,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/getuser/${token}`
         );
-        console.log('res',res);
+        console.log('res', res);
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-console.log('data  ', data);
+        console.log('data  ', data);
         if (data?.success == false) {
           throw new Error(`Failed to fetch user data`);
         }
@@ -141,7 +139,6 @@ console.log('data  ', data);
         localStorage.setItem('user_id', userData?.userId || 'NA');
 
         localStorage.setItem('token', token);
-    
 
         if (data.success && data.data) {
           setUserData(data.data);

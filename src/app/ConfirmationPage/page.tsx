@@ -17,7 +17,8 @@ export default function StartRoaring() {
 
   // Get the message from the URL query params
   const searchParams = useSearchParams();
-  const message = searchParams.get('message') ||'You’re officially a Roarer !🎉';
+  const message =
+    searchParams.get('message') || 'You’re officially a Roarer !🎉';
   const [firstLine, secondLine] = splitMessageInTwoLines(message);
 
   useEffect(() => {
@@ -80,20 +81,20 @@ export default function StartRoaring() {
   }, []);
 
   function splitMessageInTwoLines(message: string | null) {
-  if (!message) return ['', ''];
-  // Special case: "You’re officially a Roarer !🎉"
-  if (message.trim() === "You’re officially a Roarer !🎉") {
-    return ["You’re officially", "a Roarer !🎉"];
+    if (!message) return ['', ''];
+    // Special case: "You’re officially a Roarer !🎉"
+    if (message.trim() === 'You’re officially a Roarer !🎉') {
+      return ['You’re officially', 'a Roarer !🎉'];
+    }
+    // Special case: "You’re already a registered Roarer!"
+    const alreadyIdx = message.indexOf('already');
+    if (alreadyIdx !== -1) {
+      const after = alreadyIdx + 'already'.length;
+      return [message.slice(0, after), message.slice(after + 1)];
+    }
+    // Default: no split
+    return [message, ''];
   }
-  // Special case: "You’re already a registered Roarer!"
-  const alreadyIdx = message.indexOf('already');
-  if (alreadyIdx !== -1) {
-    const after = alreadyIdx + 'already'.length;
-    return [message.slice(0, after), message.slice(after + 1)];
-  }
-  // Default: no split
-  return [message, ''];
-}
   const commonProps = {
     isMuted,
     isPlaying,
@@ -101,13 +102,13 @@ export default function StartRoaring() {
     iconRef,
     avatarLeftRef,
     avatarRightRef,
-    handleMuteUnmute, 
+    handleMuteUnmute,
     firstLine,
-    secondLine
+    secondLine,
   };
 
   return isMobile ? (
-    <ConfirmationPageMobile firstLine={firstLine} secondLine={secondLine}/>
+    <ConfirmationPageMobile firstLine={firstLine} secondLine={secondLine} />
   ) : (
     <ConfirmationPageDesktop {...commonProps} />
   );
