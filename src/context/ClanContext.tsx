@@ -74,8 +74,15 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
+      const token = localStorage.getItem('token') || 'NA';
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`
+        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const response = await res.json();
       if (response.success && Array.isArray(response.data)) {

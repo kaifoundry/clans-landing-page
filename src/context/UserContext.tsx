@@ -100,52 +100,60 @@ export function UserProvider({ children }: { children: ReactNode }) {
   // Memoize the fetchUserData function
   const fetchUserData = useCallback(
     async (userid: string) => {
-      if (!userid) return;
+      if (!userid) {
+        toast.error('User ID is required to fetch user data.');
+        return;
+      }
 
       const token = userid;
-
-      // Check if we already have the data for this token
-      // if (userData?.token === userId) return;
-
       setIsLoading(true);
+
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/getuser/${token}`
         );
-        console.log('res', res);
+
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
-        const data = await res.json();
-        console.log('data  ', data);
-        if (data?.success == false) {
-          throw new Error(`Failed to fetch user data`);
+
+        // Try to parse JSON, but handle invalid/malformed responses
+        let data: any;
+        try {
+          data = await res.json();
+        } catch (jsonError) {
+          // Log the raw response for debugging
+          const text = await res.text();
+          console.error('Invalid JSON from API:', text);
+          throw new Error('Invalid response format from API');
         }
 
-        const userDAta = data?.data;
-
-        console.log('response is ', data);
-
-        // set user data and all other data in localstorage
-        localStorage.setItem(
-          'name',
-          userDAta?.socialHandles[0]?.displayName || 'NA'
-        );
-        localStorage.setItem(
-          'username',
-          userDAta?.socialHandles[0]?.username || 'NA'
-        );
-        localStorage.setItem('followers', userDAta?.followers || 'NA');
-        localStorage.setItem('user_id', userData?.userId || 'NA');
-
-        localStorage.setItem('token', token);
-
-        if (data.success && data.data) {
-          setUserData(data.data);
-          saveUserDataToStorage(data.data);
-        } else {
-          throw new Error(data.message || 'Invalid response format');
+        if (!data || data.success === false) {
+          throw new Error(data?.message || 'Failed to fetch user data');
         }
+
+        const userDAta = data.data;
+
+        // Safely set user data and other info in localStorage
+        try {
+          localStorage.setItem(
+            'name',
+            userDAta?.socialHandles?.[0]?.displayName || 'NA'
+          );
+          localStorage.setItem(
+            'username',
+            userDAta?.socialHandles?.[0]?.username || 'NA'
+          );
+          localStorage.setItem('followers', userDAta?.followers || 'NA');
+          localStorage.setItem('user_id', userDAta?.userId || 'NA');
+          localStorage.setItem('token', token);
+        } catch (storageError) {
+          console.error('Error saving to localStorage:', storageError);
+          toast.error('Could not save user data locally.');
+        }
+
+        setUserData(userDAta);
+        saveUserDataToStorage(userDAta);
       } catch (error) {
         console.error('Error fetching user data:', error);
         const errorMessage =
