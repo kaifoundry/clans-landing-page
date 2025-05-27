@@ -57,7 +57,6 @@ jobs:
         ECR_REPOSITORY: "kaifoundry/clans-landing-page"        
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker tag clans-landing-page $ECR_REGISTRY/$ECR_REPOSITORY
-        docker tag clans-landing-page $ECR_REGISTRY/$ECR_REPOSITORY
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY
+        docker tag clans-landing-page $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
