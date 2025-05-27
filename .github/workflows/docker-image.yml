@@ -52,7 +52,7 @@ jobs:
     - name: Tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: clans-landing-page
+        ECR_REPOSITORY: kaifoundry
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker tag socialkyc $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.event.inputs.tag }}
