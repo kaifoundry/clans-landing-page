@@ -89,14 +89,16 @@ export default function SelectClan() {
         userId: storedUserId,
         clanId: pendingClanId,
       });
+      console.log('success:', success);
       if (success) {
         setSelectedCardId(pendingClanId);
         router.push('/CardPage');
-        toast.success('Successfully joined the clan!');
       } else {
+        // Don't redirect on error
         toast.error('You have already joined the clan.');
       }
     } catch (error) {
+      // Don't redirect on error
       toast.error('Failed to join clan due to network or server error.');
     }
   };

@@ -8,6 +8,7 @@ import React, {
   ReactNode,
 } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface Clan {
   clanId: string;
@@ -85,6 +86,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         }
       );
       const response = await res.json();
+      console.log('Fetched clans:', response.data);
       if (response.success && Array.isArray(response.data)) {
         setClans(response.data);
       } else {
@@ -118,19 +120,30 @@ export function ClanProvider({ children }: { children: ReactNode }) {
 
       const data = await res.json();
       console.log('data', data);
-      if (!res.ok) {
-        if (data.message?.toLowerCase().includes('already a participant')) {
+      
+      if (res.ok) {
+        if (data?.success === true) {
+          toast.success(data.message);
           handleSetSelectedCardId(joinData.clanId);
           router.push('/cardPage');
           return true;
+        } else if (data?.success === false) {
+          // Show error in toast instead of setting error state
+          toast.error(data.message);
+          return false;
+        }else{
+          toast.error(data.message);
+          return false;
         }
-        throw new Error(data.message || 'Failed to join clan');
+      } else {
+        console.log(res.status);
+        return false;
       }
-
-      return true;
+      
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Failed to join clan';
+      toast.error(errorMessage);
       setError(errorMessage);
       console.error('Error joining clan:', errorMessage);
       return false;
