@@ -28,7 +28,7 @@ function CardPageContent() {
     selectedCardId,
     setSelectedCardId,
     joinClan,
-    fetchClans
+    fetchClans,
   } = useClan();
   const [loading, setLoading] = useState(false);
   const [tweetPosted, setTweetPosted] = useState(false);
@@ -80,7 +80,6 @@ function CardPageContent() {
       console.log('Waiting for authentication token...');
     }
   }, []);
-
 
   useEffect(() => {
     if (!selectedCardId && cardData.length > 0) {

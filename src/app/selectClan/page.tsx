@@ -11,8 +11,15 @@ import { useClan } from '@/context/ClanContext';
 export default function SelectClan() {
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const router = useRouter();
-  const { clans, loading, error, selectedCardId, setSelectedCardId, joinClan ,fetchClans} =
-    useClan();
+  const {
+    clans,
+    loading,
+    error,
+    selectedCardId,
+    setSelectedCardId,
+    joinClan,
+    fetchClans,
+  } = useClan();
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -31,7 +38,7 @@ export default function SelectClan() {
   } | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingClanId, setPendingClanId] = useState<string | null>(null);
-   useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem('token');
     if (token && token !== 'NA') {
       fetchClans(token);
