@@ -114,7 +114,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         );
 
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          toast.error(`HTTP error! status: ${res.status}`);
         }
 
         // Try to parse JSON, but handle invalid/malformed responses
@@ -124,12 +124,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         } catch (jsonError) {
           // Log the raw response for debugging
           const text = await res.text();
+          toast.error(text)
           console.error('Invalid JSON from API:', text);
-          throw new Error('Invalid response format from API');
         }
 
         if (!data || data.success === false) {
-          throw new Error(data?.message || 'Failed to fetch user data');
+          console.log(data?.message)
         }
 
         const userDAta = data.data;

@@ -11,39 +11,41 @@ import { useUser } from '@/context/UserContext';
 import { useReferral } from '@/context/ReferralContext';
 
 const IntroducingClans = () => {
-  const { clans, loading, error, setSelectedCardId } = useClan();
+  const { clans, loading, error, setSelectedCardId ,fetchClans} = useClan();
   const router = useRouter();
   const cardRefs = useRef<HTMLDivElement[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const { userData, fetchUserData } = useUser();
+
   const params = useParams();
   const { handleReferralCode, hasReferralCode } = useReferral();
 
   const updateUserId = useCallback(() => {
     const userIdFromParams = params?.userId;
     if (userIdFromParams) {
-      const id = Array.isArray(userIdFromParams)
-        ? userIdFromParams[0]
-        : userIdFromParams;
-      setUserId((currentUserId) => (currentUserId !== id ? id : currentUserId));
+      const id = Array.isArray(userIdFromParams) ? userIdFromParams[0] : userIdFromParams;
+      setUserId(id);
+
+      // Directly handle user data fetching when ID is available
+      localStorage.setItem('userId', id);
+      fetchUserData(id);
     }
-  }, [params?.userId]);
+  }, [params?.userId, fetchUserData]);
 
   useEffect(() => {
     if (params?.userId) {
       updateUserId();
     }
   }, [updateUserId, params?.userId]);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && token !== 'NA') {
+      fetchClans(token);
+    } else {
+      console.log('Waiting for authentication token...');
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   if (userId && hasReferralCode()) {
-  //     (async () => {
-  //       await handleReferralCode(userId);
-  //       const newUrl = window.location.pathname;
-  //       window.history.replaceState({}, '', newUrl);
-  //     })();
-  //   }
-  // }, [userId, handleReferralCode, hasReferralCode]);
   const hasHandledReferral = useRef(false);
 
   useEffect(() => {
@@ -56,17 +58,6 @@ const IntroducingClans = () => {
       })();
     }
   }, [userId, handleReferralCode, hasReferralCode]);
-
-  const handleUserDataFetch = useCallback(() => {
-    if (userId) {
-      localStorage.setItem('userId', userId);
-      fetchUserData(userId);
-    }
-  }, [userId, fetchUserData]);
-
-  useEffect(() => {
-    handleUserDataFetch();
-  }, [handleUserDataFetch]);
 
   const cardData = useMemo(() => {
     return Array.isArray(clans)

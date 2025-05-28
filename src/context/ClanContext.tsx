@@ -30,7 +30,7 @@ interface ClanContextType {
   clans: Clan[];
   loading: boolean;
   error: string | null;
-  fetchClans: () => Promise<void>;
+  fetchClans: (token?: string) => Promise<void>; 
   joinClan: (joinData: JoinClanData) => Promise<boolean>;
   selectedCardId: string | null;
   setSelectedCardId: (id: string | null) => void;
@@ -71,26 +71,32 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const fetchClans = async () => {
+  const fetchClans = async (token?: string) => {
     try {
       setLoading(true);
-      setError(null);
-      const token = localStorage.getItem('token') || 'NA';
+      const authToken = token || localStorage.getItem('token') || '';
+      if (!authToken || authToken === 'NA') {
+        console.log('No authentication token available, will retry when token is available');
+        setError('Authentication required');
+        return;
+      }
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`,
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${authToken}`,
           },
         }
       );
       const response = await res.json();
+      console.log('Response from fetchClans:', response);
       console.log('Fetched clans:', response.data);
       if (response.success && Array.isArray(response.data)) {
         setClans(response.data);
       } else {
-        setError('Invalid response format from API');
+        window.location.reload();
+        console.log('Invalid response format or no clans found');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch clans');
@@ -151,9 +157,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  useEffect(() => {
-    fetchClans();
-  }, []);
+  
 
   return (
     <ClanContext.Provider
