@@ -11,7 +11,7 @@ import { useUser } from '@/context/UserContext';
 import { useReferral } from '@/context/ReferralContext';
 
 const IntroducingClans = () => {
-  const { clans, loading, error, setSelectedCardId ,fetchClans} = useClan();
+  const { clans, loading, error, setSelectedCardId, fetchClans } = useClan();
   const router = useRouter();
   const cardRefs = useRef<HTMLDivElement[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
@@ -23,7 +23,9 @@ const IntroducingClans = () => {
   const updateUserId = useCallback(() => {
     const userIdFromParams = params?.userId;
     if (userIdFromParams) {
-      const id = Array.isArray(userIdFromParams) ? userIdFromParams[0] : userIdFromParams;
+      const id = Array.isArray(userIdFromParams)
+        ? userIdFromParams[0]
+        : userIdFromParams;
       setUserId(id);
 
       // Directly handle user data fetching when ID is available

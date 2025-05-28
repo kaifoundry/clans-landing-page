@@ -124,12 +124,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         } catch (jsonError) {
           // Log the raw response for debugging
           const text = await res.text();
-          toast.error(text)
+          toast.error(text);
           console.error('Invalid JSON from API:', text);
         }
 
         if (!data || data.success === false) {
-          console.log(data?.message)
+          console.log(data?.message);
         }
 
         const userDAta = data.data;

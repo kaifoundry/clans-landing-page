@@ -30,7 +30,7 @@ interface ClanContextType {
   clans: Clan[];
   loading: boolean;
   error: string | null;
-  fetchClans: (token?: string) => Promise<void>; 
+  fetchClans: (token?: string) => Promise<void>;
   joinClan: (joinData: JoinClanData) => Promise<boolean>;
   selectedCardId: string | null;
   setSelectedCardId: (id: string | null) => void;
@@ -76,7 +76,9 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       const authToken = token || localStorage.getItem('token') || '';
       if (!authToken || authToken === 'NA') {
-        console.log('No authentication token available, will retry when token is available');
+        console.log(
+          'No authentication token available, will retry when token is available'
+        );
         setError('Authentication required');
         return;
       }
@@ -156,8 +158,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
-
-  
 
   return (
     <ClanContext.Provider
