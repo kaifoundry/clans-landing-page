@@ -28,6 +28,7 @@ function CardPageContent() {
     selectedCardId,
     setSelectedCardId,
     joinClan,
+    fetchClans
   } = useClan();
   const [loading, setLoading] = useState(false);
   const [tweetPosted, setTweetPosted] = useState(false);
@@ -71,6 +72,15 @@ function CardPageContent() {
       : [];
     return mappedData;
   }, [clans]);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && token !== 'NA') {
+      fetchClans(token);
+    } else {
+      console.log('Waiting for authentication token...');
+    }
+  }, []);
+
 
   useEffect(() => {
     if (!selectedCardId && cardData.length > 0) {
