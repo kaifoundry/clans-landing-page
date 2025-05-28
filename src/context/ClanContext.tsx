@@ -120,7 +120,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
 
       const data = await res.json();
       console.log('data', data);
-      
+
       if (res.ok) {
         if (data?.success === true) {
           toast.success(data.message);
@@ -131,7 +131,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
           // Show error in toast instead of setting error state
           toast.error(data.message);
           return false;
-        }else{
+        } else {
           toast.error(data.message);
           return false;
         }
@@ -139,7 +139,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         console.log(res.status);
         return false;
       }
-      
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Failed to join clan';
