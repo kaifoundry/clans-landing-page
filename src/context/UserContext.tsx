@@ -110,9 +110,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
 
       try {
-        const res = await fetch(
-          `${BACKEND_URL}/api/user/getuser/${token}`
-        );
+        const res = await fetch(`${BACKEND_URL}/api/user/getuser/${token}`);
 
         if (!res.ok) {
           toast.error(`HTTP error! status: ${res.status}`);

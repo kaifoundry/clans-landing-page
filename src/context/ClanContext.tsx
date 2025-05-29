@@ -83,15 +83,12 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         setError('Authentication required');
         return;
       }
-      const res = await fetch(
-        `${BACKEND_URL}/api/clans/fetch/all`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
+      const res = await fetch(`${BACKEND_URL}/api/clans/fetch/all`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       const response = await res.json();
       console.log('Response from fetchClans:', response);
       console.log('Fetched clans:', response.data);
@@ -115,17 +112,14 @@ export function ClanProvider({ children }: { children: ReactNode }) {
 
       const token = localStorage.getItem('token') || 'NA';
 
-      const res = await fetch(
-        `${BACKEND_URL}/api/clans/JoinClan`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(joinData),
-        }
-      );
+      const res = await fetch(`${BACKEND_URL}/api/clans/JoinClan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(joinData),
+      });
 
       const data = await res.json();
       console.log('data', data);

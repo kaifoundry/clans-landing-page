@@ -26,7 +26,7 @@ const ReferralContext = createContext<ReferralContextType | undefined>(
 function ReferralProviderContent({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [referralError, setReferralError] = useState<string | null>(null);
-  const BASE_URL = BACKEND_URL
+  const BASE_URL = BACKEND_URL;
 
   // Check if there's a valid referral code
   const hasReferralCode = () => {

@@ -4,11 +4,9 @@ import MobileMainPage from '@/components/MobileMainPage';
 import { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
 
-
-export const BACKEND_URL = "https://api-clans.kilt.io"
-export const FRONTEND_URL = "https://clans.kilt.io"
-export const HANDLE = "@"
-
+export const BACKEND_URL = 'https://api-clans.kilt.io';
+export const FRONTEND_URL = 'https://clans.kilt.io';
+export const HANDLE = '@';
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);

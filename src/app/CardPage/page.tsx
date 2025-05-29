@@ -122,7 +122,7 @@ function CardPageContent() {
 
   const tweetContent = `Roar louder. Roar prouder. Pick your clan!
 
-${process.env.NEXT_PUBLIC_X_HANDLER} is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
+$@CLANS is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
 
 Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
 
@@ -265,17 +265,14 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
         referralCode: userData.referralCode || '',
       };
 
-      const tweetResponse = await fetch(
-        `${BACKEND_URL}/api/V2/twitter/tweet`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(tweetData),
-        }
-      );
+      const tweetResponse = await fetch(`${BACKEND_URL}/api/V2/twitter/tweet`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(tweetData),
+      });
 
       if (!tweetResponse.ok) {
         const errorText = await tweetResponse.text();
