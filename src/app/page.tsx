@@ -3,6 +3,7 @@ import MainPage from '@/components/MainPage';
 import MobileMainPage from '@/components/MobileMainPage';
 import { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
+import { ENV } from '@/constant/envvariables';
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
@@ -14,13 +15,13 @@ export default function Home() {
   useEffect(() => {
     console.log(
       'NEXT_PUBLIC_API_BACKEND_URL:',
-      process.env.NEXT_PUBLIC_API_BACKEND_URL
+      ENV.NEXT_PUBLIC_API_BACKEND_URL
     );
     console.log(
       'NEXT_PUBLIC_API_BASE_URL:',
-      process.env.NEXT_PUBLIC_API_BASE_URL
+       ENV.NEXT_PUBLIC_API_BASE_URL
     );
-    console.log('NEXT_PUBLIC_X_HANDLER:', process.env.NEXT_PUBLIC_X_HANDLER);
+    console.log('NEXT_PUBLIC_X_HANDLER:',  ENV.NEXT_PUBLIC_X_HANDLER);
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
