@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import ClanLogo from '@/components/ClanLogoMobile';
 import { v4 as uuidv4 } from 'uuid';
+import { BACKEND_URL } from '@/app/page';
 
 const JoinWaitlist = () => {
   const router = useRouter();
@@ -40,7 +41,7 @@ const JoinWaitlist = () => {
     const uuid = uuidv4();
 
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
+      const apiUrl = `${BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
       const token = localStorage.getItem('token') || 'NA';
 
       const response = await fetch(apiUrl, {

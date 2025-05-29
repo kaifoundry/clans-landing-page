@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
 import { selectClansData } from '@/data/clansData';
 import ClanCardMobile from '@/components/ClanCardMobile';
+import { BACKEND_URL } from '../page';
 
 export default function CardPage() {
   return (
@@ -232,7 +233,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
       const token = localStorage.getItem('token') || 'NA';
 
       const uploadResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
+        `${BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
         {
           method: 'POST',
           body: formData,
@@ -265,7 +266,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
       };
 
       const tweetResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/tweet`,
+        `${BACKEND_URL}/api/V2/twitter/tweet`,
         {
           method: 'POST',
           headers: {

@@ -1,5 +1,6 @@
 'use client';
 
+import { BACKEND_URL } from '@/app/page';
 import {
   createContext,
   useContext,
@@ -110,7 +111,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/getuser/${token}`
+          `${BACKEND_URL}/api/user/getuser/${token}`
         );
 
         if (!res.ok) {

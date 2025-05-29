@@ -4,6 +4,12 @@ import MobileMainPage from '@/components/MobileMainPage';
 import { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
 
+
+export const BACKEND_URL = "https://api-clans.kilt.io"
+export const FRONTEND_URL = "https://clans.kilt.io"
+export const HANDLE = "@"
+
+
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -12,10 +18,10 @@ export default function Home() {
   const iconRef = useRef(null);
 
   useEffect(() => {
-    console.log(
-      'NEXT_PUBLIC_API_BACKEND_URL:',
-      process.env.NEXT_PUBLIC_API_BACKEND_URL
-    );
+    // console.log(
+    //   'NEXT_PUBLIC_API_BACKEND_URL:',
+    //   process.env.NEXT_PUBLIC_API_BACKEND_URL
+    // );
     console.log(
       'NEXT_PUBLIC_API_BASE_URL:',
       process.env.NEXT_PUBLIC_API_BASE_URL

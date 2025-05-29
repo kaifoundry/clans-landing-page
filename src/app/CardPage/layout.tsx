@@ -5,6 +5,7 @@ import { ClanProvider } from '@/context/ClanContext';
 import { Toaster } from 'react-hot-toast';
 import { ReferralProvider } from '@/context/ReferralContext';
 import { UserProvider } from '@/context/UserContext';
+import { FRONTEND_URL } from '../page';
 
 const rajdhani = Rajdhani({
   subsets: ['latin'],
@@ -23,7 +24,7 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-const DOMAIN = process.env.NEXT_PUBLIC_API_BASE_URL;
+const DOMAIN = FRONTEND_URL;
 const OG_IMAGE = `${DOMAIN}/og-image.png`;
 
 export const metadata: Metadata = {
