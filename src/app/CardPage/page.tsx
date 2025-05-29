@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
 import { selectClansData } from '@/data/clansData';
 import ClanCardMobile from '@/components/ClanCardMobile';
-import { ENV } from '@/constant/envvariables'
+import { ENV } from '@/constant/envvariables';
 
 // Example usage
 
