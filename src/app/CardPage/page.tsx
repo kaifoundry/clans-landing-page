@@ -9,6 +9,9 @@ import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
 import { selectClansData } from '@/data/clansData';
 import ClanCardMobile from '@/components/ClanCardMobile';
+import { ENV } from '@/constant/envvariables'
+
+// Example usage
 
 export default function CardPage() {
   return (
@@ -121,9 +124,9 @@ function CardPageContent() {
 
   const tweetContent = `Roar louder. Roar prouder. Pick your clan!
 
-${process.env.NEXT_PUBLIC_X_HANDLER} is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
+${ENV.NEXT_PUBLIC_X_HANDLER} is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
 
-Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
+Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
 
   const handleStartRoaring = async () => {
     if (!cardRefDesktop.current && !cardRefMobile.current) {
@@ -232,7 +235,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
       const token = localStorage.getItem('token') || 'NA';
 
       const uploadResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
+        `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
         {
           method: 'POST',
           body: formData,
@@ -265,7 +268,7 @@ Claim your clan today 👉 ${process.env.NEXT_PUBLIC_API_BASE_URL}/referral/${us
       };
 
       const tweetResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/tweet`,
+        `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/tweet`,
         {
           method: 'POST',
           headers: {

@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { ENV } from '@/constant/envvariables';
 
 interface Clan {
   clanId: string;
@@ -83,7 +84,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         return;
       }
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`,
+        `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -115,7 +116,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       const token = localStorage.getItem('token') || 'NA';
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/JoinClan`,
+        `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/JoinClan`,
         {
           method: 'POST',
           headers: {

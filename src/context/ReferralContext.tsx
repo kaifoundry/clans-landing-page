@@ -9,6 +9,7 @@ import {
 } from 'react';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
+import { ENV } from '@/constant/envvariables';
 
 interface ReferralContextType {
   handleReferralCode: (userId: string) => Promise<void>;
@@ -25,7 +26,7 @@ const ReferralContext = createContext<ReferralContextType | undefined>(
 function ReferralProviderContent({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [referralError, setReferralError] = useState<string | null>(null);
-  const BASE_URL = process.env.NEXT_PUBLIC_API_BACKEND_URL;
+  const BASE_URL = ENV.NEXT_PUBLIC_API_BACKEND_URL;
 
   // Check if there's a valid referral code
   const hasReferralCode = () => {

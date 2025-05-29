@@ -1,5 +1,6 @@
 'use client';
 
+import { ENV } from '@/constant/envvariables';
 import {
   createContext,
   useContext,
@@ -110,7 +111,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BACKEND_URL}/api/user/getuser/${token}`
+          `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/user/getuser/${token}`
         );
 
         if (!res.ok) {
