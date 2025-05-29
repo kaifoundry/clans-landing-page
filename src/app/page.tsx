@@ -12,9 +12,15 @@ export default function Home() {
   const iconRef = useRef(null);
 
   useEffect(() => {
-    console.log('NEXT_PUBLIC_API_BACKEND_URL:', process.env.NEXT_PUBLIC_API_BACKEND_URL);
-console.log('NEXT_PUBLIC_API_BASE_URL:', process.env.NEXT_PUBLIC_API_BASE_URL);
-console.log('NEXT_PUBLIC_X_HANDLER:', process.env.NEXT_PUBLIC_X_HANDLER);
+    console.log(
+      'NEXT_PUBLIC_API_BACKEND_URL:',
+      process.env.NEXT_PUBLIC_API_BACKEND_URL
+    );
+    console.log(
+      'NEXT_PUBLIC_API_BASE_URL:',
+      process.env.NEXT_PUBLIC_API_BASE_URL
+    );
+    console.log('NEXT_PUBLIC_X_HANDLER:', process.env.NEXT_PUBLIC_X_HANDLER);
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
