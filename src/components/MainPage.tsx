@@ -86,24 +86,25 @@ const MainPage = ({
             </Link>
           </div>
         </div>
-
         {/* Avatars with GSAP refs */}
+        {/* md:w-[350px] xl:w-[600px] 2xl:w-[600px] */}
         <Image
           ref={avatarLeftRef}
           src='/Images/gettingStarted/avtar1.png'
           width={550}
-          height={550}
+          height={600}
           alt='Avatar Left'
-          className='absolute bottom-0 left-0 z-10 w-[300px] object-contain md:w-[350px] xl:w-[530px] 2xl:w-[540px]'
+          className='absolute bottom-0 left-0 z-10 min-w-4/12 object-contain'
           draggable={false}
         />
+        {/* md:w-[320px] xl:w-[620px] 2xl:w-[620px] */}
         <Image
           ref={avatarRightRef}
           src='/Images/gettingStarted/avtar2_.png'
           width={580}
-          height={580}
+          height={600}
           alt='Avatar Right'
-          className='absolute right-0 bottom-0 z-10 w-[300px] object-contain md:w-[320px] xl:w-[550px] 2xl:w-[550px]'
+          className='absolute right-0 bottom-0 z-10 w-[32%] object-contain'
           draggable={false}
         />
       </main>
