@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Card from '@/components/Card';
 import { useClan } from '@/context/ClanContext';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import ClanLogo from '@/components/ClanLogo';
 import { clansData } from '@/data/clansData';
@@ -11,45 +11,56 @@ import { useUser } from '@/context/UserContext';
 import { useReferral } from '@/context/ReferralContext';
 
 const IntroducingClans = () => {
-  const { clans, loading, error, setSelectedCardId, fetchClans } = useClan();
-  const router = useRouter();
-  const cardRefs = useRef<HTMLDivElement[]>([]);
+  const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  const { userData, fetchUserData } = useUser();
 
-  const params = useParams();
+  const { clans, loading, error, setSelectedCardId, fetchClans } = useClan();
+  const { userData, fetchUserData } = useUser();
   const { handleReferralCode, hasReferralCode } = useReferral();
 
-  const updateUserId = useCallback(() => {
+  const router = useRouter();
+  const params = useParams();
+  const cardRefs = useRef<HTMLDivElement[]>([]);
+  const hasHandledReferral = useRef(false);
+  const hasFetchedClans = useRef(false);
+
+  // Polling for token (every 500ms until found)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const storedToken = localStorage.getItem('token');
+      if (storedToken && storedToken !== 'NA') {
+        console.log('✅ Token from localStorage:', storedToken);
+        setToken(storedToken);
+
+        // Call fetchClans once when token is ready
+        if (!hasFetchedClans.current) {
+          fetchClans(storedToken);
+          hasFetchedClans.current = true;
+        }
+
+        clearInterval(interval); // stop polling
+      } else {
+        console.log('⏳ Waiting for authentication token...');
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, [fetchClans]);
+
+  // Load userId from params
+  useEffect(() => {
     const userIdFromParams = params?.userId;
     if (userIdFromParams) {
       const id = Array.isArray(userIdFromParams)
         ? userIdFromParams[0]
         : userIdFromParams;
       setUserId(id);
-
-      // Directly handle user data fetching when ID is available
       localStorage.setItem('userId', id);
       fetchUserData(id);
     }
   }, [params?.userId, fetchUserData]);
 
-  useEffect(() => {
-    if (params?.userId) {
-      updateUserId();
-    }
-  }, [updateUserId, params?.userId]);
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token && token !== 'NA') {
-      fetchClans(token);
-    } else {
-      console.log('Waiting for authentication token...');
-    }
-  }, []);
-
-  const hasHandledReferral = useRef(false);
-
+  // Handle referral code once
   useEffect(() => {
     if (userId && hasReferralCode() && !hasHandledReferral.current) {
       hasHandledReferral.current = true;
@@ -104,7 +115,6 @@ const IntroducingClans = () => {
         ref.addEventListener('mouseenter', onEnter);
         ref.addEventListener('mouseleave', onLeave);
 
-        // Clean up
         return () => {
           ref.removeEventListener('mouseenter', onEnter);
           ref.removeEventListener('mouseleave', onLeave);

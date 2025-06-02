@@ -92,13 +92,13 @@ export function ClanProvider({ children }: { children: ReactNode }) {
           },
         }
       );
+      console.log( 'Response status:', res);
       const response = await res.json();
       console.log('Response from fetchClans:', response);
       console.log('Fetched clans:', response.data);
       if (response.success && Array.isArray(response.data)) {
         setClans(response.data);
       } else {
-        window.location.reload();
         console.log('Invalid response format or no clans found');
       }
     } catch (err) {
