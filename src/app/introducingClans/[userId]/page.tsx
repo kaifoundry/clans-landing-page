@@ -42,7 +42,7 @@ const IntroducingClans = () => {
       } else {
         console.log('⏳ Waiting for authentication token...');
       }
-    }, 500);
+    }, 100);
 
     return () => clearInterval(interval);
   }, [fetchClans]);
