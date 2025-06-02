@@ -92,7 +92,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
           },
         }
       );
-      console.log( 'Response status:', res);
+      console.log('Response status:', res);
       const response = await res.json();
       console.log('Response from fetchClans:', response);
       console.log('Fetched clans:', response.data);
