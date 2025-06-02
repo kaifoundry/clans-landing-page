@@ -43,7 +43,7 @@ export default function SelectClan() {
     if (token && token !== 'NA') {
       fetchClans(token);
     } else {
-      console.log('Waiting for authentication token...');
+      console.warn('Waiting for authentication token...');
     }
   }, []);
 
@@ -104,7 +104,6 @@ export default function SelectClan() {
         userId: storedUserId,
         clanId: pendingClanId,
       });
-      console.log('success:', success);
       if (success) {
         setSelectedCardId(pendingClanId);
         router.push('/CardPage');

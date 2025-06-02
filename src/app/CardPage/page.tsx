@@ -80,7 +80,7 @@ function CardPageContent() {
     if (token && token !== 'NA') {
       fetchClans(token);
     } else {
-      console.log('Waiting for authentication token...');
+      console.warn('Waiting for authentication token...');
     }
   }, []);
 

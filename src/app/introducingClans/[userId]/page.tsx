@@ -29,7 +29,6 @@ const IntroducingClans = () => {
     const interval = setInterval(() => {
       const storedToken = localStorage.getItem('token');
       if (storedToken && storedToken !== 'NA') {
-        console.log('✅ Token from localStorage:', storedToken);
         setToken(storedToken);
 
         // Call fetchClans once when token is ready
@@ -40,7 +39,7 @@ const IntroducingClans = () => {
 
         clearInterval(interval); // stop polling
       } else {
-        console.log('⏳ Waiting for authentication token...');
+        console.warn('⏳ Waiting for authentication token...');
       }
     }, 100);
 

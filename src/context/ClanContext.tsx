@@ -77,7 +77,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       const authToken = token || localStorage.getItem('token') || '';
       if (!authToken || authToken === 'NA') {
-        console.log(
+        console.warn(
           'No authentication token available, will retry when token is available'
         );
         setError('Authentication required');
@@ -92,14 +92,11 @@ export function ClanProvider({ children }: { children: ReactNode }) {
           },
         }
       );
-      console.log('Response status:', res);
       const response = await res.json();
-      console.log('Response from fetchClans:', response);
-      console.log('Fetched clans:', response.data);
       if (response.success && Array.isArray(response.data)) {
         setClans(response.data);
       } else {
-        console.log('Invalid response format or no clans found');
+        console.warn('Invalid response format or no clans found');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch clans');
@@ -128,7 +125,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       );
 
       const data = await res.json();
-      console.log('data', data);
 
       if (res.ok) {
         if (data?.success === true) {
@@ -145,7 +141,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
           return false;
         }
       } else {
-        console.log(res.status);
         return false;
       }
     } catch (err) {

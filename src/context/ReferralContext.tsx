@@ -35,11 +35,10 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
 
   // Handle referral code usage after authentication
   const handleReferralCode = async (userId: string) => {
-    console.log('Handling referral code...');
     try {
       const referralCode = Cookies.get('referral_code');
       if (!referralCode) {
-        console.log('No referral code found');
+        console.warn('No referral code found');
         return;
       }
 
@@ -70,7 +69,6 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       });
 
       const data = await response.json();
-      console.log('data', data);
       if (!response.ok) {
         // Clear the referral code cookie if invalid or failed
         Cookies.remove('referral_code', {
@@ -85,7 +83,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
       });
-      console.log('Referral applied successfully, showing toast');
+      // console.log('Referral applied successfully, showing toast');
       toast.success('Referral code applied successfully!');
     } catch (error: any) {
       console.error('Error applying referral code:', error);

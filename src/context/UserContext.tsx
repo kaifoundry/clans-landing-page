@@ -130,7 +130,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
 
         if (!data || data.success === false) {
-          console.log(data?.message);
+          // console.log(data?.message);
         }
 
         const userDAta = data.data;

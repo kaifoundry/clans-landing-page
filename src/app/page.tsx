@@ -13,12 +13,6 @@ export default function Home() {
   const iconRef = useRef(null);
 
   useEffect(() => {
-    console.log(
-      'NEXT_PUBLIC_API_BACKEND_URL:',
-      ENV.NEXT_PUBLIC_API_BACKEND_URL
-    );
-    console.log('NEXT_PUBLIC_API_BASE_URL:', ENV.NEXT_PUBLIC_API_BASE_URL);
-    console.log('NEXT_PUBLIC_X_HANDLER:', ENV.NEXT_PUBLIC_X_HANDLER);
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
