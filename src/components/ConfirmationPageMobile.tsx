@@ -5,11 +5,21 @@ import ClanLogo from './ClanLogoMobile';
 interface ConfirmationPageMobileProps {
   firstLine?: string | null;
   secondLine?: string | null;
+  //share functions
+  handleTwitterShare: () => void;
+  handleDiscordShare: () => void;
+  handleWhatsAppShare: () => void;
+  handleTelegramShare: () => void;
 }
 
 const ConfirmationPageMobile = ({
   firstLine,
   secondLine,
+  //share functions
+  handleTwitterShare,
+  handleDiscordShare,
+  handleWhatsAppShare,
+  handleTelegramShare,
 }: ConfirmationPageMobileProps) => {
   return (
     <section className='relative h-dvh overflow-hidden bg-black text-white'>
@@ -75,34 +85,61 @@ const ConfirmationPageMobile = ({
         <div className='flex-grow'></div>
 
         <div className='relative z-50 flex gap-5'>
-          <Image
-            src='/Images/confirmationPage/twitter.svg'
-            alt='Twitter'
-            width={27}
-            height={27}
-            className='h-10 w-7'
-          />
-          <Image
-            src='/Images/confirmationPage/discord.svg'
-            alt='Discord'
-            width={27}
-            height={27}
-            className='h-10 w-7'
-          />
-          <Image
-            src='/Images/confirmationPage/whatsapp.svg'
-            alt='Whatsapp'
-            width={27}
-            height={27}
-            className='h-10 w-7'
-          />
-          <Image
-            src='/Images/confirmationPage/telegram.svg'
-            alt='Telegram'
-            width={27}
-            height={27}
-            className='h-10 w-7'
-          />
+          <button
+            onClick={handleTwitterShare}
+            aria-label='Share on Twitter'
+            className='focus:outline-none'
+          >
+            <Image
+              src='/Images/confirmationPage/twitter.svg'
+              alt='Twitter'
+              width={27}
+              height={27}
+              className='h-10 w-7 cursor-pointer'
+            />
+          </button>
+
+          {/* <button
+            onClick={handleDiscordShare}
+            aria-label='Share on Discord'
+            className='focus:outline-none'
+          >
+            <Image
+              src='/Images/confirmationPage/discord.svg'
+              alt='Discord'
+              width={27}
+              height={27}
+              className='h-10 w-7 cursor-pointer'
+            />
+          </button> */}
+
+          <button
+            onClick={handleWhatsAppShare}
+            aria-label='Share on WhatsApp'
+            className='focus:outline-none'
+          >
+            <Image
+              src='/Images/confirmationPage/whatsapp.svg'
+              alt='Whatsapp'
+              width={27}
+              height={27}
+              className='h-10 w-7 cursor-pointer'
+            />
+          </button>
+
+          <button
+            onClick={handleTelegramShare}
+            aria-label='Share on Telegram'
+            className='focus:outline-none'
+          >
+            <Image
+              src='/Images/confirmationPage/telegram.svg'
+              alt='Telegram'
+              width={27}
+              height={27}
+              className='h-10 w-7 cursor-pointer'
+            />
+          </button>
         </div>
       </div>
     </section>

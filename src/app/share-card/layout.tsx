@@ -25,7 +25,7 @@ const geistMono = Geist_Mono({
 });
 
 const DOMAIN = ENV.NEXT_PUBLIC_API_BASE_URL;
-const OG_IMAGE = `${DOMAIN}/og-image.png`;
+const OG_IMAGE = `${DOMAIN}/Images/gettingStarted/clansLogo.png`;
 
 export const metadata: Metadata = {
   title: 'Clans',
@@ -57,8 +57,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE,
-        width: 1200,
-        height: 630,
+        width: 600,
+        height: 300,
         alt: 'Clans - KILT Identity Wallet',
         type: 'image/png',
       },

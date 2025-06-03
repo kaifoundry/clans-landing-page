@@ -15,6 +15,11 @@ export default function StartRoaring() {
   const avatarLeftRef = useRef<HTMLImageElement>(null);
   const avatarRightRef = useRef<HTMLImageElement>(null);
 
+  //  website URL and  text
+  const shareUrl = 'https://clans.kilt.io';
+  const shareDomain = 'clans.kilt.io';
+  const shareText = `Check out Clans at ${shareDomain} - your decentralized identity wallet powered by the KILT Protocol!`;
+
   // Get the message from the URL query params
   const searchParams = useSearchParams();
   const message =
@@ -80,6 +85,49 @@ export default function StartRoaring() {
     }
   }, []);
 
+  // Social share helper to open popup window
+  function openShareWindow(url: string) {
+    window.open(url, '_blank', 'noopener,noreferrer,width=600,height=400');
+  }
+  // Share functions
+  const handleTwitterShare = () => {
+    const url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+      shareUrl
+    )}&text=${encodeURIComponent(shareText)}`;
+    openShareWindow(url);
+  };
+
+  const handleWhatsAppShare = () => {
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+      shareText + ' ' + shareUrl
+    )}`;
+    openShareWindow(url);
+  };
+
+  const handleTelegramShare = () => {
+    const url = `https://telegram.me/share/url?url=${encodeURIComponent(
+      shareUrl
+    )}&text=${encodeURIComponent(shareText)}`;
+    openShareWindow(url);
+  };
+
+  const handleDiscordShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: 'Clans',
+          text: shareText,
+          url: shareUrl,
+        })
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      alert(
+        'Sharing not supported on this browser. Please copy the link manually: ' +
+          shareUrl
+      );
+    }
+  };
+
   function splitMessageInTwoLines(message: string | null) {
     if (!message) return ['', ''];
     // Special case: "You’re officially a Roarer !🎉"
@@ -105,10 +153,23 @@ export default function StartRoaring() {
     handleMuteUnmute,
     firstLine,
     secondLine,
+
+    //share link
+    handleTwitterShare,
+    handleWhatsAppShare,
+    handleTelegramShare,
+    handleDiscordShare,
   };
 
   return isMobile ? (
-    <ConfirmationPageMobile firstLine={firstLine} secondLine={secondLine} />
+    <ConfirmationPageMobile
+      firstLine={firstLine}
+      secondLine={secondLine}
+      handleTwitterShare={handleTwitterShare}
+      handleWhatsAppShare={handleWhatsAppShare}
+      handleTelegramShare={handleTelegramShare}
+      handleDiscordShare={handleDiscordShare}
+    />
   ) : (
     <ConfirmationPageDesktop {...commonProps} />
   );
