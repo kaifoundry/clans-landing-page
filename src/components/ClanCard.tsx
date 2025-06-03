@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaUsers } from 'react-icons/fa';
+import Image from 'next/image';
 
 interface ClanCardProps {
   glowColor?: string;
@@ -101,17 +102,17 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               <img
                 src={profilePic || '/Images/gettingStarted/user.png'}
                 alt='userProfilePic'
-                className='h-8 w-8 rounded-full border-2 border-white object-cover md:h-16 md:w-16'
+                className='h-8 w-8 rounded-full border-2 border-white object-cover md:h-20 md:w-20'
                 loading='eager'
                 draggable='false'
               />
               <div className='flex flex-col px-3'>
-                <p className='text-base font-semibold text-white md:text-lg'>
+                <p className='text-base font-semibold text-white md:text-xl'>
                   {displayName}
                 </p>
 
                 {username && (
-                  <p className='flex items-center justify-center gap-1 text-xs font-medium text-purple-300 md:text-sm'>
+                  <p className='flex items-center justify-center gap-1 text-xs font-medium text-purple-300 md:text-lg'>
                     @{username} |{' '}
                     <span className='flex items-center justify-center'>
                       <FaUsers className='pr-1' /> Followers: {followers}
@@ -127,28 +128,37 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
             <div>
               <h1
                 style={{ color: border }}
-                className='text-2xl font-semibold md:text-5xl'
+                className='text-2xl font-semibold md:text-6xl'
               >
                 {title}
               </h1>
-              <p className='text-lg font-semibold text-white/90 md:text-2xl'>
+              <p className='text-lg font-semibold text-white/90 md:text-3xl'>
                 {description}
               </p>
             </div>
             <div className='absolute bottom-4 left-4 z-10 flex items-center gap-2 md:static md:mt-4'>
-              <img
+              {/* <img
                 src='/Images/gettingStarted/Object.png'
                 alt='Object1'
-                className='h-8 w-4 object-contain md:h-16 md:w-8'
+                className='h-8 w-4 object-contain md:h-20 md:w-12'
                 loading='eager'
                 draggable='false'
               />
               <img
                 src='/Images/gettingStarted/Clans.png'
                 alt='Clans'
-                className='h-10 w-12 object-contain md:h-20 md:w-28'
+                className='h-10 w-12 object-contain md:h-28 md:w-32'
                 loading='eager'
                 draggable='false'
+              /> */}
+              <Image
+                src='/Images/gettingStarted/clansLogo.svg'
+                width={80}
+                height={80}
+                alt='Clans Logo'
+                className='h-10 w-12 object-contain md:h-40 md:w-60'
+                draggable={false}
+                priority
               />
             </div>
           </div>

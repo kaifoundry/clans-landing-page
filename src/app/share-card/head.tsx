@@ -12,7 +12,7 @@ export default function Head() {
       />
       <meta
         property='og:image'
-        content='https://clans-landing-page.vercel.app/Images/tweet.png'
+        content='https://clans.kilt.io/Images/gettingStarted/clansLogo.png'
       />
       <meta
         property='og:url'
@@ -29,7 +29,7 @@ export default function Head() {
       />
       <meta
         name='twitter:image'
-        content='https://clans-landing-page.vercel.app/Images/tweet.png'
+        content='https://clans.kilt.io/Images/gettingStarted/clansLogo.png'
       />
     </>
   );

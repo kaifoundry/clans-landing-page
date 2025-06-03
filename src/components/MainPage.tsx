@@ -94,7 +94,7 @@ const MainPage = ({
           width={550}
           height={600}
           alt='Avatar Left'
-          className='absolute bottom-0 left-0 z-10 min-w-4/12 object-contain'
+          className='absolute bottom-0 left-0 z-10 w-4/12 object-contain'
           draggable={false}
         />
         {/* md:w-[320px] xl:w-[620px] 2xl:w-[620px] */}
@@ -104,7 +104,7 @@ const MainPage = ({
           width={580}
           height={600}
           alt='Avatar Right'
-          className='absolute right-0 bottom-0 z-10 w-[32%] object-contain'
+          className='absolute right-0 bottom-0 z-10 w-[35%] object-contain'
           draggable={false}
         />
       </main>

@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 });
 
 const DOMAIN = ENV.NEXT_PUBLIC_API_BASE_URL;
-const OG_IMAGE = `og-image.png`;
+const OG_IMAGE = `Images/gettingStarted/clansLogo.png`;
 
 export const metadata: Metadata = {
   title: 'Clans',

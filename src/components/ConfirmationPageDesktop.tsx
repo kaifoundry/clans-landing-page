@@ -13,6 +13,12 @@ interface ConfirmationPageProps {
   handleMuteUnmute: () => void;
   firstLine: string;
   secondLine: string;
+
+  //share functions 
+  handleTwitterShare: () => void;
+  handleDiscordShare: () => void;
+  handleWhatsAppShare: () => void;
+  handleTelegramShare: () => void;
 }
 
 const ConfirmationPage = ({
@@ -24,6 +30,12 @@ const ConfirmationPage = ({
   handleMuteUnmute,
   firstLine,
   secondLine,
+
+  //share functions
+  handleTwitterShare,
+  handleDiscordShare,
+  handleWhatsAppShare,
+  handleTelegramShare,
 }: ConfirmationPageProps) => {
   return (
     <section className='relative flex h-dvh items-center justify-center overflow-hidden bg-black text-white'>
@@ -96,34 +108,61 @@ const ConfirmationPage = ({
 
         {/* Social Icons */}
         <div className='mb-8 flex gap-6'>
-          <Image
-            src='/Images/confirmationPage/twitter.svg'
-            alt='Twitter'
-            width={32}
-            height={32}
-            className='w-6 sm:w-8'
-          />
-          <Image
-            src='/Images/confirmationPage/discord.svg'
-            alt='Discord'
-            width={32}
-            height={32}
-            className='w-6 sm:w-8'
-          />
-          <Image
-            src='/Images/confirmationPage/whatsapp.svg'
-            alt='Whatsapp'
-            width={32}
-            height={32}
-            className='w-6 sm:w-8'
-          />
-          <Image
-            src='/Images/confirmationPage/telegram.svg'
-            alt='Telegram'
-            width={32}
-            height={32}
-            className='w-6 sm:w-8'
-          />
+          <button
+            onClick={handleTwitterShare}
+            aria-label='Share on Twitter'
+            className='focus:outline-none'
+          >
+            <Image
+              src='/Images/confirmationPage/twitter.svg'
+              alt='Twitter'
+              width={32}
+              height={32}
+              className='w-6 cursor-pointer sm:w-8'
+            />
+          </button>
+
+          {/* <button
+            onClick={handleDiscordShare}
+            aria-label='Share on Discord'
+            className='focus:outline-none'
+          >
+            <Image
+              src='/Images/confirmationPage/discord.svg'
+              alt='Discord'
+              width={32}
+              height={32}
+              className='w-6 cursor-pointer sm:w-8'
+            />
+          </button> */}
+
+          <button
+            onClick={handleWhatsAppShare}
+            aria-label='Share on WhatsApp'
+            className='focus:outline-none'
+          >
+            <Image
+              src='/Images/confirmationPage/whatsapp.svg'
+              alt='Whatsapp'
+              width={32}
+              height={32}
+              className='w-6 cursor-pointer sm:w-8'
+            />
+          </button>
+
+          <button
+            onClick={handleTelegramShare}
+            aria-label='Share on Telegram'
+            className='focus:outline-none'
+          >
+            <Image
+              src='/Images/confirmationPage/telegram.svg'
+              alt='Telegram'
+              width={32}
+              height={32}
+              className='w-6 cursor-pointer sm:w-8'
+            />
+          </button>
         </div>
       </div>
 
@@ -134,7 +173,7 @@ const ConfirmationPage = ({
         width={500}
         height={500}
         alt='Avatar Left'
-        className='absolute bottom-0 left-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-[280px] lg:w-[350px] xl:w-[450px] 2xl:w-[500px]'
+        className='absolute bottom-0 left-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-4/12'
       />
 
       {/* Bottom Right Avatar */}
@@ -144,7 +183,7 @@ const ConfirmationPage = ({
         width={500}
         height={500}
         alt='Avatar Right'
-        className='absolute right-0 bottom-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-[280px] lg:w-[350px] xl:w-[450px] 2xl:w-[500px]'
+        className='absolute right-0 bottom-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-[35%]'
       />
 
       {/* Mute Button */}
