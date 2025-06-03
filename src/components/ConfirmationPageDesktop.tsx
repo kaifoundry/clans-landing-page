@@ -14,7 +14,7 @@ interface ConfirmationPageProps {
   firstLine: string;
   secondLine: string;
 
-  //share functions 
+  //share functions
   handleTwitterShare: () => void;
   handleDiscordShare: () => void;
   handleWhatsAppShare: () => void;

@@ -128,7 +128,6 @@ export default function StartRoaring() {
     }
   };
 
-
   function splitMessageInTwoLines(message: string | null) {
     if (!message) return ['', ''];
     // Special case: "You’re officially a Roarer !🎉"
