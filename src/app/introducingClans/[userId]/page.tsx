@@ -23,7 +23,7 @@ const IntroducingClans = () => {
   const cardRefs = useRef<HTMLDivElement[]>([]);
   const hasHandledReferral = useRef(false);
   const hasFetchedClans = useRef(false);
-console.log("token mil raha",token)
+  console.log('token mil raha', token);
   // Polling for token (every 500ms until found)
   // useEffect(() => {
   //   const interval = setInterval(() => {
@@ -46,7 +46,7 @@ console.log("token mil raha",token)
   //   return () => clearInterval(interval);
   // }, [fetchClans]);
 
-  // Set token 
+  // Set token
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken && storedToken !== 'NA') {
@@ -54,23 +54,23 @@ console.log("token mil raha",token)
     }
   }, [token]);
 
-  // Refetch clans 
+  // Refetch clans
   useEffect(() => {
     if (token && !hasFetchedClans.current) {
-      console.log('Fetching with token:', token); 
+      console.log('Fetching with token:', token);
       fetchClans(token);
       hasFetchedClans.current = true;
     }
   }, [token, fetchClans]);
 
-  //  Handle token change 
+  //  Handle token change
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'token') {
         const newToken = e.newValue;
         if (newToken && newToken !== 'NA') {
           setToken(newToken);
-          hasFetchedClans.current = false; 
+          hasFetchedClans.current = false;
         }
       }
     };
