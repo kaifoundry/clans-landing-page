@@ -200,6 +200,7 @@ const SelectClan: React.FC<SelectClanProps> = ({
                 pointerEvents: 'none',
                 touchAction: 'none',
               }}
+              onTouchStart={(e) => e.preventDefault()}
             />
           )}
         </AnimatePresence>
