@@ -29,13 +29,13 @@ const StartRoaringPage = React.memo(
     return (
       <main className="relative flex h-screen w-full flex-col items-center justify-center gap-y-8 overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center px-6 py-12">
         {/* Clan Logo */}
-        <header className='xs:w-16 xs:h-16 absolute top-10 left-10 h-14 w-14 transition-all duration-300 ease-in-out sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-32 lg:w-32 xl:h-40 xl:w-40 2xl:h-48 2xl:w-48'>
+        <header className='xs:w-16 xs:h-16 lg2:h-32 lg2:w-32 absolute top-10 left-10 h-14 w-14 transition-all duration-300 ease-in-out sm:h-20 sm:w-20 md:h-24 md:w-24 xl:h-40 xl:w-40 2xl:h-48 2xl:w-48'>
           <ClanLogo />
         </header>
 
         {/* Page Title */}
         <section className='z-10'>
-          <h1 className='mt-20 text-center text-xl font-bold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
+          <h1 className='lg1:text-4xl mt-20 text-center text-xl font-bold text-white md:text-4xl xl:text-5xl'>
             Introducing Roar Points
           </h1>
         </section>
@@ -43,7 +43,7 @@ const StartRoaringPage = React.memo(
         {/* Center Card Section */}
         <section className='z-10 flex w-full max-w-4xl flex-col items-center justify-center gap-6 px-4 md:px-0'>
           <article
-            className='relative flex w-full flex-col items-center justify-center rounded px-10 py-8 md:gap-5 lg:h-[530px] lg:w-[958px] lg:gap-12'
+            className='lg2:h-[530px] lg2:w-[958px] lg2:gap-12 relative flex w-full flex-col items-center justify-center rounded px-10 py-8 md:gap-5 lg:h-[400px] lg:w-[700px]'
             style={{
               backgroundImage: "url('/Images/startRoaring/centerbg.png')",
               backgroundSize: 'cover',
@@ -70,7 +70,7 @@ const StartRoaringPage = React.memo(
               alt='Stylized avatar character 1'
               width={200}
               height={200}
-              className='absolute right-5 bottom-2 h-auto w-[120px] max-w-full rounded-r-4xl md:w-[300px] lg:w-[280px] 2xl:w-[350px]'
+              className='lg2:right-5 lg2:bottom-2 lg2:w-[300px] absolute right-5 bottom-2 h-auto w-[120px] max-w-full rounded-r-4xl md:right-4 md:bottom-3 md:w-[230px] 2xl:w-[350px]'
               priority
               draggable={false}
             />
@@ -83,7 +83,7 @@ const StartRoaringPage = React.memo(
               ButtonText='Start Roaring'
               width={307}
               height={79}
-              className='mr-4'
+              className='lg2:mr-4 mr-[8.5rem]'
             />
           </nav>
         </section>
@@ -95,7 +95,7 @@ const StartRoaringPage = React.memo(
           height={500}
           width={500}
           alt='Stylized avatar character 2'
-          className='absolute bottom-0 left-0 z-0 h-auto w-[250px] max-w-full md:left-0 md:z-10 md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[400px] xl:left-10 xl:h-[600px] xl:w-[500px] 2xl:left-20'
+          className='lg2:h-[500px] lg2:w-[400px] absolute bottom-0 left-0 z-0 h-auto w-[250px] max-w-full md:left-0 md:z-10 md:h-[400px] md:w-[300px] xl:left-10 xl:h-[600px] xl:w-[500px] 2xl:left-20'
           priority
           draggable={false}
         />

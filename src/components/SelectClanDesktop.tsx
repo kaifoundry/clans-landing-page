@@ -230,7 +230,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
                 src={avatarImage}
                 height={385}
                 width={385}
-                className='object-contain'
+                className='h-[95vh] w-auto object-contain'
                 alt='Clan avatar'
                 draggable={false}
               />
