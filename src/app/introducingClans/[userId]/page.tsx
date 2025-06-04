@@ -12,7 +12,7 @@ import { useReferral } from '@/context/ReferralContext';
 import Loader from '@/components/Features/Loader';
 
 const SkeletonCard = () => (
-  <div className="h-56 w-full animate-pulse rounded-xl bg-gray-700"></div>
+  <div className='h-56 w-full animate-pulse rounded-xl bg-gray-700'></div>
 );
 
 const IntroducingClans = () => {
@@ -136,7 +136,7 @@ const IntroducingClans = () => {
 
   if (loading && !clans?.length && !delayPassed) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
         <Loader />
       </div>
     );
@@ -144,8 +144,8 @@ const IntroducingClans = () => {
 
   if (error) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div className="text-xl text-white">Error: {error}</div>
+      <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
+        <div className='text-xl text-white'>Error: {error}</div>
       </div>
     );
   }
@@ -153,16 +153,16 @@ const IntroducingClans = () => {
   if (shouldShowNothing) return null;
 
   return (
-    <section className="main-section relative flex flex-col items-center gap-2 overflow-hidden px-8 py-8">
-      <span className="absolute top-10 left-10 z-10 hidden h-14 w-16 sm:h-10 sm:w-28 md:h-12 md:w-36 lg:block lg:h-14 lg:w-44 xl:h-16 xl:w-52 2xl:h-20 2xl:w-60">
+    <section className='main-section relative flex flex-col items-center gap-2 overflow-hidden px-8 py-8'>
+      <span className='absolute top-10 left-10 z-10 hidden h-14 w-16 sm:h-10 sm:w-28 md:h-12 md:w-36 lg:block lg:h-14 lg:w-44 xl:h-16 xl:w-52 2xl:h-20 2xl:w-60'>
         <ClanLogo />
       </span>
 
-      <h1 className="mt-10 text-center text-3xl font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl">
+      <h1 className='mt-10 text-center text-3xl font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
         Introducing Clans
       </h1>
 
-      <div className="xxs:gap-x-8 grid grid-cols-2 gap-x-16 gap-y-4 p-8 lg:grid-cols-4">
+      <div className='xxs:gap-x-8 grid grid-cols-2 gap-x-16 gap-y-4 p-8 lg:grid-cols-4'>
         {cardData.length > 0
           ? cardData.map((card, index) => (
               <div
@@ -174,7 +174,7 @@ const IntroducingClans = () => {
                   setSelectedCardId(card.id.toString());
                   router.push('/selectClan');
                 }}
-                className="cursor-pointer"
+                className='cursor-pointer'
                 draggable={false}
               >
                 <Card
@@ -190,8 +190,8 @@ const IntroducingClans = () => {
             Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)}
       </div>
 
-      <p className="hidden text-xl font-semibold md:block">
-        Choose your <span className="text-pink-600">"CLAN"</span>
+      <p className='hidden text-xl font-semibold md:block'>
+        Choose your <span className='text-pink-600'>"CLAN"</span>
       </p>
     </section>
   );
