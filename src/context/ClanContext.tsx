@@ -72,38 +72,50 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const fetchClans = async (token?: string) => {
-    try {
-      setLoading(true);
-      const authToken = token || localStorage.getItem('token') || '';
-      if (!authToken || authToken === 'NA') {
-        console.warn(
-          'No authentication token available, will retry when token is available'
-        );
-        setError('Authentication required');
-        return;
-      }
-      const res = await fetch(
-        `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
+ const fetchClans = async (token?: string) => {
+  try {
+    setLoading(true);
+    const authToken = token || localStorage.getItem('token') || '';
+    if (!authToken || authToken === 'NA') {
+      console.warn(
+        'No authentication token available, will retry when token is available'
       );
-      const response = await res.json();
-      if (response.success && Array.isArray(response.data)) {
-        setClans(response.data);
-      } else {
-        console.warn('Invalid response format or no clans found');
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch clans');
-    } finally {
-      setLoading(false);
+      setError('Authentication required');
+      return;
     }
-  };
+
+    const res = await fetch(
+      `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+
+    const response = await res.json();
+
+    // Add this line to debug unexpected responses
+    console.debug('Fetch Clans Response:', response);
+
+    if (!res.ok) {
+      throw new Error(response?.message || 'API returned an error');
+    }
+
+    if (response?.success && Array.isArray(response?.data)) {
+      setClans(response.data);
+    } else {
+      console.warn('Unexpected response format or empty data', response);
+      setError('Unexpected response from server');
+    }
+  } catch (err) {
+    setError(err instanceof Error ? err.message : 'Failed to fetch clans');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleJoinClan = async (joinData: JoinClanData) => {
     try {
