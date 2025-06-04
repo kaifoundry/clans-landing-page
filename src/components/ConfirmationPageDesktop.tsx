@@ -167,21 +167,21 @@ const ConfirmationPage = ({
       {/* src='/Images/gettingStarted/avtar1.png' */}
       <Image
         ref={avatarLeftRef}
-        src='/Images/gettingStarted/homeleft.svg'
+        src='/Images/gettingStarted/leftavtar.png'
         width={500}
         height={500}
         alt='Avatar Left'
-        className='lg1:h-[65vh] lg2:h-[80vh] absolute bottom-0 left-0 z-10 w-auto object-contain sm:w-[200px] md:h-[61vh] md:w-auto xl:h-screen'
+        className='lg1:h-[65vh] lg2:h-[80vh] absolute -bottom-8 left-0 z-10 w-auto object-contain sm:w-[200px] md:h-[61vh] md:w-auto xl:h-screen'
       />
       {/* Bottom Right Avatar */}
       {/* src='/Images/gettingStarted/avtar2_.png' */}
       <Image
         ref={avatarRightRef}
-        src='/Images/gettingStarted/homeright.svg'
+        src='/Images/gettingStarted/rightavtar.png'
         width={500}
         height={500}
         alt='Avatar Right'
-        className='lg1:h-[61vh] lg2:h-[80vh] absolute right-0 bottom-0 z-10 w-auto object-contain sm:w-[200px] md:h-[61vh] md:w-auto xl:h-screen'
+        className='lg1:h-[61vh] lg2:h-[80vh] absolute right-0 -bottom-8 z-10 w-auto object-contain sm:w-[200px] md:h-[61vh] md:w-auto xl:h-screen'
       />
       {/* Mute Button */}
       <button

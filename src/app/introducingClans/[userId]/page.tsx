@@ -30,27 +30,62 @@ const IntroducingClans = () => {
   const hasHandledReferral = useRef(false);
   const hasFetchedClans = useRef(false);
 
-  // Delay to control UI flicker
+  console.log('token mil raha', token);
+  // Polling for token (every 500ms until found)
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const storedToken = localStorage.getItem('token');
+  //     if (storedToken && storedToken !== 'NA') {
+  //       setToken(storedToken);
+
+  //       // Call fetchClans once when token is ready
+  //       if (!hasFetchedClans.current) {
+  //         fetchClans(storedToken );
+  //         hasFetchedClans.current = true;
+  //       }
+
+  //       clearInterval(interval); // stop polling
+  //     } else {
+  //       console.warn('⏳ Waiting for authentication token...');
+  //     }
+  //   }, 100);
+
+  //   return () => clearInterval(interval);
+  // }, [fetchClans]);
+
+  // Set token
   useEffect(() => {
-    const timeout = setTimeout(() => setDelayPassed(true), 300);
-    return () => clearTimeout(timeout);
+    const storedToken = localStorage.getItem('token');
+    if (storedToken && storedToken !== 'NA') {
+      setToken(storedToken);
+    }
+  }, [token]);
+
+  // Refetch clans
+  useEffect(() => {
+    if (token && !hasFetchedClans.current) {
+      console.log('Fetching with token:', token);
+      fetchClans(token);
+      hasFetchedClans.current = true;
+    }
+  }, [token, fetchClans]);
+
+  //  Handle token change
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'token') {
+        const newToken = e.newValue;
+        if (newToken && newToken !== 'NA') {
+          setToken(newToken);
+          hasFetchedClans.current = false;
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  // Poll token and fetch clans
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const storedToken = localStorage.getItem('token');
-      if (storedToken && storedToken !== 'NA') {
-        setToken(storedToken);
-        if (!hasFetchedClans.current) {
-          fetchClans(storedToken);
-          hasFetchedClans.current = true;
-        }
-        clearInterval(interval);
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, [fetchClans]);
 
   // Fetch userId and userData
   useEffect(() => {
@@ -154,11 +189,11 @@ const IntroducingClans = () => {
 
   return (
     <section className='main-section relative flex flex-col items-center gap-2 overflow-hidden px-8 py-8'>
-      <span className='absolute top-10 left-10 z-10 hidden h-14 w-16 sm:h-10 sm:w-28 md:h-12 md:w-36 lg:block lg:h-14 lg:w-44 xl:h-16 xl:w-52 2xl:h-20 2xl:w-60'>
+      <span className='lg2:h-14 lg2:w-44 absolute top-10 left-10 z-10 hidden h-14 w-16 sm:h-10 sm:w-28 md:h-12 md:w-36 lg:block xl:h-16 xl:w-52 2xl:h-20 2xl:w-60'>
         <ClanLogo />
       </span>
 
-      <h1 className='mt-10 text-center text-3xl font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
+      <h1 className='lg2:text-4xl mt-10 text-center text-3xl font-semibold text-white md:text-4xl xl:text-5xl'>
         Introducing Clans
       </h1>
 

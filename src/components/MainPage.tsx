@@ -97,21 +97,21 @@ const MainPage = ({
         {/* md:w-[350px] xl:w-[600px] 2xl:w-[600px] */}
         <Image
           ref={avatarLeftRef}
-          src='/Images/gettingStarted/homeleft.svg'
+          src='/Images/gettingStarted/leftavtar.png'
           width={550}
           height={600}
           alt='Avatar Left'
-          className='lg1:h-[80vh] lg2:h-screen absolute bottom-0 left-0 z-10 w-auto object-contain md:h-[61vh] xl:h-screen'
+          className='lg1:h-[80vh] lg2:h-screen absolute -bottom-8 left-0 z-10 w-auto object-contain md:h-[61vh] xl:h-screen'
           draggable={false}
         />
         {/* md:w-[320px] xl:w-[620px] 2xl:w-[620px] */}
         <Image
           ref={avatarRightRef}
-          src='/Images/gettingStarted/homeright.svg'
+          src='/Images/gettingStarted/rightavtar.png'
           width={580}
           height={600}
           alt='Avatar Right'
-          className='lg1:h-[80vh] lg2:h-screen absolute right-0 bottom-0 z-10 w-auto object-contain md:h-[61vh] xl:h-screen'
+          className='lg1:h-[80vh] lg2:h-screen absolute right-0 -bottom-8 z-10 w-auto object-contain md:h-[61vh] xl:h-screen'
           draggable={false}
         />
       </main>
