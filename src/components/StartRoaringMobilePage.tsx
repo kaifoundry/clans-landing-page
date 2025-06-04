@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Button from '@/components/Button';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { useReferral } from '@/context/ReferralContext';
 import { useSearchParams } from 'next/navigation';
@@ -13,7 +13,7 @@ interface CommonRoaringProps {
   isLoading: boolean;
   openModal: () => void;
   closeModal: () => void;
-  callTwitterAuthAPI: () => void;
+  callTwitterAuthAPI: () => Promise<string>;
   avatarLeftRef: RefObject<HTMLImageElement | null>;
   avatarRightRef?: RefObject<HTMLImageElement | null>;
 }
@@ -53,6 +53,84 @@ const StartRoaringPage = React.memo(
         );
       }
     }, [isModalOpen]);
+    
+      const handleLogin = useCallback(() => {
+    openTwitterLogin().catch(console.error);
+  }, []);
+async function openTwitterLogin() {
+  // Ensure we're in browser environment
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+  const twitterDeepLink = 'twitter://';
+  const twitterPlayStore = 'https://play.google.com/store/apps/details?id=com.twitter.android';
+  const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
+
+  // Fetch web auth URL
+  let twitterWebLogin = '';
+  try {
+    twitterWebLogin = await callTwitterAuthAPI();
+  } catch (err) {
+    console.error('Failed to get Twitter auth URL', err);
+    return;
+  }
+
+  const userAgent = navigator.userAgent;
+  const isMobile = /android|iphone|ipad|ipod/i.test(userAgent);
+  
+  // Desktop fallback
+  if (!isMobile) {
+    window.location.href = twitterWebLogin;
+    return;
+  }
+
+  const appStoreUrl = /android/i.test(userAgent) 
+    ? twitterPlayStore 
+    : twitterAppStore;
+
+  let appOpened = false;
+  let appStoreTab: Window | null = null;
+
+  // App detection handler
+  const handleAppOpen = () => {
+    appOpened = true;
+    removeEventListeners();
+  };
+
+  // Cleanup function
+  const removeEventListeners = () => {
+    document.removeEventListener('visibilitychange', handleAppOpen);
+    window.removeEventListener('blur', handleAppOpen);
+    window.removeEventListener('pagehide', handleAppOpen);
+  };
+
+  // Set up detection
+  document.addEventListener('visibilitychange', handleAppOpen);
+  window.addEventListener('blur', handleAppOpen);
+  window.addEventListener('pagehide', handleAppOpen);
+
+  // Attempt to open Twitter app
+  window.location.href = twitterDeepLink;
+
+  // Wait and check if app opened
+  await wait(1500);
+  
+  if (appOpened) return;
+  removeEventListeners();
+
+  // Open app store as fallback
+  appStoreTab = window.open(appStoreUrl, '_blank');
+  
+  // Final web fallback
+  await wait(8000);
+  if (appStoreTab && !appStoreTab.closed) appStoreTab.close();
+  window.location.href = twitterWebLogin;
+}
+
+// Helper function for cleaner waiting
+function wait(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 
     return (
       <>
@@ -183,7 +261,7 @@ const StartRoaringPage = React.memo(
 
                 <div className='mb-4 flex flex-col gap-3'>
                   <button
-                    onClick={callTwitterAuthAPI}
+                    onClick={handleLogin}
                     className='cursor-pointer rounded-full bg-black py-3 text-base font-bold text-white transition duration-300 hover:bg-gray-800'
                     disabled={isLoading}
                   >
