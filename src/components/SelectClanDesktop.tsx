@@ -86,10 +86,10 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
       </div>
     );
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      const audio = new Audio('/sounds/click.mp3');
-      audio.play();
-    };
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const audio = new Audio('/sounds/click.mp3');
+    audio.play();
+  };
   return (
     <section className="relative flex min-h-screen flex-col overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center">
       <div className='mx-auto flex w-full max-w-screen-2xl flex-grow flex-col gap-20 px-8 py-20 md:gap-x-4 2xl:gap-x-12'>

@@ -49,10 +49,10 @@ const SelectClan: React.FC<SelectClanProps> = ({
         <div className='text-xl text-white'>Error: {error}</div>
       </div>
     );
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      const audio = new Audio('/sounds/click.mp3');
-      audio.play();
-    };
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const audio = new Audio('/sounds/click.mp3');
+    audio.play();
+  };
   return (
     <div className='fixed inset-0 overflow-hidden'>
       <section className='main-section h-screen overflow-hidden px-4'>
