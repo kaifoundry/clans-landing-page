@@ -49,7 +49,10 @@ const SelectClan: React.FC<SelectClanProps> = ({
         <div className='text-xl text-white'>Error: {error}</div>
       </div>
     );
-
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      const audio = new Audio('/sounds/click.mp3');
+      audio.play();
+    };
   return (
     <div className='fixed inset-0 overflow-hidden'>
       <section className='main-section h-screen overflow-hidden px-4'>
@@ -142,7 +145,10 @@ const SelectClan: React.FC<SelectClanProps> = ({
             {selectedCard && (
               <button
                 className='group z-10 cursor-pointer text-white transition-transform hover:scale-105 active:scale-95'
-                onClick={() => handleJoinClan(selectedCard.id)}
+                onClick={(e) => {
+                  handleClick(e);
+                  handleJoinClan(selectedCard.id);
+                }}
               >
                 <div className='relative h-[75px] w-[270px]'>
                   <svg
