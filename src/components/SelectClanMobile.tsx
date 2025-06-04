@@ -197,6 +197,7 @@ const SelectClan: React.FC<SelectClanProps> = ({
               style={{
                 maxHeight: '60vh',
                 maxWidth: '80vw',
+                pointerEvents: 'none',
               }}
             />
           )}
