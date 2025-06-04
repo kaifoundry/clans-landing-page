@@ -57,47 +57,61 @@ const StartRoaringPage = React.memo(
     const handleLogin = useCallback(() => {
       openTwitterLogin().catch(console.error);
     }, []);
-    async function openTwitterLogin() {
-      if (typeof window === 'undefined' || typeof document === 'undefined')
-        return;
+  async function openTwitterLogin() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-      const twitterDeepLink = 'twitter://';
-      const twitterPlayStore =
-        'https://play.google.com/store/apps/details?id=com.twitter.android';
-      const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
+  const twitterDeepLink = 'twitter://';
+  const twitterPlayStore = 'https://play.google.com/store/apps/details?id=com.twitter.android';
+  const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
 
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isAndroid = userAgent.includes('android');
-      const isIOS = /iphone|ipad|ipod/.test(userAgent);
-      const isMobile = isAndroid || isIOS;
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isAndroid = userAgent.includes('android');
+  const isIOS = /iphone|ipad|ipod/.test(userAgent);
+  const isMobile = isAndroid || isIOS;
 
-      if (!isMobile) {
-        callTwitterAuthAPI();
-        return;
-      }
+  if (!isMobile) {
+    callTwitterAuthAPI(); // Desktop fallback
+    return;
+  }
 
-      let appOpened = false;
+  let opened = false;
+  const now = Date.now();
 
-      const handleReturnFromApp = () => {
-        appOpened = true;
-        cleanup();
-        callTwitterAuthAPI();
-      };
-
-      const cleanup = () => {
-        document.removeEventListener('visibilitychange', handleReturnFromApp);
-      };
-
-      document.addEventListener('visibilitychange', handleReturnFromApp);
-      window.location.href = twitterDeepLink;
-      setTimeout(() => {
-        if (!appOpened) {
-          cleanup();
-          const storeUrl = isAndroid ? twitterPlayStore : twitterAppStore;
-          window.location.href = storeUrl;
-        }
-      }, 1500);
+  // Listen for return from app
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible' && Date.now() - now > 500) {
+      opened = true;
+      cleanup();
+      callTwitterAuthAPI();
     }
+  };
+
+  const cleanup = () => {
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // Try to open Twitter app via iframe (Android) or deep link (iOS)
+  if (isAndroid) {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = twitterDeepLink;
+    document.body.appendChild(iframe);
+  } else {
+    window.location.href = twitterDeepLink;
+  }
+
+  // After 1500ms, if still not opened, redirect to store
+  setTimeout(() => {
+    if (!opened) {
+      cleanup();
+      const storeUrl = isAndroid ? twitterPlayStore : twitterAppStore;
+      window.location.href = storeUrl;
+    }
+  }, 1500);
+}
+
 
     return (
       <>
