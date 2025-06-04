@@ -54,7 +54,6 @@ const ConfirmationPage = ({
           Your browser does not support the video tag.
         </video>
       </div>
-
       {/* Overlay Image */}
       <Image
         src='/Images/gettingStarted/background.png'
@@ -63,7 +62,6 @@ const ConfirmationPage = ({
         style={{ opacity: 0.33 }}
         className='pointer-events-none absolute top-0 left-0 z-10 h-full w-full object-cover'
       />
-
       {/* Main content */}
       <div className='relative z-20 flex w-full max-w-screen-2xl flex-col items-center justify-center px-4 pt-20 text-center'>
         {/* Logo Row */}
@@ -165,27 +163,26 @@ const ConfirmationPage = ({
           </button>
         </div>
       </div>
-
       {/* Bottom Left Avatar */}
+      {/* src='/Images/gettingStarted/avtar1.png' */}
       <Image
         ref={avatarLeftRef}
-        src='/Images/gettingStarted/avtar1.png'
+        src='/Images/gettingStarted/homeleft.svg'
         width={500}
         height={500}
         alt='Avatar Left'
-        className='absolute bottom-0 left-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-4/12'
+        className=' absolute bottom-0 left-0 z-10 w-auto object-contain sm:w-[200px] md:w-auto md:h-[61vh] lg1:h-[65vh] lg2:h-[80vh]  xl:h-screen'
       />
-
       {/* Bottom Right Avatar */}
+      {/* src='/Images/gettingStarted/avtar2_.png' */}
       <Image
         ref={avatarRightRef}
-        src='/Images/gettingStarted/avtar2_.png'
+        src='/Images/gettingStarted/homeright.svg'
         width={500}
         height={500}
         alt='Avatar Right'
-        className='absolute right-0 bottom-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-[35%]'
+        className='absolute right-0 bottom-0 z-10 w-auto object-contain sm:w-[200px]  md:w-auto md:h-[61vh] lg1:h-[61vh] lg2:h-[80vh] xl:h-screen'
       />
-
       {/* Mute Button */}
       <button
         onClick={handleMuteUnmute}
