@@ -57,46 +57,47 @@ const StartRoaringPage = React.memo(
     const handleLogin = useCallback(() => {
       openTwitterLogin().catch(console.error);
     }, []);
-   async function openTwitterLogin() {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    async function openTwitterLogin() {
+      if (typeof window === 'undefined' || typeof document === 'undefined')
+        return;
 
-  const twitterDeepLink = 'twitter://';
-  const twitterPlayStore = 'https://play.google.com/store/apps/details?id=com.twitter.android';
-  const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
+      const twitterDeepLink = 'twitter://';
+      const twitterPlayStore =
+        'https://play.google.com/store/apps/details?id=com.twitter.android';
+      const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
 
-  const userAgent = navigator.userAgent.toLowerCase();
-  const isAndroid = userAgent.includes('android');
-  const isIOS = /iphone|ipad|ipod/.test(userAgent);
-  const isMobile = isAndroid || isIOS;
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isAndroid = userAgent.includes('android');
+      const isIOS = /iphone|ipad|ipod/.test(userAgent);
+      const isMobile = isAndroid || isIOS;
 
-  if (!isMobile) {
-    callTwitterAuthAPI();
-    return;
-  }
+      if (!isMobile) {
+        callTwitterAuthAPI();
+        return;
+      }
 
-  let appOpened = false;
+      let appOpened = false;
 
-  const handleReturnFromApp = () => {
-    appOpened = true;
-    cleanup();
-    callTwitterAuthAPI();
-  };
+      const handleReturnFromApp = () => {
+        appOpened = true;
+        cleanup();
+        callTwitterAuthAPI();
+      };
 
-  const cleanup = () => {
-    document.removeEventListener('visibilitychange', handleReturnFromApp);
-  };
+      const cleanup = () => {
+        document.removeEventListener('visibilitychange', handleReturnFromApp);
+      };
 
-  document.addEventListener('visibilitychange', handleReturnFromApp);
-  window.location.href = twitterDeepLink;
-  setTimeout(() => {
-    if (!appOpened) {
-      cleanup();
-      const storeUrl = isAndroid ? twitterPlayStore : twitterAppStore;
-      window.location.href = storeUrl;
+      document.addEventListener('visibilitychange', handleReturnFromApp);
+      window.location.href = twitterDeepLink;
+      setTimeout(() => {
+        if (!appOpened) {
+          cleanup();
+          const storeUrl = isAndroid ? twitterPlayStore : twitterAppStore;
+          window.location.href = storeUrl;
+        }
+      }, 1500);
     }
-  }, 1500);
-}
-
 
     return (
       <>
