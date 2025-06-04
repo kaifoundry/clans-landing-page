@@ -54,7 +54,6 @@ const ConfirmationPage = ({
           Your browser does not support the video tag.
         </video>
       </div>
-
       {/* Overlay Image */}
       <Image
         src='/Images/gettingStarted/background.png'
@@ -63,7 +62,6 @@ const ConfirmationPage = ({
         style={{ opacity: 0.33 }}
         className='pointer-events-none absolute top-0 left-0 z-10 h-full w-full object-cover'
       />
-
       {/* Main content */}
       <div className='relative z-20 flex w-full max-w-screen-2xl flex-col items-center justify-center px-4 pt-20 text-center'>
         {/* Logo Row */}
@@ -80,7 +78,7 @@ const ConfirmationPage = ({
             width={1}
             height={1}
             alt='Line1'
-            className='h-10 w-1 object-contain sm:h-12 md:h-20 md:w-1 lg:h-18 xl:h-18'
+            className='lg2:h-18 h-10 w-1 object-contain sm:h-12 md:h-20 md:w-1 xl:h-18'
           />
           <Image
             src='/Images/gettingStarted/Clans.png'
@@ -92,14 +90,14 @@ const ConfirmationPage = ({
         </div>
 
         {/* Heading */}
-        <h1 className='mb-4 text-3xl leading-snug font-bold sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl'>
+        <h1 className='lg2:text-6xl mb-4 text-3xl leading-snug font-bold sm:text-4xl md:text-5xl xl:text-7xl'>
           {firstLine}
           <br />
           {secondLine}
         </h1>
 
         {/* Subtext */}
-        <p className='mb-10 text-base leading-relaxed font-medium sm:text-lg md:text-xl lg:text-2xl xl:text-3xl'>
+        <p className='lg2:text-2xl mb-10 text-base leading-relaxed font-medium sm:text-lg md:text-xl xl:text-3xl'>
           The Clans have heard your Roar.
           <br />
           You’ll be among the 1st to know <br />
@@ -165,27 +163,26 @@ const ConfirmationPage = ({
           </button>
         </div>
       </div>
-
       {/* Bottom Left Avatar */}
+      {/* src='/Images/gettingStarted/avtar1.png' */}
       <Image
         ref={avatarLeftRef}
-        src='/Images/gettingStarted/avtar1.png'
+        src='/Images/gettingStarted/homeleft.svg'
         width={500}
         height={500}
         alt='Avatar Left'
-        className='absolute bottom-0 left-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-4/12'
+        className='lg1:h-[65vh] lg2:h-[80vh] absolute bottom-0 left-0 z-10 w-auto object-contain sm:w-[200px] md:h-[61vh] md:w-auto xl:h-screen'
       />
-
       {/* Bottom Right Avatar */}
+      {/* src='/Images/gettingStarted/avtar2_.png' */}
       <Image
         ref={avatarRightRef}
-        src='/Images/gettingStarted/avtar2_.png'
+        src='/Images/gettingStarted/homeright.svg'
         width={500}
         height={500}
         alt='Avatar Right'
-        className='absolute right-0 bottom-0 z-10 w-[140px] object-contain sm:w-[200px] md:w-[35%]'
+        className='lg1:h-[61vh] lg2:h-[80vh] absolute right-0 bottom-0 z-10 w-auto object-contain sm:w-[200px] md:h-[61vh] md:w-auto xl:h-screen'
       />
-
       {/* Mute Button */}
       <button
         onClick={handleMuteUnmute}

@@ -74,7 +74,7 @@ const MainPage = ({
               width={80}
               height={80}
               alt='Clans Logo'
-              className='h-20 w-20 object-contain sm:h-24 sm:w-80 md:h-32 md:w-100 lg:h-40 lg:w-120 xl:h-48 xl:w-130 2xl:h-56 2xl:w-150'
+              className='lg2:h-40 lg2:w-120 h-20 w-20 object-contain sm:h-24 sm:w-80 md:h-32 md:w-100 xl:h-48 xl:w-130 2xl:h-56 2xl:w-150'
               draggable={false}
               priority
             />
@@ -82,7 +82,7 @@ const MainPage = ({
           <div className='z-10 mx-auto flex items-center justify-center'>
             <Link href='/startRoaring' prefetch>
               <button
-                className='group relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px] lg:h-[70px] lg:w-[280px]'
+                className='group lg2:h-[70px] lg2:w-[280px] relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px]'
                 onClick={handleClick}
               >
                 <StartButtonBorder />
@@ -97,21 +97,21 @@ const MainPage = ({
         {/* md:w-[350px] xl:w-[600px] 2xl:w-[600px] */}
         <Image
           ref={avatarLeftRef}
-          src='/Images/gettingStarted/avtar1.png'
+          src='/Images/gettingStarted/homeleft.svg'
           width={550}
           height={600}
           alt='Avatar Left'
-          className='absolute bottom-0 left-0 z-10 w-4/12 object-contain'
+          className='lg1:h-[80vh] lg2:h-screen absolute bottom-0 left-0 z-10 w-auto object-contain md:h-[61vh] xl:h-screen'
           draggable={false}
         />
         {/* md:w-[320px] xl:w-[620px] 2xl:w-[620px] */}
         <Image
           ref={avatarRightRef}
-          src='/Images/gettingStarted/avtar2_.png'
+          src='/Images/gettingStarted/homeright.svg'
           width={580}
           height={600}
           alt='Avatar Right'
-          className='absolute right-0 bottom-0 z-10 w-[35%] object-contain'
+          className='lg1:h-[80vh] lg2:h-screen absolute right-0 bottom-0 z-10 w-auto object-contain md:h-[61vh] xl:h-screen'
           draggable={false}
         />
       </main>

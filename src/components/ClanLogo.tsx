@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const ClanLogo = () => {
   return (
-    <div className='xs:w-20 xs:h-8 relative flex h-6 w-16 items-center justify-center sm:h-10 sm:w-28 md:h-12 md:w-36 lg:h-14 lg:w-44 xl:h-16 xl:w-52 2xl:h-20 2xl:w-60'>
+    <div className='xs:w-20 xs:h-8 lg2:h-14 lg2:w-44 relative flex h-6 w-16 items-center justify-center sm:h-10 sm:w-28 md:h-12 md:w-36 xl:h-16 xl:w-52 2xl:h-20 2xl:w-60'>
       <div className='relative h-full w-1/4'>
         <Image
           src='/Images/gettingStarted/Object.png'
