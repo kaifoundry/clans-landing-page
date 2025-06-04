@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Card from '@/components/Card';
 import { useClan } from '@/context/ClanContext';
 import { useParams, useRouter } from 'next/navigation';
@@ -9,10 +9,16 @@ import ClanLogo from '@/components/ClanLogo';
 import { clansData } from '@/data/clansData';
 import { useUser } from '@/context/UserContext';
 import { useReferral } from '@/context/ReferralContext';
+import Loader from '@/components/Features/Loader';
+
+const SkeletonCard = () => (
+  <div className="h-56 w-full animate-pulse rounded-xl bg-gray-700"></div>
+);
 
 const IntroducingClans = () => {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [delayPassed, setDelayPassed] = useState(false);
 
   const { clans, loading, error, setSelectedCardId, fetchClans } = useClan();
   const { userData, fetchUserData } = useUser();
@@ -24,29 +30,29 @@ const IntroducingClans = () => {
   const hasHandledReferral = useRef(false);
   const hasFetchedClans = useRef(false);
 
-  // Polling for token (every 500ms until found)
+  // Delay to control UI flicker
+  useEffect(() => {
+    const timeout = setTimeout(() => setDelayPassed(true), 300);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // Poll token and fetch clans
   useEffect(() => {
     const interval = setInterval(() => {
       const storedToken = localStorage.getItem('token');
       if (storedToken && storedToken !== 'NA') {
         setToken(storedToken);
-
-        // Call fetchClans once when token is ready
         if (!hasFetchedClans.current) {
           fetchClans(storedToken);
           hasFetchedClans.current = true;
         }
-
-        clearInterval(interval); // stop polling
-      } else {
-        console.warn('⏳ Waiting for authentication token...');
+        clearInterval(interval);
       }
     }, 100);
-
     return () => clearInterval(interval);
   }, [fetchClans]);
 
-  // Load userId from params
+  // Fetch userId and userData
   useEffect(() => {
     const userIdFromParams = params?.userId;
     if (userIdFromParams) {
@@ -59,7 +65,7 @@ const IntroducingClans = () => {
     }
   }, [params?.userId, fetchUserData]);
 
-  // Handle referral code once
+  // Handle referral once
   useEffect(() => {
     if (userId && hasReferralCode() && !hasHandledReferral.current) {
       hasHandledReferral.current = true;
@@ -82,19 +88,22 @@ const IntroducingClans = () => {
       : [];
   }, [clans]);
 
+  // Animate cards
   useEffect(() => {
-    if (!cardData.length) return;
+    if (!cardData.length || cardRefs.current.length !== cardData.length) return;
 
     cardRefs.current.forEach((ref, index) => {
       if (ref) {
-        gsap.fromTo(ref, cardData[index].from, {
-          x: 0,
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
-          delay: index * 0.2,
-        });
+        gsap.fromTo(
+          ref,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: 'power1.out',
+            delay: index * 0.05,
+          }
+        );
 
         const onEnter = () => {
           gsap.to(ref, {
@@ -122,57 +131,67 @@ const IntroducingClans = () => {
     });
   }, [cardData]);
 
-  if (!userId || loading)
-    return (
-      <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
-        <div className='text-3xl text-white'>Loading clans...</div>
-      </div>
-    );
+  const shouldShowSkeleton = delayPassed && cardData.length === 0 && !error;
+  const shouldShowNothing = !delayPassed && cardData.length === 0;
 
-  if (error)
+  if (loading && !clans?.length && !delayPassed) {
     return (
-      <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
-        <div className='text-xl text-white'>Error: {error}</div>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <Loader />
       </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div className="text-xl text-white">Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (shouldShowNothing) return null;
 
   return (
-    <section className='main-section relative flex flex-col items-center gap-2 overflow-hidden px-8 py-8'>
-      <span className='absolute top-10 left-10 z-10 hidden h-14 w-16 sm:h-10 sm:w-28 md:h-12 md:w-36 lg:block lg:h-14 lg:w-44 xl:h-16 xl:w-52 2xl:h-20 2xl:w-60'>
+    <section className="main-section relative flex flex-col items-center gap-2 overflow-hidden px-8 py-8">
+      <span className="absolute top-10 left-10 z-10 hidden h-14 w-16 sm:h-10 sm:w-28 md:h-12 md:w-36 lg:block lg:h-14 lg:w-44 xl:h-16 xl:w-52 2xl:h-20 2xl:w-60">
         <ClanLogo />
       </span>
 
-      <h1 className='mt-10 text-center text-3xl font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl'>
+      <h1 className="mt-10 text-center text-3xl font-semibold text-white md:text-4xl lg:text-4xl xl:text-5xl">
         Introducing Clans
       </h1>
 
-      <div className='xxs:gap-x-8 grid grid-cols-2 gap-x-16 gap-y-4 p-8 lg:grid-cols-4'>
-        {cardData.map((card, index) => (
-          <div
-            key={card.id}
-            ref={(el) => {
-              if (el) cardRefs.current[index] = el;
-            }}
-            onClick={() => {
-              setSelectedCardId(card.id.toString());
-              router.push('/selectClan');
-            }}
-            className='cursor-pointer'
-            draggable={false}
-          >
-            <Card
-              image={card.image}
-              title={card.title}
-              description={card.description}
-              hoverImage={card.hoverImage}
-              glowColor={card.glowColor}
-            />
-          </div>
-        ))}
+      <div className="xxs:gap-x-8 grid grid-cols-2 gap-x-16 gap-y-4 p-8 lg:grid-cols-4">
+        {cardData.length > 0
+          ? cardData.map((card, index) => (
+              <div
+                key={card.id}
+                ref={(el) => {
+                  if (el) cardRefs.current[index] = el;
+                }}
+                onClick={() => {
+                  setSelectedCardId(card.id.toString());
+                  router.push('/selectClan');
+                }}
+                className="cursor-pointer"
+                draggable={false}
+              >
+                <Card
+                  image={card.image}
+                  title={card.title}
+                  description={card.description}
+                  hoverImage={card.hoverImage}
+                  glowColor={card.glowColor}
+                />
+              </div>
+            ))
+          : shouldShowSkeleton &&
+            Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)}
       </div>
 
-      <p className='hidden text-xl font-semibold md:block'>
-        Choose your <span className='text-pink-600'>"CLAN"</span>
+      <p className="hidden text-xl font-semibold md:block">
+        Choose your <span className="text-pink-600">"CLAN"</span>
       </p>
     </section>
   );
