@@ -26,7 +26,7 @@ const Card = ({ image, hoverImage, title, glowColor = 'red' }: CardProps) => {
     >
       {/* Card Container */}
       <div
-        className='relative h-[280px] w-[158px] md:h-[300px] md:w-[200px] lg:h-[400px] lg:w-[220px] xl:h-[480px] xl:w-[268px]'
+        className='relative h-[280px] w-[158px] md:h-[300px] md:w-[200px] lg2:h-[400px] lg2:w-[220px] xl:h-[480px] xl:w-[268px]'
         style={{
           transition: 'border 0.3s ease, box-shadow 0.3s ease',
         }}
