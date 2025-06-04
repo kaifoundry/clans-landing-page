@@ -13,7 +13,7 @@ interface CommonRoaringProps {
   isLoading: boolean;
   openModal: () => void;
   closeModal: () => void;
-  callTwitterAuthAPI: () => Promise<string>;
+  callTwitterAuthAPI:()=> void;
   avatarLeftRef: RefObject<HTMLImageElement | null>;
   avatarRightRef?: RefObject<HTMLImageElement | null>;
 }
@@ -68,20 +68,14 @@ const StartRoaringPage = React.memo(
       const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
 
       // Fetch web auth URL
-      let twitterWebLogin = '';
-      try {
-        twitterWebLogin = await callTwitterAuthAPI();
-      } catch (err) {
-        console.error('Failed to get Twitter auth URL', err);
-        return;
-      }
+      
 
       const userAgent = navigator.userAgent;
       const isMobile = /android|iphone|ipad|ipod/i.test(userAgent);
 
       // Desktop fallback
       if (!isMobile) {
-        window.location.href = twitterWebLogin;
+        callTwitterAuthAPI();
         return;
       }
 
@@ -125,7 +119,7 @@ const StartRoaringPage = React.memo(
       // Final web fallback
       await wait(8000);
       if (appStoreTab && !appStoreTab.closed) appStoreTab.close();
-      window.location.href = twitterWebLogin;
+      callTwitterAuthAPI();
     }
 
     // Helper function for cleaner waiting
