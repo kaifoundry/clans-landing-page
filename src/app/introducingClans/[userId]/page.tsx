@@ -30,62 +30,27 @@ const IntroducingClans = () => {
   const hasHandledReferral = useRef(false);
   const hasFetchedClans = useRef(false);
 
-  console.log('token mil raha', token);
-  // Polling for token (every 500ms until found)
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const storedToken = localStorage.getItem('token');
-  //     if (storedToken && storedToken !== 'NA') {
-  //       setToken(storedToken);
-
-  //       // Call fetchClans once when token is ready
-  //       if (!hasFetchedClans.current) {
-  //         fetchClans(storedToken );
-  //         hasFetchedClans.current = true;
-  //       }
-
-  //       clearInterval(interval); // stop polling
-  //     } else {
-  //       console.warn('⏳ Waiting for authentication token...');
-  //     }
-  //   }, 100);
-
-  //   return () => clearInterval(interval);
-  // }, [fetchClans]);
-
-  // Set token
+  // Delay to control UI flicker
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken && storedToken !== 'NA') {
-      setToken(storedToken);
-    }
-  }, [token]);
-
-  // Refetch clans
-  useEffect(() => {
-    if (token && !hasFetchedClans.current) {
-      console.log('Fetching with token:', token);
-      fetchClans(token);
-      hasFetchedClans.current = true;
-    }
-  }, [token, fetchClans]);
-
-  //  Handle token change
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'token') {
-        const newToken = e.newValue;
-        if (newToken && newToken !== 'NA') {
-          setToken(newToken);
-          hasFetchedClans.current = false;
-        }
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    const timeout = setTimeout(() => setDelayPassed(true), 300);
+    return () => clearTimeout(timeout);
   }, []);
 
+  // Poll token and fetch clans
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const storedToken = localStorage.getItem('token');
+      if (storedToken && storedToken !== 'NA') {
+        setToken(storedToken);
+        if (!hasFetchedClans.current) {
+          fetchClans(storedToken);
+          hasFetchedClans.current = true;
+        }
+        clearInterval(interval);
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, [fetchClans]);
 
   // Fetch userId and userData
   useEffect(() => {
