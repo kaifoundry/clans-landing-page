@@ -53,84 +53,85 @@ const StartRoaringPage = React.memo(
         );
       }
     }, [isModalOpen]);
-    
-      const handleLogin = useCallback(() => {
-    openTwitterLogin().catch(console.error);
-  }, []);
-async function openTwitterLogin() {
-  // Ensure we're in browser environment
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-  const twitterDeepLink = 'twitter://';
-  const twitterPlayStore = 'https://play.google.com/store/apps/details?id=com.twitter.android';
-  const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
+    const handleLogin = useCallback(() => {
+      openTwitterLogin().catch(console.error);
+    }, []);
+    async function openTwitterLogin() {
+      // Ensure we're in browser environment
+      if (typeof window === 'undefined' || typeof document === 'undefined')
+        return;
 
-  // Fetch web auth URL
-  let twitterWebLogin = '';
-  try {
-    twitterWebLogin = await callTwitterAuthAPI();
-  } catch (err) {
-    console.error('Failed to get Twitter auth URL', err);
-    return;
-  }
+      const twitterDeepLink = 'twitter://';
+      const twitterPlayStore =
+        'https://play.google.com/store/apps/details?id=com.twitter.android';
+      const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
 
-  const userAgent = navigator.userAgent;
-  const isMobile = /android|iphone|ipad|ipod/i.test(userAgent);
-  
-  // Desktop fallback
-  if (!isMobile) {
-    window.location.href = twitterWebLogin;
-    return;
-  }
+      // Fetch web auth URL
+      let twitterWebLogin = '';
+      try {
+        twitterWebLogin = await callTwitterAuthAPI();
+      } catch (err) {
+        console.error('Failed to get Twitter auth URL', err);
+        return;
+      }
 
-  const appStoreUrl = /android/i.test(userAgent) 
-    ? twitterPlayStore 
-    : twitterAppStore;
+      const userAgent = navigator.userAgent;
+      const isMobile = /android|iphone|ipad|ipod/i.test(userAgent);
 
-  let appOpened = false;
-  let appStoreTab: Window | null = null;
+      // Desktop fallback
+      if (!isMobile) {
+        window.location.href = twitterWebLogin;
+        return;
+      }
 
-  // App detection handler
-  const handleAppOpen = () => {
-    appOpened = true;
-    removeEventListeners();
-  };
+      const appStoreUrl = /android/i.test(userAgent)
+        ? twitterPlayStore
+        : twitterAppStore;
 
-  // Cleanup function
-  const removeEventListeners = () => {
-    document.removeEventListener('visibilitychange', handleAppOpen);
-    window.removeEventListener('blur', handleAppOpen);
-    window.removeEventListener('pagehide', handleAppOpen);
-  };
+      let appOpened = false;
+      let appStoreTab: Window | null = null;
 
-  // Set up detection
-  document.addEventListener('visibilitychange', handleAppOpen);
-  window.addEventListener('blur', handleAppOpen);
-  window.addEventListener('pagehide', handleAppOpen);
+      // App detection handler
+      const handleAppOpen = () => {
+        appOpened = true;
+        removeEventListeners();
+      };
 
-  // Attempt to open Twitter app
-  window.location.href = twitterDeepLink;
+      // Cleanup function
+      const removeEventListeners = () => {
+        document.removeEventListener('visibilitychange', handleAppOpen);
+        window.removeEventListener('blur', handleAppOpen);
+        window.removeEventListener('pagehide', handleAppOpen);
+      };
 
-  // Wait and check if app opened
-  await wait(1500);
-  
-  if (appOpened) return;
-  removeEventListeners();
+      // Set up detection
+      document.addEventListener('visibilitychange', handleAppOpen);
+      window.addEventListener('blur', handleAppOpen);
+      window.addEventListener('pagehide', handleAppOpen);
 
-  // Open app store as fallback
-  appStoreTab = window.open(appStoreUrl, '_blank');
-  
-  // Final web fallback
-  await wait(8000);
-  if (appStoreTab && !appStoreTab.closed) appStoreTab.close();
-  window.location.href = twitterWebLogin;
-}
+      // Attempt to open Twitter app
+      window.location.href = twitterDeepLink;
 
-// Helper function for cleaner waiting
-function wait(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+      // Wait and check if app opened
+      await wait(1500);
 
+      if (appOpened) return;
+      removeEventListeners();
+
+      // Open app store as fallback
+      appStoreTab = window.open(appStoreUrl, '_blank');
+
+      // Final web fallback
+      await wait(8000);
+      if (appStoreTab && !appStoreTab.closed) appStoreTab.close();
+      window.location.href = twitterWebLogin;
+    }
+
+    // Helper function for cleaner waiting
+    function wait(ms: number): Promise<void> {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 
     return (
       <>
