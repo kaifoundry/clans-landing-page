@@ -85,6 +85,11 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
         <div className='text-xl text-white'>Error: {error}</div>
       </div>
     );
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const audio = new Audio('/sounds/click.mp3');
+    audio.play();
+  };
   return (
     <section className="relative flex min-h-screen flex-col overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center">
       <div className='mx-auto flex w-full max-w-screen-2xl flex-grow flex-col gap-20 px-8 py-20 md:gap-x-4 2xl:gap-x-12'>
@@ -100,11 +105,11 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               }}
             ></div>
 
-            <h2 className='font-bold text-white md:text-4xl lg:text-4xl'>
+            <h2 className='lg2:text-4xl font-bold text-white md:text-4xl'>
               {displayedTitle}
             </h2>
           </div>
-          <p className='my-2 font-semibold text-white md:text-xl lg:text-3xl'>
+          <p className='lg2:text-3xl my-2 font-semibold text-white md:text-xl'>
             {displayedDescription}
           </p>
         </div>
@@ -150,7 +155,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               }}
               className={clsx(
                 'group relative cursor-pointer transition-all duration-500',
-                'h-[280px] w-[158px] md:h-[200px] md:w-[100px] lg:h-[300px] lg:w-[150px] xl:h-[400px] xl:w-[220px]',
+                'lg2:h-[300px] lg2:w-[150px] h-[280px] w-[158px] md:h-[200px] md:w-[100px] xl:h-[400px] xl:w-[220px]',
                 activeIndex === index ? 'scale-105' : 'scale-100'
               )}
               id={`card-${clan.id}`}
@@ -183,7 +188,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               <h3
                 className={clsx(
                   'absolute w-full text-center font-bold text-white',
-                  'bottom-[-40px] md:bottom-[-30px] lg:bottom-[-40px] xl:bottom-[-50px]',
+                  'lg2:bottom-[-40px] bottom-[-40px] md:bottom-[-30px] xl:bottom-[-50px]',
                   'lg:text-xl'
                 )}
                 style={{
@@ -198,16 +203,19 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               <div
                 className={clsx(
                   'absolute left-0 flex w-full justify-center transition-opacity duration-300',
-                  'bottom-[-80px] md:bottom-[-60px] lg:bottom-[-80px] xl:bottom-[-120px]',
+                  'lg2:bottom-[-80px] bottom-[-80px] md:bottom-[-60px] xl:bottom-[-120px]',
                   activeIndex === index ? 'opacity-100' : 'opacity-0'
                 )}
               >
                 <button
-                  onClick={() => handleJoinClan(clan.id)}
-                  className='group relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[20px] md:w-[100px] lg:h-[30px] lg:w-[150px] xl:h-[60px] xl:w-[220px]'
+                  onClick={(e) => {
+                    handleClick(e);
+                    handleJoinClan(clan.id);
+                  }}
+                  className='group lg2:h-[30px] lg2:w-[150px] relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[20px] md:w-[100px] xl:h-[60px] xl:w-[220px]'
                 >
                   <StartButtonBorder />
-                  <span className='absolute inset-0 z-10 flex items-center justify-center text-base font-semibold tracking-wide text-white sm:text-lg md:text-xs lg:text-sm xl:text-xl'>
+                  <span className='lg2:text-sm absolute inset-0 z-10 flex items-center justify-center text-base font-semibold tracking-wide text-white sm:text-lg md:text-xs xl:text-xl'>
                     Join Clan
                   </span>
                 </button>
