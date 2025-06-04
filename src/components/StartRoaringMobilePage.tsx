@@ -57,55 +57,57 @@ const StartRoaringPage = React.memo(
     const handleLogin = useCallback(() => {
       openTwitterLogin().catch(console.error);
     }, []);
- async function openTwitterLogin() {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    async function openTwitterLogin() {
+      if (typeof window === 'undefined' || typeof document === 'undefined')
+        return;
 
-  const twitterDeepLink = 'twitter://';
-  const twitterIntent = 'intent://#Intent;package=com.twitter.android;scheme=twitter;end';
-  const twitterPlayStore = 'https://play.google.com/store/apps/details?id=com.twitter.android';
-  const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
+      const twitterDeepLink = 'twitter://';
+      const twitterIntent =
+        'intent://#Intent;package=com.twitter.android;scheme=twitter;end';
+      const twitterPlayStore =
+        'https://play.google.com/store/apps/details?id=com.twitter.android';
+      const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
 
-  const userAgent = navigator.userAgent.toLowerCase();
-  const isAndroid = userAgent.includes('android');
-  const isIOS = /iphone|ipad|ipod/.test(userAgent);
-  const isMobile = isAndroid || isIOS;
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isAndroid = userAgent.includes('android');
+      const isIOS = /iphone|ipad|ipod/.test(userAgent);
+      const isMobile = isAndroid || isIOS;
 
-  if (!isMobile) {
-    callTwitterAuthAPI(); // Desktop fallback
-    return;
-  }
-
-  let appOpened = false;
-
-  const handleReturnFromApp = () => {
-    appOpened = true;
-    cleanup();
-    callTwitterAuthAPI();
-  };
-
-  const cleanup = () => {
-    document.removeEventListener('visibilitychange', handleReturnFromApp);
-  };
-
-  document.addEventListener('visibilitychange', handleReturnFromApp);
-
-  if (isAndroid) {
-    // Best for Android: tries app, falls back to Play Store if not installed
-    window.location.href = twitterIntent;
-  } else {
-    // iOS: open deep link
-    window.location.href = twitterDeepLink;
-
-    // Fallback to App Store if app not opened in 1.5s
-    setTimeout(() => {
-      if (!appOpened) {
-        cleanup();
-        window.location.href = twitterAppStore;
+      if (!isMobile) {
+        callTwitterAuthAPI(); // Desktop fallback
+        return;
       }
-    }, 1500);
-  }
-}
 
+      let appOpened = false;
+
+      const handleReturnFromApp = () => {
+        appOpened = true;
+        cleanup();
+        callTwitterAuthAPI();
+      };
+
+      const cleanup = () => {
+        document.removeEventListener('visibilitychange', handleReturnFromApp);
+      };
+
+      document.addEventListener('visibilitychange', handleReturnFromApp);
+
+      if (isAndroid) {
+        // Best for Android: tries app, falls back to Play Store if not installed
+        window.location.href = twitterIntent;
+      } else {
+        // iOS: open deep link
+        window.location.href = twitterDeepLink;
+
+        // Fallback to App Store if app not opened in 1.5s
+        setTimeout(() => {
+          if (!appOpened) {
+            cleanup();
+            window.location.href = twitterAppStore;
+          }
+        }, 1500);
+      }
+    }
 
     return (
       <>
