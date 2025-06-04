@@ -34,7 +34,7 @@ export default function Button({
       minHeight: undefined,
     }),
   };
-   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!disabled) {
       const audio = new Audio('/sounds/click.mp3'); // Place click.mp3 in your public folder
       audio.play();
