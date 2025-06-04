@@ -35,6 +35,11 @@ const MainPage = ({
       { x: 0, opacity: 1, duration: 1.5, ease: 'power3.out', delay: 0.2 }
     );
   }, []);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      const audio = new Audio('/sounds/click.mp3'); 
+      audio.play();
+
+  };
 
   return (
     <section className='relative flex h-screen items-center justify-center overflow-hidden bg-black text-white'>
@@ -77,7 +82,8 @@ const MainPage = ({
           </div>
           <div className='z-10 mx-auto flex items-center justify-center'>
             <Link href='/startRoaring' prefetch>
-              <button className='group relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px] lg:h-[70px] lg:w-[280px]'>
+              <button className='group relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px] lg:h-[70px] lg:w-[280px]'
+                onClick={handleClick}>
                 <StartButtonBorder />
                 <span className='absolute inset-0 z-10 flex items-center justify-center text-base font-semibold tracking-wide text-white sm:text-lg lg:text-xl'>
                   Start Now
