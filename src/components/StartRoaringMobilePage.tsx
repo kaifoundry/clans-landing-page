@@ -13,7 +13,7 @@ interface CommonRoaringProps {
   isLoading: boolean;
   openModal: () => void;
   closeModal: () => void;
-  callTwitterAuthAPI:()=> void;
+  callTwitterAuthAPI: () => void;
   avatarLeftRef: RefObject<HTMLImageElement | null>;
   avatarRightRef?: RefObject<HTMLImageElement | null>;
 }
@@ -68,7 +68,6 @@ const StartRoaringPage = React.memo(
       const twitterAppStore = 'https://apps.apple.com/app/twitter/id333903271';
 
       // Fetch web auth URL
-      
 
       const userAgent = navigator.userAgent;
       const isMobile = /android|iphone|ipad|ipod/i.test(userAgent);
