@@ -116,7 +116,6 @@ const JoinWaitlist = () => {
       });
       if (success) {
         setSelectedCardId(pendingClanId);
-        router.push('/CardPage');
       } else {
         // Don't redirect on error
         toast.error('You have already joined the clan.');
