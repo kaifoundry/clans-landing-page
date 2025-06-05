@@ -186,7 +186,7 @@ const SelectClan: React.FC<SelectClanProps> = ({
               key={avatarImage}
               src={avatarImage}
               alt='bgAvatar'
-              className='fixed right-0 bottom-0 z-0 h-[500px] w-[250px]'
+              className='pointer-events-none fixed right-0 bottom-0 z-0 h-[500px] w-[250px]'
               width={250}
               height={270}
               draggable={false}
@@ -197,7 +197,10 @@ const SelectClan: React.FC<SelectClanProps> = ({
               style={{
                 maxHeight: '60vh',
                 maxWidth: '80vw',
+                pointerEvents: 'none',
+                touchAction: 'none',
               }}
+              onTouchStart={(e) => e.preventDefault()}
             />
           )}
         </AnimatePresence>
