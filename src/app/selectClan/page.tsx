@@ -99,9 +99,9 @@ export default function SelectClan() {
       return;
     }
 
-        localStorage.setItem('joinedClanId', pendingClanId);
-        setSelectedCardId(pendingClanId);
-        router.push('/CardPage');
+    localStorage.setItem('joinedClanId', pendingClanId);
+    setSelectedCardId(pendingClanId);
+    router.push('/CardPage');
   };
 
   useEffect(() => {

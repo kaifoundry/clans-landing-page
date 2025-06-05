@@ -16,10 +16,7 @@ const JoinWaitlist = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [pendingClanId, setPendingClanId] = useState<string | null>(null);
-   const {
-      setSelectedCardId,
-      joinClan,
-    } = useClan();
+  const { setSelectedCardId, joinClan } = useClan();
   useEffect(() => {
     setHasMounted(true);
     // Get user data from localStorage
@@ -35,14 +32,14 @@ const JoinWaitlist = () => {
       toast.error('Please log in to join the waitlist');
     }
   }, []);
-  
+
   useEffect(() => {
     const storedId = localStorage.getItem('joinedClanId');
     if (storedId) {
       setPendingClanId(storedId);
     }
   }, []);
-  
+
   const handleJoinWaitlist = async () => {
     if (!userData || !userData.userId) {
       toast.error('User ID not found. Please login again.');
@@ -128,7 +125,7 @@ const JoinWaitlist = () => {
       // Don't redirect on error
       toast.error('Failed to join clan due to network or server error.');
     }
-  }; 
+  };
 
   const handleJoinBoth = async () => {
     setIsLoading(true);
@@ -163,7 +160,7 @@ const JoinWaitlist = () => {
       setIsLoading(false);
     }
   };
-  
+
   if (!hasMounted) {
     return null;
   }

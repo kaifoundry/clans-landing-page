@@ -43,15 +43,13 @@ export default function StartRoaring() {
     } catch (error) {
       console.error('Twitter authentication failed:', error);
       toast.error('Authentication failed. Please try again.');
-    }finally{
+    } finally {
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
-     
     }
   }, [getAuthUrl, setIsLoading]);
- 
-  
+
   const openModal = useCallback(() => setIsModalOpen(true), []);
   const closeModal = useCallback(() => setIsModalOpen(false), []);
 
