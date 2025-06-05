@@ -5,6 +5,7 @@ import StartRoaringMobile from '@/components/StartRoaringMobilePage';
 import StartRoaringDesktop from '@/components/startRoaringDesktop';
 import { useReferral } from '@/context/ReferralContext';
 import { gsap } from 'gsap';
+import toast from 'react-hot-toast';
 
 const debounce = (func: Function, wait: number) => {
   let timeout: NodeJS.Timeout;
@@ -40,7 +41,12 @@ export default function StartRoaring() {
       sessionStorage.setItem('redirectUrl', currentUrl);
       window.location.assign(authUrl);
     } catch (error) {
-      setIsLoading(false);
+      console.error('Twitter authentication failed:', error);
+      toast.error('Authentication failed. Please try again.');
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   }, [getAuthUrl, setIsLoading]);
 

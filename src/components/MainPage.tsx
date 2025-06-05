@@ -97,7 +97,7 @@ const MainPage = ({
         {/* md:w-[350px] xl:w-[600px] 2xl:w-[600px] */}
         <Image
           ref={avatarLeftRef}
-          src='/Images/gettingStarted/leftavtar.png'
+          src='/Images/gettingStarted/leftavtar.svg'
           width={550}
           height={600}
           alt='Avatar Left'
@@ -107,7 +107,7 @@ const MainPage = ({
         {/* md:w-[320px] xl:w-[620px] 2xl:w-[620px] */}
         <Image
           ref={avatarRightRef}
-          src='/Images/gettingStarted/rightavtar.png'
+          src='/Images/gettingStarted/rightavtar.svg'
           width={580}
           height={600}
           alt='Avatar Right'
