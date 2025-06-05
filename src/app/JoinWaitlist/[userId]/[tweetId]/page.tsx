@@ -40,14 +40,11 @@ const JoinWaitlist = () => {
     }
   }, []);
 
-  const handleJoinWaitlist = async () => {
-    if (!userData || !userData.userId) {
+  const handleJoinWaitlist = async (): Promise<boolean> => {
+    if (!userData?.userId) {
       toast.error('User ID not found. Please login again.');
-      return;
+      return false;
     }
-
-    setIsLoading(true);
-    const uuid = uuidv4();
 
     try {
       const apiUrl = `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
@@ -64,49 +61,33 @@ const JoinWaitlist = () => {
 
       const data = await response.json();
 
-      // ✅ If the backend responds with success but says already an early user
-      if (data.message && data.message.includes('is already an early user')) {
+      if (data.message?.includes('is already an early user')) {
         toast.success("You're already on the waitlist!");
-        router.push('/ConfirmationPage');
-        return;
+        return true;
       }
 
-      // ❌ If response is NOT ok, check and throw error with message
       if (!response.ok) {
         throw new Error(data.message || 'Failed to join waitlist.');
       }
 
-      // ✅ Successful response
       toast.success('Successfully joined the waitlist!');
-      router.push('/ConfirmationPage');
+      return true;
     } catch (error) {
       console.error('Error joining waitlist:', error);
-
-      // ✅ Handle case: already early user, even in catch block
-      // if (
-      //   error instanceof Error &&
-      //   error.message.includes('is already an early user')
-      // ) {
-      //   toast.success("You're already on the waitlist!");
-      //   router.push('/ConfirmationPage');
-      //   return;
-      // }
-
-      // ❌ Other errors
       toast.error('Failed to join waitlist. Please try again.');
-    } finally {
-      setIsLoading(false);
+      return false;
     }
   };
 
-  const handleConfirmJoin = async () => {
+  const handleConfirmJoin = async (): Promise<boolean> => {
     const userData = localStorage.getItem('userData');
     const user = userData ? JSON.parse(userData) : null;
     const storedUserId = user?.userId;
     const pendingClanId = localStorage.getItem('joinedClanId');
+
     if (!storedUserId || !pendingClanId) {
       toast.error('Missing user or clan ID.');
-      return;
+      return false;
     }
 
     try {
@@ -114,44 +95,32 @@ const JoinWaitlist = () => {
         userId: storedUserId,
         clanId: pendingClanId,
       });
+
       if (success) {
         setSelectedCardId(pendingClanId);
-      } else {
-        // Don't redirect on error
-        toast.error('You have already joined the clan.');
+        return true;
       }
+
+      toast.error('You have already joined the clan.');
+      return false;
     } catch (error) {
-      // Don't redirect on error
       toast.error('Failed to join clan due to network or server error.');
+      return false;
     }
   };
 
   const handleJoinBoth = async () => {
     setIsLoading(true);
+
     try {
-      const results = await Promise.allSettled([
+      const [waitlistSuccess, clanSuccess] = await Promise.all([
         handleJoinWaitlist(),
         handleConfirmJoin(),
       ]);
 
-      const waitlistResult = results[0];
-      const confirmResult = results[1];
-
-      // Check if both succeeded
-      if (
-        waitlistResult.status === 'fulfilled' &&
-        confirmResult.status === 'fulfilled'
-      ) {
-        // Both succeeded - you can do post-success logic here
-        console.log('Both joined successfully!');
-      } else {
-        // At least one failed - show error accordingly
-        if (waitlistResult.status === 'rejected') {
-          toast.error('Failed to join waitlist.');
-        }
-        if (confirmResult.status === 'rejected') {
-          toast.error('Failed to join clan.');
-        }
+      // Only redirect if both succeeded
+      if (waitlistSuccess && clanSuccess) {
+        router.push('/ConfirmationPage');
       }
     } catch (error) {
       toast.error('Unexpected error occurred.');
