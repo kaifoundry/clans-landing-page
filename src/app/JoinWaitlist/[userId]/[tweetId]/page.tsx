@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import ClanLogo from '@/components/ClanLogoMobile';
 import { v4 as uuidv4 } from 'uuid';
 import { ENV } from '@/constant/envvariables';
+import { useClan } from '@/context/ClanContext';
 
 const JoinWaitlist = () => {
   const router = useRouter();
@@ -14,7 +15,11 @@ const JoinWaitlist = () => {
   const [userData, setUserData] = useState<{ userId: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
-
+  const [pendingClanId, setPendingClanId] = useState<string | null>(null);
+   const {
+      setSelectedCardId,
+      joinClan,
+    } = useClan();
   useEffect(() => {
     setHasMounted(true);
     // Get user data from localStorage
@@ -30,7 +35,14 @@ const JoinWaitlist = () => {
       toast.error('Please log in to join the waitlist');
     }
   }, []);
-
+  
+  useEffect(() => {
+    const storedId = localStorage.getItem('joinedClanId');
+    if (storedId) {
+      setPendingClanId(storedId);
+    }
+  }, []);
+  
   const handleJoinWaitlist = async () => {
     if (!userData || !userData.userId) {
       toast.error('User ID not found. Please login again.');
@@ -90,6 +102,68 @@ const JoinWaitlist = () => {
     }
   };
 
+  const handleConfirmJoin = async () => {
+    const userData = localStorage.getItem('userData');
+    const user = userData ? JSON.parse(userData) : null;
+    const storedUserId = user?.userId;
+    const pendingClanId = localStorage.getItem('joinedClanId');
+    if (!storedUserId || !pendingClanId) {
+      toast.error('Missing user or clan ID.');
+      return;
+    }
+
+    try {
+      const success = await joinClan({
+        userId: storedUserId,
+        clanId: pendingClanId,
+      });
+      if (success) {
+        setSelectedCardId(pendingClanId);
+        router.push('/CardPage');
+      } else {
+        // Don't redirect on error
+        toast.error('You have already joined the clan.');
+      }
+    } catch (error) {
+      // Don't redirect on error
+      toast.error('Failed to join clan due to network or server error.');
+    }
+  }; 
+
+  const handleJoinBoth = async () => {
+    setIsLoading(true);
+    try {
+      const results = await Promise.allSettled([
+        handleJoinWaitlist(),
+        handleConfirmJoin(),
+      ]);
+
+      const waitlistResult = results[0];
+      const confirmResult = results[1];
+
+      // Check if both succeeded
+      if (
+        waitlistResult.status === 'fulfilled' &&
+        confirmResult.status === 'fulfilled'
+      ) {
+        // Both succeeded - you can do post-success logic here
+        console.log('Both joined successfully!');
+      } else {
+        // At least one failed - show error accordingly
+        if (waitlistResult.status === 'rejected') {
+          toast.error('Failed to join waitlist.');
+        }
+        if (confirmResult.status === 'rejected') {
+          toast.error('Failed to join clan.');
+        }
+      }
+    } catch (error) {
+      toast.error('Unexpected error occurred.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
   if (!hasMounted) {
     return null;
   }
@@ -114,7 +188,7 @@ const JoinWaitlist = () => {
 
       <Button
         ButtonText={isLoading ? 'Processing...' : 'Join Waitlist'}
-        onClick={handleJoinWaitlist}
+        onClick={handleJoinBoth}
         disabled={isLoading || !userData}
         width={270}
         height={75}

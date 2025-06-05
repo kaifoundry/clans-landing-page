@@ -167,7 +167,7 @@ const ConfirmationPage = ({
       {/* src='/Images/gettingStarted/avtar1.png' */}
       <Image
         ref={avatarLeftRef}
-        src='/Images/gettingStarted/leftavtar.png'
+        src='/Images/gettingStarted/leftavtar.svg'
         width={500}
         height={500}
         alt='Avatar Left'
@@ -177,7 +177,7 @@ const ConfirmationPage = ({
       {/* src='/Images/gettingStarted/avtar2_.png' */}
       <Image
         ref={avatarRightRef}
-        src='/Images/gettingStarted/rightavtar.png'
+        src='/Images/gettingStarted/rightavtar.svg'
         width={500}
         height={500}
         alt='Avatar Right'

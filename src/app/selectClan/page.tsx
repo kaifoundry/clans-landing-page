@@ -99,22 +99,9 @@ export default function SelectClan() {
       return;
     }
 
-    try {
-      const success = await joinClan({
-        userId: storedUserId,
-        clanId: pendingClanId,
-      });
-      if (success) {
+        localStorage.setItem('joinedClanId', pendingClanId);
         setSelectedCardId(pendingClanId);
         router.push('/CardPage');
-      } else {
-        // Don't redirect on error
-        toast.error('You have already joined the clan.');
-      }
-    } catch (error) {
-      // Don't redirect on error
-      toast.error('Failed to join clan due to network or server error.');
-    }
   };
 
   useEffect(() => {
