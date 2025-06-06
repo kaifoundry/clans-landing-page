@@ -468,7 +468,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return true;
       }
 
-      toast.error('You have already joined the clan.');
+      // toast.error('You have already joined the clan.');
       return false;
     } catch (error) {
       toast.error('Failed to join clan due to network or server error.');
