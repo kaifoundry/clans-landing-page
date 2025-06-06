@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
 import { RefObject } from 'react';
+import Button from './Button';
 
 interface ConfirmationPageProps {
   isMuted: boolean;
@@ -90,7 +91,7 @@ const ConfirmationPage = ({
         </div>
 
         {/* Heading */}
-        <h1 className='lg2:text-6xl mb-4 text-3xl leading-snug font-bold sm:text-4xl md:text-5xl xl:text-7xl'>
+        <h1 className='lg2:text-6xl mb-4 text-3xl leading-none font-bold sm:text-4xl md:text-5xl xl:text-7xl'>
           {firstLine}
           <br />
           {secondLine}
@@ -162,6 +163,13 @@ const ConfirmationPage = ({
             />
           </button>
         </div>
+        <Button
+          ButtonText='Join us on X'
+          onClick={() => window.open('https://x.com/JointheClans', '_blank')}
+          width={170}
+          height={60}
+          className='custom-button'
+        />
       </div>
       {/* Bottom Left Avatar */}
       {/* src='/Images/gettingStarted/avtar1.png' */}

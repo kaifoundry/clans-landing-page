@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import ClanLogo from './ClanLogoMobile';
+import Button from './Button';
 
 interface ConfirmationPageMobileProps {
   firstLine?: string | null;
@@ -141,6 +142,13 @@ const ConfirmationPageMobile = ({
             />
           </button>
         </div>
+        <Button
+          ButtonText='Join us on X'
+          onClick={() => window.open('https://x.com/JointheClans', '_blank')}
+          width={170}
+          height={60}
+          className='custom-button'
+        />
       </div>
     </section>
   );
