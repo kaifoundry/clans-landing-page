@@ -473,29 +473,58 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     }
   };
 
+  // const handleJoinBoth = async () => {
+  //   setIsLoading(true);
+
+  //   try {
+  //     const [waitlistSuccess, clanSuccess] = await Promise.all([
+  //       handleStartRoaring(),
+  //       handleConfirmJoin(),
+  //     ]);
+
+  //     // Only redirect if both succeeded
+  //     if (waitlistSuccess && clanSuccess) {
+  //       toast.success(
+  //         "Your tweet was posted successfully, and you've joined the clan!"
+  //       );
+
+  //     }
+  //   } catch (error) {
+  //     toast.error('Unexpected error occurred.');
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   const handleJoinBoth = async () => {
     setIsLoading(true);
 
     try {
-      const [waitlistSuccess, clanSuccess] = await Promise.all([
-        handleStartRoaring(),
-        handleConfirmJoin(),
-      ]);
+      // tweet posting
+      const waitlistSuccess = await handleStartRoaring();
 
-      // Only redirect if both succeeded
-      if (waitlistSuccess && clanSuccess) {
-        toast.success(
-          "Your tweet was posted successfully, and you've joined the clan!"
-        );
-
-        // router.push('/ConfirmationPage');
+      if (!waitlistSuccess) {
+        toast.error('Failed to post tweet. Please try again.');
+        return;
       }
+
+      // join clan
+      const clanSuccess = await handleConfirmJoin();
+
+      if (!clanSuccess) {
+        toast.error('Failed to join the clan. Please try again.');
+        return;
+      }
+
+      toast.success(
+        "Your tweet was posted successfully, and you've joined the clan!"
+      );
     } catch (error) {
       toast.error('Unexpected error occurred.');
     } finally {
       setIsLoading(false);
     }
   };
+
   const handleRedirect = () => {
     const tweetData = JSON.parse(localStorage.getItem('tweetData') || '{}');
     const userId = userData?.userId || '';
