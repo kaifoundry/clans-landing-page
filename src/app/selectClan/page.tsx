@@ -18,6 +18,7 @@ export default function SelectClan() {
     selectedCardId,
     setSelectedCardId,
     joinClan,
+    checkUserJoinedClan,
     fetchClans,
   } = useClan();
 
@@ -88,6 +89,7 @@ export default function SelectClan() {
     setModalOpen(true);
   };
 
+ 
   const handleConfirmJoin = async () => {
     setModalOpen(false);
     const userData = localStorage.getItem('userData');
@@ -99,11 +101,22 @@ export default function SelectClan() {
       return;
     }
 
-    localStorage.setItem('joinedClanId', pendingClanId);
-    setSelectedCardId(pendingClanId);
-    router.push('/CardPage');
-  };
+    try {
+      const hasJoined = await checkUserJoinedClan(storedUserId);
 
+      if (hasJoined) {
+        toast.success('You are already in a clan!');
+        router.push('/ConfirmationPage');
+      } else {
+        setSelectedCardId(pendingClanId);
+        localStorage.setItem('joinedClanId', pendingClanId);
+        router.push('/CardPage'); 
+      }
+    } catch (error) {
+      toast.error('Failed to check clan status.');
+      console.error('Clan membership check error:', error);
+    }
+  };
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);

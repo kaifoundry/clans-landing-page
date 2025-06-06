@@ -33,6 +33,7 @@ interface ClanContextType {
   error: string | null;
   fetchClans: (token?: string) => Promise<void>;
   joinClan: (joinData: JoinClanData) => Promise<boolean>;
+  checkUserJoinedClan: (userId: string) => Promise<boolean>;
   selectedCardId: string | null;
   setSelectedCardId: (id: string | null) => void;
 }
@@ -166,6 +167,45 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     }
   };
 
+
+  const checkUserJoinedClan = async (userId: string): Promise<boolean> => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token || token === 'NA') {
+        throw new Error('Authentication required');
+      }
+
+      const response = await fetch(
+        `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/check?userId=${userId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to check clan membership');
+      }
+
+      
+      if (typeof data.hasJoined !== 'boolean') {
+        console.warn(
+          'Unexpected response format from checkjoined-clan endpoint'
+        );
+        return false;
+      }
+
+      return data.hasJoined;
+    } catch (error) {
+      console.error('Error checking clan membership:', error);
+      throw error; 
+    }
+  };
   return (
     <ClanContext.Provider
       value={{
@@ -174,6 +214,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         error,
         fetchClans,
         joinClan: handleJoinClan,
+        checkUserJoinedClan,
         selectedCardId,
         setSelectedCardId: handleSetSelectedCardId,
       }}

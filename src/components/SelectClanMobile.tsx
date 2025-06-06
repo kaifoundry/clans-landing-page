@@ -4,6 +4,7 @@ import Button from '@/components/Button';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SelectClanDesktopProps } from './SelectClanDesktop';
+import Image from 'next/image';
 export interface SelectClanMobileProps {
   clanColor: string;
   setClanColor: React.Dispatch<React.SetStateAction<string>>;
@@ -84,22 +85,7 @@ const SelectClan: React.FC<SelectClanProps> = ({
                     setDisplayedDescription(clan.description);
                   }
                 }}
-                onMouseEnter={() => {
-                  setHoveredIndex(index);
-                  setAvatarImage(clan.cardImage);
-                  setDisplayedTitle(clan.title);
-                  setDisplayedDescription(clan.description);
-                  setClanColor(clan.glowColor);
-                }}
-                onMouseLeave={() => {
-                  setHoveredIndex(null);
-                  if (activeIndex !== null) {
-                    const active = cardData[activeIndex];
-                    setAvatarImage(active.cardImage);
-                    setDisplayedTitle(active.title);
-                    setDisplayedDescription(active.description);
-                  }
-                }}
+               
                 className={clsx(
                   'relative h-[145px] w-[85px] cursor-pointer',
                   activeIndex === index ? 'scale-105' : 'scale-100'
@@ -186,7 +172,7 @@ const SelectClan: React.FC<SelectClanProps> = ({
               key={avatarImage}
               src={avatarImage}
               alt='bgAvatar'
-              className='pointer-events-none fixed right-0 bottom-0 z-0 h-[500px] w-[250px]'
+              className='pointer-events-none fixed right-0 bottom-0 z-0 h-[500px] w-auto'
               width={250}
               height={270}
               draggable={false}
@@ -202,6 +188,27 @@ const SelectClan: React.FC<SelectClanProps> = ({
               }}
               onTouchStart={(e) => e.preventDefault()}
             />
+            // <motion.div
+            //   key={avatarImage}
+            //   className='pointer-events-none fixed right-0 bottom-0 z-0'
+            //   initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            //   animate={{ opacity: 1, y: 0, scale: 1 }}
+            //   exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            //   transition={{ duration: 0.5, ease: 'easeOut' }}
+            // >
+            //   <Image
+            //     src={avatarImage}
+            //     height={385}
+            //     width={385}
+            //     className='h-[500px] w-[250px] object-contain'
+            //     alt='Clan avatar'
+            //     draggable={false}
+            //     style={{
+            //       maxHeight: '60vh',
+            //       maxWidth: '80vw',
+            //     }}
+            //   />
+            // </motion.div>
           )}
         </AnimatePresence>
 
