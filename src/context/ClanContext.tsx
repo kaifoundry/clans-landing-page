@@ -167,7 +167,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     }
   };
 
-
   const checkUserJoinedClan = async (userId: string): Promise<boolean> => {
     try {
       const token = localStorage.getItem('token');
@@ -192,7 +191,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         throw new Error(data.message || 'Failed to check clan membership');
       }
 
-      
       if (typeof data.hasJoined !== 'boolean') {
         console.warn(
           'Unexpected response format from checkjoined-clan endpoint'
@@ -203,7 +201,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       return data.hasJoined;
     } catch (error) {
       console.error('Error checking clan membership:', error);
-      throw error; 
+      throw error;
     }
   };
   return (

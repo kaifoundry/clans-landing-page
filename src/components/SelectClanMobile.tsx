@@ -85,7 +85,6 @@ const SelectClan: React.FC<SelectClanProps> = ({
                     setDisplayedDescription(clan.description);
                   }
                 }}
-               
                 className={clsx(
                   'relative h-[145px] w-[85px] cursor-pointer',
                   activeIndex === index ? 'scale-105' : 'scale-100'

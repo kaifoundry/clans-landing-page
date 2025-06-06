@@ -38,7 +38,7 @@ function CardPageContent() {
   const [tweetPosted, setTweetPosted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [pendingClanId, setPendingClanId] = useState<string | null>(null);
-   const router = useRouter();
+  const router = useRouter();
   const [card, setCard] = useState<null | {
     id: string;
     title: string;
@@ -472,8 +472,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       return false;
     }
   };
-
-
 
   const handleJoinBoth = async () => {
     setIsLoading(true);

@@ -89,7 +89,6 @@ export default function SelectClan() {
     setModalOpen(true);
   };
 
- 
   const handleConfirmJoin = async () => {
     setModalOpen(false);
     const userData = localStorage.getItem('userData');
@@ -110,7 +109,7 @@ export default function SelectClan() {
       } else {
         setSelectedCardId(pendingClanId);
         localStorage.setItem('joinedClanId', pendingClanId);
-        router.push('/CardPage'); 
+        router.push('/CardPage');
       }
     } catch (error) {
       toast.error('Failed to check clan status.');
