@@ -140,7 +140,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
 
       if (res.ok) {
         if (data?.success === true) {
-          toast.success(data.message);
+          // toast.success(data.message); 
           handleSetSelectedCardId(joinData.clanId);
           // router.push('/cardPage');
           return true;
