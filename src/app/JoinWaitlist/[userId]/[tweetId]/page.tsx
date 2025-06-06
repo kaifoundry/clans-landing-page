@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 import ClanLogo from '@/components/ClanLogoMobile';
 import { v4 as uuidv4 } from 'uuid';
 import { ENV } from '@/constant/envvariables';
-import { useClan } from '@/context/ClanContext';
 
 const JoinWaitlist = () => {
   const router = useRouter();
@@ -15,8 +14,7 @@ const JoinWaitlist = () => {
   const [userData, setUserData] = useState<{ userId: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
-  const [pendingClanId, setPendingClanId] = useState<string | null>(null);
-  const { setSelectedCardId, joinClan } = useClan();
+
   useEffect(() => {
     setHasMounted(true);
     // Get user data from localStorage
@@ -33,18 +31,14 @@ const JoinWaitlist = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const storedId = localStorage.getItem('joinedClanId');
-    if (storedId) {
-      setPendingClanId(storedId);
-    }
-  }, []);
-
-  const handleJoinWaitlist = async (): Promise<boolean> => {
-    if (!userData?.userId) {
+  const handleJoinWaitlist = async () => {
+    if (!userData || !userData.userId) {
       toast.error('User ID not found. Please login again.');
-      return false;
+      return;
     }
+
+    setIsLoading(true);
+    const uuid = uuidv4();
 
     try {
       const apiUrl = `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/user/earlyUser?userId=${params.userId}&tweetId=${params.tweetId}`;
@@ -61,69 +55,36 @@ const JoinWaitlist = () => {
 
       const data = await response.json();
 
-      if (data.message?.includes('is already an early user')) {
+      // ✅ If the backend responds with success but says already an early user
+      if (data.message && data.message.includes('is already an early user')) {
         toast.success("You're already on the waitlist!");
-        return true;
+        router.push('/ConfirmationPage');
+        return;
       }
 
+      // ❌ If response is NOT ok, check and throw error with message
       if (!response.ok) {
         throw new Error(data.message || 'Failed to join waitlist.');
       }
 
+      // ✅ Successful response
       toast.success('Successfully joined the waitlist!');
-      return true;
+      router.push('/ConfirmationPage');
     } catch (error) {
       console.error('Error joining waitlist:', error);
+
+      // ✅ Handle case: already early user, even in catch block
+      // if (
+      //   error instanceof Error &&
+      //   error.message.includes('is already an early user')
+      // ) {
+      //   toast.success("You're already on the waitlist!");
+      //   router.push('/ConfirmationPage');
+      //   return;
+      // }
+
+      // ❌ Other errors
       toast.error('Failed to join waitlist. Please try again.');
-      return false;
-    }
-  };
-
-  const handleConfirmJoin = async (): Promise<boolean> => {
-    const userData = localStorage.getItem('userData');
-    const user = userData ? JSON.parse(userData) : null;
-    const storedUserId = user?.userId;
-    const pendingClanId = localStorage.getItem('joinedClanId');
-
-    if (!storedUserId || !pendingClanId) {
-      toast.error('Missing user or clan ID.');
-      return false;
-    }
-
-    try {
-      const success = await joinClan({
-        userId: storedUserId,
-        clanId: pendingClanId,
-      });
-
-      if (success) {
-        setSelectedCardId(pendingClanId);
-        return true;
-      }
-
-      toast.error('You have already joined the clan.');
-      return false;
-    } catch (error) {
-      toast.error('Failed to join clan due to network or server error.');
-      return false;
-    }
-  };
-
-  const handleJoinBoth = async () => {
-    setIsLoading(true);
-
-    try {
-      const [waitlistSuccess, clanSuccess] = await Promise.all([
-        handleJoinWaitlist(),
-        handleConfirmJoin(),
-      ]);
-
-      // Only redirect if both succeeded
-      if (waitlistSuccess && clanSuccess) {
-        router.push('/ConfirmationPage');
-      }
-    } catch (error) {
-      toast.error('Unexpected error occurred.');
     } finally {
       setIsLoading(false);
     }
@@ -153,7 +114,7 @@ const JoinWaitlist = () => {
 
       <Button
         ButtonText={isLoading ? 'Processing...' : 'Join Waitlist'}
-        onClick={handleJoinBoth}
+        onClick={handleJoinWaitlist}
         disabled={isLoading || !userData}
         width={270}
         height={75}

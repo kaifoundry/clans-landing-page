@@ -95,7 +95,7 @@ const StartRoaringPage = React.memo(
             height={500}
             width={500}
             alt='Stylized avatar character 2'
-            className='lg2:h-[500px] lg2:w-[400px] xl2:w-[500px] absolute bottom-0 left-0 z-0 h-auto w-[250px] max-w-full md:-left-0 md:z-10 md:h-[400px] md:w-[300px] xl:left-10 xl:h-[600px] xl:w-[430px] 2xl:left-20'
+            className='lg2:h-[500px] lg2:w-[400px] xl2:w-[500px] absolute bottom-0 left-0 z-0 h-auto w-[250px] max-w-full md:-left-0 md:z-10 md:h-[400px] md:w-[300px] xl:-left-2 xl:h-[600px] xl:w-[430px] 2xl:left-20'
             priority
             draggable={false}
           />
