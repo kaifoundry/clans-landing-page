@@ -46,7 +46,7 @@ export default function StartRoaring() {
     } finally {
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000);
+      }, 5000);
     }
   }, [getAuthUrl, setIsLoading]);
 

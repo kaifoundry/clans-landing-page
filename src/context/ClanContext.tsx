@@ -142,7 +142,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         if (data?.success === true) {
           toast.success(data.message);
           handleSetSelectedCardId(joinData.clanId);
-          router.push('/cardPage');
+          // router.push('/cardPage');
           return true;
         } else if (data?.success === false) {
           // Show error in toast instead of setting error state
