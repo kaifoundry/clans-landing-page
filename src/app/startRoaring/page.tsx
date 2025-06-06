@@ -6,6 +6,7 @@ import StartRoaringDesktop from '@/components/startRoaringDesktop';
 import { useReferral } from '@/context/ReferralContext';
 import { gsap } from 'gsap';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const debounce = (func: Function, wait: number) => {
   let timeout: NodeJS.Timeout;
@@ -25,7 +26,7 @@ export default function StartRoaring() {
   const avatarLeftRef = useRef<HTMLImageElement>(null);
   const avatarRightRef = useRef<HTMLImageElement>(null);
   const { getAuthUrl, isLoading, setIsLoading } = useReferral();
-
+  const router = useRouter();
   const handleResize = useCallback(
     debounce(() => {
       setIsMobile(window.innerWidth <= 768);
@@ -43,6 +44,7 @@ export default function StartRoaring() {
     } catch (error) {
       console.error('Twitter authentication failed:', error);
       toast.error('Authentication failed. Please try again.');
+      router.push('/');
     } finally {
       setTimeout(() => {
         setIsLoading(false);
