@@ -133,7 +133,10 @@ function CardPageContent() {
 
   const tweetContent = `Roar louder. Roar prouder. Pick your clan!
 
-${ENV.NEXT_PUBLIC_X_HANDLER} is shaping the attention economy for roarers. The battlegrounds have just opened. ⚔️ I've claimed my clan and started stacking my Roar Points. 🪙
+${ENV.NEXT_PUBLIC_X_HANDLER} is shaping the attention economy for roarers. 
+
+The battlegrounds have just opened.
+I've claimed my clan and started stacking my Roar Points. 
 
 Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
 
