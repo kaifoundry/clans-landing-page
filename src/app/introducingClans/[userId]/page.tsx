@@ -162,7 +162,7 @@ const IntroducingClans = () => {
         Introducing Clans
       </h1>
 
-      <div className='xxs:gap-x-8 grid grid-cols-2 gap-x-16 gap-y-4 p-8 lg2:grid-cols-4'>
+      <div className='xxs:gap-x-8 lg2:grid-cols-4 grid grid-cols-2 gap-x-16 gap-y-4 p-8'>
         {cardData.length > 0
           ? cardData.map((card, index) => (
               <div

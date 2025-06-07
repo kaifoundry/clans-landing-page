@@ -95,7 +95,7 @@ const MainPage = ({
               disabled={isLoading}
               className={`group lg2:h-[70px] lg2:w-[280px] relative z-10 min-h-[40px] w-full cursor-pointer transition-transform ${
                 isLoading
-                  ? 'opacity-50 cursor-not-allowed'
+                  ? 'cursor-not-allowed opacity-50'
                   : 'hover:scale-105 active:scale-95'
               } md:h-[79px] md:w-[307px]`}
               onClick={handleClick}

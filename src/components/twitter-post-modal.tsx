@@ -92,14 +92,14 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
         {/* Modal Content */}
         <div className='p-4 sm:p-6'>
           {/* Profile Image + Tweet Text Side by Side */}
-          <div className='flex items-start gap-4 md:px-4 mb-4 sm:mb-6'>
+          <div className='mb-4 flex items-start gap-4 sm:mb-6 md:px-4'>
             {/* Profile Picture */}
             <Image
               src={profilePic || '/Images/gettingStarted/user.png'}
               alt='userProfilePic'
               width={40}
               height={40}
-              className='h-10 w-10 rounded-full border-2 border-white object-cover flex-shrink-0'
+              className='h-10 w-10 flex-shrink-0 rounded-full border-2 border-white object-cover'
               loading='eager'
               draggable={false}
             />
@@ -110,7 +110,8 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
                 Roar louder. Roar prouder. Pick your clan!
               </p>
               <p className='text-sm text-white sm:text-base'>
-                <span className='text-blue-400'>@jointhecians</span> is shaping the attention economy for roarers.
+                <span className='text-blue-400'>@jointhecians</span> is shaping
+                the attention economy for roarers.
               </p>
               <p className='text-sm text-white sm:text-base'>
                 The battlegrounds have just opened.
@@ -155,7 +156,6 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
             </div>
           </div>
         </div>
-
       </div>
       {/* Action Buttons */}
 
