@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import ConfirmationPageDesktop from '@/components/ConfirmationPageDesktop';
 import ConfirmationPageMobile from '@/components/ConfirmationPageMobile';
 import { gsap } from 'gsap';
-
+import { ENV } from '@/constant/envvariables';
 export default function StartRoaring() {
   const [isMobile, setIsMobile] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -14,16 +14,33 @@ export default function StartRoaring() {
   const iconRef = useRef<HTMLSpanElement>(null);
   const avatarLeftRef = useRef<HTMLImageElement>(null);
   const avatarRightRef = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+   const [userData, setUserData] = useState<null | {
+    userId: string;
+    displayName: string;
+    referralCode?: string;
+    followers: string;
+    socialHandles?: {
+      username: string;
+      profilePicture: string;
+      displayName: string;
+    }[];
+  }>(null);
 
   //  website URL and  text
-  const shareUrl = 'https://clans.kilt.io';
-  const shareDomain = 'clans.kilt.io';
-  const shareText = `Check out Clans at ${shareDomain} - your decentralized identity wallet powered by the KILT Protocol!`;
+  const shareUrl = `${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
+const shareDomain = 'clans.kilt.io';
+const shareText = `A new world order for Attention. Pick your trait. Join your clan. Roar louder!`;
 
   // Get the message from the URL query params
   const searchParams = useSearchParams();
   const message =
-    searchParams.get('message') || 'You’re officially a Roarer !🎉';
+    searchParams.get('message') || 'You’re officially a Roarer !';
   const [firstLine, secondLine] = splitMessageInTwoLines(message);
 
   useEffect(() => {
