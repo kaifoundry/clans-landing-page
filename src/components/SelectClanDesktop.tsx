@@ -91,8 +91,8 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
     audio.play();
   };
   return (
-    <section className="relative flex min-h-screen flex-col overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center">
-      <div className='mx-auto flex w-full max-w-screen-2xl flex-grow flex-col gap-20 px-8 py-20 md:gap-x-4 2xl:gap-x-12'>
+    <section className="relative flex min-h-screen flex-col overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center xl:h-[90vh]">
+      <div className='mx-auto flex w-full max-w-screen-2xl flex-grow flex-col gap-20 px-8 py-10 xl:py-10 xl2:py-20 md:gap-x-4 2xl:gap-x-12'>
         <div className='text-white'>
           <div className='flex items-center gap-x-2'>
             <div
@@ -155,7 +155,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               }}
               className={clsx(
                 'group relative cursor-pointer transition-all duration-500',
-                'lg2:h-[300px] lg2:w-[150px] h-[280px] w-[158px] md:h-[200px] md:w-[100px] xl:h-[400px] xl:w-[220px]',
+                'lg2:h-[300px] lg2:w-[150px] h-[280px] w-[158px] md:h-[200px] md:w-[100px] xl:h-[50vh] xl:w-[220px]',
                 activeIndex === index ? 'scale-105' : 'scale-100'
               )}
               id={`card-${clan.id}`}
@@ -187,7 +187,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               {/* Title positioned outside at bottom */}
               <h3
                 className={clsx(
-                  'absolute w-full text-center font-bold text-white',
+                  'absolute w-full text-center font-bold text-nowrap text-white',
                   'lg2:bottom-[-40px] bottom-[-40px] md:bottom-[-70px] xl:bottom-[-50px]',
                   'lg2:text-xl lg:text-lg'
                 )}

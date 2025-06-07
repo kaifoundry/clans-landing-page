@@ -161,11 +161,11 @@ const StartRoaringPage = React.memo(
                 </button>
 
                 <div className='border-t border-[#EBEBEB] pt-4 text-left'>
-                  <center>
+                  {/* <center> */}
                     <h3 className='mb-2 font-bold text-[#141414]'>
                       Permission required by Clans
                     </h3>
-                  </center>
+                  {/* </center> */}
                   <h3 className='mb-2 text-sm font-bold text-[#141414]'>
                     Things this App can do...
                   </h3>

@@ -63,8 +63,8 @@ const ConfirmationPage = ({
         style={{ opacity: 0.33 }}
         className='pointer-events-none absolute top-0 left-0 z-10 h-full w-full object-cover'
       />
-      {/* Main content */}
-      <div className='relative z-20 flex w-full max-w-screen-2xl flex-col items-center justify-center px-4 pt-20 text-center'>
+      {/* Main content pt-20*/}
+      <div className='relative z-20 flex w-full max-w-screen-2xl flex-col items-center justify-center px-4 text-center'>
         {/* Logo Row */}
         <div className='mb-6 flex items-center justify-center gap-4'>
           <Image
