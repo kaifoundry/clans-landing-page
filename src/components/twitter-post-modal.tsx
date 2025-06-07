@@ -77,6 +77,8 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
   const handleNo = () => {
     onClose();
   };
+  const storedUserDataString = localStorage.getItem('userData');
+  const storedUserData = storedUserDataString ? JSON.parse(storedUserDataString) : null;
 
   return (
     <div
@@ -84,7 +86,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
       onClick={handleBackdropClick}
     >
       {/* Modal Header  */}
-      <div className='flex items-center justify-between sm:px-7 sm:py-6'>
+      <div className='flex items-center justify-between sm:px-7 sm:py-10'>
         <h1 className='text-3xl font-semibold text-white'>
           Do you want to post the following to your X?
         </h1>
@@ -106,18 +108,15 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
               <p className='text-sm text-white sm:text-base'>
                 The battlegrounds have just opened.
               </p>
-              <p className='text-sm text-white sm:text-base'>
-                I've claimed my clan and started stacking my Roar Points
-              </p>
-              <p className='text-sm break-all text-white sm:text-base sm:break-normal'>
-                Claim your clan today 👉{' '}
-                <span className='text-blue-400'>
-                  clans.kit.io/referral/145xxx
-                </span>
-              </p>
             </div>
+            <p className='text-sm text-white sm:text-base'>
+              I've claimed my clan and started stacking my Roar Points
+            </p>
+            <p className='text-sm break-all text-white sm:text-base sm:break-normal'>
+              Claim your clan today 👉{' '}
+                {`${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${storedUserData?.referralCode ?? ''}`}
+            </p>
           </div>
-
           {/* Tweet Preview Card */}
           <div className='mx-auto mb-6 flex flex-col justify-center'>
             <div className='mx-auto hidden max-w-full lg:block'>
