@@ -33,35 +33,24 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     ref
   ) => {
     const getColorPalette = (title: string) => {
-      switch (title.toLowerCase()) {
+      const trimmedTitle = title.trim().toLowerCase();
+
+      switch (trimmedTitle) {
         case 'clan mcbuilder':
-          return {
-            border: 'rgba(255, 69, 69, 1)',
-            glow: 'rgba(255, 69, 69, 0.4)',
-          };
+          return { border: 'rgba(255, 69, 69, 1)', glow: 'rgba(255, 69, 69, 0.4)' };
         case 'clan mchodler':
-          return {
-            border: 'rgba(151, 71, 255, 1)',
-            glow: 'rgba(151, 71, 255, 0.4)',
-          };
+          return { border: 'rgba(151, 71, 255, 1)', glow: 'rgba(151, 71, 255, 0.4)' };
         case 'clan mcdegen':
-          return {
-            border: 'rgba(0, 142, 31, 1)',
-            glow: 'rgba(0, 142, 31, 0.4)',
-          };
+          return { border: 'rgba(0, 142, 31, 1)', glow: 'rgba(0, 142, 31, 0.4)' };
         case 'clan mcprivacy':
-          return {
-            border: 'rgba(44, 117, 242, 1)',
-            glow: 'rgba(44, 117, 242, 0.4)',
-          };
+          return { border: 'rgba(44, 117, 242, 1)', glow: 'rgba(44, 117, 242, 0.4)' };
         default:
-          return {
-            border: 'rgba(128, 128, 128, 0.5)',
-            glow: 'rgba(128, 128, 128, 0.5)',
-          };
+          return { border: 'rgba(128, 128, 128, 0.5)', glow: 'rgba(128, 128, 128, 0.5)' };
       }
     };
 
+
+    console.log('ClanCard rendered with title:', title.toLowerCase());
     const { border, glow } = getColorPalette(title);
 
     return (
