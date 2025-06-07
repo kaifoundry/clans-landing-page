@@ -83,42 +83,60 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
     : null;
 
   return (
+    // <div
+    //   className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/50 backdrop-blur-xs'
+    //   onClick={handleBackdropClick}
+    // >
     <div
-      className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/50 backdrop-blur-lg xl:bg-[url(/Images/startRoaring/bgTartan.png)] xl:bg-[length:70%] xl:bg-[position:center_60%] xl:bg-no-repeat'
+      className='fixed inset-0 z-50 flex flex-col items-center justify-center overflow-y-auto border border-gray-700 bg-black/50 backdrop-blur-lg xl:bg-[url(/Images/startRoaring/bgTartan.png)] xl:bg-[length:65%] xl:bg-[position:center_60%] xl:bg-no-repeat'
       onClick={handleBackdropClick}
     >
       {/* Modal Header  */}
-      <div className='flex items-center justify-between sm:px-7 sm:py-10'>
-        <h1 className='text-3xl font-semibold text-white'>
-          Do you want to post the following to your X?
-        </h1>
+      <div className='flex items-center justify-between p-4 sm:p-6'>
+        <h2 className='text-base font-medium text-white sm:text-lg'>
+          Do you want to post the following to your twitter?
+        </h2>
       </div>
-      <div className='mx-w-[375px] mx-3 max-h-[90vh] w-full overflow-y-auto rounded-2xl border border-gray-700 sm:max-w-[370px] lg:max-w-lg xl:max-w-xl'>
+      <div className='mx-w-[375px] mx-3 max-h-[90vh] w-full overflow-y-auto rounded-2xl border border-gray-700 bg-black sm:max-w-[370px] lg:max-w-lg xl:max-w-xl xl:bg-black/10'>
         {/* Modal Content */}
         <div className='p-4 sm:p-6'>
-          {/* Tweet Content */}
-          {/* space-y-2 sm:space-y-3 */}
-          <div className='mb-4 sm:mb-6 md:px-4'>
-            <p className='text-sm text-white sm:text-base'>
-              Roar louder. Roar prouder. Pick your clan!
-            </p>
-            <p className='text-sm text-white sm:text-base'>
-              <span className='text-blue-400'>{ENV.NEXT_PUBLIC_X_HANDLER}</span>{' '}
-              is shaping the attention economy for roarers.
-            </p>
-            <div className='flex items-center gap-2'>
+          {/* Profile Image + Tweet Text Side by Side */}
+          <div className='mb-4 flex items-start gap-4 sm:mb-6 md:px-4'>
+            {/* Profile Picture */}
+            <Image
+              src={profilePic || '/Images/gettingStarted/user.png'}
+              alt='userProfilePic'
+              width={40}
+              height={40}
+              className='h-10 w-10 flex-shrink-0 rounded-full border-2 border-white object-cover'
+              loading='eager'
+              draggable={false}
+            />
+
+            {/* Tweet Text Content */}
+            <div className='space-y-1 sm:space-y-2'>
+              <p className='text-sm text-white sm:text-base'>
+                Roar louder. Roar prouder. Pick your clan!
+              </p>
+              <p className='text-sm text-white sm:text-base'>
+                <span className='text-blue-400'>@jointhecians</span> is shaping
+                the attention economy for roarers.
+              </p>
               <p className='text-sm text-white sm:text-base'>
                 The battlegrounds have just opened.
               </p>
+              <p className='text-sm text-white sm:text-base'>
+                I've claimed my clan and started stacking my Roar Points
+              </p>
+              <p className='text-sm break-all text-white sm:text-base sm:break-normal'>
+                Claim your clan today 👉{' '}
+                <span className='text-blue-400'>
+                  clans.kit.io/referral/145xxx
+                </span>
+              </p>
             </div>
-            <p className='text-sm text-white sm:text-base'>
-              I've claimed my clan and started stacking my Roar Points
-            </p>
-            <p className='text-sm break-all text-white sm:text-base sm:break-normal'>
-              Claim your clan today 👉{' '}
-              {`${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${storedUserData?.referralCode ?? ''}`}
-            </p>
           </div>
+
           {/* Tweet Preview Card */}
           <div className='mx-auto mb-6 flex flex-col justify-center'>
             <div className='mx-auto hidden max-w-full lg:block'>
