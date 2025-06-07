@@ -18,8 +18,13 @@ export default function SelectClan() {
     selectedCardId,
     setSelectedCardId,
     joinClan,
+    checkUserJoinedClan,
     fetchClans,
   } = useClan();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -100,23 +105,21 @@ export default function SelectClan() {
     }
 
     try {
-      const success = await joinClan({
-        userId: storedUserId,
-        clanId: pendingClanId,
-      });
-      if (success) {
-        setSelectedCardId(pendingClanId);
-        router.push('/CardPage');
+      const hasJoined = await checkUserJoinedClan(storedUserId);
+
+      if (hasJoined) {
+        toast.success('You are already in a clan!');
+        router.push('/ConfirmationPage');
       } else {
-        // Don't redirect on error
-        toast.error('You have already joined the clan.');
+        setSelectedCardId(pendingClanId);
+        localStorage.setItem('joinedClanId', pendingClanId);
+        router.push('/CardPage');
       }
     } catch (error) {
-      // Don't redirect on error
-      toast.error('Failed to join clan due to network or server error.');
+      toast.error('Failed to check clan status.');
+      console.error('Clan membership check error:', error);
     }
   };
-
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);

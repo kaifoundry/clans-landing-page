@@ -33,6 +33,7 @@ interface ClanContextType {
   error: string | null;
   fetchClans: (token?: string) => Promise<void>;
   joinClan: (joinData: JoinClanData) => Promise<boolean>;
+  checkUserJoinedClan: (userId: string) => Promise<boolean>;
   selectedCardId: string | null;
   setSelectedCardId: (id: string | null) => void;
 }
@@ -83,6 +84,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         setError('Authentication required');
         return;
       }
+
       const res = await fetch(
         `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/fetch/all`,
         {
@@ -92,11 +94,21 @@ export function ClanProvider({ children }: { children: ReactNode }) {
           },
         }
       );
+
       const response = await res.json();
-      if (response.success && Array.isArray(response.data)) {
+
+      // Add this line to debug unexpected responses
+      console.debug('Fetch Clans Response:', response);
+
+      if (!res.ok) {
+        throw new Error(response?.message || 'API returned an error');
+      }
+
+      if (response?.success && Array.isArray(response?.data)) {
         setClans(response.data);
       } else {
-        console.warn('Invalid response format or no clans found');
+        console.warn('Unexpected response format or empty data', response);
+        setError('Unexpected response from server');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch clans');
@@ -128,9 +140,9 @@ export function ClanProvider({ children }: { children: ReactNode }) {
 
       if (res.ok) {
         if (data?.success === true) {
-          toast.success(data.message);
+          // toast.success(data.message);
           handleSetSelectedCardId(joinData.clanId);
-          router.push('/cardPage');
+          // router.push('/cardPage');
           return true;
         } else if (data?.success === false) {
           // Show error in toast instead of setting error state
@@ -155,6 +167,43 @@ export function ClanProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const checkUserJoinedClan = async (userId: string): Promise<boolean> => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token || token === 'NA') {
+        throw new Error('Authentication required');
+      }
+
+      const response = await fetch(
+        `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/clans/check?userId=${userId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to check clan membership');
+      }
+
+      if (typeof data.hasJoined !== 'boolean') {
+        console.warn(
+          'Unexpected response format from checkjoined-clan endpoint'
+        );
+        return false;
+      }
+
+      return data.hasJoined;
+    } catch (error) {
+      console.error('Error checking clan membership:', error);
+      throw error;
+    }
+  };
   return (
     <ClanContext.Provider
       value={{
@@ -163,6 +212,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         error,
         fetchClans,
         joinClan: handleJoinClan,
+        checkUserJoinedClan,
         selectedCardId,
         setSelectedCardId: handleSetSelectedCardId,
       }}

@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import ClanLogo from './ClanLogoMobile';
+import Button from './Button';
 
 interface ConfirmationPageMobileProps {
   firstLine?: string | null;
@@ -51,7 +52,7 @@ const ConfirmationPageMobile = ({
         width={300}
         height={400}
         alt='Avatar Left'
-        className='xxs:w-[250px] pointer-events-none absolute bottom-0 left-0 z-30 h-auto w-[200px] sm:-left-3 md:w-[250px] lg:left-0'
+        className='xxs:w-auto xxs:h-[55vh] pointer-events-none absolute bottom-0 left-0 z-30 h-[51vh] w-auto sm:-left-3 md:w-[250px] lg:left-0'
       />
 
       {/* Right avatar */}
@@ -60,7 +61,7 @@ const ConfirmationPageMobile = ({
         width={300}
         height={400}
         alt='Avatar Right'
-        className='xxs:w-[265px] pointer-events-none absolute right-0 bottom-0 z-20 h-auto w-[200px] md:w-[250px]'
+        className='xxs:w-auto xxs:h-[57vh] pointer-events-none absolute right-0 bottom-0 z-20 h-[51vh] w-auto md:w-[250px]'
       />
 
       <div className='xxs:pt-16 xxs:pb-32 relative z-40 flex h-full flex-col items-center justify-center px-4 pt-6 pb-16 text-center'>
@@ -141,6 +142,13 @@ const ConfirmationPageMobile = ({
             />
           </button>
         </div>
+        <Button
+          ButtonText='Join us on X'
+          onClick={() => window.open('https://x.com/JointheClans', '_blank')}
+          width={170}
+          height={60}
+          className='custom-button'
+        />
       </div>
     </section>
   );

@@ -31,7 +31,8 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     ref
   ) => {
     const getSafeColor = () => {
-      switch (title.toLowerCase()) {
+      const trimmedTitle = title.trim().toLowerCase();
+      switch (trimmedTitle) {
         case 'clan mcbuilder':
           return 'rgba(255, 69, 69, 1)';
         case 'clan mchodler':
@@ -46,7 +47,8 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     };
 
     const safeGlowColor = () => {
-      switch (title.toLowerCase()) {
+      const trimmedTitle = title.trim().toLowerCase();
+      switch (trimmedTitle) {
         case 'clan mcbuilder':
           return 'rgba(255, 69, 69, 0.8)';
         case 'clan mchodler':
@@ -62,7 +64,8 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
 
     const safeColorBorder = safeGlowColor();
     const getSafeBackgroundStyle = () => {
-      switch (title.toLowerCase()) {
+      const trimmedTitle = title.trim().toLowerCase();
+      switch (trimmedTitle) {
         case 'clan mcbuilder':
           return {
             background:
