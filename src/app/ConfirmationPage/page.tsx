@@ -20,7 +20,7 @@ export default function StartRoaring() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
-   const [userData, setUserData] = useState<null | {
+  const [userData, setUserData] = useState<null | {
     userId: string;
     displayName: string;
     referralCode?: string;
@@ -34,13 +34,12 @@ export default function StartRoaring() {
 
   //  website URL and  text
   const shareUrl = `${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
-const shareDomain = 'clans.kilt.io';
-const shareText = `A new world order for Attention. Pick your trait. Join your clan. Roar louder!`;
+  const shareDomain = 'clans.kilt.io';
+  const shareText = `A new world order for Attention. Pick your trait. Join your clan. Roar louder!`;
 
   // Get the message from the URL query params
   const searchParams = useSearchParams();
-  const message =
-    searchParams.get('message') || 'You’re officially a Roarer !';
+  const message = searchParams.get('message') || 'You’re officially a Roarer !';
   const [firstLine, secondLine] = splitMessageInTwoLines(message);
 
   useEffect(() => {
