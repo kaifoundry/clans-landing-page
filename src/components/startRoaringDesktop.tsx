@@ -35,7 +35,7 @@ const StartRoaringPage = React.memo(
 
         {/* Page Title */}
         <section className='z-10'>
-          <h1 className='lg1:text-4xl mt-13 text-center text-xl font-bold text-white md:text-4xl xl:text-5xl'>
+          <h1 className='lg1:text-4xl mt-12 text-center text-xl font-bold text-white md:text-4xl xl:text-5xl'>
             Introducing Roar Points
           </h1>
         </section>
