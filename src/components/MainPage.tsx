@@ -1,10 +1,12 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
-import Link from 'next/link';
 import StartButtonBorder from '@/constant/StartButtonBorder';
 import { RefObject } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface MainPageProps {
   isMuted: boolean;
@@ -22,6 +24,7 @@ const MainPage = ({
 }: MainPageProps) => {
   const avatarLeftRef = useRef(null);
   const avatarRightRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     gsap.fromTo(
@@ -35,9 +38,13 @@ const MainPage = ({
       { x: 0, opacity: 1, duration: 1.5, ease: 'power3.out', delay: 0.2 }
     );
   }, []);
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const audio = new Audio('/sounds/click.mp3');
     audio.play();
+    audio.onended = () => {
+      router.push('/startRoaring');
+    };
   };
 
   return (
@@ -80,21 +87,19 @@ const MainPage = ({
             />
           </div>
           <div className='z-10 mx-auto flex items-center justify-center'>
-            <Link href='/startRoaring' prefetch>
-              <button
-                className='group lg2:h-[70px] lg2:w-[280px] relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px]'
-                onClick={handleClick}
-              >
-                <StartButtonBorder />
-                <span className='absolute inset-0 z-10 flex items-center justify-center text-base font-semibold tracking-wide text-white sm:text-lg lg:text-xl'>
-                  Start Now
-                </span>
-              </button>
-            </Link>
+            <button
+              className='group lg2:h-[70px] lg2:w-[280px] relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px]'
+              onClick={handleClick}
+            >
+              <StartButtonBorder />
+              <span className='absolute inset-0 z-10 flex items-center justify-center text-base font-semibold tracking-wide text-white sm:text-lg lg:text-xl'>
+                Start Now
+              </span>
+            </button>
           </div>
         </div>
-        {/* Avatars with GSAP refs */}
-        {/* md:w-[350px] xl:w-[600px] 2xl:w-[600px] */}
+
+        {/* Animated Avatars */}
         <Image
           ref={avatarLeftRef}
           src='/Images/gettingStarted/leftavtar.svg'
@@ -104,7 +109,6 @@ const MainPage = ({
           className='lg1:h-[80vh] lg2:h-screen absolute -bottom-8 left-0 z-10 w-auto object-contain md:h-[61vh] xl:h-screen'
           draggable={false}
         />
-        {/* md:w-[320px] xl:w-[620px] 2xl:w-[620px] */}
         <Image
           ref={avatarRightRef}
           src='/Images/gettingStarted/rightavtar.svg'
@@ -116,7 +120,7 @@ const MainPage = ({
         />
       </main>
 
-      {/* Mute Button */}
+      {/* Mute/Unmute Button */}
       <button
         onClick={handleMuteUnmute}
         className='absolute bottom-10 left-10 z-20 flex items-center justify-center rounded-full border-2 border-white/50 bg-black/50 px-4 py-2 text-white transition duration-300 hover:bg-white/20'

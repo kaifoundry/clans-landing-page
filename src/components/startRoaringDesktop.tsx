@@ -91,11 +91,11 @@ const StartRoaringPage = React.memo(
           {/* Left Avatar Image (animated) */}
           <Image
             ref={avatarLeftRef}
-            src='/Images/startRoaring/Avtar2.png'
-            height={500}
-            width={500}
+            src='/Images/startRoaring/Avtar2_alt.png'
+            height={550}
+            width={440}
             alt='Stylized avatar character 2'
-            className='lg2:h-[500px] lg2:w-[400px] xl2:w-[500px] absolute bottom-0 left-0 z-0 h-auto w-[250px] max-w-full md:-left-0 md:z-10 md:h-[400px] md:w-[300px] xl:-left-2 xl:h-[600px] xl:w-[430px] 2xl:left-20'
+            className='lg2:left-[-60px] lg2:bottom-[-170px] lg2:max-h-[660px] lg2:w-[495px] xl2:w-[638px] absolute bottom-[-130px] left-[-40px] z-0 h-auto max-h-[495px] w-[352px] max-w-full object-contain md:bottom-[-150px] md:left-[-50px] md:z-10 md:max-h-[572px] md:w-[418px] xl:bottom-[-190px] xl:left-[-70px] xl:max-h-[748px] xl:w-[572px] 2xl:left-[18px]'
             priority
             draggable={false}
           />
