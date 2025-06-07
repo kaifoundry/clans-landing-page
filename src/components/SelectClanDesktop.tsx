@@ -92,7 +92,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
   };
   return (
     <section className="relative flex min-h-screen flex-col overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center xl:h-[90vh]">
-      <div className='xl2:py-20 mx-auto flex w-full max-w-screen-2xl flex-grow flex-col gap-20 px-8 py-10 md:gap-x-4 xl:py-10 2xl:gap-x-12'>
+      <div className='xl2:py-10 mx-auto flex w-full max-w-screen-2xl flex-grow flex-col gap-20 px-8 py-2 md:gap-x-4 xl:py-10 2xl:gap-x-12'>
         <div className='text-white'>
           <div className='flex items-center gap-x-2'>
             <div
