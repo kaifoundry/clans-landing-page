@@ -32,7 +32,9 @@ const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     ref
   ) => {
     const getColorPalette = (title: string) => {
-      switch (title.toLowerCase()) {
+      const trimmedTitle = title.trim().toLowerCase();
+
+      switch (trimmedTitle) {
         case 'clan mcbuilder':
           return {
             border: 'rgba(255, 69, 69, 1)',

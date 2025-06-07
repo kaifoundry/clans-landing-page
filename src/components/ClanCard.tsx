@@ -33,7 +33,9 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     ref
   ) => {
     const getColorPalette = (title: string) => {
-      switch (title.toLowerCase()) {
+      const trimmedTitle = title.trim().toLowerCase();
+
+      switch (trimmedTitle) {
         case 'clan mcbuilder':
           return {
             border: 'rgba(255, 69, 69, 1)',
@@ -62,6 +64,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
       }
     };
 
+    console.log('ClanCard rendered with title:', title.toLowerCase());
     const { border, glow } = getColorPalette(title);
 
     return (
