@@ -33,7 +33,7 @@ export default function Head() {
       />
       <meta
         name='twitter:image'
-        content='https://clans.kilt.io/Images/gettingStarted/clansLogo.png'
+        content='https://clans.kilt.io/Images/gettingStarted/clansLogoog.png'
       />
     </>
   );

@@ -302,7 +302,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
-
+      {/* <TwitterPostModal isOpen={isModalOpen} onClose={closeModal} /> */}
       {loading && <Loader message='Loading Clans Please wait...' />}
     </section>
   );
