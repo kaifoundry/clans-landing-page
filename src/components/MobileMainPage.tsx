@@ -22,10 +22,10 @@ const MobileMainPage = ({
   iconRef,
   handleMuteUnmute,
 }: MobileMainPageProps) => {
-    const router = useRouter();
-  
-   const handleClick = () => {
-      router.push('/startRoaring');
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('/startRoaring');
   };
   return (
     <main className='h-dvh w-full overflow-hidden'>
@@ -94,14 +94,14 @@ const MobileMainPage = ({
 
         {/* Start Now Button */}
         <nav className='pointer-events-auto absolute bottom-14 left-0 z-20 flex w-full items-center justify-center sm:bottom-10'>
-            <Button
+          <Button
             onClick={handleClick}
-              width={270}
-              height={75}
-              ButtonText='Start Now!'
-              className='mx-12 flex items-center justify-center px-8 py-4 text-3xl font-semibold tracking-wide text-white'
-              aria-label='Start Now'
-            />
+            width={270}
+            height={75}
+            ButtonText='Start Now!'
+            className='mx-12 flex items-center justify-center px-8 py-4 text-3xl font-semibold tracking-wide text-white'
+            aria-label='Start Now'
+          />
         </nav>
       </section>
     </main>
