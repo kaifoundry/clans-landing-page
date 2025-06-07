@@ -79,7 +79,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
 
   return (
     <div
-      className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/50 backdrop-blur-xs'
+      className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/50 backdrop-blur-xs xl:bg-[url(/Images/startRoaring/bgTartan.png)] xl:bg-[length:65%] xl:bg-[position:center_70%] xl:bg-no-repeat'
       onClick={handleBackdropClick}
     >
       {/* Modal Header  */}
