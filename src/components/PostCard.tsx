@@ -71,9 +71,9 @@ const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
         initial={{ opacity: 0, y: -50, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className='relative flex items-center justify-center rounded-3xl border-2 shadow-2xl'
+        className='relative flex w-[465px] items-center justify-center rounded-3xl border-2 shadow-2xl xl:w-[500px]'
         style={{
-          width: '500px',
+          // width: '465px',
           height: '300px',
           maxWidth: '95vw',
           maxHeight: '70vh',
