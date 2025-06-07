@@ -189,7 +189,7 @@ const PostClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   alt='Side Image'
                   width={340}
                   height={520}
-                  className='absolute -right-6 -bottom-16 h-[230px] w-[190px] sm:h-[280px] sm:w-[200px] object-contain drop-shadow-lg md:absolute md:-right-7 md:bottom-0 md:mx-auto md:h-[440px] md:w-[320px] xl:h-[450px] xl:w-[360px]'
+                  className='absolute -right-6 -bottom-16 h-[230px] w-[190px] object-contain drop-shadow-lg sm:h-[280px] sm:w-[200px] md:absolute md:-right-7 md:bottom-0 md:mx-auto md:h-[440px] md:w-[320px] xl:h-[450px] xl:w-[360px]'
                   loading='eager'
                 />
               )}

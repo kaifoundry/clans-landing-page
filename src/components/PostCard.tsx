@@ -101,17 +101,17 @@ const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               <img
                 src={profilePic || '/Images/gettingStarted/user.png'}
                 alt='userProfilePic'
-                className='h-10 w-10 rounded-full border-2 border-white object-cover md:h-10 md:w-1o'
+                className='md:w-1o h-10 w-10 rounded-full border-2 border-white object-cover md:h-10'
                 loading='eager'
                 draggable='false'
               />
               <div className='flex flex-col px-3'>
-                <p className='text-base font-semibold text-white '>
+                <p className='text-base font-semibold text-white'>
                   {displayName}
                 </p>
 
                 {username && (
-                  <p className='flex items-center justify-center gap-1 text-xs font-medium text-purple-300 '>
+                  <p className='flex items-center justify-center gap-1 text-xs font-medium text-purple-300'>
                     @{username} |{' '}
                     <span className='flex items-center justify-center'>
                       <FaUsers className='pr-1' /> Followers:
@@ -132,7 +132,7 @@ const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               >
                 {title}
               </h1>
-              <p className='text-sm font-semibold text-white/90 '>
+              <p className='text-sm font-semibold text-white/90'>
                 {description}
               </p>
             </div>
@@ -142,7 +142,7 @@ const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 width={80}
                 height={80}
                 alt='Clans Logo'
-                className='h-16 w-16 object-contain '
+                className='h-16 w-16 object-contain'
                 draggable={false}
                 priority
               />

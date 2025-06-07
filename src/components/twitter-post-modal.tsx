@@ -91,7 +91,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
       className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs'
       onClick={handleBackdropClick}
     >
-      <div className='max-h-[90vh] w-full mx-3 mx-w-[375px] overflow-y-auto rounded-2xl border border-gray-700 bg-black sm:max-w-[370px] lg:max-w-lg xl:max-w-xl'>
+      <div className='mx-w-[375px] mx-3 max-h-[90vh] w-full overflow-y-auto rounded-2xl border border-gray-700 bg-black sm:max-w-[370px] lg:max-w-lg xl:max-w-xl'>
         {/* Modal Header with Close Button */}
         <div className='flex items-center justify-between border-b border-gray-700 p-4 sm:p-6'>
           <h2 className='text-base font-medium text-white sm:text-lg'>
@@ -109,7 +109,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
         {/* Modal Content */}
         <div className='p-4 sm:p-6'>
           {/* Tweet Content */}
-          <div className='mb-4 space-y-2 md:px-4 sm:mb-6 sm:space-y-3'>
+          <div className='mb-4 space-y-2 sm:mb-6 sm:space-y-3 md:px-4'>
             <p className='text-sm text-white sm:text-base'>
               Roar louder. Roar prouder. Pick your clan!
             </p>
@@ -162,7 +162,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
           </div>
           {/* Action Buttons */}
           <div className='mx-auto hidden lg:block'>
-            <div className='flex  justify-between px-4 '>
+            <div className='flex justify-between px-4'>
               <Button
                 ButtonText=' No, go back'
                 width={170}
@@ -180,7 +180,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
             </div>
           </div>
           <div className='mx-auto block lg:hidden'>
-            <div className='flex  justify-between  '>
+            <div className='flex justify-between'>
               <Button
                 ButtonText=' No'
                 width={100}

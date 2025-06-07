@@ -482,7 +482,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     }
   };
 
-
   const handleJoinBoth = async () => {
     setIsLoading(true);
 
