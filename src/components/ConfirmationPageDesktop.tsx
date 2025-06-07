@@ -73,12 +73,14 @@ const ConfirmationPage = ({
             height={80}
             alt='Object'
             className='w-12 sm:w-16 md:w-20'
+            draggable={false}
           />
           <Image
             src='/Images/gettingStarted/Line.png'
             width={1}
             height={1}
             alt='Line1'
+            draggable={false}
             className='lg2:h-18 h-10 w-1 object-contain sm:h-12 md:h-20 md:w-1 xl:h-18'
           />
           <Image
@@ -86,6 +88,7 @@ const ConfirmationPage = ({
             width={140}
             height={70}
             alt='Clans'
+            draggable={false}
             className='w-[120px] sm:w-[150px] md:w-[180px]'
           />
         </div>
