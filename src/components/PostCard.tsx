@@ -116,7 +116,7 @@ const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                   <p className='flex items-center justify-center gap-1 text-xs font-medium text-purple-300'>
                     @{username} |{' '}
                     <span className='flex items-center justify-center'>
-                      <FaUsers className='pr-1' /> Followers:
+                      <FaUsers className='pr-1' /> Followers:{' '}
                       {isNaN(Number(followers)) ? 0 : Number(followers)}
                     </span>
                   </p>

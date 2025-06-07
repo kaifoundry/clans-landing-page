@@ -146,7 +146,7 @@ const PostClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                     <p className='flex flex-wrap items-center justify-center gap-1 text-xs font-medium text-purple-200 md:text-sm'>
                       @{username} |{' '}
                       <span className='flex items-center justify-center'>
-                        <FaUsers className='pr-1' /> Followers: {followers}
+                        <FaUsers className='pr-1' /> Followers:{' '}{followers}
                       </span>
                     </p>
                   )}
