@@ -146,9 +146,9 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
         </div>
       </div>
       {/* Action Buttons */}
-      
-      <div className='mx-auto hidden lg:block mt-6'>
-        <div className='flex  gap-8 '>
+
+      <div className='mx-auto mt-6 hidden lg:block'>
+        <div className='flex gap-8'>
           <Button
             ButtonText=' No, go back'
             width={170}
@@ -165,7 +165,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
           />
         </div>
       </div>
-      <div className='mx-auto block lg:hidden mt-6'>
+      <div className='mx-auto mt-6 block lg:hidden'>
         <div className='flex justify-between gap-8'>
           <Button
             ButtonText=' No'
