@@ -589,18 +589,14 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         isOpen={isModalOpen}
         onClose={closeModal}
         onConfirm={handleJoinBoth}
-        cardRefDesktop={cardRefDesktop}
-        cardRefMobile={cardRefMobile}
         glowColor={card.glowColor}
         title={card.title}
         description={card.description}
         sideImage={card.sideImage}
-        userId={userData?.userId || ''}
         profilePic={profilePic}
         displayName={userData?.socialHandles?.[0]?.displayName}
         username={userData?.socialHandles?.[0]?.username}
         followers={userFollowers}
-        referralCode={userData?.referralCode}
       />
     </section>
   );
