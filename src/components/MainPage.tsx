@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
@@ -25,6 +25,7 @@ const MainPage = ({
   const avatarLeftRef = useRef(null);
   const avatarRightRef = useRef(null);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false); // ✅ loading state
 
   useEffect(() => {
     gsap.fromTo(
@@ -40,6 +41,8 @@ const MainPage = ({
   }, []);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (isLoading) return;
+    setIsLoading(true); // ✅ Disable button & show loading
     const audio = new Audio('/sounds/click.mp3');
     audio.play();
     audio.onended = () => {
@@ -86,14 +89,20 @@ const MainPage = ({
               priority
             />
           </div>
+
           <div className='z-10 mx-auto flex items-center justify-center'>
             <button
-              className='group lg2:h-[70px] lg2:w-[280px] relative z-10 min-h-[40px] w-full cursor-pointer transition-transform hover:scale-105 active:scale-95 md:h-[79px] md:w-[307px]'
+              disabled={isLoading}
+              className={`group lg2:h-[70px] lg2:w-[280px] relative z-10 min-h-[40px] w-full cursor-pointer transition-transform ${
+                isLoading
+                  ? 'cursor-not-allowed opacity-50'
+                  : 'hover:scale-105 active:scale-95'
+              } md:h-[79px] md:w-[307px]`}
               onClick={handleClick}
             >
               <StartButtonBorder />
               <span className='absolute inset-0 z-10 flex items-center justify-center text-base font-semibold tracking-wide text-white sm:text-lg lg:text-xl'>
-                Start Now
+                {isLoading ? 'Loading...' : 'Start Now'}
               </span>
             </button>
           </div>
