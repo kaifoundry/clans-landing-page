@@ -63,7 +63,6 @@ const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
       }
     };
 
-
     const { border, glow } = getColorPalette(title);
 
     return (

@@ -83,7 +83,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
       onClick={handleBackdropClick}
     >
       {/* Modal Header  */}
-      <div className='flex items-center justify-between  sm:py-10 sm:px-7'>
+      <div className='flex items-center justify-between sm:px-7 sm:py-10'>
         <h1 className='text-3xl font-semibold text-white'>
           Do you want to post the following to your twitter?
         </h1>

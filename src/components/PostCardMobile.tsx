@@ -63,8 +63,8 @@ const PostClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
 
     const safeColorBorder = safeGlowColor();
     const getSafeBackgroundStyle = () => {
-     const trimmedTitle = title.trim().toLowerCase();
-     switch (trimmedTitle) {
+      const trimmedTitle = title.trim().toLowerCase();
+      switch (trimmedTitle) {
         case 'clan mcbuilder':
           return {
             background:
