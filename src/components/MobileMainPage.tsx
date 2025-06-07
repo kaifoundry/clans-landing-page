@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
 import ClanLogoMobile from './ClanLogoMobile';
-import Link from 'next/link';
 import { RefObject } from 'react';
 import Button from './Button';
+import { useRouter } from 'next/navigation';
 
 interface MobileMainPageProps {
   isMuted: boolean;
@@ -22,6 +22,11 @@ const MobileMainPage = ({
   iconRef,
   handleMuteUnmute,
 }: MobileMainPageProps) => {
+    const router = useRouter();
+  
+   const handleClick = () => {
+      router.push('/startRoaring');
+  };
   return (
     <main className='h-dvh w-full overflow-hidden'>
       {/* Mute/Unmute Button */}
@@ -89,15 +94,14 @@ const MobileMainPage = ({
 
         {/* Start Now Button */}
         <nav className='pointer-events-auto absolute bottom-14 left-0 z-20 flex w-full items-center justify-center sm:bottom-10'>
-          <Link href='/startRoaring' prefetch>
             <Button
+            onClick={handleClick}
               width={270}
               height={75}
               ButtonText='Start Now!'
               className='mx-12 flex items-center justify-center px-8 py-4 text-3xl font-semibold tracking-wide text-white'
               aria-label='Start Now'
             />
-          </Link>
         </nav>
       </section>
     </main>
