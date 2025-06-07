@@ -189,7 +189,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
                 className={clsx(
                   'absolute w-full text-center font-bold text-white',
                   'lg2:bottom-[-40px] bottom-[-40px] md:bottom-[-70px] xl:bottom-[-50px]',
-                  'lg:text-lg lg2:text-xl'
+                  'lg2:text-xl lg:text-lg'
                 )}
                 style={{
                   textShadow:
