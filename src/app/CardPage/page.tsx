@@ -11,6 +11,7 @@ import { selectClansData } from '@/data/clansData';
 import ClanCardMobile from '@/components/ClanCardMobile';
 import { ENV } from '@/constant/envvariables';
 import { useRouter } from 'next/navigation';
+import { TwitterPostModal } from '@/components/twitter-post-modal';
 
 // Example usage
 
@@ -39,6 +40,11 @@ function CardPageContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [pendingClanId, setPendingClanId] = useState<string | null>(null);
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const [card, setCard] = useState<null | {
     id: string;
     title: string;
@@ -476,28 +482,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     }
   };
 
-  // const handleJoinBoth = async () => {
-  //   setIsLoading(true);
 
-  //   try {
-  //     const [waitlistSuccess, clanSuccess] = await Promise.all([
-  //       handleStartRoaring(),
-  //       handleConfirmJoin(),
-  //     ]);
-
-  //     // Only redirect if both succeeded
-  //     if (waitlistSuccess && clanSuccess) {
-  //       toast.success(
-  //         "Your tweet was posted successfully, and you've joined the clan!"
-  //       );
-
-  //     }
-  //   } catch (error) {
-  //     toast.error('Unexpected error occurred.');
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
   const handleJoinBoth = async () => {
     setIsLoading(true);
 
@@ -584,7 +569,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         <div className='mt-5 flex flex-col items-center justify-center gap-5 md:flex-row'>
           <Button
             ButtonText={loading ? 'Processing...' : 'Start Roaring'}
-            onClick={handleJoinBoth}
+            // onClick={handleJoinBoth}
+            onClick={openModal}
             className='px-4 py-2 text-lg'
             disabled={loading || tweetPosted}
             width={250}
@@ -600,6 +586,23 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
           />
         </div>
       </div>
+      <TwitterPostModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={handleJoinBoth}
+        cardRefDesktop={cardRefDesktop}
+        cardRefMobile={cardRefMobile}
+        glowColor={card.glowColor}
+        title={card.title}
+        description={card.description}
+        sideImage={card.sideImage}
+        userId={userData?.userId || ''}
+        profilePic={profilePic}
+        displayName={userData?.socialHandles?.[0]?.displayName}
+        username={userData?.socialHandles?.[0]?.username}
+        followers={userFollowers}
+        referralCode={userData?.referralCode}
+      />
     </section>
   );
 }

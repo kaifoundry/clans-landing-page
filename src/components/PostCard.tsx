@@ -9,7 +9,6 @@ interface ClanCardProps {
   description: string;
   image?: string;
   sideImage?: string;
-  userId: string;
   profilePic?: string;
   email?: string;
   username?: string;
@@ -18,7 +17,7 @@ interface ClanCardProps {
   followers?: string;
 }
 
-const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
+const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
   (
     {
       title,
@@ -72,8 +71,8 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className='relative flex items-center justify-center rounded-3xl border-2 shadow-2xl'
         style={{
-          width: '1100px',
-          height: '570px',
+          width: '500px',
+          height: '300px',
           maxWidth: '95vw',
           maxHeight: '70vh',
           zIndex: 1,
@@ -102,17 +101,17 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               <img
                 src={profilePic || '/Images/gettingStarted/user.png'}
                 alt='userProfilePic'
-                className='h-8 w-8 rounded-full border-2 border-white object-cover md:h-20 md:w-20'
+                className='h-10 w-10 rounded-full border-2 border-white object-cover md:h-10 md:w-1o'
                 loading='eager'
                 draggable='false'
               />
               <div className='flex flex-col px-3'>
-                <p className='text-base font-semibold text-white md:text-xl'>
+                <p className='text-base font-semibold text-white '>
                   {displayName}
                 </p>
 
                 {username && (
-                  <p className='flex items-center justify-center gap-1 text-xs font-medium text-purple-300 md:text-lg'>
+                  <p className='flex items-center justify-center gap-1 text-xs font-medium text-purple-300 '>
                     @{username} |{' '}
                     <span className='flex items-center justify-center'>
                       <FaUsers className='pr-1' /> Followers:
@@ -126,14 +125,14 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 <p className='text-xs text-gray-400 md:text-sm'>{email}</p>
               </div>
             </div>
-            <div className='mt-12'>
+            <div>
               <h1
                 style={{ color: border }}
-                className='text-2xl font-semibold md:text-6xl'
+                className='text-lg font-semibold md:text-xl'
               >
                 {title}
               </h1>
-              <p className='text-lg font-semibold text-white/90 md:text-3xl'>
+              <p className='text-sm font-semibold text-white/90 '>
                 {description}
               </p>
             </div>
@@ -143,7 +142,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 width={80}
                 height={80}
                 alt='Clans Logo'
-                className='h-10 w-12 object-contain md:h-40 md:w-60'
+                className='h-16 w-16 object-contain '
                 draggable={false}
                 priority
               />
@@ -156,7 +155,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               <img
                 src={sideImage}
                 alt='Side Image'
-                className='absolute right-0 bottom-0 max-h-[95%] max-w-[430px] object-contain drop-shadow-lg'
+                className='absolute right-0 bottom-0 max-h-[80%] max-w-[300px] object-contain drop-shadow-lg'
                 loading='eager'
                 draggable='false'
               />
@@ -168,6 +167,6 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
   }
 );
 
-ClanCard.displayName = 'ClanCard';
+PostClanCard.displayName = 'PostClanCard';
 
-export default ClanCard;
+export default PostClanCard;
