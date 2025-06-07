@@ -78,7 +78,9 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
     onClose();
   };
   const storedUserDataString = localStorage.getItem('userData');
-  const storedUserData = storedUserDataString ? JSON.parse(storedUserDataString) : null;
+  const storedUserData = storedUserDataString
+    ? JSON.parse(storedUserDataString)
+    : null;
 
   return (
     <div
@@ -114,7 +116,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
             </p>
             <p className='text-sm break-all text-white sm:text-base sm:break-normal'>
               Claim your clan today 👉{' '}
-                {`${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${storedUserData?.referralCode ?? ''}`}
+              {`${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${storedUserData?.referralCode ?? ''}`}
             </p>
           </div>
           {/* Tweet Preview Card */}
