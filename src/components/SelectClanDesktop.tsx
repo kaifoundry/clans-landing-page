@@ -188,8 +188,8 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               <h3
                 className={clsx(
                   'absolute w-full text-center font-bold text-white',
-                  'lg2:bottom-[-40px] bottom-[-40px] md:bottom-[-30px] xl:bottom-[-50px]',
-                  'lg:text-xl'
+                  'lg2:bottom-[-40px] bottom-[-40px] md:bottom-[-70px] xl:bottom-[-50px]',
+                  'lg:text-lg lg2:text-xl'
                 )}
                 style={{
                   textShadow:
@@ -203,7 +203,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               <div
                 className={clsx(
                   'absolute left-0 flex w-full justify-center transition-opacity duration-300',
-                  'lg2:bottom-[-80px] bottom-[-80px] md:bottom-[-60px] xl:bottom-[-120px]',
+                  'lg2:bottom-[-90px] bottom-[-90px] md:bottom-[-120px] xl:bottom-[-130px]',
                   activeIndex === index ? 'opacity-100' : 'opacity-0'
                 )}
               >
