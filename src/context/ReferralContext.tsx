@@ -42,7 +42,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         return;
       }
 
-      const finalUserId =  localStorage.getItem('user_id');
+      const finalUserId = localStorage.getItem('user_id');
       if (!finalUserId) {
         console.warn('❌ No user ID provided or found in localStorage');
         return;
@@ -54,7 +54,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         user_id: finalUserId,
         referral_code: referralCode,
       };
- 
+
       console.log('📦 Sending referral payload:', payload);
       const response = await fetch(`${BASE_URL}/api/referral/join_referral`, {
         method: 'POST',
