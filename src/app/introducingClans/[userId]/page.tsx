@@ -36,7 +36,20 @@ const IntroducingClans = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  // Poll token and fetch clans
+  // Step 1: Extract userId from params and call fetchUserData
+  useEffect(() => {
+    const userIdFromParams = params?.userId;
+    if (userIdFromParams) {
+      const id = Array.isArray(userIdFromParams)
+        ? userIdFromParams[0]
+        : userIdFromParams;
+      setUserId(id);
+      localStorage.setItem('userId', id);
+      fetchUserData(id);
+    }
+  }, [params?.userId, fetchUserData]);
+
+  // Step 2: Poll for token, then fetch clans using token
   useEffect(() => {
     const interval = setInterval(() => {
       const storedToken = localStorage.getItem('token');
@@ -52,46 +65,23 @@ const IntroducingClans = () => {
     return () => clearInterval(interval);
   }, [fetchClans]);
 
-  // Fetch userId and userData
+  // Step 3: Call referral only after userData is loaded and matches param userId
   useEffect(() => {
-    const userIdFromParams = params?.userId;
-    console.log('📥 userId from params:', userIdFromParams);
-
-    if (userIdFromParams) {
-      const id = Array.isArray(userIdFromParams)
-        ? userIdFromParams[0]
-        : userIdFromParams;
-      console.log('✅ Final userId to be used:', id);
-
-      setUserId(id);
-      console.log('📝 setUserId called');
-      localStorage.setItem('userId', id);
-      console.log(
-        '💾 userId stored in localStorage:',
-        localStorage.getItem('userId')
-      );
-
-      fetchUserData(id);
-      console.log('📡 fetchUserData called with:', id);
-    } else {
-      console.warn('⚠️ No userId found in params');
-    }
-  }, [params?.userId, fetchUserData]);
-
-  // Handle referral once
-  useEffect(() => {
-    console.log('🧾 userId:', userData?.userId);
     const hasCode = hasReferralCode();
-    if (userData?.userId && hasCode && !hasHandledReferral.current) {
-      hasHandledReferral.current = true;
+    const localUserId = localStorage.getItem('userId');
 
+    if (
+      userData?.userId &&
+      localUserId &&
+      userData.userId === localUserId &&
+      hasCode &&
+      !hasHandledReferral.current
+    ) {
+      hasHandledReferral.current = true;
       (async () => {
         try {
-          console.log(
-            '🔗 Handling referral code for userId:',
-            userData?.userId
-          );
-          await handleReferralCode(userData?.userId);
+          await handleReferralCode(userData.userId);
+          // Clean up referral code from URL if needed
           const newUrl = window.location.pathname;
           window.history.replaceState({}, '', newUrl);
         } catch (error) {
@@ -99,8 +89,9 @@ const IntroducingClans = () => {
         }
       })();
     }
-  }, [userData?.userId, handleReferralCode]);
+  }, [userData?.userId, hasReferralCode]);
 
+  // Memoize card data
   const cardData = useMemo(() => {
     return Array.isArray(clans)
       ? clans.map((clan, index) => ({
