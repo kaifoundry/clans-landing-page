@@ -351,8 +351,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       }
 
       const dataUrl = await toPng(cardNode, {
-        quality: 0.8,
-        pixelRatio: 1.5,
+       pixelRatio: 1, 
+  quality: 0.6,
         style: {
           transform: 'scale(1)',
           transformOrigin: 'top left',
