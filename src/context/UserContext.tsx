@@ -134,7 +134,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
 
         const userDAta = data.data;
-
+console.log('userDAta:', userDAta);
         // Safely set user data and other info in localStorage
         try {
           localStorage.setItem(

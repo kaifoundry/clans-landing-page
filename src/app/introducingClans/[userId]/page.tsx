@@ -80,7 +80,7 @@ const IntroducingClans = () => {
     if (
       userData?.userId &&
       localUserId &&
-      userData.userId === localUserId &&
+      userId === localUserId &&
       hasCode &&
       !hasHandledReferral.current
     ) {
