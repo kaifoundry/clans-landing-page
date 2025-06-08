@@ -79,17 +79,24 @@ const IntroducingClans = () => {
   }, [params?.userId, fetchUserData]);
 
   // Handle referral once
-  useEffect(() => {
-    console.log('🧾 userId:', userId);
-    if (userId && hasReferralCode() && !hasHandledReferral.current) {
-      hasHandledReferral.current = true;
-      (async () => {
+ useEffect(() => {
+  console.log('🧾 userId:', userId);
+  const hasCode = hasReferralCode(); 
+  if (userId && hasCode && !hasHandledReferral.current) {
+    hasHandledReferral.current = true;
+
+    (async () => {
+      try {
+        console.log('🔗 Handling referral code for userId:', userId);
         await handleReferralCode(userId);
         const newUrl = window.location.pathname;
         window.history.replaceState({}, '', newUrl);
-      })();
-    }
-  }, [userId, handleReferralCode, hasReferralCode]);
+      } catch (error) {
+        console.error('Failed to handle referral:', error);
+      }
+    })();
+  }
+}, [userId, handleReferralCode]);
 
   const cardData = useMemo(() => {
     return Array.isArray(clans)
