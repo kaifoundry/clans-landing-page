@@ -113,7 +113,7 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
 
 export function ReferralProvider({ children }: { children: ReactNode }) {
   return (
-    <Suspense fallback={<Loader/>}>
+    <Suspense fallback={<Loader />}>
       <ReferralProviderContent>{children}</ReferralProviderContent>
     </Suspense>
   );
