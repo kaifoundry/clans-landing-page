@@ -33,7 +33,9 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
     ref
   ) => {
     const getColorPalette = (title: string) => {
-      switch (title.toLowerCase()) {
+      const trimmedTitle = title.trim().toLowerCase();
+
+      switch (trimmedTitle) {
         case 'clan mcbuilder':
           return {
             border: 'rgba(255, 69, 69, 1)',
@@ -115,7 +117,8 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                   <p className='flex items-center justify-center gap-1 text-xs font-medium text-purple-300 md:text-lg'>
                     @{username} |{' '}
                     <span className='flex items-center justify-center'>
-                      <FaUsers className='pr-1' /> Followers: {followers}
+                      <FaUsers className='pr-1' /> Followers:{' '}
+                      {isNaN(Number(followers)) ? 0 : Number(followers)}
                     </span>
                   </p>
                 )}
@@ -125,7 +128,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 <p className='text-xs text-gray-400 md:text-sm'>{email}</p>
               </div>
             </div>
-            <div>
+            <div className='mt-12'>
               <h1
                 style={{ color: border }}
                 className='text-2xl font-semibold md:text-6xl'
@@ -137,20 +140,6 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               </p>
             </div>
             <div className='absolute bottom-4 left-4 z-10 flex items-center gap-2 md:static md:mt-4'>
-              {/* <img
-                src='/Images/gettingStarted/Object.png'
-                alt='Object1'
-                className='h-8 w-4 object-contain md:h-20 md:w-12'
-                loading='eager'
-                draggable='false'
-              />
-              <img
-                src='/Images/gettingStarted/Clans.png'
-                alt='Clans'
-                className='h-10 w-12 object-contain md:h-28 md:w-32'
-                loading='eager'
-                draggable='false'
-              /> */}
               <Image
                 src='/Images/gettingStarted/clansLogo.svg'
                 width={80}
@@ -169,7 +158,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               <img
                 src={sideImage}
                 alt='Side Image'
-                className='absolute right-0 bottom-0 max-h-[95%] max-w-[430px] object-contain drop-shadow-lg'
+                className='absolute right-0 bottom-0 max-h-[100%] max-w-[430px] object-contain drop-shadow-lg'
                 loading='eager'
                 draggable='false'
               />

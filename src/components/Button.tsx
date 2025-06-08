@@ -34,11 +34,18 @@ export default function Button({
       minHeight: undefined,
     }),
   };
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!disabled) {
+      const audio = new Audio('/sounds/click.mp3'); // Place click.mp3 in your public folder
+      audio.play();
+      onClick?.();
+    }
+  };
 
   return (
     <button
       disabled={disabled}
-      onClick={onClick}
+      onClick={handleClick}
       className={clsx(
         'group relative z-10 min-h-[40px] w-full max-w-[309px] min-w-[120px] cursor-pointer transition-transform hover:scale-105 active:scale-95',
         disabled &&
