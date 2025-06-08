@@ -87,7 +87,10 @@ const IntroducingClans = () => {
 
       (async () => {
         try {
-          console.log('🔗 Handling referral code for userId:', userData?.userId);
+          console.log(
+            '🔗 Handling referral code for userId:',
+            userData?.userId
+          );
           await handleReferralCode(userData?.userId);
           const newUrl = window.location.pathname;
           window.history.replaceState({}, '', newUrl);
