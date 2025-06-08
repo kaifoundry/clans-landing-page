@@ -50,8 +50,8 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       setIsLoading(true);
 
       const payload = {
-        user_id: userId,
-        referral_code: referralCode,
+        userId: userId,
+        referralCode: referralCode,
       };
 
       console.log('📦 Sending referral payload:', payload);
