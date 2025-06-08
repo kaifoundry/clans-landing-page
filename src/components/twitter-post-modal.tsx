@@ -94,7 +94,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
       {/* Modal Header  */}
       <div className='flex items-center justify-between p-4 sm:p-6'>
         <h2 className='text-base font-medium text-white sm:text-lg'>
-          Do you want to post the following to your twitter?
+          Do you want to post the following to your X?
         </h2>
       </div>
       <div className='mx-w-[375px] mx-3 max-h-[90vh] w-full overflow-y-auto rounded-2xl border border-gray-700 bg-black sm:max-w-[370px] lg:max-w-lg xl:max-w-xl xl:bg-black/10'>
