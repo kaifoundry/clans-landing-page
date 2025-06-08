@@ -67,15 +67,8 @@ const IntroducingClans = () => {
 
   // Step 3: Call referral only after userData is loaded and matches param userId
   useEffect(() => {
-    console.log('Referral useEffect triggered');
-
     const hasCode = hasReferralCode();
     const localUserId = localStorage.getItem('userId');
-
-    console.log('userData.userId:', userData?.userId);
-    console.log('localUserId:', localUserId);
-    console.log('hasCode:', hasCode);
-    console.log('hasHandledReferral:', hasHandledReferral.current);
 
     if (
       userData?.userId &&
@@ -85,17 +78,14 @@ const IntroducingClans = () => {
       !hasHandledReferral.current
     ) {
       hasHandledReferral.current = true;
-      console.log('Handling referral for user:', userData.userId);
 
       (async () => {
         try {
           await handleReferralCode(userData.userId);
-          console.log('Referral handled successfully');
 
           // Clean up referral code from URL if needed
           const newUrl = window.location.pathname;
           window.history.replaceState({}, '', newUrl);
-          console.log('Referral code removed from URL');
         } catch (error) {
           console.error('Failed to handle referral:', error);
         }

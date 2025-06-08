@@ -87,21 +87,22 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
     //   className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/50 backdrop-blur-xs'
     //   onClick={handleBackdropClick}
     // >
+
     <div
-      className='fixed inset-0 z-50 flex flex-col items-center justify-center overflow-y-auto border border-gray-700 bg-black/50 backdrop-blur-lg xl:bg-[url(/Images/startRoaring/bgTartan.png)] xl:bg-[length:65%] xl:bg-[position:center_60%] xl:bg-no-repeat'
+      className='fixed inset-0 z-50 flex flex-col items-center justify-center overflow-y-scroll border border-gray-700 bg-black/50 backdrop-blur-lg xl:bg-[url(/Images/startRoaring/bgTartan.png)] xl:bg-[length:65%] xl:bg-[position:center_60%] xl:bg-no-repeat'
       onClick={handleBackdropClick}
     >
       {/* Modal Header  */}
-      <div className='flex items-center justify-between p-4 sm:p-6'>
-        <h2 className='text-base font-medium text-white sm:text-lg'>
+      <div className='flex items-center justify-between p-4 sm:p-4'>
+        <h2 className='lg2:text-3xl text-center text-base font-medium text-white sm:text-lg sm:font-bold md:text-2xl'>
           Do you want to post the following to your X?
         </h2>
       </div>
-      <div className='mx-w-[375px] mx-3 max-h-[90vh] w-full overflow-y-auto rounded-2xl border border-gray-700 bg-black sm:max-w-[370px] lg:max-w-lg xl:max-w-xl xl:bg-black/10'>
+      <div className='mx-w-[375px] mx-3 max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-700 bg-black sm:w-full sm:max-w-[370px] lg:max-w-lg xl:max-w-xl xl:bg-black/10'>
         {/* Modal Content */}
-        <div className='p-4 sm:p-6'>
+        <div className='p-4 sm:p-3'>
           {/* Profile Image + Tweet Text Side by Side */}
-          <div className='mb-4 flex items-start gap-4 sm:mb-6 md:px-4'>
+          <div className='mb-4 flex items-start gap-4 sm:mb-3 md:px-4'>
             {/* Profile Picture */}
             <Image
               src={profilePic || '/Images/gettingStarted/user.png'}
@@ -138,7 +139,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
           </div>
 
           {/* Tweet Preview Card */}
-          <div className='mx-auto mb-6 flex flex-col justify-center'>
+          <div className='mx-auto mb-2 flex flex-col justify-center'>
             <div className='mx-auto hidden max-w-full lg:block'>
               <PostClanCard
                 glowColor={glowColor}

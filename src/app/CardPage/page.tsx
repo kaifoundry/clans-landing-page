@@ -419,7 +419,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
           body: JSON.stringify(tweetData),
         }
       );
-      console.log('tweetResponse', tweetResponse);
       if (!tweetResponse.ok) {
         const errorText = await tweetResponse.text();
         throw new Error(
@@ -533,7 +532,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       {/* <Toaster position="top-center" /> */}
       <div className='absolute inset-0 z-0 bg-black/60' />
       <div className='relative z-10 mt-5 flex w-full max-w-6xl flex-col items-center justify-center px-2 py-3 sm:px-5 sm:py-5'>
-        <h1 className='mb-10 px-10 text-center text-2xl font-bold text-white sm:px-0 sm:text-3xl md:text-4xl'>
+        <h1 className='mb-3 px-10 text-center text-2xl font-bold text-white sm:mb-10 sm:px-0 sm:text-3xl md:text-4xl'>
           You are now certified{' '}
           <span style={{ color: card.glowColor }}>Clans Roarer</span>!
         </h1>

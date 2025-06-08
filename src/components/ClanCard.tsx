@@ -64,7 +64,6 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
       }
     };
 
-    console.log('ClanCard rendered with title:', title.toLowerCase());
     const { border, glow } = getColorPalette(title);
 
     return (
