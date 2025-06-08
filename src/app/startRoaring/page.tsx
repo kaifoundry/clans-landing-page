@@ -53,10 +53,10 @@ export default function StartRoaring() {
   }, [getAuthUrl, setIsLoading]);
 
   const openModal = useCallback(() => {
-    localStorage.clear(); 
+    localStorage.clear();
     setIsModalOpen(true);
   }, []);
-  
+
   const closeModal = useCallback(() => setIsModalOpen(false), []);
 
   useEffect(() => {
