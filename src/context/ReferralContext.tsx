@@ -42,17 +42,20 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         return;
       }
 
-      // if (!userId) {
-      //   console.log('No user ID provided');
-      //   return;
-      // }
+      const finalUserId = localStorage.getItem('user_id');
+      if (!finalUserId) {
+        console.warn('❌ No user ID provided or found in localStorage');
+        return;
+      }
 
       setIsLoading(true);
       setReferralError(null);
+      const payload = {
+        user_id: finalUserId,
+        referral_code: referralCode,
+      };
 
-      // get user id from localstorage
-      const userID = localStorage.getItem('user_id');
-
+      console.log('📦 Sending referral payload:', payload);
       const response = await fetch(`${BASE_URL}/api/referral/join_referral`, {
         method: 'POST',
         headers: {
@@ -62,13 +65,12 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         //   user_id: userId,
         //   referral_code: referralCode,
         // }),
-        body: JSON.stringify({
-          userId: userID,
-          referralCode: referralCode,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
+      console.log('📨 Server response:', response.status, data);
+
       if (!response.ok) {
         // Clear the referral code cookie if invalid or failed
         Cookies.remove('referral_code', {

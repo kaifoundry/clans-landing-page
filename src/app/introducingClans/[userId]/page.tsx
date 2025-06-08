@@ -55,18 +55,32 @@ const IntroducingClans = () => {
   // Fetch userId and userData
   useEffect(() => {
     const userIdFromParams = params?.userId;
+    console.log('📥 userId from params:', userIdFromParams);
+
     if (userIdFromParams) {
       const id = Array.isArray(userIdFromParams)
         ? userIdFromParams[0]
         : userIdFromParams;
+      console.log('✅ Final userId to be used:', id);
+
       setUserId(id);
+      console.log('📝 setUserId called');
       localStorage.setItem('userId', id);
+      console.log(
+        '💾 userId stored in localStorage:',
+        localStorage.getItem('userId')
+      );
+
       fetchUserData(id);
+      console.log('📡 fetchUserData called with:', id);
+    } else {
+      console.warn('⚠️ No userId found in params');
     }
   }, [params?.userId, fetchUserData]);
 
   // Handle referral once
   useEffect(() => {
+    console.log('🧾 userId:', userId);
     if (userId && hasReferralCode() && !hasHandledReferral.current) {
       hasHandledReferral.current = true;
       (async () => {
