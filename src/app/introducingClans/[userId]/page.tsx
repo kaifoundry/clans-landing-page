@@ -67,10 +67,8 @@ const IntroducingClans = () => {
 
   // Step 3: Call referral only after userData is loaded and matches param userId
   useEffect(() => {
-
     const hasCode = hasReferralCode();
     const localUserId = localStorage.getItem('userId');
-
 
     if (
       userData?.userId &&

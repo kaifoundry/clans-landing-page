@@ -54,7 +54,6 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         referralCode: referralCode,
       };
 
-
       const response = await fetch(`${BASE_URL}/api/referral/join_referral`, {
         method: 'POST',
         headers: {
