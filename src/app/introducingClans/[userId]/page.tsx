@@ -66,45 +66,44 @@ const IntroducingClans = () => {
   }, [fetchClans]);
 
   // Step 3: Call referral only after userData is loaded and matches param userId
- useEffect(() => {
-  console.log('Referral useEffect triggered');
-  
-  const hasCode = hasReferralCode();
-  const localUserId = localStorage.getItem('userId');
+  useEffect(() => {
+    console.log('Referral useEffect triggered');
 
-  console.log('userData.userId:', userData?.userId);
-  console.log('localUserId:', localUserId);
-  console.log('hasCode:', hasCode);
-  console.log('hasHandledReferral:', hasHandledReferral.current);
+    const hasCode = hasReferralCode();
+    const localUserId = localStorage.getItem('userId');
 
-  if (
-    userData?.userId &&
-    localUserId &&
-    userData.userId === localUserId &&
-    hasCode &&
-    !hasHandledReferral.current
-  ) {
-    hasHandledReferral.current = true;
-    console.log('Handling referral for user:', userData.userId);
+    console.log('userData.userId:', userData?.userId);
+    console.log('localUserId:', localUserId);
+    console.log('hasCode:', hasCode);
+    console.log('hasHandledReferral:', hasHandledReferral.current);
 
-    (async () => {
-      try {
-        await handleReferralCode(userData.userId);
-        console.log('Referral handled successfully');
+    if (
+      userData?.userId &&
+      localUserId &&
+      userData.userId === localUserId &&
+      hasCode &&
+      !hasHandledReferral.current
+    ) {
+      hasHandledReferral.current = true;
+      console.log('Handling referral for user:', userData.userId);
 
-        // Clean up referral code from URL if needed
-        const newUrl = window.location.pathname;
-        window.history.replaceState({}, '', newUrl);
-        console.log('Referral code removed from URL');
-      } catch (error) {
-        console.error('Failed to handle referral:', error);
-      }
-    })();
-  } else {
-    console.log('Referral not handled: conditions not met');
-  }
-}, [userData?.userId, hasReferralCode]);
+      (async () => {
+        try {
+          await handleReferralCode(userData.userId);
+          console.log('Referral handled successfully');
 
+          // Clean up referral code from URL if needed
+          const newUrl = window.location.pathname;
+          window.history.replaceState({}, '', newUrl);
+          console.log('Referral code removed from URL');
+        } catch (error) {
+          console.error('Failed to handle referral:', error);
+        }
+      })();
+    } else {
+      console.log('Referral not handled: conditions not met');
+    }
+  }, [userData?.userId, hasReferralCode]);
 
   // Memoize card data
   const cardData = useMemo(() => {
