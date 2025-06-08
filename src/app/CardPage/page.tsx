@@ -419,7 +419,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
           body: JSON.stringify(tweetData),
         }
       );
-console.log("tweetResponse", tweetResponse);
+      console.log('tweetResponse', tweetResponse);
       if (!tweetResponse.ok) {
         const errorText = await tweetResponse.text();
         throw new Error(

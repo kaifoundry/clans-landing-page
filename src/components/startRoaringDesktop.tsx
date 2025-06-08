@@ -70,11 +70,10 @@ const StartRoaringPage = React.memo(
                 alt='Stylized avatar character 1'
                 width={200}
                 height={200}
-                className='absolute bottom-0 right-5 h-auto w-[120px] max-w-full rounded-r-4xl md:bottom-1 md:right-4 md:w-[230px] lg2:bottom-1 lg2:right-5 lg2:w-[38vh] 2xl:bottom-1 2xl:w-[350px]'
+                className='lg2:bottom-1 lg2:right-5 lg2:w-[38vh] absolute right-5 bottom-0 h-auto w-[120px] max-w-full rounded-r-4xl md:right-4 md:bottom-1 md:w-[230px] 2xl:bottom-1 2xl:w-[350px]'
                 priority
                 draggable={false}
               />
-
             </article>
 
             {/* Navigation Button */}
@@ -100,7 +99,6 @@ const StartRoaringPage = React.memo(
             priority
             draggable={false}
           />
-
         </div>
         {/* Modal with animation */}
         <AnimatePresence>
