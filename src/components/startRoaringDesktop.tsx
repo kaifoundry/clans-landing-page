@@ -43,7 +43,7 @@ const StartRoaringPage = React.memo(
           {/* Center Card Section */}
           <section className='z-10 mx-auto flex w-full max-w-4xl flex-col items-center justify-center gap-6 px-4 md:px-0'>
             <article
-              className='lg2:h-[65vh] lg2:w-[66vw] lg2:gap-12 relative flex w-full flex-col items-center justify-center rounded px-10 py-8 md:gap-5 lg:h-[400px] lg:w-[700px]'
+              className='lg2:h-[70vh] lg2:w-[64vw] lg2:gap-12 relative flex w-full flex-col items-center justify-center rounded px-10 py-8 md:gap-5 lg:h-[400px] lg:w-[700px]'
               style={{
                 backgroundImage: "url('/Images/startRoaring/centerbg.png')",
                 backgroundSize: 'cover',
@@ -70,20 +70,21 @@ const StartRoaringPage = React.memo(
                 alt='Stylized avatar character 1'
                 width={200}
                 height={200}
-                className='lg2:right-5 lg2:bottom-3 lg2:w-[38vh] absolute right-5 bottom-2 h-auto w-[120px] max-w-full rounded-r-4xl md:right-4 md:bottom-3 md:w-[230px] 2xl:w-[350px]'
+                className='absolute bottom-0 right-5 h-auto w-[120px] max-w-full rounded-r-4xl md:bottom-1 md:right-4 md:w-[230px] lg2:bottom-1 lg2:right-5 lg2:w-[38vh] 2xl:bottom-1 2xl:w-[350px]'
                 priority
                 draggable={false}
               />
+
             </article>
 
             {/* Navigation Button */}
-            <nav className='mt-6 flex w-full justify-center md:mt-0 lg:w-[64.5vw] lg:justify-end'>
+            <nav className='mt-2 flex w-full justify-center md:mt-0 lg:w-[64.5vw] lg:justify-end'>
               <Button
                 onClick={openModal}
                 ButtonText='Start Roaring'
                 width={307}
-                height={79}
-                className='lg2:mr-0'
+                height={70}
+                className='lg2:mr-5'
               />
             </nav>
           </section>
@@ -99,6 +100,7 @@ const StartRoaringPage = React.memo(
             priority
             draggable={false}
           />
+
         </div>
         {/* Modal with animation */}
         <AnimatePresence>

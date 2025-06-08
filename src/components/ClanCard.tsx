@@ -159,7 +159,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               <img
                 src={sideImage}
                 alt='Side Image'
-                className='absolute right-0 bottom-0 max-h-[95%] max-w-[430px] object-contain drop-shadow-lg'
+                className='absolute right-0 bottom-0 max-h-[100%] max-w-[430px] object-contain drop-shadow-lg'
                 loading='eager'
                 draggable='false'
               />
