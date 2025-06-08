@@ -54,7 +54,6 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
         referralCode: referralCode,
       };
 
-      console.log('📦 Sending referral payload:', payload);
 
       const response = await fetch(`${BASE_URL}/api/referral/join_referral`, {
         method: 'POST',
@@ -65,7 +64,6 @@ function ReferralProviderContent({ children }: { children: ReactNode }) {
       });
 
       const data = await response.json();
-      console.log('📨 Server response:', response.status, data);
 
       if (!response.ok) {
         clearReferralCookie();
