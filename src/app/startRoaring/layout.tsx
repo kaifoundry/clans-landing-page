@@ -25,6 +25,8 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 const DOMAIN = ENV.NEXT_PUBLIC_API_BASE_URL;
+const SOCIAL =ENV.NEXT_PUBLIC_X_HANDLER
+
 // const DOMAIN = FRONTEND_URL;
 
 const OG_IMAGE = `${DOMAIN}/Images/gettingStarted/clansLogoog.png`;
@@ -32,7 +34,7 @@ const OG_IMAGE = `${DOMAIN}/Images/gettingStarted/clansLogoog.png`;
 export const metadata: Metadata = {
   title: 'Clans',
   description:
-    'Clans is your decentralized identity wallet powered by the KILT Protocol. Claim your Web3 name, manage verifiable credentials, and interact securely with the digital world.',
+    'An AttentionFi app where identity earns. ROAR, connect, and lead your clan to victory.',
   keywords: [
     'KILT Protocol',
     'digital identity',
@@ -53,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Clans',
     description:
-      'Clans is your identity super app built on the KILT Protocol. Claim your Web3 name, manage DIDs, and control your credentials securely.',
+      'An AttentionFi app where identity earns. ROAR, connect, and lead your clan to victory.',
     url: DOMAIN,
     siteName: 'Clans',
     images: [
@@ -61,7 +63,7 @@ export const metadata: Metadata = {
         url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: 'Clans - KILT Identity Wallet',
+        alt: 'Clans',
         type: 'image/png',
       },
     ],
@@ -70,12 +72,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Clans | Your KILT Identity Wallet',
+    title: 'Clans',
     description:
-      'Claim your Web3 name, manage decentralized credentials, and verify your identity using the KILT Protocol. Join Clans now.',
+      'An AttentionFi app where identity earns. ROAR, connect, and lead your clan to victory.',
     images: [OG_IMAGE],
-    creator: '@yourtwitterhandle',
-    site: '@yourtwitterhandle',
+     creator: SOCIAL,
+    site: DOMAIN,
   },
   alternates: {
     canonical: DOMAIN,
@@ -89,8 +91,8 @@ export const metadata: Metadata = {
     'application-name': 'Clans',
     robots:
       'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
-    author: 'Clans Team',
-    publisher: 'Clans',
+    author: 'KILT Protocol',
+publisher: 'KILT Protocol',
   },
 };
 
