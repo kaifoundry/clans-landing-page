@@ -120,8 +120,15 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
                 Roar louder. Roar prouder. Pick your clan!
               </p>
               <p className='text-sm text-white sm:text-base'>
-                <span className='text-blue-400'>@jointhecians</span> is shaping
-                the attention economy for roarers.
+                <span
+                  className='text-blue-400'
+                  onClick={() =>
+                    window.open('https://x.com/JointheClans', '_blank')
+                  }
+                >
+                  @JointheClans
+                </span>{' '}
+                is shaping the attention economy for roarers.
               </p>
               <p className='text-sm text-white sm:text-base'>
                 The battlegrounds have just opened.
