@@ -184,9 +184,9 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   loading='eager'
                 />
               </div> */}
-                       <p className='relative z-10 text-[14px] font-semibold text-white/90 md:text-2xl'>
-                  "bhanu testing"
-                </p>
+              <p className='relative z-10 text-[14px] font-semibold text-white/90 md:text-2xl'>
+                "bhanu testing"
+              </p>
               <div className='absolute bottom-4 left-4 z-10 flex items-center gap-2 md:static md:mt-4'>
                 <Image
                   src='/Images/gettingStarted/clansLogo.svg'
