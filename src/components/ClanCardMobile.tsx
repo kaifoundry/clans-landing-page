@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { forwardRef } from 'react';
 import { FaUsers } from 'react-icons/fa';
 
@@ -183,16 +184,17 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   loading='eager'
                 />
               </div> */}
-              <div className='absolute bottom-4 left-4 z-10 mt-4 flex items-center gap-2 md:static md:mt-4 md:gap-2'>
-                <img
-                  src='/Images/gettingStarted/mobileClansLogo.png'
-                  width={120}
-                  height={80}
-                  className='h-8 w-4 object-contain md:h-16 md:w-8'
-                  alt='Object1'
-                  loading='eager'
-                />
-              </div>
+                     <div className='absolute bottom-4 left-4 z-10 flex items-center gap-2 md:static md:mt-4'>
+                            <Image
+                              src='/Images/gettingStarted/clansLogo.svg'
+                              width={80}
+                              height={80}
+                              alt='Clans Logo'
+                              className='h-16 w-16 object-contain'
+                              draggable={false}
+                              priority
+                            />
+                          </div>
             </div>
 
             {/* Right side: main image */}
