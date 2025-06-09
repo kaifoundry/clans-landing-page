@@ -169,7 +169,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
               <div className='absolute bottom-4 left-4 z-10 mt-4 flex items-center gap-2 md:static md:mt-4 md:gap-2'>
                 <Image
                   src='/Images/gettingStarted/clansLogo.svg'
-                  width={160} 
+                  width={160}
                   height={160}
                   alt='Clans Logo'
                   className='h-20 w-24 object-contain md:h-40 md:w-60'
