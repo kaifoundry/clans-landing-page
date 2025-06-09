@@ -207,7 +207,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   src='/Images/gettingStarted/clansLogo.png'
                   width='100px'
                   // height={200}
-                  className='h-8 w-4 object-contain md:h-16 md:w-8'
+                  className='h-8 w-8 object-contain md:h-16 md:w-8'
                   alt='Object1'
                   loading='eager'
                 />
