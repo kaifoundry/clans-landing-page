@@ -6,6 +6,7 @@ import ConfirmationPageDesktop from '@/components/ConfirmationPageDesktop';
 import ConfirmationPageMobile from '@/components/ConfirmationPageMobile';
 import { gsap } from 'gsap';
 import { ENV } from '@/constant/envvariables';
+import Cookies from 'js-cookie';
 export default function StartRoaring() {
   const [isMobile, setIsMobile] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -20,6 +21,7 @@ export default function StartRoaring() {
       setUserData(JSON.parse(storedUserData));
     }
   }, []);
+
   const [userData, setUserData] = useState<null | {
     userId: string;
     displayName: string;
@@ -33,7 +35,8 @@ export default function StartRoaring() {
   }>(null);
 
   //  website URL and  text
-  const shareUrl = `${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
+  const referralCode = userData?.referralCode || Cookies.get('referral_code');
+  const shareUrl = `${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${referralCode}`;
   const shareDomain = 'clans.kilt.io';
   const shareText = `A new world order for Attention. Pick your trait. Join your clan. Roar louder!`;
 
