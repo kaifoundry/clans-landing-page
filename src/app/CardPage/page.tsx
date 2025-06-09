@@ -145,7 +145,7 @@ The battlegrounds have just opened.
 I've claimed my clan and started stacking my Roar Points. 
 
 Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
-  console.log(userData?.referralCode);
+
   // const handleStartRoaring = async () => {
   //   if (!cardRefDesktop.current && !cardRefMobile.current) {
   //     toast.error('Card reference not available');
@@ -358,7 +358,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           dataUrl = await toPng(cardNode, {
-            pixelRatio: 1.5,
+            pixelRatio: 1, // Increased for higher clarity
             quality: 0.6,
             style: {
               transform: 'scale(1)',
@@ -370,12 +370,9 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
           });
           i += 1;
         }
-
         return dataUrl;
       };
-
       const dataUrl = await buildPng();
-
       const res = await fetch(dataUrl);
       const blob = await res.blob();
 
