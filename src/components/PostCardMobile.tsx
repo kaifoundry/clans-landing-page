@@ -97,7 +97,7 @@ const PostClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     return (
       <div
         ref={ref}
-        className="relative flex h-[275px] w-[300px] sm:w-[317px] items-center justify-center rounded-3xl border-2 bg-[url('/Images/cardPage/cardBg.png')] shadow-2xl sm:h-[315px]"
+        className="relative flex h-[275px] w-[300px] items-center justify-center rounded-3xl border-2 bg-[url('/Images/cardPage/cardBg.png')] shadow-2xl sm:h-[315px] sm:w-[317px]"
         style={{
           // width: '300px',
           // height: '315px',
