@@ -341,7 +341,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     try {
       setLoading(true);
 
-      const isMobile = window.innerWidth < 768;
+      const isMobile = window.innerWidth < 1024;
       const cardNode = isMobile
         ? cardRefMobile.current
         : cardRefDesktop.current;
@@ -350,9 +350,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return false;
       }
 
-      const deviceSettings = isMobile
-        ? { pixelRatio: 3.0, quality: 1.0 }
-        : { pixelRatio: 1.5, quality: 0.8 };
       const buildPng = async () => {
         let dataUrl = '';
         const minDataLength = 2000000; // ~2MB
@@ -361,8 +358,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           dataUrl = await toPng(cardNode, {
-            pixelRatio: deviceSettings.pixelRatio,
-            quality: deviceSettings.quality,
+            pixelRatio: window.devicePixelRatio * 1.5,
+            quality: 0.8, // Increased for higher clarity
             style: {
               transform: 'scale(1)',
               transformOrigin: 'top left',
