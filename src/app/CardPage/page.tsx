@@ -351,21 +351,21 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       }
 
       const buildPngNew = async () => {
-    const element = document.getElementById('image-node');
+        const element = document.getElementById('image-node');
 
-    let dataUrl = '';
-    const minDataLength = 2000000;
-    let i = 0;
-    const maxAttempts = 10;
+        let dataUrl = '';
+        const minDataLength = 2000000;
+        let i = 0;
+        const maxAttempts = 10;
 
-    while (dataUrl.length < minDataLength && i < maxAttempts) {
-      // @ts-ignore
-      dataUrl = await toPng(element);
-      i += 1;
-    }
+        while (dataUrl.length < minDataLength && i < maxAttempts) {
+          // @ts-ignore
+          dataUrl = await toPng(element);
+          i += 1;
+        }
 
-    return dataUrl;
-  };
+        return dataUrl;
+      };
 
       const buildPng = async () => {
         let dataUrl = '';
