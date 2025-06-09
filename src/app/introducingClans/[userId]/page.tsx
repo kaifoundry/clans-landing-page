@@ -210,7 +210,7 @@ const IntroducingClans = () => {
       </div>
 
       <p className='hidden text-xl font-semibold md:block'>
-        Choose your <span className='text-pink-600'>"CLAN"</span>
+        Choose your <span className='text-[#d400a5]'>"CLAN"</span>
       </p>
     </section>
   );

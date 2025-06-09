@@ -350,6 +350,9 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return false;
       }
 
+      const deviceSettings = isMobile
+        ? { pixelRatio: 2.5, quality: 0.9 }
+        : { pixelRatio: 1.5, quality: 0.8 };
       const buildPng = async () => {
         let dataUrl = '';
         const minDataLength = 2000000; // ~2MB
@@ -358,8 +361,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           dataUrl = await toPng(cardNode, {
-            pixelRatio: 1.8,
-            quality: 0.6, // Increased for higher clarity
+            pixelRatio: deviceSettings.pixelRatio,
+            quality: deviceSettings.quality,
             style: {
               transform: 'scale(1)',
               transformOrigin: 'top left',
