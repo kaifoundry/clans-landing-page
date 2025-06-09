@@ -155,7 +155,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               }}
               className={clsx(
                 'group relative cursor-pointer transition-all duration-500',
-                'lg2:h-[300px] lg2:w-[150px] h-[280px] w-[158px] md:h-[200px] md:w-[100px] xl:h-[50vh] xl:w-[270px]',
+                'lg2:h-[300px] lg2:w-[150px] xl2:w-[290px] h-[280px] w-[158px] md:h-[200px] md:w-[100px] xl:h-[50vh] xl:w-[270px]',
                 activeIndex === index ? 'scale-105' : 'scale-100'
               )}
               id={`card-${clan.id}`}
@@ -175,7 +175,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
 
               {/* Image container */}
               <div
-                className='absolute inset-[4px] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat text-white'
+                className='absolute inset-[1.7px] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat text-white'
                 style={{
                   clipPath:
                     'polygon(18% 0%, 90% 0%, 100% 6%, 100% 88%, 80% 100%, 6% 100%, 0% 95%, 0% 10%)',
