@@ -145,7 +145,7 @@ The battlegrounds have just opened.
 I've claimed my clan and started stacking my Roar Points. 
 
 Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
-  console.log(userData?.referralCode);
+
   // const handleStartRoaring = async () => {
   //   if (!cardRefDesktop.current && !cardRefMobile.current) {
   //     toast.error('Card reference not available');
@@ -350,31 +350,17 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return false;
       }
 
-      const buildPng = async () => {
-        let dataUrl = '';
-        const minDataLength = 2000000; // ~2MB
-        let i = 0;
-        const maxAttempts = 10;
-
-        while (dataUrl.length < minDataLength && i < maxAttempts) {
-          dataUrl = await toPng(cardNode, {
-            pixelRatio: 1.5,
-            quality: 0.6,
-            style: {
-              transform: 'scale(1)',
-              transformOrigin: 'top left',
-            },
-            backgroundColor: '#181118',
-            width: Math.min(cardNode.offsetWidth, 1200),
-            height: Math.min(cardNode.offsetHeight, 675),
-          });
-          i += 1;
-        }
-
-        return dataUrl;
-      };
-
-      const dataUrl = await buildPng();
+      const dataUrl = await toPng(cardNode, {
+        pixelRatio: 1,
+        quality: 0.6,
+        style: {
+          transform: 'scale(1)',
+          transformOrigin: 'top left',
+        },
+        backgroundColor: '#181118',
+        width: Math.min(cardNode.offsetWidth, 1200),
+        height: Math.min(cardNode.offsetHeight, 675),
+      });
 
       const res = await fetch(dataUrl);
       const blob = await res.blob();
