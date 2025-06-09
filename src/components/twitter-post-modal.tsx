@@ -126,7 +126,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
                     window.open('https://x.com/JointheClans', '_blank')
                   }
                 >
-                  @JointheClans
+                  @JoinTheClans
                 </span>{' '}
                 is shaping the attention economy for roarers.
               </p>
