@@ -359,7 +359,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           dataUrl = await toPng(cardNode, {
             pixelRatio: 1, // Increased for higher clarity
-            quality:0.6,
+            quality: 0.6,
             style: {
               transform: 'scale(1)',
               transformOrigin: 'top left',
