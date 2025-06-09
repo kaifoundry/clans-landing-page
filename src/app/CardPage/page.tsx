@@ -350,17 +350,30 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return false;
       }
 
-      const dataUrl = await toPng(cardNode, {
-        pixelRatio: 1,
-        quality: 0.6,
-        style: {
-          transform: 'scale(1)',
-          transformOrigin: 'top left',
-        },
-        backgroundColor: '#181118',
-        width: Math.min(cardNode.offsetWidth, 1200),
-        height: Math.min(cardNode.offsetHeight, 675),
-      });
+      const buildPng = async () => {
+        let dataUrl = '';
+        const minDataLength = 2000000; // ~2MB
+        let i = 0;
+        const maxAttempts = 10;
+
+        while (dataUrl.length < minDataLength && i < maxAttempts) {
+          dataUrl = await toPng(cardNode, {
+            pixelRatio: 1.8, // Increased for higher clarity
+            style: {
+              transform: 'scale(1)',
+              transformOrigin: 'top left',
+            },
+            backgroundColor: '#181118',
+            width: Math.min(cardNode.offsetWidth, 1200),
+            height: Math.min(cardNode.offsetHeight, 675),
+          });
+          i += 1;
+        }
+
+        return dataUrl;
+      };
+
+      const dataUrl = await buildPng();
 
       const res = await fetch(dataUrl);
       const blob = await res.blob();
