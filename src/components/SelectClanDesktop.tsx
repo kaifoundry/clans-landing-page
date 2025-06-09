@@ -155,7 +155,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
               }}
               className={clsx(
                 'group relative cursor-pointer transition-all duration-500',
-                'lg2:h-[300px] lg2:w-[150px] h-[280px] w-[158px] md:h-[200px] md:w-[100px] xl:h-[50vh] xl:w-[220px]',
+                'lg2:h-[300px] lg2:w-[150px] h-[280px] w-[158px] md:h-[200px] md:w-[100px] xl:h-[50vh] xl:w-[270px]',
                 activeIndex === index ? 'scale-105' : 'scale-100'
               )}
               id={`card-${clan.id}`}
