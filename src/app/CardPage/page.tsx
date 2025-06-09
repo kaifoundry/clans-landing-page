@@ -357,8 +357,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         const maxAttempts = 10;
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
-          dataUrl = await toSvg(cardNode, {
-            pixelRatio: 1, // Increased for higher clarity
+          dataUrl = await toPng(cardNode, {
+            pixelRatio: 1,
             quality: 0.6,
             style: {
               transform: 'scale(1)',
