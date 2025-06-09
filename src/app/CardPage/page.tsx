@@ -349,34 +349,32 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         toast.error('Card reference not available');
         return false;
       }
-      
 
-       const buildPng = async () => {
-      let dataUrl = '';
-      const minDataLength = 2000000; // ~2MB
-      let i = 0;
-      const maxAttempts = 10;
+      const buildPng = async () => {
+        let dataUrl = '';
+        const minDataLength = 2000000; // ~2MB
+        let i = 0;
+        const maxAttempts = 10;
 
-      while (dataUrl.length < minDataLength && i < maxAttempts) {
-        dataUrl = await toPng(cardNode, {
-          pixelRatio: 1.5,
-          quality: 0.8,
-          style: {
-            transform: 'scale(1)',
-            transformOrigin: 'top left',
-          },
-          backgroundColor: '#181118',
-          width: Math.min(cardNode.offsetWidth, 1200),
-          height: Math.min(cardNode.offsetHeight, 675),
-        });
-        i += 1;
-      }
+        while (dataUrl.length < minDataLength && i < maxAttempts) {
+          dataUrl = await toPng(cardNode, {
+            pixelRatio: 1.5,
+            quality: 0.8,
+            style: {
+              transform: 'scale(1)',
+              transformOrigin: 'top left',
+            },
+            backgroundColor: '#181118',
+            width: Math.min(cardNode.offsetWidth, 1200),
+            height: Math.min(cardNode.offsetHeight, 675),
+          });
+          i += 1;
+        }
 
-      return dataUrl;
-    };
+        return dataUrl;
+      };
 
-    const dataUrl = await buildPng();
-
+      const dataUrl = await buildPng();
 
       const res = await fetch(dataUrl);
       const blob = await res.blob();
