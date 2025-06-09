@@ -6,17 +6,17 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-   images: {
-    domains: ['pbs.twimg.com'], 
+  images: {
+    domains: ['pbs.twimg.com', 'abs.twimg.com'],
   },
 
-    turbopack: {
+  turbopack: {
     resolveAlias: {
       underscore: 'lodash',
     },
     resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.json'],
   },
-  productionBrowserSourceMaps: false, 
+  productionBrowserSourceMaps: false,
   webpack(config) {
     return config;
   },

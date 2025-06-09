@@ -98,7 +98,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
           Do you want to post the following to your X?
         </h2>
       </div>
-      <div className='mx-w-[375px] mx-3 max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-700 bg-black sm:w-full sm:max-w-[370px] lg:max-w-lg xl:max-w-xl xl:bg-black/10'>
+      <div className='mx-w-[375px] mx-3 max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-700 bg-black sm:max-w-[350px] md:w-full lg:max-w-lg xl:max-w-xl xl:bg-black/10'>
         {/* Modal Content */}
         <div className='p-4 sm:p-3'>
           {/* Profile Image + Tweet Text Side by Side */}
@@ -150,7 +150,6 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
                 displayName={displayName}
                 username={username}
                 followers={followers}
-                // Ensure PostClanCard uses responsive width for images inside
               />
             </div>
             <div className='mx-auto block max-w-full lg:hidden'>
@@ -163,7 +162,6 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
                 displayName={displayName}
                 username={username}
                 followers={followers}
-                // Ensure PostClanCardMobile uses responsive width for images inside
               />
             </div>
           </div>
