@@ -137,7 +137,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   alt='userProfilePic'
                   height={80}
                   width={80}
-                  className='z-0 h-8 w-8 rounded-full border-2 border-white object-cover md:h-16 md:w-16'
+                  className='z-0 h-8 w-8 rounded-full border-1 border-white/80 object-cover md:h-16 md:w-16'
                   loading='eager'
                 />
                 <div className='flex flex-col px-3'>
@@ -145,7 +145,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                     {displayName}
                   </p>
                   {username && (
-                    <p className='flex flex-wrap items-center justify-center gap-1 text-xs font-medium text-white md:text-sm'>
+                    <p className='flex flex-wrap items-center justify-center gap-1 text-xs font-medium text-[#ccc] md:text-sm'>
                       @{username} |{' '}
                       <span className='flex items-center justify-center'>
                         <FaUsers className='pr-1' /> Followers: {followers}
@@ -169,11 +169,12 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
               <div className='absolute bottom-4 left-4 z-10 mt-4 flex items-center gap-2 md:static md:mt-4 md:gap-2'>
                 <Image
                   src='/Images/gettingStarted/clansLogo.svg'
-                  width={80}
-                  height={60}
+                  width={160}
+                  height={160}
                   alt='Clans Logo'
-                  className='h-14 w-16 object-contain md:h-40 md:w-60'
+                  className='h-20 w-24 object-contain md:h-40 md:w-60'
                   draggable={false}
+                  quality={100}
                   priority
                 />
               </div>
