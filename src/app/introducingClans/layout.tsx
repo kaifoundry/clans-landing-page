@@ -89,8 +89,8 @@ export const metadata: Metadata = {
     'application-name': 'Clans',
     robots:
       'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
-     author: 'KILT Protocol',
-publisher: 'KILT Protocol',
+    author: 'KILT Protocol',
+    publisher: 'KILT Protocol',
   },
 };
 

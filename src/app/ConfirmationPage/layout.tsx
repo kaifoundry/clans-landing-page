@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     description:
       'An AttentionFi app where identity earns. ROAR, connect, and lead your clan to victory.',
     images: [OG_IMAGE],
-    creator:SOCIAL,
+    creator: SOCIAL,
     site: DOMAIN,
   },
   alternates: {
@@ -88,8 +88,8 @@ export const metadata: Metadata = {
     'application-name': 'Clans',
     robots:
       'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
- author: 'KILT Protocol',
-publisher: 'KILT Protocol',
+    author: 'KILT Protocol',
+    publisher: 'KILT Protocol',
   },
 };
 export default function Layout({ children }: { children: React.ReactNode }) {

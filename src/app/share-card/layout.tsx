@@ -25,7 +25,7 @@ const geistMono = Geist_Mono({
 });
 
 const DOMAIN = ENV.NEXT_PUBLIC_API_BASE_URL;
-const SOCIAL =ENV.NEXT_PUBLIC_X_HANDLER
+const SOCIAL = ENV.NEXT_PUBLIC_X_HANDLER;
 
 const OG_IMAGE = `${DOMAIN}/Images/gettingStarted/clansLogoog.png`;
 
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     description:
       'An AttentionFi app where identity earns. ROAR, connect, and lead your clan to victory.',
     images: [OG_IMAGE],
- creator: SOCIAL,
+    creator: SOCIAL,
     site: DOMAIN,
   },
   alternates: {
@@ -89,8 +89,8 @@ export const metadata: Metadata = {
     'application-name': 'Clans',
     robots:
       'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
-     author: 'KILT Protocol',
-publisher: 'KILT Protocol',
+    author: 'KILT Protocol',
+    publisher: 'KILT Protocol',
   },
 };
 

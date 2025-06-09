@@ -31,7 +31,7 @@ const OG_IMAGE = `${DOMAIN}/Images/gettingStarted/clansLogoog.png`;
 export const metadata: Metadata = {
   title: 'Clans',
   description:
-'An AttentionFi app where identity earns. ROAR, connect, and lead your clan to victory.',
+    'An AttentionFi app where identity earns. ROAR, connect, and lead your clan to victory.',
   keywords: [
     'KILT Protocol',
     'digital identity',
@@ -88,8 +88,8 @@ export const metadata: Metadata = {
     'application-name': 'Clans',
     robots:
       'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
-     author: 'KILT Protocol',
-publisher: 'KILT Protocol',
+    author: 'KILT Protocol',
+    publisher: 'KILT Protocol',
   },
 };
 
