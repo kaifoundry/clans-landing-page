@@ -327,6 +327,23 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
   //     setLoading(false);
   //   }
   // };
+
+  // const buildPng = async () => {
+  //   const element = document.getElementById('image-node');
+
+  //   let dataUrl = '';
+  //   const minDataLength = 2000000;
+  //   let i = 0;
+  //   const maxAttempts = 10;
+
+  //   while (dataUrl.length < minDataLength && i < maxAttempts) {
+  //     // @ts-ignore
+  //     dataUrl = await toPng(element);
+  //     i += 1;
+  //   }
+
+  //   return dataUrl;
+  // };
   const handleStartRoaring = async (): Promise<boolean> => {
     if (!cardRefDesktop.current && !cardRefMobile.current) {
       toast.error('Card reference not available');
