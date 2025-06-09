@@ -350,6 +350,23 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return false;
       }
 
+      const buildPngNew = async () => {
+    const element = document.getElementById('image-node');
+
+    let dataUrl = '';
+    const minDataLength = 2000000;
+    let i = 0;
+    const maxAttempts = 10;
+
+    while (dataUrl.length < minDataLength && i < maxAttempts) {
+      // @ts-ignore
+      dataUrl = await toPng(element);
+      i += 1;
+    }
+
+    return dataUrl;
+  };
+
       const buildPng = async () => {
         let dataUrl = '';
         const minDataLength = 2000000; // ~2MB
@@ -372,7 +389,9 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         }
         return dataUrl;
       };
-      const dataUrl = await buildPng();
+      // const dataUrl = await buildPng();
+      const dataUrl = await buildPngNew();
+
       const res = await fetch(dataUrl);
       const blob = await res.blob();
 
