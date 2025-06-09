@@ -341,7 +341,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     try {
       setLoading(true);
 
-      const isMobile = window.innerWidth < 1024;
+      const isMobile = window.innerWidth < 768;
       const cardNode = isMobile
         ? cardRefMobile.current
         : cardRefDesktop.current;
