@@ -351,7 +351,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       }
 
       const deviceSettings = isMobile
-        ? { pixelRatio: 2.5, quality: 0.9 }
+        ? { pixelRatio: 3.0, quality: 1.0 }
         : { pixelRatio: 1.5, quality: 0.8 };
       const buildPng = async () => {
         let dataUrl = '';
@@ -366,6 +366,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
             style: {
               transform: 'scale(1)',
               transformOrigin: 'top left',
+              imageRendering: 'crisp-edges',
+              textRendering: 'optimizeLegibility',
             },
             backgroundColor: '#181118',
             width: Math.min(cardNode.offsetWidth, 1200),
