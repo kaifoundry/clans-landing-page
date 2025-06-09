@@ -75,7 +75,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
         className='relative flex items-center justify-center rounded-3xl border-2 shadow-2xl'
         style={{
           width: '1100px',
-          height: '570px',
+          height: '520px',
           maxWidth: '95vw',
           maxHeight: '70vh',
           zIndex: 1,
@@ -104,7 +104,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               <img
                 src={profilePic || '/Images/gettingStarted/user.png'}
                 alt='userProfilePic'
-                className='h-8 w-8 rounded-full border-2 border-white object-cover md:h-20 md:w-20'
+                className='h-8 w-8 rounded-full border-1 border-white/80 object-cover md:h-20 md:w-20'
                 loading='eager'
                 draggable='false'
               />
@@ -114,7 +114,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                 </p>
 
                 {username && (
-                  <p className='flex flex-wrap gap-1 text-xs font-medium text-white md:text-lg'>
+                  <p className='flex flex-wrap gap-3 text-xs font-medium text-[#ccc] md:text-lg'>
                     @{username} |{' '}
                     <span className='flex items-center justify-center'>
                       <FaUsers className='pr-1' /> Followers:{' '}
@@ -135,7 +135,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               >
                 {title}
               </h1>
-              <p className='text-lg font-semibold text-white/90 md:text-3xl'>
+              <p className='text-lg font-semibold text-white/90 md:text-3xl  text-nowrap'>
                 {description}
               </p>
             </div>

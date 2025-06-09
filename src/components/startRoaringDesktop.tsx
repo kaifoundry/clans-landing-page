@@ -27,7 +27,7 @@ const StartRoaringPage = React.memo(
     avatarLeftRef,
   }: CommonRoaringProps) => {
     return (
-      <main className="relative mx-auto flex h-screen w-full flex-col items-center justify-center gap-y-8 overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center px-6 py-12">
+      <main className="relative mx-auto flex h-screen w-full flex-col items-center justify-center gap-y-8 overflow-hidden bg-[url('/Images/gettingStarted/background.png')] bg-cover bg-center px-6 py-10">
         {/* Clan Logo */}
         <header className='xs:w-16 xs:h-16 lg2:h-32 lg2:w-32 absolute top-10 left-10 h-14 w-14 transition-all duration-300 ease-in-out sm:h-20 sm:w-20 md:h-24 md:w-24 xl:h-40 xl:w-40 2xl:h-48 2xl:w-48'>
           <ClanLogo />
