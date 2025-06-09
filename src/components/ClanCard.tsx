@@ -135,7 +135,7 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               >
                 {title}
               </h1>
-              <p className='text-lg font-semibold text-white/90 md:text-3xl  text-nowrap'>
+              <p className='text-lg font-semibold text-nowrap text-white/90 md:text-3xl'>
                 {description}
               </p>
             </div>

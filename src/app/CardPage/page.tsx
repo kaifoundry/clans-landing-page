@@ -350,9 +350,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return false;
       }
 
-
       const deviceSettings = isMobile
-        ? { pixelRatio: 2.5, quality: 0.9 } 
+        ? { pixelRatio: 2.5, quality: 0.9 }
         : { pixelRatio: 1.5, quality: 0.8 };
       const buildPng = async () => {
         let dataUrl = '';
