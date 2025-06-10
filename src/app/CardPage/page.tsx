@@ -349,37 +349,71 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         toast.error('Card reference not available');
         return false;
       }
+      const rect = cardNode.getBoundingClientRect();
 
-      const buildPng = async () => {
-        let dataUrl = '';
-        const minDataLength = 2000000; // ~2MB
+
+            const buildPng = async () => {
+        const element = document.getElementById("image-node");
+
+        let dataUrl = "";
+        const minDataLength = 2000000;
         let i = 0;
         const maxAttempts = 10;
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
-          dataUrl = await toJpeg(cardNode, {
-            pixelRatio: 1,
-            quality: 0.92,
-
-            backgroundColor: '#181118',
-            // width: Math.min(cardNode.offsetWidth, 1200),
-            // height: Math.min(cardNode.offsetHeight, 675),
+          dataUrl = await toPng(cardNode, {
+            quality: 0.8, // Balanced quality setting
+            pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
+            style: {
+              transform: "scale(1)",
+              transformOrigin: "top left",
+            },
+            backgroundColor: "#181118",
+            width: Math.min(rect.width, 1200), // Cap maximum width
+            height: Math.min(rect.height, 675), // Cap maximum height
+            filter: (node) => {
+              const className = node.className || "";
+              return (
+                !className.includes("toast") && !className.includes("Toaster")
+              );
+            },
           });
-          // dataUrl = await toPng(cardNode, {
-          //   pixelRatio: 1,
-          //   quality: 0.6,
-          //   style: {
-          //     transform: 'scale(1)',
-          //     transformOrigin: 'top left',
-          //   },
-          //   backgroundColor: '#181118',
-          //   width: Math.min(cardNode.offsetWidth, 1200),
-          //   height: Math.min(cardNode.offsetHeight, 675),
-          // });
           i += 1;
         }
+
         return dataUrl;
       };
+
+      // const buildPng = async () => {
+      //   let dataUrl = '';
+      //   const minDataLength = 2000000; // ~2MB
+      //   let i = 0;
+      //   const maxAttempts = 10;
+
+      //   while (dataUrl.length < minDataLength && i < maxAttempts) {
+      //     dataUrl = await toJpeg(cardNode, {
+      //       pixelRatio: 1,
+      //       quality: 0.92,
+
+      //       backgroundColor: '#181118',
+      //       // width: Math.min(cardNode.offsetWidth, 1200),
+      //       // height: Math.min(cardNode.offsetHeight, 675),
+      //     });
+      //     // dataUrl = await toPng(cardNode, {
+      //     //   pixelRatio: 1,
+      //     //   quality: 0.6,
+      //     //   style: {
+      //     //     transform: 'scale(1)',
+      //     //     transformOrigin: 'top left',
+      //     //   },
+      //     //   backgroundColor: '#181118',
+      //     //   width: Math.min(cardNode.offsetWidth, 1200),
+      //     //   height: Math.min(cardNode.offsetHeight, 675),
+      //     // });
+      //     i += 1;
+      //   }
+      //   return dataUrl;
+      // };
       const dataUrl = await buildPng();
       const res = await fetch(dataUrl);
       const blob = await res.blob();
