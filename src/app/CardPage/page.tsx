@@ -3,7 +3,7 @@
 import Button from '@/components/Button';
 import { useEffect, useState, useRef, useMemo, Suspense } from 'react';
 import { useClan } from '@/context/ClanContext';
-import { toJpeg, toPng, toSvg } from 'html-to-image';
+import { toCanvas, toJpeg, toPng, toSvg } from 'html-to-image';
 import ClanCard from '@/components/ClanCard';
 import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
@@ -350,20 +350,40 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return false;
       }
       const rect = cardNode.getBoundingClientRect();
+      const buildPngFromCanvas = async () => {
+  let dataUrl = '';
+  const minDataLength = 2000000;
+  let i = 0;
+  const maxAttempts = 30;
+
+  while (dataUrl.length < minDataLength && i < maxAttempts) {
+    const canvas = await toCanvas(cardNode, {
+      backgroundColor: '#181118',
+      width: Math.min(rect.width, 1920),
+      height: Math.min(rect.height, 1080),
+      pixelRatio: 1
+    });
+
+    dataUrl = canvas.toDataURL('image/png', 0.99); // quality is optional in PNG but kept for consistency
+    i++;
+  }
+
+  return dataUrl;
+};
 
       const buildPng = async () => {
         let dataUrl = '';
         const minDataLength = 2000000;
         let i = 0;
-        const maxAttempts = 30;
+        const maxAttempts = 100;
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           // dataUrl = await toPng(cardNode, {
           // @ts-ignore
           dataUrl = await toPng(cardNode, {
             // cacheBust: tr
-            quality: 0.99, // Balanced quality setting
-            pixelRatio: 1, // Balanced pixel ratio for sharpness vs performance
+            quality: 1, // Balanced quality setting
+            // pixelRatio: 0, // Balanced pixel ratio for sharpness vs performance
             style: {
               // transform: 'scale(1)',
               // transformOrigin: 'top left',
@@ -409,7 +429,9 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       //   }
       //   return dataUrl;
       // };
-      const dataUrl = await buildPng();
+      const dataUrl = await buildPng()
+      // const dataUrl = await buildPngFromCanvas();
+      // ;
       const res = await fetch(dataUrl);
       const blob = await res.blob();
 
