@@ -79,7 +79,7 @@ const ConfirmationPageMobile = ({
           The Clans have heard your Roar.
           <br />
           <br />
-          You’ll be among the 1st to know <br />
+          You’ll be among the first to know <br />
           when the gates open.
         </p>
 
