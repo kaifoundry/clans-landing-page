@@ -3,7 +3,7 @@
 import Button from '@/components/Button';
 import { useEffect, useState, useRef, useMemo, Suspense } from 'react';
 import { useClan } from '@/context/ClanContext';
-import { toCanvas, toJpeg, toPng, toSvg } from 'html-to-image';
+import { toJpeg, toPng, toSvg } from 'html-to-image';
 import ClanCard from '@/components/ClanCard';
 import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
@@ -12,6 +12,7 @@ import ClanCardMobile from '@/components/ClanCardMobile';
 import { ENV } from '@/constant/envvariables';
 import { useRouter } from 'next/navigation';
 import { TwitterPostModal } from '@/components/twitter-post-modal';
+import html2canvas from 'html2canvas';
 
 // Example usage
 
@@ -327,6 +328,33 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
   //     setLoading(false);
   //   }
   // };
+
+  const ConvertToImage = async (cardNode: HTMLDivElement)  => {
+    
+    try{
+      const rect = cardNode.getBoundingClientRect();
+      var w = Math.min(rect.width, 1200);
+
+      var h = Math.min(rect.height, 675);
+
+      var canvas = document.createElement('canvas');
+      canvas.width = w * 2;
+      canvas.height = h * 2;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      var context = canvas.getContext('2d');
+      // @ts-ignore
+      context.scale(2, 2);
+      
+      var newCanvas = await html2canvas(cardNode, { canvas: canvas })
+      var base64 = newCanvas.toDataURL();
+      return base64
+    }catch(error){
+      console.log('error in generation of image',error)
+    }
+    
+  }
+
   const handleStartRoaring = async (): Promise<boolean> => {
     if (!cardRefDesktop.current && !cardRefMobile.current) {
       toast.error('Card reference not available');
@@ -350,54 +378,38 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return false;
       }
       const rect = cardNode.getBoundingClientRect();
-      const buildPngFromCanvas = async () => {
-        let dataUrl = '';
+
+      const buildPng = async () => {
+        const element = document.getElementById('image-node');
+
+        // let dataUrl = '';
         const minDataLength = 2000000;
         let i = 0;
-        const maxAttempts = 1;
+        const maxAttempts = 10;
 
-        while (dataUrl.length < minDataLength && i < maxAttempts) {
-          const canvas = await toCanvas(cardNode, {
-            backgroundColor: '#181118',
-            width: Math.min(rect.width, 1920),
-            height: Math.min(rect.height, 1080),
-            // pixelRatio: 1.5,
-          });
+        var dataUrl = await ConvertToImage(cardNode);
 
-          dataUrl = canvas.toDataURL('image/png', 0.99); // quality is optional in PNG but kept for consistency
-          i++;
-        }
+        // while (dataUrl.length < minDataLength && i < maxAttempts) {
+        //   // dataUrl = await toPng(cardNode, {
+        //   // @ts-ignore
+        //   dataUrl = await toPng(cardNode, {
+        //     quality: 0.8, // Balanced quality setting
+        //     pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
+        //     style: {
+        //       transform: 'scale(1)',
+        //       transformOrigin: 'top left',
+        //     },
+        //     // backgroundColor: '#181118',
+        //     backgroundColor: "#FF0000",
+
+        //     width: Math.min(rect.width, 1200), // Cap maximum width
+        //     height: Math.min(rect.height, 675), // Cap maximum height
+        //   });
+        //   i += 1;
+        // }
 
         return dataUrl;
       };
-
-      // const buildPng = async () => {
-      //   let dataUrl = '';
-      //   const minDataLength = 2000000;
-      //   let i = 0;
-      //   const maxAttempts = 100;
-
-      //   while (dataUrl.length < minDataLength && i < maxAttempts) {
-      //     // dataUrl = await toPng(cardNode, {
-      //     // @ts-ignore
-      //     dataUrl = await toPng(cardNode, {
-      //       // cacheBust: tr
-      //       quality: 1, // Balanced quality setting
-      //       // pixelRatio: 0, // Balanced pixel ratio for sharpness vs performance
-      //       style: {
-      //         // transform: 'scale(1)',
-      //         // transformOrigin: 'top left',
-      //       },
-      //       backgroundColor: '#181118',
-
-      //       width: Math.min(rect.width, 1920), // Cap maximum width
-      //       height: Math.min(rect.height, 1080), // Cap maximum height
-      //     });
-      //     i += 1;
-      //   }
-
-      //   return dataUrl;
-      // };
 
       // const buildPng = async () => {
       //   let dataUrl = '';
@@ -429,10 +441,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       //   }
       //   return dataUrl;
       // };
-      // const dataUrl = await buildPng();
-      const dataUrl = await buildPngFromCanvas();
-      // ;
-      const res = await fetch(dataUrl);
+      const dataUrl = await buildPng();
+      const res = await fetch(dataUrl ? dataUrl : '');
       const blob = await res.blob();
 
       const file = new File(
@@ -616,7 +626,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
             followers={userFollowers}
           />
         </div>
-        <div className='testing block lg:hidden'>
+        <div className='block lg:hidden'>
           <ClanCardMobile
             ref={cardRefMobile}
             glowColor={card.glowColor}
