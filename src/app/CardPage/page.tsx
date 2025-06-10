@@ -332,18 +332,18 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
   const ConvertToImage = async (cardNode: HTMLDivElement) => {
     try {
       const rect = cardNode.getBoundingClientRect();
-      var w = Math.min(rect.width, 1200);
+      var w = rect.width;
 
-      var h = Math.min(rect.height, 675);
+      var h = rect.height;
 
       var canvas = document.createElement('canvas');
-      canvas.width = w * 2;
-      canvas.height = h * 2;
+      canvas.width = w;
+      canvas.height = h;
       canvas.style.width = w + 'px';
       canvas.style.height = h + 'px';
-      var context = canvas.getContext('2d');
+      // var context = canvas.getContext('2d');
       // @ts-ignore
-      context.scale(2, 2);
+      // context.scale(2, 2);
 
       var newCanvas = await html2canvas(cardNode, { canvas: canvas });
       var base64 = newCanvas.toDataURL();
