@@ -329,9 +329,8 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
   //   }
   // };
 
-  const ConvertToImage = async (cardNode: HTMLDivElement)  => {
-    
-    try{
+  const ConvertToImage = async (cardNode: HTMLDivElement) => {
+    try {
       const rect = cardNode.getBoundingClientRect();
       var w = Math.min(rect.width, 1200);
 
@@ -345,15 +344,14 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       var context = canvas.getContext('2d');
       // @ts-ignore
       context.scale(2, 2);
-      
-      var newCanvas = await html2canvas(cardNode, { canvas: canvas })
+
+      var newCanvas = await html2canvas(cardNode, { canvas: canvas });
       var base64 = newCanvas.toDataURL();
-      return base64
-    }catch(error){
-      console.log('error in generation of image',error)
+      return base64;
+    } catch (error) {
+      console.log('error in generation of image', error);
     }
-    
-  }
+  };
 
   const handleStartRoaring = async (): Promise<boolean> => {
     if (!cardRefDesktop.current && !cardRefMobile.current) {
