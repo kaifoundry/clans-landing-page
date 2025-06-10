@@ -99,7 +99,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     return (
       <div
         ref={ref}
-        className="relative flex items-center justify-center rounded-3xl border-2 bg-[url('/Images/cardPage/cardBg.png')] shadow-2xl"
+        className='relative flex items-center justify-center rounded-2xl border-2 shadow-2xl'
         style={{
           width: '320px',
           height: '360px',
@@ -107,6 +107,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
           maxHeight: '70vh',
           zIndex: 1,
           borderColor: safeColorBorder,
+          backgroundImage: "url('/Images/cardPage/cardBg.png')",
         }}
       >
         {/* Background image and black translucent overlay */}
@@ -114,13 +115,15 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         <div
           className='absolute inset-3 overflow-hidden rounded-2xl'
           style={{
-            boxShadow: `0 0 40px 10px ${safeColorBorder}`,
+            // boxShadow: `5px 10px red`
+            boxShadow: `0 0 40px 10px ${safeColorBorder}`, //rgba(255, 69, 69, 0.8)
+            // boxShadow: `0 0 40px 10px rgba(255, 69, 69, 0.8)`
             zIndex: 2,
             ...getSafeBackgroundStyle(),
           }}
         >
           <div
-            className="absolute inset-0 bg-[url('/Images/cardPage/cardBg.png')] bg-cover bg-center"
+            className='absolute inset-0 bg-cover bg-center'
             style={{
               zIndex: 3,
               backgroundImage:

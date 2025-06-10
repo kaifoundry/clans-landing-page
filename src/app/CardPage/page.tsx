@@ -3,7 +3,7 @@
 import Button from '@/components/Button';
 import { useEffect, useState, useRef, useMemo, Suspense } from 'react';
 import { useClan } from '@/context/ClanContext';
-import { toJpeg, toPng, toSvg } from 'html-to-image';
+import { toCanvas, toJpeg, toPng, toSvg } from 'html-to-image';
 import ClanCard from '@/components/ClanCard';
 import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
@@ -331,21 +331,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
 
   const ConvertToImage = async (cardNode: HTMLDivElement) => {
     try {
-      const rect = cardNode.getBoundingClientRect();
-      var w = rect.width;
-
-      var h = rect.height;
-
-      var canvas = document.createElement('canvas');
-      canvas.width = w;
-      canvas.height = h;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      // var context = canvas.getContext('2d');
-      // @ts-ignore
-      // context.scale(2, 2);
-
-      var newCanvas = await html2canvas(cardNode, { canvas: canvas });
+      var newCanvas = await toCanvas(cardNode, { quality: 1, pixelRatio: 1.5 });
       var base64 = newCanvas.toDataURL();
       console.log('base64', base64);
       return base64;
