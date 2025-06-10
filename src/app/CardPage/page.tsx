@@ -352,7 +352,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       const rect = cardNode.getBoundingClientRect();
 
       const buildPng = async () => {
-
         let dataUrl = '';
         const minDataLength = 2000000;
         let i = 0;
