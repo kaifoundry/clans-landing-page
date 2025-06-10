@@ -568,7 +568,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
 
   return (
     <section
-      className=' relative flex h-screen flex-col items-center justify-center overflow-hidden bg-black p-2 sm:p-4'
+      className='relative flex h-screen flex-col items-center justify-center overflow-hidden bg-black p-2 sm:p-4'
       style={{
         backgroundImage: "url('/Images/cardPage/cardBg.png')",
         backgroundSize: 'cover',
@@ -596,7 +596,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
             followers={userFollowers}
           />
         </div>
-        <div className='block lg:hidden testing'>
+        <div className='testing block lg:hidden'>
           <ClanCardMobile
             ref={cardRefMobile}
             glowColor={card.glowColor}
