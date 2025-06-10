@@ -331,7 +331,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
 
   const ConvertToImage = async (cardNode: HTMLDivElement) => {
     try {
-      var newCanvas = await toCanvas(cardNode, { quality: 1, pixelRatio: 3 });
+      var newCanvas = await toCanvas(cardNode, { quality: 1, pixelRatio: 2.5 });
       // console.log("canvas is", newCanvas)
       var base64 = newCanvas.toDataURL();
       console.log('base64', base64);

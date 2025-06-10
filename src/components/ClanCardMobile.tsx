@@ -108,7 +108,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     return (
       <div
         ref={ref}
-        className='relative flex items-center justify-center overflow-hidden rounded-2xl border-2 shadow-2xl'
+        className='relative flex items-center justify-center overflow-hidden rounded-xl border-2 shadow-2xl'
         style={{
           width: '320px',
           height: '360px',
