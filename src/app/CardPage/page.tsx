@@ -354,14 +354,14 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         let dataUrl = '';
         const minDataLength = 2000000;
         let i = 0;
-        const maxAttempts = 30;
+        const maxAttempts = 1;
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           const canvas = await toCanvas(cardNode, {
             backgroundColor: '#181118',
             width: Math.min(rect.width, 1920),
             height: Math.min(rect.height, 1080),
-            pixelRatio: 1.5,
+            // pixelRatio: 1.5,
           });
 
           dataUrl = canvas.toDataURL('image/png', 0.99); // quality is optional in PNG but kept for consistency
