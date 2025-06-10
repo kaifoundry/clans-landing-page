@@ -361,7 +361,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
             backgroundColor: '#181118',
             width: Math.min(rect.width, 1920),
             height: Math.min(rect.height, 1080),
-            pixelRatio: 1,
+            pixelRatio: 1.5,
           });
 
           dataUrl = canvas.toDataURL('image/png', 0.99); // quality is optional in PNG but kept for consistency
