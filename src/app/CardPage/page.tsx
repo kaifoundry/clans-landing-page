@@ -13,7 +13,6 @@ import { ENV } from '@/constant/envvariables';
 import { useRouter } from 'next/navigation';
 import { TwitterPostModal } from '@/components/twitter-post-modal';
 
-
 // Example usage
 
 export default function CardPage() {
@@ -332,8 +331,11 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
   const ConvertToImage = async (cardNode: HTMLDivElement) => {
     try {
       const isMobile = window.innerWidth < 1024;
-const pixelRatio = isMobile ? 2.5 : 2;
-      var newCanvas = await toCanvas(cardNode, { quality: 1, pixelRatio: pixelRatio });
+      const pixelRatio = isMobile ? 2.5 : 1.5;
+      var newCanvas = await toCanvas(cardNode, {
+        quality: 1,
+        pixelRatio: pixelRatio,
+      });
       // console.log("canvas is", newCanvas)
       var base64 = newCanvas.toDataURL();
       console.log('base64', base64);
