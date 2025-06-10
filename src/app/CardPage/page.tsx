@@ -3,7 +3,7 @@
 import Button from '@/components/Button';
 import { useEffect, useState, useRef, useMemo, Suspense } from 'react';
 import { useClan } from '@/context/ClanContext';
-import { toPng, toSvg } from 'html-to-image';
+import { toJpeg, toPng, toSvg } from 'html-to-image';
 import ClanCard from '@/components/ClanCard';
 import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
@@ -357,14 +357,11 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         const maxAttempts = 10;
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
-          dataUrl = await toPng(cardNode, {
-            // pixelRatio: 1,
-            // quality: 0.92,
-            // style: {
-            //   transform: 'scale(1)',
-            //   transformOrigin: 'top left',
-            // },
-            // backgroundColor: '#181118',
+          dataUrl = await toJpeg(cardNode, {
+            pixelRatio: 1,
+            quality: 0.92,
+   
+            backgroundColor: '#181118',
             // width: Math.min(cardNode.offsetWidth, 1200),
             // height: Math.min(cardNode.offsetHeight, 675),
           });
