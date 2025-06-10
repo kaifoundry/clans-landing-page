@@ -378,7 +378,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       }
       const rect = cardNode.getBoundingClientRect();
 
-      // @ts-ignore
       const buildPng = async () => {
         const element = document.getElementById('image-node');
 
@@ -387,26 +386,26 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         let i = 0;
         const maxAttempts = 10;
 
-        // var dataUrl = await ConvertToImage(cardNode);
+        var dataUrl = await ConvertToImage(cardNode);
 
-        while (i < maxAttempts) {
-          // dataUrl = await toPng(cardNode, {
-          // @ts-ignore
-          dataUrl = await toPng(cardNode, {
-            quality: 0.8, // Balanced quality setting
-            pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
-            style: {
-              transform: 'scale(1)',
-              transformOrigin: 'top left',
-            },
-            // backgroundColor: '#181118',
-            backgroundColor: '#FF0000',
+        // while (dataUrl.length < minDataLength && i < maxAttempts) {
+        //   // dataUrl = await toPng(cardNode, {
+        //   // @ts-ignore
+        //   dataUrl = await toPng(cardNode, {
+        //     quality: 0.8, // Balanced quality setting
+        //     pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
+        //     style: {
+        //       transform: 'scale(1)',
+        //       transformOrigin: 'top left',
+        //     },
+        //     // backgroundColor: '#181118',
+        //     backgroundColor: "#FF0000",
 
-            width: Math.min(rect.width, 1200), // Cap maximum width
-            height: Math.min(rect.height, 675), // Cap maximum height
-          });
-          i += 1;
-        }
+        //     width: Math.min(rect.width, 1200), // Cap maximum width
+        //     height: Math.min(rect.height, 675), // Cap maximum height
+        //   });
+        //   i += 1;
+        // }
 
         return dataUrl;
       };
@@ -441,7 +440,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       //   }
       //   return dataUrl;
       // };
-      // @ts-ignore
       const dataUrl = await buildPng();
       const res = await fetch(dataUrl ? dataUrl : '');
       const blob = await res.blob();
