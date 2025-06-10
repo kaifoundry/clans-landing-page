@@ -352,7 +352,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       const rect = cardNode.getBoundingClientRect();
 
       const buildPng = async () => {
-        const element = document.getElementById('testing');
 
         let dataUrl = '';
         const minDataLength = 2000000;
@@ -362,7 +361,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           // dataUrl = await toPng(cardNode, {
           // @ts-ignore
-          dataUrl = await toPng(element, {
+          dataUrl = await toPng(cardNode.current, {
             quality: 0.8, // Balanced quality setting
             pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
             style: {
@@ -370,10 +369,11 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
               transformOrigin: 'top left',
             },
             // backgroundColor: '#181118',
-            backgroundColor: '#FF0000',
 
-            width: Math.min(rect.width, 1200), // Cap maximum width
-            height: Math.min(rect.height, 675), // Cap maximum height
+            // width: Math.min(rect.width, 1200), // Cap maximum width
+            // height: Math.min(rect.height, 675), // Cap maximum height
+                        width: Math.min(rect.width, 1920), // Cap maximum width
+            height: Math.min(rect.height, 1080), // Cap maximum height
           });
           i += 1;
         }
