@@ -160,7 +160,7 @@ const PostClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                 >
                   {title}
                 </h1>
-                <p className='relative z-10 text-[14px] font-semibold w-[70%] text-wrap text-white/90 md:text-2xl'>
+                <p className='relative z-10 w-[70%] text-[14px] font-semibold text-wrap text-white/90 md:text-2xl'>
                   {description}
                 </p>
               </div>
