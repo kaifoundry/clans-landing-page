@@ -370,7 +370,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
             backgroundColor: '#181118',
             width: Math.min(rect.width, 1200), // Cap maximum width
             height: Math.min(rect.height, 675), // Cap maximum height
-
           });
           i += 1;
         }
