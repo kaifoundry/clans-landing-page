@@ -140,14 +140,13 @@ const ClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
               </p>
             </div>
             <div className='absolute bottom-4 left-4 z-10 flex items-center gap-2 md:static md:mt-4'>
-              <Image
+              <img
                 src='/Images/gettingStarted/clansLogo.svg'
                 width={80}
                 height={80}
                 alt='Clans Logo'
                 className='h-10 w-12 object-contain md:h-40 md:w-60'
                 draggable={false}
-                priority
               />
             </div>
           </div>
