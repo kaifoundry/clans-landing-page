@@ -18,7 +18,15 @@ export default function StartRoaring() {
   useEffect(() => {
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
+      const parsedData = JSON.parse(storedUserData);
+      setUserData(parsedData);
+
+      if (parsedData.referralCode) {
+        Cookies.set('clans_referral_code', parsedData.referralCode, {
+          expires: 7,
+          path: '/',
+        });
+      }
     }
   }, []);
 
@@ -35,7 +43,8 @@ export default function StartRoaring() {
   }>(null);
 
   //  website URL and  text
-  const referralCode = userData?.referralCode || Cookies.get('referral_code');
+  const referralCode =
+    userData?.referralCode || Cookies.get('clans_referral_code');
   const shareUrl = `${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${referralCode}`;
   const shareDomain = 'clans.kilt.io';
   const shareText = `A new world order for Attention. Pick your trait. Join your clan. Roar louder!`;
