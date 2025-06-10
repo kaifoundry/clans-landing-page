@@ -347,7 +347,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
 
       var newCanvas = await html2canvas(cardNode, { canvas: canvas });
       var base64 = newCanvas.toDataURL();
-      console.log('base64', base64)
+      console.log('base64', base64);
       return base64;
     } catch (error) {
       console.log('error in generation of image', error);
