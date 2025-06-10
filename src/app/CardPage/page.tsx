@@ -331,7 +331,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
   const ConvertToImage = async (cardNode: HTMLDivElement) => {
     try {
       const isMobile = window.innerWidth < 1024;
-      const pixelRatio = isMobile ? 2.5 : 1.5;
+      const pixelRatio = isMobile ? 2.5 : 1;
       var newCanvas = await toCanvas(cardNode, {
         quality: 1,
         pixelRatio: pixelRatio,
