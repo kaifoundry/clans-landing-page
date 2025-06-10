@@ -337,7 +337,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       return base64;
     } catch (error) {
       console.log('error in generation of image', error);
-      return "";
+      return '';
     }
   };
 
