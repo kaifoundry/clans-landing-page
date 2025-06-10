@@ -357,7 +357,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         const maxAttempts = 10;
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
-          dataUrl = await toPng(cardNode, {
+            dataUrl = await toSvg(cardNode, {
             pixelRatio: 1,
             quality: 0.6,
             style: {
@@ -368,6 +368,17 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
             width: Math.min(cardNode.offsetWidth, 1200),
             height: Math.min(cardNode.offsetHeight, 675),
           });
+          // dataUrl = await toPng(cardNode, {
+          //   pixelRatio: 1,
+          //   quality: 0.6,
+          //   style: {
+          //     transform: 'scale(1)',
+          //     transformOrigin: 'top left',
+          //   },
+          //   backgroundColor: '#181118',
+          //   width: Math.min(cardNode.offsetWidth, 1200),
+          //   height: Math.min(cardNode.offsetHeight, 675),
+          // });
           i += 1;
         }
         return dataUrl;
