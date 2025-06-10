@@ -355,15 +355,15 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         let dataUrl = '';
         const minDataLength = 2000000;
         let i = 0;
-        const maxAttempts = 10;
+        const maxAttempts = 30;
 
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           // dataUrl = await toPng(cardNode, {
           // @ts-ignore
           dataUrl = await toPng(cardNode, {
             // cacheBust: tr
-            quality: 0.9, // Balanced quality setting
-            pixelRatio: 0.5, // Balanced pixel ratio for sharpness vs performance
+            quality: 0.99, // Balanced quality setting
+            pixelRatio: 1, // Balanced pixel ratio for sharpness vs performance
             style: {
               // transform: 'scale(1)',
               // transformOrigin: 'top left',
