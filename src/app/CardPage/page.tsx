@@ -337,6 +337,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       return base64;
     } catch (error) {
       console.log('error in generation of image', error);
+      return "";
     }
   };
 
@@ -367,12 +368,14 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       const buildPng = async () => {
         const element = document.getElementById('image-node');
 
-        // let dataUrl = '';
+        var dataUrl = '';
         const minDataLength = 2000000;
         let i = 0;
         const maxAttempts = 10;
-
-        var dataUrl = await ConvertToImage(cardNode);
+        while (dataUrl.length < minDataLength && i < maxAttempts) {
+          dataUrl = await ConvertToImage(cardNode);
+          i += 1;
+        }
 
         // while (dataUrl.length < minDataLength && i < maxAttempts) {
         //   // dataUrl = await toPng(cardNode, {
