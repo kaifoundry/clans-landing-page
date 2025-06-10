@@ -360,7 +360,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           // dataUrl = await toPng(cardNode, {
           // @ts-ignore
-          dataUrl = await toPng(cardRefDesktop.current, {
+          dataUrl = await toPng(cardNode, {
             // cacheBust: tr
             quality: 0.8, // Balanced quality setting
             pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
