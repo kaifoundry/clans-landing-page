@@ -327,23 +327,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
   //     setLoading(false);
   //   }
   // };
-
-  // const buildPng = async () => {
-  //   const element = document.getElementById('image-node');
-
-  //   let dataUrl = '';
-  //   const minDataLength = 2000000;
-  //   let i = 0;
-  //   const maxAttempts = 10;
-
-  //   while (dataUrl.length < minDataLength && i < maxAttempts) {
-  //     // @ts-ignore
-  //     dataUrl = await toPng(element);
-  //     i += 1;
-  //   }
-
-  //   return dataUrl;
-  // };
   const handleStartRoaring = async (): Promise<boolean> => {
     if (!cardRefDesktop.current && !cardRefMobile.current) {
       toast.error('Card reference not available');
@@ -358,7 +341,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     try {
       setLoading(true);
 
-      const isMobile = window.innerWidth < 768;
+      const isMobile = window.innerWidth < 1024;
       const cardNode = isMobile
         ? cardRefMobile.current
         : cardRefDesktop.current;
@@ -368,7 +351,6 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       }
 
       const buildPngNew = async () => {
-        // const element = document.getElementById('image-node');
         const element = cardNode;
 
         let dataUrl = '';
@@ -394,7 +376,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           dataUrl = await toPng(cardNode, {
             pixelRatio: 1,
-            quality: 1,
+            quality: 0.6,
             style: {
               transform: 'scale(1)',
               transformOrigin: 'top left',
@@ -408,7 +390,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return dataUrl;
       };
       // const dataUrl = await buildPng();
-      const dataUrl = isMobile ? await buildPngNew() : await buildPng();
+      const dataUrl = await buildPng();
 
       const res = await fetch(dataUrl);
       const blob = await res.blob();
