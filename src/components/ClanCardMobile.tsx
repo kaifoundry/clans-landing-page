@@ -99,7 +99,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     return (
       <div
         ref={ref}
-        className="relative flex items-center justify-center rounded-3xl border-2 shadow-2xl"
+        className='relative flex items-center justify-center rounded-3xl border-2 shadow-2xl'
         style={{
           width: '320px',
           height: '360px',
@@ -121,7 +121,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
           }}
         >
           <div
-            className="absolute inset-0 bg-cover bg-center"
+            className='absolute inset-0 bg-cover bg-center'
             style={{
               zIndex: 3,
               backgroundImage:
