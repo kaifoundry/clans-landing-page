@@ -194,6 +194,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                   className='h-16 w-16 object-contain'
                   draggable={false}
                   priority
+
                 />
               </div>
             </div>
