@@ -500,31 +500,31 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     }
   };
 
-const handleJoinBoth = async () => {
-  setIsLoading(true);
+  const handleJoinBoth = async () => {
+    setIsLoading(true);
 
-  try {
-    const clanSuccess = await handleConfirmJoin();
-    console.log('clanSuccess', clanSuccess);
+    try {
+      const clanSuccess = await handleConfirmJoin();
+      console.log('clanSuccess', clanSuccess);
 
-    if (clanSuccess) {
-      const waitlistSuccess = await handleStartRoaring();
-      if (waitlistSuccess) {
-        toast.success(
-          "Your tweet was posted successfully, and you've joined the clan!"
-        );
+      if (clanSuccess) {
+        const waitlistSuccess = await handleStartRoaring();
+        if (waitlistSuccess) {
+          toast.success(
+            "Your tweet was posted successfully, and you've joined the clan!"
+          );
+        } else {
+          toast.error('Failed to post tweet. Please try again.');
+        }
       } else {
-        toast.error('Failed to post tweet. Please try again.');
+        toast.error('Failed to join the clan. Please try again.');
       }
-    } else {
-      toast.error('Failed to join the clan. Please try again.');
+    } catch (error) {
+      toast.error('Unexpected error occurred.');
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    toast.error('Unexpected error occurred.');
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const handleRedirect = () => {
     const tweetData = JSON.parse(localStorage.getItem('tweetData') || '{}');
