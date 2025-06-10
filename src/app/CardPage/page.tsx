@@ -352,7 +352,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       const rect = cardNode.getBoundingClientRect();
 
       const buildPng = async () => {
-        const element = document.getElementById('image-node');
+        const element = document.getElementById('testing');
 
         let dataUrl = '';
         const minDataLength = 2000000;
@@ -370,7 +370,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
               transformOrigin: 'top left',
             },
             // backgroundColor: '#181118',
-            backgroundColor: "#FF0000",
+            backgroundColor: '#FF0000',
 
             width: Math.min(rect.width, 1200), // Cap maximum width
             height: Math.min(rect.height, 675), // Cap maximum height
@@ -568,7 +568,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
 
   return (
     <section
-      className='relative flex h-screen flex-col items-center justify-center overflow-hidden bg-black p-2 sm:p-4'
+      className=' relative flex h-screen flex-col items-center justify-center overflow-hidden bg-black p-2 sm:p-4'
       style={{
         backgroundImage: "url('/Images/cardPage/cardBg.png')",
         backgroundSize: 'cover',
@@ -596,7 +596,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
             followers={userFollowers}
           />
         </div>
-        <div className='block lg:hidden'>
+        <div className='block lg:hidden testing'>
           <ClanCardMobile
             ref={cardRefMobile}
             glowColor={card.glowColor}
