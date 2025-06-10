@@ -358,7 +358,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     try {
       setLoading(true);
 
-      const isMobile = window.innerWidth < 1024;
+      const isMobile = window.innerWidth < 768;
       const cardNode = isMobile
         ? cardRefMobile.current
         : cardRefDesktop.current;
@@ -394,7 +394,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         while (dataUrl.length < minDataLength && i < maxAttempts) {
           dataUrl = await toPng(cardNode, {
             pixelRatio: 1,
-            quality: 0.6,
+            quality: 1,
             style: {
               transform: 'scale(1)',
               transformOrigin: 'top left',
@@ -408,7 +408,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         return dataUrl;
       };
       // const dataUrl = await buildPng();
-      const dataUrl = await buildPngNew();
+      const dataUrl = isMobile ? await buildPngNew() : await buildPng();
 
       const res = await fetch(dataUrl);
       const blob = await res.blob();

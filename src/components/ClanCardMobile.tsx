@@ -186,14 +186,14 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
               </div> */}
 
               <div className='absolute bottom-4 left-4 z-10 flex items-center gap-2 md:static md:mt-4'>
-                <Image
-                  src='/Images/gettingStarted/clansLogo.png'
+                <img
+                  src='/Images/gettingStarted/clansLogo.svg'
+                  alt='Clans Logo'
                   width={80}
                   height={80}
-                  alt='Clans Logo'
                   className='h-16 w-16 object-contain'
+                  loading='eager'
                   draggable={false}
-                  priority
                 />
               </div>
             </div>
