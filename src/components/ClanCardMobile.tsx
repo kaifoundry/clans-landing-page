@@ -108,7 +108,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     return (
       <div
         ref={ref}
-        className='relative flex items-center justify-center rounded-2xl border-2 shadow-2xl overflow-hidden'
+        className='relative flex items-center justify-center overflow-hidden rounded-2xl border-2 shadow-2xl'
         style={{
           width: '320px',
           height: '360px',
@@ -120,7 +120,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         }}
       >
         {/* Background image and black translucent overlay */}
-        
+
         <div
           className='absolute inset-3 rounded-2xl'
           style={{
@@ -133,7 +133,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
           }}
         >
           <div
-            className='absolute inset-0 bg-cover bg-center rounded-2xl'
+            className='absolute inset-0 rounded-2xl bg-cover bg-center'
             style={{
               zIndex: 3,
               backgroundImage:
@@ -141,7 +141,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
             }}
           />
           <div className='absolute inset-0 z-10' />
-          <div className='relative z-20 flex h-full flex-col items-stretch justify-between md:flex-row overflow-hidden'>
+          <div className='relative z-20 flex h-full flex-col items-stretch justify-between overflow-hidden md:flex-row'>
             {/* Left side: user info and text */}
             <div className='flex w-full min-w-[280px] flex-col justify-between gap-y-4 p-4 md:w-2/3 md:min-w-[320px] md:gap-y-6 md:p-8'>
               <div className='mb-4 flex flex-row items-center md:mb-0'>
