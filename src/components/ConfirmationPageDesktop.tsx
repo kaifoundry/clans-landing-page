@@ -104,7 +104,7 @@ const ConfirmationPage = ({
         <p className='lg2:text-2xl mb-10 text-base leading-relaxed font-medium sm:text-lg md:text-xl xl:text-3xl'>
           The Clans have heard your Roar.
           <br />
-          You’ll be among the 1st to know <br />
+          You’ll be among the first to know <br />
           when the gates open.
         </p>
 
