@@ -351,11 +351,10 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       }
       const rect = cardNode.getBoundingClientRect();
 
+      const buildPng = async () => {
+        const element = document.getElementById('image-node');
 
-            const buildPng = async () => {
-        const element = document.getElementById("image-node");
-
-        let dataUrl = "";
+        let dataUrl = '';
         const minDataLength = 2000000;
         let i = 0;
         const maxAttempts = 10;
@@ -365,16 +364,16 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
             quality: 0.8, // Balanced quality setting
             pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
             style: {
-              transform: "scale(1)",
-              transformOrigin: "top left",
+              transform: 'scale(1)',
+              transformOrigin: 'top left',
             },
-            backgroundColor: "#181118",
+            backgroundColor: '#181118',
             width: Math.min(rect.width, 1200), // Cap maximum width
             height: Math.min(rect.height, 675), // Cap maximum height
             filter: (node) => {
-              const className = node.className || "";
+              const className = node.className || '';
               return (
-                !className.includes("toast") && !className.includes("Toaster")
+                !className.includes('toast') && !className.includes('Toaster')
               );
             },
           });
