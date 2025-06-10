@@ -363,14 +363,15 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
           // dataUrl = await toPng(cardNode, {
           // @ts-ignore
           dataUrl = await toPng(element, {
-
             quality: 0.8, // Balanced quality setting
             pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
             style: {
               transform: 'scale(1)',
               transformOrigin: 'top left',
             },
-            backgroundColor: '#181118',
+            // backgroundColor: '#181118',
+            backgroundColor: "#FF0000",
+
             width: Math.min(rect.width, 1200), // Cap maximum width
             height: Math.min(rect.height, 675), // Cap maximum height
           });
