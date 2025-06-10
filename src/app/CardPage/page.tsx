@@ -360,7 +360,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
           dataUrl = await toJpeg(cardNode, {
             pixelRatio: 1,
             quality: 0.92,
-   
+
             backgroundColor: '#181118',
             // width: Math.min(cardNode.offsetWidth, 1200),
             // height: Math.min(cardNode.offsetHeight, 675),
