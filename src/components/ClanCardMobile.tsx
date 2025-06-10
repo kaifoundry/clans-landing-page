@@ -2,6 +2,15 @@ import Image from 'next/image';
 import React, { forwardRef } from 'react';
 import { FaUsers } from 'react-icons/fa';
 
+// @media(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+
+//   /* CSS stuff here */
+//   .example {
+
+//     boxShadow: `0 0 40px 10px red`
+//   }
+// }
+
 interface ClanCardProps {
   glowColor: string;
   title: string;
@@ -99,7 +108,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
     return (
       <div
         ref={ref}
-        className='relative flex items-center justify-center rounded-2xl border-2 shadow-2xl'
+        className='relative flex items-center justify-center rounded-2xl border-2 shadow-2xl overflow-hidden'
         style={{
           width: '320px',
           height: '360px',
@@ -111,19 +120,20 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         }}
       >
         {/* Background image and black translucent overlay */}
-
+        
         <div
-          className='absolute inset-3 overflow-hidden rounded-2xl'
+          className='absolute inset-3 rounded-2xl'
           style={{
             // boxShadow: `5px 10px red`
-            boxShadow: `0 0 40px 10px ${safeColorBorder}`, //rgba(255, 69, 69, 0.8)
+            // boxShadow: window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5)").matches ? `0 0 2rem 0.5rem ${safeColorBorder}` : `0 0 2rem 0.5rem ${safeColorBorder}`, //rgba(255, 69, 69, 0.8)
             // boxShadow: `0 0 40px 10px rgba(255, 69, 69, 0.8)`
+            filter: `drop-shadow(${safeColorBorder} 0px 0px 2rem)`,
             zIndex: 2,
             ...getSafeBackgroundStyle(),
           }}
         >
           <div
-            className='absolute inset-0 bg-cover bg-center'
+            className='absolute inset-0 bg-cover bg-center rounded-2xl'
             style={{
               zIndex: 3,
               backgroundImage:
@@ -131,7 +141,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
             }}
           />
           <div className='absolute inset-0 z-10' />
-          <div className='relative z-20 flex h-full flex-col items-stretch justify-between md:flex-row'>
+          <div className='relative z-20 flex h-full flex-col items-stretch justify-between md:flex-row overflow-hidden'>
             {/* Left side: user info and text */}
             <div className='flex w-full min-w-[280px] flex-col justify-between gap-y-4 p-4 md:w-2/3 md:min-w-[320px] md:gap-y-6 md:p-8'>
               <div className='mb-4 flex flex-row items-center md:mb-0'>
@@ -171,7 +181,7 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
               </div>
               <div className='absolute bottom-4 left-4 z-10 mt-4 flex items-center gap-2 md:static md:mt-4 md:gap-2'>
                 <img
-                  src='/Images/gettingStarted/clansLogo.svg'
+                  src='/Images/gettingStarted/clansLogo.png'
                   width={160}
                   height={160}
                   alt='Clans Logo'
