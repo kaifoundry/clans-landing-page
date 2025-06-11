@@ -25,7 +25,7 @@ const MainPage = ({
   const avatarLeftRef = useRef(null);
   const avatarRightRef = useRef(null);
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false); // ✅ loading state
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     gsap.fromTo(

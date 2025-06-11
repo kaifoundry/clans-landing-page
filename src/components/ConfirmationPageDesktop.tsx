@@ -175,7 +175,7 @@ const ConfirmationPage = ({
         />
       </div>
       {/* Bottom Left Avatar */}
-      {/* src='/Images/gettingStarted/avtar1.png' */}
+
       <Image
         ref={avatarLeftRef}
         src='/Images/gettingStarted/leftavtar.svg'
@@ -185,7 +185,7 @@ const ConfirmationPage = ({
         className='lg1:h-[65vh] lg2:h-[80vh] absolute -bottom-8 left-0 z-10 w-auto object-contain sm:w-[200px] md:h-[61vh] md:w-auto xl:h-screen'
       />
       {/* Bottom Right Avatar */}
-      {/* src='/Images/gettingStarted/avtar2_.png' */}
+
       <Image
         ref={avatarRightRef}
         src='/Images/gettingStarted/rightavtar.svg'

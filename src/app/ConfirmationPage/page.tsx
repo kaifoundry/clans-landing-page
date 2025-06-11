@@ -46,7 +46,6 @@ export default function StartRoaring() {
   const referralCode =
     userData?.referralCode || Cookies.get('clans_referral_code');
   const shareUrl = `${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${referralCode}`;
-  const shareDomain = 'clans.kilt.io';
   const shareText = `A new world order for Attention. Pick your trait. Join your clan. Roar louder!`;
 
   // Get the message from the URL query params
@@ -147,7 +146,7 @@ export default function StartRoaring() {
           text: shareText,
           url: shareUrl,
         })
-        .catch((error) => console.log('Error sharing:', error));
+        .catch((error) => console.error('Error sharing:', error));
     } else {
       alert(
         'Sharing not supported on this browser. Please copy the link manually: ' +

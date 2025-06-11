@@ -10,7 +10,6 @@ const StartButtonBorder = () => (
   >
     <path
       d='M8.5 1H71.5L77 5.5H308V70.5L298.5 80H8.5H1V69.5L3 67.5V49.5L1 48V1H8.5Z'
-      // className='fill-black transition-colors duration-300 group-hover:fill-[rgba(212, 0, 165, 0.16)]'
       className='fill-black transition-colors duration-300 group-hover:fill-[rgba(212,0,165,0.16)]'
     />
     <path

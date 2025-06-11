@@ -17,7 +17,6 @@ export default function SelectClan() {
     error,
     selectedCardId,
     setSelectedCardId,
-    joinClan,
     checkUserJoinedClan,
     fetchClans,
   } = useClan();

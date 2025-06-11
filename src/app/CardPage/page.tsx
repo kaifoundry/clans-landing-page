@@ -3,7 +3,7 @@
 import Button from '@/components/Button';
 import { useEffect, useState, useRef, useMemo, Suspense } from 'react';
 import { useClan } from '@/context/ClanContext';
-import { toCanvas, toJpeg, toPng, toSvg } from 'html-to-image';
+import { toCanvas } from 'html-to-image';
 import ClanCard from '@/components/ClanCard';
 import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
@@ -146,188 +146,6 @@ I've claimed my clan and started stacking my Roar Points.
 
 Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.referralCode}`;
 
-  // const handleStartRoaring = async () => {
-  //   if (!cardRefDesktop.current && !cardRefMobile.current) {
-  //     toast.error('Card reference not available');
-  //     return;
-  //   }
-
-  //   if (!userData) {
-  //     toast.error('User data not available');
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-
-  //     // Determine which ref to use based on screen size
-  //     const isMobile = window.innerWidth < 1024;
-  //     const cardNode = isMobile
-  //       ? cardRefMobile.current
-  //       : cardRefDesktop.current;
-  //     if (!cardNode) {
-  //       toast.error('Card reference not available');
-  //       return;
-  //     }
-  //     const rect = cardNode.getBoundingClientRect();
-
-  //     const buildPng = async () => {
-  //       const element = document.getElementById('image-node');
-
-  //       let dataUrl = '';
-  //       const minDataLength = 2000000;
-  //       let i = 0;
-  //       const maxAttempts = 10;
-
-  //       while (dataUrl.length < minDataLength && i < maxAttempts) {
-  //         dataUrl = await toPng(cardNode, {
-  //           quality: 0.8,
-  //           pixelRatio: 1.5,
-  //           style: {
-  //             transform: 'scale(1)',
-  //             transformOrigin: 'top left',
-  //           },
-  //           backgroundColor: '#181118',
-  //           width: Math.min(rect.width, 1200), // Cap maximum width
-  //           height: Math.min(rect.height, 675), // Cap maximum height
-  //           // filter: (node) => {
-  //           //   const className = node.className || '';
-  //           //   return (
-  //           //     !className.includes('toast') && !className.includes('Toaster')
-  //           //   );
-  //           // },
-  //         });
-  //         i += 1;
-  //       }
-
-  //       return dataUrl;
-  //     };
-
-  //     const dataUrl = await buildPng();
-
-  //     // Convert dataUrl to Blob and File for upload
-  //     const res = await fetch(dataUrl);
-  //     let blob = await res.blob();
-
-  //     //  the file size is within reasonable limits (1MB)
-  //     if (blob.size > 1024 * 1024) {
-  //       // If still too large, try with even lower quality
-  //       const reducedDataUrl = await toPng(cardNode, {
-  //         quality: 0.6,
-  //         pixelRatio: 1,
-  //         style: {
-  //           transform: 'scale(1)',
-  //           transformOrigin: 'top left',
-  //         },
-  //         backgroundColor: '#000000',
-  //         width: rect.width,
-  //         height: rect.height,
-  //         // filter: (node) => {
-  //         //   const className = node.className || '';
-  //         //   return (
-  //         //     !className.includes('toast') && !className.includes('Toaster')
-  //         //   );
-  //         // },
-  //       });
-
-  //       const reducedRes = await fetch(reducedDataUrl);
-  //       const reducedBlob = await reducedRes.blob();
-
-  //       if (reducedBlob.size > 1024 * 1024) {
-  //         throw new Error('Unable to generate image within size limits');
-  //       }
-
-  //       blob = reducedBlob;
-  //     }
-
-  //     const file = new File(
-  //       [blob],
-  //       `card-${card?.title?.replace(/\s+/g, '-').toLowerCase()}.png`,
-  //       { type: 'image/png' }
-  //     );
-
-  //     // Upload to server
-  //     const formData = new FormData();
-  //     formData.append('media', file);
-
-  //     const token = localStorage.getItem('token') || 'NA';
-
-  //     const uploadResponse = await fetch(
-  //       `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/upload-media/${userData.userId}`,
-  //       {
-  //         method: 'POST',
-  //         body: formData,
-  //         headers: {
-  //           Accept: 'application/json',
-  //           authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     if (!uploadResponse.ok) {
-  //       const errorText = await uploadResponse.text();
-  //       throw new Error(
-  //         `Failed to upload image: ${uploadResponse.status} ${errorText}`
-  //       );
-  //     }
-
-  //     const uploadResult = await uploadResponse.json();
-
-  //     if (!uploadResult.success || !uploadResult.mediaId) {
-  //       throw new Error(`Media upload failed: ${JSON.stringify(uploadResult)}`);
-  //     }
-
-  //     // Post tweet
-  //     const tweetData = {
-  //       userId: userData.userId,
-  //       text: tweetContent,
-  //       mediaId: uploadResult.mediaId,
-  //       referralCode: userData.referralCode || '',
-  //     };
-
-  //     const tweetResponse = await fetch(
-  //       `${ENV.NEXT_PUBLIC_API_BACKEND_URL}/api/V2/twitter/tweet`,
-  //       {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify(tweetData),
-  //       }
-  //     );
-
-  //     if (!tweetResponse.ok) {
-  //       const errorText = await tweetResponse.text();
-  //       throw new Error(
-  //         `Failed to post tweet: ${tweetResponse.status} ${errorText}`
-  //       );
-  //     }
-
-  //     const tweetResult = await tweetResponse.json();
-
-  //     if (!tweetResult.tweetId && !tweetResult.tweetData?.tweetId) {
-  //       throw new Error(`No tweet ID received: ${JSON.stringify(tweetResult)}`);
-  //     }
-
-  //     // Save tweet data
-  //     localStorage.setItem(
-  //       'tweetData',
-  //       JSON.stringify({
-  //         tweetId: tweetResult.tweetId || tweetResult.tweetData?.tweetId,
-  //         userId: userData.userId,
-  //       })
-  //     );
-
-  //     setTweetPosted(true);
-  //     toast.success('Tweet posted successfully!');
-  //   } catch (error: any) {
-  //     toast.error(error.message || 'Failed to complete the process');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const ConvertToImage = async (cardNode: HTMLDivElement) => {
     try {
       const isMobile = window.innerWidth < 1024;
@@ -336,12 +154,11 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
         quality: 1,
         pixelRatio: pixelRatio,
       });
-      // console.log("canvas is", newCanvas)
       var base64 = newCanvas.toDataURL();
-      console.log('base64', base64);
       return base64;
     } catch (error) {
-      console.log('error in generation of image', error);
+      console.error('error in generation of image', error);
+      console.error('error in generation of image', error);
       return '';
     }
   };
@@ -381,59 +198,9 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
           dataUrl = await ConvertToImage(cardNode);
           i += 1;
         }
-
-        // while (dataUrl.length < minDataLength && i < maxAttempts) {
-        //   // dataUrl = await toPng(cardNode, {
-        //   // @ts-ignore
-        //   dataUrl = await toPng(cardNode, {
-        //     quality: 0.8, // Balanced quality setting
-        //     pixelRatio: 1.5, // Balanced pixel ratio for sharpness vs performance
-        //     style: {
-        //       transform: 'scale(1)',
-        //       transformOrigin: 'top left',
-        //     },
-        //     // backgroundColor: '#181118',
-        //     backgroundColor: "#FF0000",
-
-        //     width: Math.min(rect.width, 1200), // Cap maximum width
-        //     height: Math.min(rect.height, 675), // Cap maximum height
-        //   });
-        //   i += 1;
-        // }
-
         return dataUrl;
       };
 
-      // const buildPng = async () => {
-      //   let dataUrl = '';
-      //   const minDataLength = 2000000; // ~2MB
-      //   let i = 0;
-      //   const maxAttempts = 10;
-
-      //   while (dataUrl.length < minDataLength && i < maxAttempts) {
-      //     dataUrl = await toJpeg(cardNode, {
-      //       pixelRatio: 1,
-      //       quality: 0.92,
-
-      //       backgroundColor: '#181118',
-      //       // width: Math.min(cardNode.offsetWidth, 1200),
-      //       // height: Math.min(cardNode.offsetHeight, 675),
-      //     });
-      //     // dataUrl = await toPng(cardNode, {
-      //     //   pixelRatio: 1,
-      //     //   quality: 0.6,
-      //     //   style: {
-      //     //     transform: 'scale(1)',
-      //     //     transformOrigin: 'top left',
-      //     //   },
-      //     //   backgroundColor: '#181118',
-      //     //   width: Math.min(cardNode.offsetWidth, 1200),
-      //     //   height: Math.min(cardNode.offsetHeight, 675),
-      //     // });
-      //     i += 1;
-      //   }
-      //   return dataUrl;
-      // };
       const dataUrl = await buildPng();
       const res = await fetch(dataUrl ? dataUrl : '');
       const blob = await res.blob();
@@ -558,10 +325,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
     setIsLoading(true);
 
     try {
-      // const clanSuccess = true
       const clanSuccess = await handleConfirmJoin();
-      console.log('clanSuccess', clanSuccess);
-
       if (clanSuccess) {
         const waitlistSuccess = await handleStartRoaring();
         if (waitlistSuccess) {

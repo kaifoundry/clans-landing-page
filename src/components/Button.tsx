@@ -36,7 +36,7 @@ export default function Button({
   };
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!disabled) {
-      const audio = new Audio('/sounds/click.mp3'); // Place click.mp3 in your public folder
+      const audio = new Audio('/sounds/click.mp3');
       audio.play();
       onClick?.();
     }

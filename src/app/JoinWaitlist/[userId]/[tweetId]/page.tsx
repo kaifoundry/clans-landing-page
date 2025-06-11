@@ -17,7 +17,6 @@ const JoinWaitlist = () => {
 
   useEffect(() => {
     setHasMounted(true);
-    // Get user data from localStorage
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
       try {
@@ -55,35 +54,25 @@ const JoinWaitlist = () => {
 
       const data = await response.json();
 
-      // ✅ If the backend responds with success but says already an early user
+      // already an early
       if (data.message && data.message.includes('is already an early user')) {
         toast.success("You're already on the waitlist!");
         router.push('/ConfirmationPage');
         return;
       }
 
-      // ❌ If response is NOT ok, check and throw error with message
+      // If response is NOT ok,
       if (!response.ok) {
         throw new Error(data.message || 'Failed to join waitlist.');
       }
 
-      // ✅ Successful response
+      // Successful response
       toast.success('Successfully joined the waitlist!');
       router.push('/ConfirmationPage');
     } catch (error) {
       console.error('Error joining waitlist:', error);
 
-      // ✅ Handle case: already early user, even in catch block
-      // if (
-      //   error instanceof Error &&
-      //   error.message.includes('is already an early user')
-      // ) {
-      //   toast.success("You're already on the waitlist!");
-      //   router.push('/ConfirmationPage');
-      //   return;
-      // }
-
-      // ❌ Other errors
+      // Other errors
       toast.error('Failed to join waitlist. Please try again.');
     } finally {
       setIsLoading(false);

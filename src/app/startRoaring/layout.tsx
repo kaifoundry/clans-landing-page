@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { Rajdhani } from 'next/font/google';
 import '../globals.css';
 import { ClanProvider } from '@/context/ClanContext';
-import { Toaster } from 'react-hot-toast';
 import { ReferralProvider } from '@/context/ReferralContext';
 import { UserProvider } from '@/context/UserContext';
 import { ENV } from '@/constant/envvariables';
@@ -26,8 +25,6 @@ const geistMono = Geist_Mono({
 });
 const DOMAIN = ENV.NEXT_PUBLIC_API_BASE_URL;
 const SOCIAL = ENV.NEXT_PUBLIC_X_HANDLER;
-
-// const DOMAIN = FRONTEND_URL;
 
 const OG_IMAGE = `${DOMAIN}/Images/gettingStarted/clansLogoog.png`;
 
@@ -103,10 +100,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     >
       <UserProvider>
         <ReferralProvider>
-          <ClanProvider>
-            {children}
-            {/* <Toaster /> */}
-          </ClanProvider>
+          <ClanProvider>{children}</ClanProvider>
         </ReferralProvider>
       </UserProvider>
     </div>

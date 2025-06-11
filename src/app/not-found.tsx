@@ -26,14 +26,7 @@ function NotFoundContent() {
 
 export default function NotFound() {
   return (
-    <Suspense
-      fallback={
-        <></>
-        // <div className='flex min-h-screen items-center justify-center bg-black text-white'>
-        //   <p className='text-center'>Loading...</p>
-        // </div>
-      }
-    >
+    <Suspense fallback={<></>}>
       <NotFoundContent />
     </Suspense>
   );
