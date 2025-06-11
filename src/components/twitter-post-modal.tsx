@@ -4,13 +4,9 @@ import React from 'react';
 
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { FaX } from 'react-icons/fa6';
 import Button from './Button';
-import ClanCard from './ClanCard';
-import ClanCardMobile from './ClanCardMobile';
 import PostClanCard from './PostCard';
 import PostClanCardMobile from './PostCardMobile';
-import { ENV } from '@/constant/envvariables';
 interface SocialHandle {
   username: string;
   profilePicture: string;
@@ -83,10 +79,7 @@ export const TwitterPostModal = React.memo(function TwitterPostModal({
     : null;
 
   return (
-    // <div
-    //   className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/50 backdrop-blur-xs'
-    //   onClick={handleBackdropClick}
-    // >
+   
 
     <div
       className='fixed inset-0 z-50 flex flex-col items-center justify-center overflow-y-scroll border border-gray-700 bg-black/50 backdrop-blur-lg xl:bg-[url(/Images/startRoaring/bgTartan.png)] xl:bg-[length:65%] xl:bg-[position:center_60%] xl:bg-no-repeat'

@@ -118,7 +118,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
           toast.error(`HTTP error! status: ${res.status}`);
         }
 
-        // Try to parse JSON, but handle invalid/malformed responses
+        
         let data: any;
         try {
           data = await res.json();

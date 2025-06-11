@@ -3,7 +3,7 @@
 import Button from '@/components/Button';
 import { useEffect, useState, useRef, useMemo, Suspense } from 'react';
 import { useClan } from '@/context/ClanContext';
-import { toCanvas, toJpeg, toPng, toSvg } from 'html-to-image';
+import { toCanvas, } from 'html-to-image';
 import ClanCard from '@/components/ClanCard';
 import toast from 'react-hot-toast';
 import Loader from '@/components/Features/Loader';
@@ -157,6 +157,7 @@ Claim your clan today 👉 ${ENV.NEXT_PUBLIC_API_BASE_URL}/referral/${userData?.
       var base64 = newCanvas.toDataURL();
       return base64;
     } catch (error) {
+      console.error('error in generation of image', error);
       console.error('error in generation of image', error);
       return '';
     }

@@ -97,9 +97,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
 
       const response = await res.json();
 
-      // Add this line to debug unexpected responses
-      console.debug('Fetch Clans Response:', response);
-
       if (!res.ok) {
         throw new Error(response?.message || 'API returned an error');
       }
@@ -107,7 +104,7 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       if (response?.success && Array.isArray(response?.data)) {
         setClans(response.data);
       } else {
-        console.warn('Unexpected response format or empty data', response);
+      
         setError('Unexpected response from server');
       }
     } catch (err) {
@@ -140,12 +137,9 @@ export function ClanProvider({ children }: { children: ReactNode }) {
 
       if (res.ok) {
         if (data?.success === true) {
-          // toast.success(data.message);
           handleSetSelectedCardId(joinData.clanId);
-          // router.push('/cardPage');
           return true;
         } else if (data?.success === false) {
-          // Show error in toast instead of setting error state
           toast.error(data.message);
           return false;
         } else {
@@ -160,7 +154,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
         err instanceof Error ? err.message : 'Failed to join clan';
       toast.error(errorMessage);
       setError(errorMessage);
-      console.error('Error joining clan:', errorMessage);
       return false;
     } finally {
       setLoading(false);

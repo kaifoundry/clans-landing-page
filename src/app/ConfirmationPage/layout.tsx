@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Rajdhani } from 'next/font/google';
 import { ClanProvider } from '@/context/ClanContext';
-import { Toaster } from 'react-hot-toast';
 import { ReferralProvider } from '@/context/ReferralContext';
 import { UserProvider } from '@/context/UserContext';
 import { ENV } from '@/constant/envvariables';
@@ -101,7 +100,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ReferralProvider>
           <ClanProvider>
             {children}
-            {/* <Toaster /> */}
           </ClanProvider>
         </ReferralProvider>
       </UserProvider>

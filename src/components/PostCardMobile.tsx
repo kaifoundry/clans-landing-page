@@ -99,8 +99,6 @@ const PostClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
         ref={ref}
         className="relative flex h-[275px] w-[300px] items-center justify-center rounded-3xl border-2 bg-[url('/Images/cardPage/cardBg.png')] shadow-2xl sm:h-[315px] sm:w-[317px]"
         style={{
-          // width: '300px',
-          // height: '315px',
           maxWidth: '95vw',
           maxHeight: '70vh',
           zIndex: 1,
@@ -150,7 +148,7 @@ const PostClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                       </span>
                     </p>
                   )}
-                  {/* <p className='text-xs text-gray-200 md:text-sm'>{followers}</p> */}
+                 
                 </div>
               </div>
               <div>

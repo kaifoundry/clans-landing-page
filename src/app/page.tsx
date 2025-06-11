@@ -3,7 +3,6 @@ import MainPage from '@/components/MainPage';
 import MobileMainPage from '@/components/MobileMainPage';
 import { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ENV } from '@/constant/envvariables';
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);

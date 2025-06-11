@@ -101,7 +101,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ReferralProvider>
           <ClanProvider>
             {children}
-            {/* <Toaster /> */}
           </ClanProvider>
         </ReferralProvider>
       </UserProvider>

@@ -30,13 +30,12 @@ const IntroducingClans = () => {
   const hasHandledReferral = useRef(false);
   const hasFetchedClans = useRef(false);
 
-  // Delay to control UI flicker
   useEffect(() => {
     const timeout = setTimeout(() => setDelayPassed(true), 300);
     return () => clearTimeout(timeout);
   }, []);
 
-  // Step 1: Extract userId from params and call fetchUserData
+  // Step 1: Extract userId 
   useEffect(() => {
     const userIdFromParams = params?.userId;
     if (userIdFromParams) {
@@ -49,7 +48,7 @@ const IntroducingClans = () => {
     }
   }, [params?.userId, fetchUserData]);
 
-  // Step 2: Poll for token, then fetch clans using token
+  // Step 2: 
   useEffect(() => {
     const interval = setInterval(() => {
       const storedToken = localStorage.getItem('token');
@@ -65,7 +64,7 @@ const IntroducingClans = () => {
     return () => clearInterval(interval);
   }, [fetchClans]);
 
-  // Step 3: Call referral only after userData is loaded and matches param userId
+  // Step 3: 
   useEffect(() => {
     const hasCode = hasReferralCode();
     const localUserId = localStorage.getItem('userId');
@@ -83,7 +82,7 @@ const IntroducingClans = () => {
         try {
           await handleReferralCode(userData.userId);
 
-          // Clean up referral code from URL if needed
+          // Clean up referral 
           const newUrl = window.location.pathname;
           window.history.replaceState({}, '', newUrl);
         } catch (error) {

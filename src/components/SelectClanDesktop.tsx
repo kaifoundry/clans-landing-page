@@ -70,8 +70,7 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
   loading,
   error,
 }) => {
-  // if (loading) return <div className="flex justity-center items-center">Loading clans...</div>;
-  // if (error) return <div>Error: {error}</div>;
+
   if (loading)
     return (
       <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50'>
@@ -302,7 +301,6 @@ const SelectClan: React.FC<SelectClanDesktopProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
-      {/* <TwitterPostModal isOpen={isModalOpen} onClose={closeModal} /> */}
       {loading && <Loader message='Loading Clans Please wait...' />}
     </section>
   );

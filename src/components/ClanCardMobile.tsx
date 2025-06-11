@@ -1,15 +1,6 @@
-import Image from 'next/image';
 import React, { forwardRef } from 'react';
 import { FaUsers } from 'react-icons/fa';
 
-// @media(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
-
-//   /* CSS stuff here */
-//   .example {
-
-//     boxShadow: `0 0 40px 10px red`
-//   }
-// }
 
 interface ClanCardProps {
   glowColor: string;
@@ -119,14 +110,10 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
           backgroundImage: "url('/Images/cardPage/cardBg.png')",
         }}
       >
-        {/* Background image and black translucent overlay */}
 
         <div
           className='absolute inset-3 rounded-2xl'
           style={{
-            // boxShadow: `5px 10px red`
-            // boxShadow: window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5)").matches ? `0 0 2rem 0.5rem ${safeColorBorder}` : `0 0 2rem 0.5rem ${safeColorBorder}`, //rgba(255, 69, 69, 0.8)
-            // boxShadow: `0 0 40px 10px rgba(255, 69, 69, 0.8)`
             filter: `drop-shadow(${safeColorBorder} 0px 0px 2rem)`,
             zIndex: 2,
             ...getSafeBackgroundStyle(),
@@ -165,7 +152,6 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                       </span>
                     </p>
                   )}
-                  {/* <p className='text-xs text-gray-200 md:text-sm'>{followers}</p> */}
                 </div>
               </div>
               <div>

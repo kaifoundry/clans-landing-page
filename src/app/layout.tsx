@@ -27,7 +27,6 @@ const geistMono = Geist_Mono({
 
 const DOMAIN = ENV.NEXT_PUBLIC_API_BASE_URL;
 const SOCIAL = ENV.NEXT_PUBLIC_X_HANDLER;
-// const OG_IMAGE = `${DOMAIN}/Images/gettingStarted/clansLogoog.png`;
 const OG_IMAGE = `https://clans.kilt.io/Images/gettingStarted/clansLogoog.png`;
 
 export const metadata: Metadata = {
