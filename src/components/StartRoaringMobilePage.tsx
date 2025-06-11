@@ -27,7 +27,7 @@ const StartRoaringPage = React.memo(
     avatarRightRef,
   }: CommonRoaringProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
- 
+
     useEffect(() => {
       if (isModalOpen && modalRef.current) {
         gsap.fromTo(
@@ -37,7 +37,6 @@ const StartRoaringPage = React.memo(
         );
       }
     }, [isModalOpen]);
-
 
     return (
       <>

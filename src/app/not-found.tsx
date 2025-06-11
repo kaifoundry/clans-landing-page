@@ -26,11 +26,7 @@ function NotFoundContent() {
 
 export default function NotFound() {
   return (
-    <Suspense
-      fallback={
-        <></>
-      }
-    >
+    <Suspense fallback={<></>}>
       <NotFoundContent />
     </Suspense>
   );

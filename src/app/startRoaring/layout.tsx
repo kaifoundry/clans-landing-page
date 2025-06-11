@@ -26,7 +26,6 @@ const geistMono = Geist_Mono({
 const DOMAIN = ENV.NEXT_PUBLIC_API_BASE_URL;
 const SOCIAL = ENV.NEXT_PUBLIC_X_HANDLER;
 
-
 const OG_IMAGE = `${DOMAIN}/Images/gettingStarted/clansLogoog.png`;
 
 export const metadata: Metadata = {
@@ -101,9 +100,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     >
       <UserProvider>
         <ReferralProvider>
-          <ClanProvider>
-            {children}
-          </ClanProvider>
+          <ClanProvider>{children}</ClanProvider>
         </ReferralProvider>
       </UserProvider>
     </div>

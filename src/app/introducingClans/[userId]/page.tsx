@@ -35,7 +35,7 @@ const IntroducingClans = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  // Step 1: Extract userId 
+  // Step 1: Extract userId
   useEffect(() => {
     const userIdFromParams = params?.userId;
     if (userIdFromParams) {
@@ -48,7 +48,7 @@ const IntroducingClans = () => {
     }
   }, [params?.userId, fetchUserData]);
 
-  // Step 2: 
+  // Step 2:
   useEffect(() => {
     const interval = setInterval(() => {
       const storedToken = localStorage.getItem('token');
@@ -64,7 +64,7 @@ const IntroducingClans = () => {
     return () => clearInterval(interval);
   }, [fetchClans]);
 
-  // Step 3: 
+  // Step 3:
   useEffect(() => {
     const hasCode = hasReferralCode();
     const localUserId = localStorage.getItem('userId');
@@ -82,7 +82,7 @@ const IntroducingClans = () => {
         try {
           await handleReferralCode(userData.userId);
 
-          // Clean up referral 
+          // Clean up referral
           const newUrl = window.location.pathname;
           window.history.replaceState({}, '', newUrl);
         } catch (error) {

@@ -148,7 +148,6 @@ const PostClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
                       </span>
                     </p>
                   )}
-                 
                 </div>
               </div>
               <div>

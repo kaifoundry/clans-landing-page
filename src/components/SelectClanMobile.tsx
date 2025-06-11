@@ -186,7 +186,6 @@ const SelectClan: React.FC<SelectClanProps> = ({
               }}
               onTouchStart={(e) => e.preventDefault()}
             />
-           
           )}
         </AnimatePresence>
 

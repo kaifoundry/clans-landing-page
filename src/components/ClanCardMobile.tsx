@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import { FaUsers } from 'react-icons/fa';
 
-
 interface ClanCardProps {
   glowColor: string;
   title: string;
@@ -110,7 +109,6 @@ const ClanCardMobile = forwardRef<HTMLDivElement, ClanCardProps>(
           backgroundImage: "url('/Images/cardPage/cardBg.png')",
         }}
       >
-
         <div
           className='absolute inset-3 rounded-2xl'
           style={{

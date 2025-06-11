@@ -100,9 +100,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     >
       <UserProvider>
         <ReferralProvider>
-          <ClanProvider>
-            {children}
-          </ClanProvider>
+          <ClanProvider>{children}</ClanProvider>
         </ReferralProvider>
       </UserProvider>
     </div>

@@ -104,7 +104,6 @@ export function ClanProvider({ children }: { children: ReactNode }) {
       if (response?.success && Array.isArray(response?.data)) {
         setClans(response.data);
       } else {
-      
         setError('Unexpected response from server');
       }
     } catch (err) {

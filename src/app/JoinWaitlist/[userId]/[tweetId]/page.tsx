@@ -54,14 +54,14 @@ const JoinWaitlist = () => {
 
       const data = await response.json();
 
-      // already an early 
+      // already an early
       if (data.message && data.message.includes('is already an early user')) {
         toast.success("You're already on the waitlist!");
         router.push('/ConfirmationPage');
         return;
       }
 
-      // If response is NOT ok, 
+      // If response is NOT ok,
       if (!response.ok) {
         throw new Error(data.message || 'Failed to join waitlist.');
       }

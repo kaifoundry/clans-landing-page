@@ -121,7 +121,7 @@ const PostClanCard = forwardRef<HTMLDivElement, ClanCardProps>(
                     </span>
                   </p>
                 )}
-               
+
                 <p className='text-xs text-gray-400 md:text-sm'>{email}</p>
               </div>
             </div>

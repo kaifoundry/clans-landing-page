@@ -118,7 +118,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
           toast.error(`HTTP error! status: ${res.status}`);
         }
 
-        
         let data: any;
         try {
           data = await res.json();
