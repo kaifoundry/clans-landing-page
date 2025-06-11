@@ -147,7 +147,7 @@ export default function StartRoaring() {
           text: shareText,
           url: shareUrl,
         })
-        .catch((error) => console.log('Error sharing:', error));
+        .catch((error) => console.error('Error sharing:', error));
     } else {
       alert(
         'Sharing not supported on this browser. Please copy the link manually: ' +

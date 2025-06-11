@@ -91,7 +91,7 @@ const IntroducingClans = () => {
         }
       })();
     } else {
-      console.log('Referral not handled: conditions not met');
+      console.error('Referral not handled: conditions not met');
     }
   }, [userData?.userId, hasReferralCode]);
 

@@ -123,19 +123,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
         try {
           data = await res.json();
         } catch (jsonError) {
-          // Log the raw response for debugging
           const text = await res.text();
           toast.error(text);
           console.error('Invalid JSON from API:', text);
         }
 
         if (!data || data.success === false) {
-          // console.log(data?.message);
         }
 
         const userDAta = data.data;
-        console.log('userDAta:', userDAta);
-        // Safely set user data and other info in localStorage
         try {
           localStorage.setItem(
             'name',
